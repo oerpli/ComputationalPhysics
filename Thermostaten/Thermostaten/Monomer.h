@@ -12,12 +12,13 @@ class Monomer {
 		Monomer(double pos, double vel);
 		Monomer(const Monomer &);
 
-		std::ostream &os Print(std::ostream &os); //Wahrscheinlich besser Name Möglich...
+		std::ostream & Print(std::ostream &os) const; //Wahrscheinlich besser Name Möglich...
 			
 		double Get_position();
 		
-		double Get_force();
-		void   Reset_force();
-		double Add_force(double df);
+		double	Get_force();
+		void  	Reset_force();
+		double	Add_force(double df);
 };
 #endif
+
