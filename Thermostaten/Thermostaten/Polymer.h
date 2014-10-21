@@ -1,3 +1,10 @@
+#ifndef Polymer_H
+#define Polymer_H
+
+#include<cmath>
+
+#include "Monomer.h"
+
 class Polymer {
 	private:
 		int length;
@@ -9,3 +16,4 @@ class Polymer {
 
 
 }
+#endif
