@@ -13,9 +13,15 @@ Monomer::Monomer(const Monomer &cSource) :
 	velocity(cSource.velocity) {}
 
 	
-double Monomer::Get_position() {return position; }
-
 std::ostream& Monomer::Print(std::ostream &os) const {
 	os << position << "  " << velocity << "  " << force;
 return os;
+}
+
+double Monomer::Get_position() {return position; }
+void 	Monomer::Set_position(double pos) {position=pos;}
+void	Monomer::Set_velocity(double vel) {velocity=vel;}
+void 	Monomer::Set_pos_vel(double pos, double vel) {
+	Set_position(pos);
+	Set_velocity(vel);
 }
