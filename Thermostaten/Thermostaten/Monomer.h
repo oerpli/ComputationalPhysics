@@ -4,7 +4,10 @@ class Monomer {
 		double position, force, velocity;
 	
 	public:
-	
-	
+		double Get_position();
+		
+		double Get_force();
+		voide Reset_force();
+		double Add_force(double df);
 }
 	
