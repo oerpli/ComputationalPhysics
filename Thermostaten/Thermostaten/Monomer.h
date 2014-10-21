@@ -7,6 +7,8 @@ class Monomer {
 	private:
 		double position, velocity, force;
 	
+		double Distance(const Monomer & m_other) const;
+		
 	public:
 		Monomer();
 		Monomer(double pos, double vel);
@@ -24,6 +26,10 @@ class Monomer {
 		double	Get_force();
 		void  	Reset_force();
 		double	Add_force(double df);
+		double operator-(const Monomer & m_other) const;
+		
+		double Next_position(double dt);
+		double Next_velocity(double dt);
 };
 #endif
 

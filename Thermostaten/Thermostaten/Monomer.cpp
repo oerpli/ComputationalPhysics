@@ -25,3 +25,22 @@ void 	Monomer::Set_pos_vel(double pos, double vel) {
 	Set_position(pos);
 	Set_velocity(vel);
 }
+
+double Monomer::Distance(const Monomer & m_other) const {
+return this->position - m_other.position;
+}
+double Monomer::operator-(const Monomer & m_other) const{
+return this->Distance(m_other);	
+}
+
+double Monomer::Get_force() {return force;}
+void 	Monomer::Reset_force() {force=0;}
+double Monomer::Add_force(double df) {return force+=df;}
+
+double Monomer::Next_position(double dt) {
+return position+=velocity*dt;
+}
+
+double Monomer::Next_velocity(double dt) {
+return velocity+=force*dt; //m=1!
+}
