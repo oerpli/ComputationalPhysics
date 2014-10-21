@@ -10,12 +10,11 @@ class Monomer {
 	public:
 		Monomer();
 		Monomer(const Monomer &);
-		~Monomer();
 
 		double Get_position();
 		
 		double Get_force();
 		void   Reset_force();
 		double Add_force(double df);
-}
+};
 #endif
