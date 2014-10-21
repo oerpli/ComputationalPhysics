@@ -9,9 +9,8 @@ int main() {
 
 	cout << "Hello World" << endl;
 	
-	Polymer p_a(2,1,3);
+	Polymer p_a(5,1,3);
 	
-	p_a.Print(cout);
-	
+	cout << "Polymer:" << endl << p_a << endl;
 return 0;
 }
