@@ -7,7 +7,7 @@ class Monomer {
 		double Get_position();
 		
 		double Get_force();
-		voide Reset_force();
+		void   Reset_force();
 		double Add_force(double df);
 }
 	
