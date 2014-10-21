@@ -1,3 +1,7 @@
+#ifndef Monomer_H
+#define Monomer_H
+
+#include<cmath>
 
 class Monomer {
 	private:
@@ -10,4 +14,4 @@ class Monomer {
 		void   Reset_force();
 		double Add_force(double df);
 }
-	
+#endif
