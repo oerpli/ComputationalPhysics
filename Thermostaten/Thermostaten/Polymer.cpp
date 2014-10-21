@@ -61,16 +61,14 @@ void Polymer::Calculate_force() {
 	for (i=0;i<A_length;i++) 
 		A_monomer[i].Reset_force();
 	
-	
-	force_buf=Force(A_monomer[A_length-1]-A_monomer[0]);
-	A_monomer[A_length-1].Add_force(force_buf); //bin mir da mit dem Vorzeichen nicht sicher!
-	A_monomer[0].Add_force(-force_buf);
-	
 	for (i=1;i<A_length;i++) {
 		force_buf=Force(A_monomer[i-1]-A_monomer[i]);
 		A_monomer[i-1].Add_force(force_buf); //bin mir da mit dem Vorzeichen nicht sicher!
 		A_monomer[i].Add_force(-force_buf);
 	}
+	force_buf=Force(A_monomer[A_length-1]-A_monomer[0]);
+	A_monomer[A_length-1].Add_force(force_buf); //bin mir da mit dem Vorzeichen nicht sicher!
+	A_monomer[0].Add_force(-force_buf);
 }
 
 
