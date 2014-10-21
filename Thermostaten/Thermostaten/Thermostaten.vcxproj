@@ -48,6 +48,17 @@
   <ItemGroup>
     <Text Include="readme.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Functions.h" />
+    <ClInclude Include="Monomer.h" />
+    <ClInclude Include="Polymer.h" />
+    <ClInclude Include="Thermostate.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Monomer.cpp" />
+    <ClCompile Include="Polymer.cpp" />
+    <ClCompile Include="test.cpp" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

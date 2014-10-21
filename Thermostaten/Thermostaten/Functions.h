@@ -12,12 +12,12 @@ using namespace std;
 
 ostream& operator<<(ostream& os, const Monomer & mono) {
 	mono.Print(os);
-return os;
+	return os;
 }
 
 ostream& operator<<(ostream& os, const Polymer & poly) {
 	poly.Print(os);
-return os;
+	return os;
 }
-	
+
 #endif
