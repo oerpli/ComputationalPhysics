@@ -8,6 +8,10 @@ class Monomer {
 		double position, force, velocity;
 	
 	public:
+		Monomer();
+		Monomer(const Monomer &);
+		~Monomer();
+
 		double Get_position();
 		
 		double Get_force();
