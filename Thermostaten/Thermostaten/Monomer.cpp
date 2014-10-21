@@ -27,17 +27,11 @@ void 	Monomer::Set_pos_vel(double pos, double vel) {
 }
 
 double Monomer::Distance(const Monomer & m_other) const {
-<<<<<<< a978db21cce4976d575a5e942d124bea1220d57c
-	return this->position - m_other.position;
+	return position - m_other.position;
 }
-double Monomer::operator-(const Monomer & m_other) const{
-	return this->Distance(m_other);
-=======
-return position - m_other.position;
-}
+
 double Monomer::operator-(const Monomer & m_other) const{
 return Distance(m_other);	
->>>>>>> e5c34e90663e99905fd195e57d38f3c2e3eb52f5
 }
 
 double Monomer::Get_force() { return force; }
