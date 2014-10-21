@@ -10,7 +10,7 @@ void Polymer::Initiate_monomer_array(double pos, double vel) {
 	
 	if (pos != 0 && vel != 0) 
 		for (int i=0;i<A_length;i++)
-			A_monomer[i].Set_pos_vel((rand()%5)*9./10,0);//A_monomer[i].Set_pos_vel(pos,vel);
+			A_monomer[i].Set_pos_vel((rand()%5)+0,0);//A_monomer[i].Set_pos_vel(pos,vel);
 }
 
 void Polymer::Initiate_polymer_std() {
@@ -47,11 +47,18 @@ std::ostream & Polymer::Print(std::ostream &os) const {
 return os;
 }
 
-double Polymer::Force(double r) {
+/*
+double Polymer::Force(double r) {//LJ
 	double s=1, e=1, sr6=pow(s/r,6);
 	if (r==0)
 		return 0;
 return -24*e*(2*pow(sr6,2)/r-sr6/r);
+}
+*/
+
+double Polymer::Force(double r) {//LJ
+	double k=1;
+return r*k;
 }
 
 void Polymer::Calculate_force() {
@@ -63,10 +70,12 @@ void Polymer::Calculate_force() {
 	
 	for (i=1;i<A_length;i++) {
 		force_buf=Force(A_monomer[i-1]-A_monomer[i]);
+		//force_buf=A_monomer[i-1]-A_monomer[i];
 		A_monomer[i-1].Add_force(force_buf); //bin mir da mit dem Vorzeichen nicht sicher!
 		A_monomer[i].Add_force(-force_buf);
 	}
 	force_buf=Force(A_monomer[A_length-1]-A_monomer[0]);
+	//force_buf=A_monomer[A_length-1]-A_monomer[0];
 	A_monomer[A_length-1].Add_force(force_buf); //bin mir da mit dem Vorzeichen nicht sicher!
 	A_monomer[0].Add_force(-force_buf);
 }

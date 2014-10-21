@@ -1,9 +1,9 @@
 #ifndef Thermostate_H
 #define Thermostate_H
 
-#include<cmath>
-
 #include "Polymer.h"
+
+#include<cmath>
 
 void Thermos_none(Polymer & poly, double time) {
 // kein Thermostat Verlet
