@@ -6,11 +6,11 @@
 
 void Polymer::Initiate_monomer_array(double pos, double vel) {
 	delete A_monomer;
-	A_monomer = new Monomer [A_length];
-	
-	if (pos != 0 && vel != 0) 
-		for (int i=0;i<A_length;i++)
-			A_monomer[i].Set_pos_vel((rand()%5)+0,0);//A_monomer[i].Set_pos_vel(pos,vel);
+	A_monomer = new Monomer[A_length];
+
+	if (pos != 0 && vel != 0)
+		for (int i = 0; i < A_length; i++)
+			A_monomer[i].Set_pos_vel((rand() % 5) + 0, 0);//A_monomer[i].Set_pos_vel(pos,vel);
 }
 
 void Polymer::Initiate_polymer_std() {
@@ -49,16 +49,16 @@ std::ostream & Polymer::Print(std::ostream &os) const {
 
 /*
 double Polymer::Force(double r) {//LJ
-	double s=1, e=1, sr6=pow(s/r,6);
-	if (r==0)
-		return 0;
-	return -24 * e*(2 * pow(sr6, 2) / r - sr6 / r);
+double s=1, e=1, sr6=pow(s/r,6);
+if (r==0)
+return 0;
+return -24 * e*(2 * pow(sr6, 2) / r - sr6 / r);
 }
 */
 
 double Polymer::Force(double r) {//LJ
-	double k=1;
-return r*k;
+	double k = 1;
+	return r*k;
 }
 
 void Polymer::Calculate_force() {

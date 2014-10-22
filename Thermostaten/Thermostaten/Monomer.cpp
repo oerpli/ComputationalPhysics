@@ -31,7 +31,7 @@ double Monomer::Distance(const Monomer & m_other) const {
 }
 
 double Monomer::operator-(const Monomer & m_other) const{
-return Distance(m_other);	
+	return Distance(m_other);
 }
 
 double Monomer::Get_force() { return force; }

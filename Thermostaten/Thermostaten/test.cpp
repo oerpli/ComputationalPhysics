@@ -10,14 +10,14 @@ using namespace std;
 int main() {
 
 	cout << "Hello World" << endl;
-	
-	Polymer p_a(5,1,3);
+
+	Polymer p_a(5, 1, 3);
 
 	cout << endl;
 	cout << p_a << endl;
 	cout << "calculation" << endl;
 	Thermos_none(p_a, 1);
 	cout << p_a << endl;
-	
+
 	return 0;
 }
