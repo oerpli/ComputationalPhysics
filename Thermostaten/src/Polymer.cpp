@@ -22,6 +22,16 @@ void Polymer::Initiate_polymer_std() {
 Polymer::Polymer(int length) {
 	Initiate_polymer_std();
 	Initiate_monomer_array(length, 0, 0);
+	double Sum_velocity = 0.0; 
+	for (auto& m : Monomers) {
+	        Sum_velocity += m.Velocity; 
+	}
+	Sum_velocity /= length; 
+	Update_Ekin();
+	double Scale_factor = sqrt(Temp_soll*length/Ekin); 
+	for (auto& m : Monomers) {
+	        m.Velocity = (m.Velocity - Sum_velocity)*Scale_factor; 
+	}
 }
 
 Polymer::~Polymer() {}
