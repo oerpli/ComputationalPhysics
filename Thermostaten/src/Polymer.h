@@ -28,21 +28,21 @@ public:
 	void Calculate_force();
 	void Next_position(double dt);
 	void Next_velocity(double dt);
-	void Calculate_ekin(); 
+	void Calculate_ekin();
 
-	int Get_length(); 
-	double Get_ekin(); 
-	double Get_monomer_position(int); 
-	double Get_monomer_velocity(int); 
-	double Get_monomer_force(int); 
+	int Get_length();
+	double Get_ekin();
+	double Get_monomer_position(int);
+	double Get_monomer_velocity(int);
+	double Get_monomer_force(int);
 
-	void Set_monomer_position(int, double); 
-	void Set_monomer_velocity(int, double); 
-	
+	void Set_monomer_position(int, double);
+	void Set_monomer_velocity(int, double);
+
 	int 	Get_position(double *& array) const;
 	int 	Get_velocity(double *& array) const;
 	int 	Get_force(double *& array) const;
-	void	Set_position(double *& array,int length);
-	void	Set_velocity(double *& array,int length);
+	void	Set_position(double *& array, int length);
+	void	Set_velocity(double *& array, int length);
 };
 #endif
