@@ -5,44 +5,39 @@
 
 using namespace std;
 
-Monomer::Monomer() : position(0), velocity(0), force(0) {}
-Monomer::Monomer(double pos, double vel) :
-position(pos), velocity(vel), force(0) {}
-Monomer::Monomer(const Monomer &cSource) :
-position(cSource.position), force(cSource.force),
-velocity(cSource.velocity) {}
+Monomer::Monomer() : Position(0), Velocity(0), Force(0) {}
+Monomer::Monomer(double pos, double vel) : Position(pos), Velocity(vel), Force(0) {}
+Monomer::Monomer(const Monomer &cSource) : Position(cSource.Position), Force(cSource.Force), Velocity(cSource.Velocity) {}
 
 
-std::ostream& Monomer::Print(std::ostream &os) const {
-	os << position << "  " << velocity << "  " << force;
-	return os;
-}
 
-double Monomer::Get_position() { return position; }
-double Monomer::Get_velocity() { return velocity; }
-void 	Monomer::Set_position(double pos) { position = pos; }
-void	Monomer::Set_velocity(double vel) { velocity = vel; }
-void 	Monomer::Set_pos_vel(double pos, double vel) {
-	Set_position(pos);
-	Set_velocity(vel);
-}
 
 double Monomer::Distance(const Monomer & m_other) const {
-	return position - m_other.position;
+	return Position - m_other.Position;
 }
 
 double Monomer::operator-(const Monomer & m_other) const{
 	return Distance(m_other);
 }
 
-double Monomer::Get_force() { return force; }
-void 	Monomer::Reset_force() { force = 0; }
-double Monomer::Add_force(double df) { return force += df; }
-
-double Monomer::Next_position(double dt) {
-	return position += velocity*dt;
+std::ostream& Monomer::Print(std::ostream &os) const {
+	os << Position << "  " << Velocity << "  " << Force;
+	return os;
 }
+//double Monomer::Get_position() { return position; }
+//double Monomer::Get_velocity() { return velocity; }
+//void 	Monomer::Set_position(double pos) { position = pos; }
+//void	Monomer::Set_velocity(double vel) { velocity = vel; }
 
-double Monomer::Next_velocity(double dt) {
-	return velocity += force*dt; //m=1!
-}
+
+//double Monomer::Get_force() { return force; }
+//void 	Monomer::Reset_force() { force = 0; }
+//double Monomer::Add_force(double df) { return force += df; }
+
+//double Monomer::Next_position(double dt) {
+//	return position += velocity*dt;
+//}
+
+//double Monomer::Next_velocity(double dt) {
+//	return velocity += force*dt; //m=1!
+//}
