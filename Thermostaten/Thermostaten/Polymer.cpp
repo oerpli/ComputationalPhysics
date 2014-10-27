@@ -90,14 +90,14 @@ void Polymer::Next_velocity(double dt){
 }
 
 void Polymer::Calculate_ekin(){
-	Ekin = 0.0;
-	for (int i = 0; i < A_length; i++) {
-		Ekin += A_monomer[i].Get_position()*A_monomer[i].Get_position(); //mass = 1 
-	}
-	Ekin /= 2.0;
+  Ekin = 0.0; 
+  for (int i = 0; i < A_length; i++) {
+    Ekin += A_monomer[i].Get_position()*A_monomer[i].Get_position(); //mass = 1 
+  }
+  Ekin /= 2.0; 
 }
 
-int Polymer::Get_length() { return A_length; }
+int Polymer::Get_length() { return A_length; } 
 
 double Polymer::Get_ekin() { return Ekin; }
 
