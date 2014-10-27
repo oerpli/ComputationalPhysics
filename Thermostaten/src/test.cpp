@@ -12,11 +12,11 @@ int main() {
 
 	cout << "Hello World" << endl;
 
-	//Polymer p_a(5);
+	Polymer p_a(5);
 	//Nose_Hoover thermostat(p_a, 1.0, 0.1);
 
 	//cout << endl;
-	//cout << p_a << endl;
+	cout << p_a << endl;
 	//cout << "calculation no thermostat" << endl;
 	//Thermos_none(p_a, 1);
 	//cout << p_a << endl;

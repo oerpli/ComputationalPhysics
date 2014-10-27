@@ -8,12 +8,8 @@
 
 void Polymer::Initiate_monomer_array(const int size, double pos, double vel) {
 	Monomers = std::vector<Monomer>();
-
-	if (pos != 0 && vel != 0){
-		for (auto& m : Monomers){
-			m.Position = rand() % 5;
-			m.Position = 0;
-		}
+	for (int i = 0; i < size; i++){
+		Monomers.push_back(Monomer(rand() % 5, rand()%5));
 	}
 }
 
