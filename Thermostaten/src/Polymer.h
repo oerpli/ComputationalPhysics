@@ -21,7 +21,7 @@ public:
 	std::ostream & Print(std::ostream &os) const; //Wahrscheinlich besser Name Möglich...
 
 	void Update_EKin();
-	void Update_Force();
+	void Update_Forces();
 
 
 	//Polymer();

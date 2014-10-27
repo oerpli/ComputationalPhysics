@@ -9,7 +9,7 @@
 void Polymer::Initiate_monomer_array(const int size, double pos, double vel) {
 	Monomers = std::vector<Monomer>();
 	for (int i = 0; i < size; i++){
-		Monomers.push_back(Monomer(rand() % 5, rand()%5));
+		Monomers.push_back(Monomer(i, rand()%5));
 	}
 }
 
@@ -48,7 +48,7 @@ double Polymer::Force(double r) {//LJ
 	return r*k;
 }
 
-void Polymer::Update_Force() {
+void Polymer::Update_Forces() {
 	double force_buf = 0;
 	unsigned int size = Monomers.size();
 	//wahrscheinlich durch Optimierung der nächsten Schleife unnötig
