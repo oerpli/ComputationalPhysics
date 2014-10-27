@@ -112,4 +112,45 @@ void Polymer::Set_monomer_position(int index, double pos) { A_monomer[index].Set
 
 void Polymer::Set_monomer_velocity(int index, double vel) { A_monomer[index].Set_velocity(vel); }
 
+int		Polymer::Get_position(double *& array) const {
+	if (array != 0)
+		delete[] array;
+	array=new double[A_length];
+	for (int i=0;i<A_length;i++)
+		array[i]=A_monomer[i].Get_position();
+return A_length;
+}
 
+int		Polymer::Get_velocity(double *& array) const {
+	if (array != 0)
+		delete[] array;
+	array=new double[A_length];
+	for (int i=0;i<A_length;i++)
+		array[i]=A_monomer[i].Get_velocity();
+return A_length;
+}
+
+int		Polymer::Get_force(double *& array) const {
+	if (array != 0)
+		delete[] array;
+	array=new double[A_length];
+	for (int i=0;i<A_length;i++)
+		array[i]=A_monomer[i].Get_force();
+return A_length;
+}
+
+void	Polymer::Set_position(double *& array,int length) {
+	if (length != A_length)
+		return;
+	for (int i=0;i<length;i++)
+		A_monomer[i].Set_position(array[i]);
+return;
+}
+
+void	Polymer::Set_velocity(double *& array,int length) {
+	if (length != A_length)
+		return;
+	for (int i=0;i<length;i++)
+		A_monomer[i].Set_velocity(array[i]);
+return;
+}

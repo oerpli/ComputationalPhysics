@@ -38,5 +38,11 @@ public:
 
 	void Set_monomer_position(int, double); 
 	void Set_monomer_velocity(int, double); 
+	
+	int 	Get_position(double *& array) const;
+	int 	Get_velocity(double *& array) const;
+	int 	Get_force(double *& array) const;
+	void	Set_position(double *& array,int length);
+	void	Set_velocity(double *& array,int length);
 };
 #endif
