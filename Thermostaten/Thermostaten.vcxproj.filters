@@ -18,28 +18,28 @@
     <Text Include="readme.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Monomer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Polymer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="test.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    <ClInclude Include="Thermostaten\Functions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Thermostaten\Monomer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Thermostaten\Polymer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Thermostaten\Thermostate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Thermostate.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Monomer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Functions.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Polymer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+    <ClCompile Include="Thermostaten\Monomer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Thermostaten\Polymer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Thermostaten\test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
