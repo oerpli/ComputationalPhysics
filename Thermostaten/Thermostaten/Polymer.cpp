@@ -89,3 +89,27 @@ void Polymer::Next_velocity(double dt){
 		A_monomer[i].Next_velocity(dt);
 }
 
+void Polymer::Calculate_ekin(){
+  Ekin = 0.0; 
+  for (int i = 0; i < A_length; i++) {
+    Ekin += A_monomer[i].Get_position()*A_monomer[i].Get_position(); //mass = 1 
+  }
+  Ekin /= 2.0; 
+}
+
+int Polymer::Get_length() { return A_length; } 
+
+double Polymer::Get_ekin() { return Ekin; }
+
+double Polymer::Get_monomer_position(int index) { return A_monomer[index].Get_position(); }
+
+double Polymer::Get_monomer_velocity(int index) { return A_monomer[index].Get_velocity(); }
+
+double Polymer::Get_monomer_force(int index) { return A_monomer[index].Get_force(); }
+
+
+void Polymer::Set_monomer_position(int index, double pos) { A_monomer[index].Set_position(pos); }
+
+void Polymer::Set_monomer_velocity(int index, double vel) { A_monomer[index].Set_velocity(vel); }
+
+

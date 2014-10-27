@@ -19,6 +19,7 @@ std::ostream& Monomer::Print(std::ostream &os) const {
 }
 
 double Monomer::Get_position() { return position; }
+double Monomer::Get_velocity() { return velocity; }
 void 	Monomer::Set_position(double pos) { position = pos; }
 void	Monomer::Set_velocity(double vel) { velocity = vel; }
 void 	Monomer::Set_pos_vel(double pos, double vel) {
