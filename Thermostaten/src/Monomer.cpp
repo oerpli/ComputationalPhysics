@@ -5,22 +5,18 @@
 
 using namespace std;
 
-Monomer::Monomer() : position(0), velocity(0), force(0) {}
-Monomer::Monomer(double pos, double vel) : position(pos), velocity(vel), force(0) {}
-Monomer::Monomer(const Monomer &cSource) : position(cSource.position), force(cSource.force), velocity(cSource.velocity) {}
-
-
-
-
-double Monomer::distance(const Monomer & m_other) const {
-	return position - m_other.position;
+Monomer::Monomer() {position=velocity=force=0;}
+Monomer::Monomer(double pos, double vel) {
+	position=pos;
+	velocity=vel;
+	force=0;
 }
 
-double Monomer::operator-(const Monomer & m_other) const{
-	return distance(m_other);
+double operator-(const Monomer & m1, const Monomer &m2) {
+	return m1.position - m2.position;
 }
 
-std::ostream& Monomer::print(std::ostream &os) const {
-	os << position << "  " << velocity << "  " << force;
+std::ostream& print_m(const Monomer &mono, std::ostream &os) {
+	os << mono.position << "  " << mono.velocity << "  " << mono.force;
 	return os;
 }

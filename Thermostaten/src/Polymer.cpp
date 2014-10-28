@@ -39,7 +39,7 @@ Polymer::~Polymer() {}
 
 std::ostream & Polymer::print(std::ostream &os) const {
 	for (auto& m : monomers) {
-		m.print(os);
+		print_m(m,os);
 		os << std::endl;
 	}
 	return os;

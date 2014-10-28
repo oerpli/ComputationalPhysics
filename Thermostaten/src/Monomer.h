@@ -3,18 +3,17 @@
 
 #include<iostream>
 
-class Monomer {
-private:
-	double distance(const Monomer & m_other) const;
-
-public:
-	double position, velocity, force;
+struct Monomer {
+	double position;
+	double velocity;
+	double force;
+	
 	Monomer();
 	Monomer(double pos, double vel);
-	Monomer(const Monomer &);
-
-	double operator-(const Monomer & m_other) const;
-	std::ostream & print(std::ostream &os) const; //Wahrscheinlich besser Name Möglich...
 };
+
+double operator-(const Monomer & m1, const Monomer &m2) ;
+std::ostream & print_m(const Monomer &mono, std::ostream &os) ; //Wahrscheinlich besser Name Möglich...
+
 #endif
 

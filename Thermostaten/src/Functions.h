@@ -11,7 +11,7 @@
 using namespace std;
 
 ostream& operator<<(ostream& os, const Monomer & mono) {
-	mono.print(os);
+	print_m(mono,os);
 	return os;
 }
 
