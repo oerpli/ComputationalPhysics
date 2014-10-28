@@ -7,8 +7,6 @@
 #include<algorithm>
 
 
-//blubb blubb blubb...check, ob adressänderung funktioniert hat
-
 void Polymer::Initiate_monomer_array(const int size, double pos, double vel) {
 	Monomers = std::vector<Monomer>();
 	for (int i = 0; i < size; i++){

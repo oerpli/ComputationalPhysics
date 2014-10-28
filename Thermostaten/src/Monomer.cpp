@@ -24,20 +24,3 @@ std::ostream& Monomer::Print(std::ostream &os) const {
 	os << Position << "  " << Velocity << "  " << Force;
 	return os;
 }
-//double Monomer::Get_position() { return position; }
-//double Monomer::Get_velocity() { return velocity; }
-//void 	Monomer::Set_position(double pos) { position = pos; }
-//void	Monomer::Set_velocity(double vel) { velocity = vel; }
-
-
-//double Monomer::Get_force() { return force; }
-//void 	Monomer::Reset_force() { force = 0; }
-//double Monomer::Add_force(double df) { return force += df; }
-
-//double Monomer::Next_position(double dt) {
-//	return position += velocity*dt;
-//}
-
-//double Monomer::Next_velocity(double dt) {
-//	return velocity += force*dt; //m=1!
-//}

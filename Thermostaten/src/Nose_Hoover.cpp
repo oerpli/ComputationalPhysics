@@ -18,12 +18,12 @@ void Nose_Hoover::Propagate(double step) {
 		m.Velocity += step*0.5*(m.Force - eta*m.Velocity);
 	}
 
-	eta += step*(poly.Ekin - gkT * 0.5) / q;
+	eta += step*(poly.Ekin - gkT*0.5) / q;
 	poly.Update_EKin();
 	eta += step*(poly.Ekin - gkT*0.5) / q;
 
 	poly.Update_Forces();
 	for (auto& m : poly.Monomers)
-		m.Velocity = 2 * (m.Velocity + step*.5*m.Force) / (2. + step*eta);
+		m.Velocity = 2.0 * (m.Velocity + step*0.5*m.Force) / (2.0 + step*eta);
 }
 
