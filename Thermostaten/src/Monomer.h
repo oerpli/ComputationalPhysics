@@ -5,16 +5,16 @@
 
 class Monomer {
 private:
-	double Distance(const Monomer & m_other) const;
+	double distance(const Monomer & m_other) const;
 
 public:
-	double Position, Velocity, Force;
+	double position, velocity, force;
 	Monomer();
 	Monomer(double pos, double vel);
 	Monomer(const Monomer &);
 
 	double operator-(const Monomer & m_other) const;
-	std::ostream & Print(std::ostream &os) const; //Wahrscheinlich besser Name Möglich...
+	std::ostream & print(std::ostream &os) const; //Wahrscheinlich besser Name Möglich...
 };
 #endif
 

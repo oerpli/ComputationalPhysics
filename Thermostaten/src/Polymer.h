@@ -9,17 +9,17 @@
 
 class Polymer {
 private:
-	void Initiate_monomer_array(int, double pos, double vel);
-	void Initiate_polymer_std();
-	double Force(double r);
+	void initiate_monomer_array(int, double pos, double vel);
+	void initiate_polymer_std();
+	double force(double r);
 public:
-	std::vector<Monomer> Monomers;
-	double Temp_soll, Ekin, Epot;
+	std::vector<Monomer> monomers;
+	double temperature, ekin, epot;
 	Polymer(int);
 	~Polymer();
-	std::ostream & Print(std::ostream &os) const; //Wahrscheinlich besser Name Möglich...
+	std::ostream & print(std::ostream &os) const; //Wahrscheinlich besser Name Möglich...
 
-	void Update_EKin();
-	void Update_Forces();
+	void update_ekin();
+	void update_forces();
 };
 #endif

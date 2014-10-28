@@ -7,66 +7,66 @@
 #include<algorithm>
 
 
-void Polymer::Initiate_monomer_array(const int size, double pos, double vel) {
-	Monomers = std::vector<Monomer>();
+void Polymer::initiate_monomer_array(const int size, double pos, double vel) {
+	monomers = std::vector<Monomer>();
 	for (int i = 0; i < size; i++){
-		Monomers.push_back(Monomer(i, rand() % 5));
+		monomers.push_back(Monomer(i, rand() % 5));
 	}
 }
 
-void Polymer::Initiate_polymer_std() {
-	Temp_soll = 0;
-	Ekin = Epot = 0;
+void Polymer::initiate_polymer_std() {
+	temperature = 0;
+	ekin = epot = 0;
 }
 
 
 Polymer::Polymer(int length) {
-	Initiate_polymer_std();
-	Initiate_monomer_array(length, 0, 0);
-	double Sum_velocity = 0.0;
-	for (auto& m : Monomers) {
-		Sum_velocity += m.Velocity;
+	initiate_polymer_std();
+	initiate_monomer_array(length, 0, 0);
+	double sum_velocity = 0.0;
+	for (auto& m : monomers) {
+		sum_velocity += m.velocity;
 	}
-	Sum_velocity /= length;
-	Update_EKin();
-	double Scale_factor = sqrt(Temp_soll*length / Ekin);
-	for (auto& m : Monomers) {
-		m.Velocity = (m.Velocity - Sum_velocity)*Scale_factor;
+	sum_velocity /= length;
+	update_ekin();
+	double scale_factor = sqrt(temperature*length / ekin);
+	for (auto& m : monomers) {
+		m.velocity = (m.velocity - sum_velocity)*scale_factor;
 	}
 }
 
 Polymer::~Polymer() {}
 
-std::ostream & Polymer::Print(std::ostream &os) const {
-	for (auto& m : Monomers) {
-		m.Print(os);
+std::ostream & Polymer::print(std::ostream &os) const {
+	for (auto& m : monomers) {
+		m.print(os);
 		os << std::endl;
 	}
 	return os;
 }
 
-double Polymer::Force(double r) {//LJ
+double Polymer::force(double r) {//LJ
 	double k = 1;
 	return r*k;
 }
 
-void Polymer::Update_Forces() {
+void Polymer::update_forces() {
 	//wahrscheinlich durch Optimierung der nächsten Schleife unnötig
-	for (auto& m : Monomers){
-		m.Force = 0;
+	for (auto& m : monomers){
+		m.force = 0;
 	}
-	unsigned int size = Monomers.size();
+	unsigned int size = monomers.size();
 	for (unsigned int i = 1; i <= size; i++) {
-		double force_buf = Force(Monomers[i - 1] - Monomers[i % size]);
-		Monomers[i - 1].Force += force_buf; //bin mir da mit dem Vorzeichen nicht sicher!
-		Monomers[i % size].Force -= force_buf;
+		double force_buf = force(monomers[i - 1] - monomers[i % size]);
+		monomers[i - 1].force += force_buf; //bin mir da mit dem Vorzeichen nicht sicher!
+		monomers[i % size].force -= force_buf;
 	}
 }
 
-void Polymer::Update_EKin(){
-	Ekin = 0.0;
-	for (auto& m : Monomers) {
-		Ekin += m.Velocity*m.Velocity; //mass = 1 
+void Polymer::update_ekin(){
+	ekin = 0.0;
+	for (auto& m : monomers) {
+		ekin += m.velocity*m.velocity; //mass = 1 
 	}
-	Ekin /= 2.0;
+	ekin /= 2.0;
 }
