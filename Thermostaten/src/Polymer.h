@@ -9,7 +9,6 @@
 
 class Polymer {
 private:
-	//Monomer *A_monomer;
 	void Initiate_monomer_array(int, double pos, double vel);
 	void Initiate_polymer_std();
 	double Force(double r);
