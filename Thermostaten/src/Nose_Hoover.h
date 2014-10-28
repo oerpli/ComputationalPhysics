@@ -8,15 +8,17 @@ class Nose_Hoover {
 
 private:
 	Polymer& poly;
-	double gkT;
 	double q;
+	double step; 
+	double stepsq; 
+	double gkT;
 	double eta;
 
 public:
-	Nose_Hoover(Polymer&, double, double);
+	Nose_Hoover(Polymer&, double, double, double);
 	~Nose_Hoover();
 
-	void propagate(double);
+	void propagate();
 
 };
 #endif 
