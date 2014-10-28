@@ -19,7 +19,7 @@ public:
 	~Polymer();
 	std::ostream & print(std::ostream &os) const; //Wahrscheinlich besser Name Möglich...
 
-	void update_ekin();
+	double update_ekin();
 	void update_forces();
 };
 #endif
