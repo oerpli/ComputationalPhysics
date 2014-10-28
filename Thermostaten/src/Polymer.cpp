@@ -10,7 +10,7 @@
 void Polymer::initiate_monomer_array(const int size, double pos, double vel) {
 	monomers = std::vector<Monomer>();
 	for (int i = 0; i < size; i++){
-		monomers.push_back(Monomer(0.0, rand() % 5));
+		monomers.push_back(Monomer(0.0, drand48() - 0.5));
 	}
 }
 
@@ -24,14 +24,17 @@ Polymer::Polymer(int length) {
 	initiate_polymer_std();
 	initiate_monomer_array(length, 0, 0);
 	double sum_velocity = 0.0;
-	for (auto& m : monomers) {
-		sum_velocity += m.velocity;
+	for (auto& m : monomers) { 
+		sum_velocity += m.velocity; 
 	}
-	sum_velocity /= length;
+	sum_velocity /= (double)length;
+	for (auto& m : monomers) { 
+	        m.velocity -= sum_velocity; 
+	}
 	update_ekin();
 	double scale_factor = sqrt(temperature*((double)length - 1.)/ (2.*ekin));
 	for (auto& m : monomers) {
-		m.velocity = (m.velocity - sum_velocity)*scale_factor;
+	        m.velocity = m.velocity*scale_factor;
 	}
 }
 
@@ -68,6 +71,6 @@ double Polymer::update_ekin(){
 	for (auto& m : monomers) {
 		ekin += m.velocity*m.velocity; //mass = 1 
 	}
-	ekin /= 2.0;
-return ekin;
+	ekin *= 0.5;
+	return ekin;
 }
