@@ -40,14 +40,14 @@ void  Andersen::propagate() {
   // velocity verlet
   
   for (auto& m : poly.monomers) {
-		m.velocity += dtime2*m.force;
+		m.velocity += dtime2*m.force/poly.monomer_mass;
 		m.position += dtime*m.velocity;
 	}
 
 	poly.update_forces();
 
 	for (auto& m : poly.monomers) {
-		m.velocity += dtime2*m.force;
+		m.velocity += dtime2*m.force/poly.monomer_mass;
 	}
   
   for (auto& m : poly.monomers) {
