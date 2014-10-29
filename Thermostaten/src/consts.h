@@ -2,7 +2,7 @@
 #define CONSTS_H
 
 namespace consts{
-	const double ref_length = 2.76E-10;	//in m... 	über molare Dichte
+	const double ref_length = 2.76E-10;	//in m... 	
 	const double ref_mass = 3.3474E-27; 	//in kg...	über molare Masse
 	const double ref_temp = 20;						//in °K
 	const double ref_energy = 8.741E-22;		//in J...		über Epot
