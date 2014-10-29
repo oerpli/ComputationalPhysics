@@ -20,8 +20,8 @@ public:
 	std::vector<Monomer> monomers;
 	std::ostream & print(std::ostream &os) const; //Wahrscheinlich besser Name Möglich...
 	double	ekin, epot;
-        double monomer_mass;
-        
+	double monomer_mass;
+
 	double	temp();
 	void	temp(double temp);
 

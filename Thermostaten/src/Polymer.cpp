@@ -16,13 +16,12 @@ void Polymer::initiate_monomer_array(const int size, double pos, double vel) {
 	}
 }
 
-Polymer::Polymer(int length, double temp) : epot(0) {
+Polymer::Polymer(int length, double temperature) : epot(0) {
 	monomer_mass = 1. / length;
-	temperature = temp;		// damit beim monomer initialisieren bereits temperature vorhanden ist
+	temp(temperature);
 	initiate_monomer_array(length, 0, 0);
 	update_ekin();
 
-	set_temp(temp);		// zum berechnen der Federkonstante
 
 	double sum_velocity = 0.0;
 	for (auto& m : monomers) {
