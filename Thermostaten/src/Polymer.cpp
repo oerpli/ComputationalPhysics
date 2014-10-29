@@ -41,9 +41,9 @@ Polymer::Polymer(int length, double temp) : epot(0) {
 
 Polymer::~Polymer() {}
 
-double Polymer::get_temp() { return temperature; }
+double Polymer::temp() { return temperature; }
 
-void Polymer::set_temp(double temp) {
+void Polymer::temp(double temp) {
 	temperature = temp;
 	feder_konst = monomer_mass * pow(monomers.size() * temperature * ref_k / ref_hbar, 2);
 }
