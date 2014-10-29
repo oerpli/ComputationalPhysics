@@ -78,3 +78,17 @@ double Polymer::update_ekin(){
 	ekin *= monomer_mass*0.5;
 	return ekin;
 }
+
+double Polymer::calculate_temp() const {
+        double av_velocity=0, av_energy=0;
+        
+        for (auto& m : monomers) 
+                av_velocity += m.velocity;
+        av_velocity /= monomers.size();
+        
+        for (auto& m : monomers)
+                av_energy += pow(m.velocity-av_velocity,2);
+        av_energy *= monomer_mass/2/monomers.size();
+        
+return av_energy/(0.5*ref_k);
+}

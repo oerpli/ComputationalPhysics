@@ -27,5 +27,7 @@ public:
 
 	double	update_ekin();
 	void	update_forces();
+        
+        double calculate_temp() const;
 };
 #endif
