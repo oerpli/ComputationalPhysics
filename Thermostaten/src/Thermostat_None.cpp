@@ -11,14 +11,14 @@ Thermostat_None::~Thermostat_None() {}
 
 void Thermostat_None::propagate() {
 	for (auto& m : poly.monomers) {
-		m.velocity += stepd2*m.force;
+		m.velocity += stepd2*m.force/poly.monomer_mass;
 		m.position += step*m.velocity;
 	}
 
 	poly.update_forces();
 
 	for (auto& m : poly.monomers) {
-		m.velocity += stepd2*m.force;
+		m.velocity += stepd2*m.force/poly.monomer_mass;
 	}
 }
 

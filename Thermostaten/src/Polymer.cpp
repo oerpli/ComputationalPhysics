@@ -18,11 +18,10 @@ void Polymer::initiate_monomer_array(const int size, double pos, double vel) {
 
 Polymer::Polymer(int length, double temperature) : epot(0) {
 	monomer_mass = 1. / length;
-        this->temperature=temperature;  //Muss da sein, damit Temp beim Initieren des Array vorhanden ist
+        _temp=temperature;  //Muss da sein, damit Temp beim Initieren des Array vorhanden ist
 	initiate_monomer_array(length, 0, 0);
-	update_ekin();
-
-	temp(this->temperature);      //Passt die Federkonstante an die Temperatur an
+        
+	temp(_temp);      //Passt die Federkonstante an die Temperatur an
         
 	double sum_velocity = 0.0;
 	for (auto& m : monomers) {
@@ -33,7 +32,7 @@ Polymer::Polymer(int length, double temperature) : epot(0) {
 		m.velocity -= sum_velocity;
 	}
 	update_ekin();
-	double scale_factor = sqrt(this->temperature*((double)length - 1.) / (2.*ekin));
+	double scale_factor = sqrt(_temp*length/ekin*0.5*ref_k);
 	for (auto& m : monomers) {
 		m.velocity = m.velocity*scale_factor;
 	}
@@ -41,11 +40,11 @@ Polymer::Polymer(int length, double temperature) : epot(0) {
 
 Polymer::~Polymer() {}
 
-double Polymer::temp() { return temperature; }
+double Polymer::temp() { return _temp; }
 
-void Polymer::temp(double temp) {
-	temperature = temp;
-	feder_konst = monomer_mass * pow(monomers.size() * temperature * ref_k / ref_hbar, 2);
+void Polymer::temp(double temperature) {
+	_temp = temperature;
+	feder_konst = monomer_mass * pow(monomers.size() * _temp * ref_k / ref_hbar, 2);
 }
 
 std::ostream & Polymer::print(std::ostream &os) const {
@@ -76,6 +75,6 @@ double Polymer::update_ekin(){
 	for (auto& m : monomers) {
 		ekin += m.velocity*m.velocity; //mass = 1 
 	}
-	ekin *= 0.5;
+	ekin *= monomer_mass*0.5;
 	return ekin;
 }

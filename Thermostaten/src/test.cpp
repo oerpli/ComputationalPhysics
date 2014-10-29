@@ -14,11 +14,11 @@ using namespace std;
 int main() {
 
 	cout << "Hello World" << endl;
-	Polymer p_a(10, 1);
-	cout << "T vor skalierung: " << p_a.ekin*2.0 / (p_a.monomers.size() - 1) << endl;
+	Polymer p_a(10, 15);
+	cout << "T vor skalierung: " << p_a.ekin/p_a.monomers.size()/(0.5*ref_k) << endl;
 
 	p_a.update_ekin();
-	cout << "T nach skalierung: " << p_a.ekin*2.0 / (p_a.monomers.size() - 1) << endl;
+	cout << "T nach skalierung: " << p_a.ekin/p_a.monomers.size()/(0.5*ref_k) << endl;
 
 	Thermostat_None thermostat(p_a, 2E-3);
 
