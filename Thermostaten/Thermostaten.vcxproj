@@ -73,12 +73,14 @@
     <ClInclude Include="src\Monomer.h" />
     <ClInclude Include="src\Nose_Hoover.h" />
     <ClInclude Include="src\Polymer.h" />
+    <ClInclude Include="src\Rand.h" />
     <ClInclude Include="src\Thermostate.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Monomer.cpp" />
     <ClCompile Include="src\Nose_Hoover.cpp" />
     <ClCompile Include="src\Polymer.cpp" />
+    <ClCompile Include="src\Rand.cpp" />
     <ClCompile Include="src\test.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
