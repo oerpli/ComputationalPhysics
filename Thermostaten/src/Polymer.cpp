@@ -46,7 +46,6 @@ double Polymer::get_temp() {return temperature;}
 void		Polymer::set_temp(double temp) {
 		temperature=temp;
 		feder_konst=monomer_mass*pow(monomers.size()*temperature*ref_k/ref_hbar,2);
-std::cout << "FederKonst: " << feder_konst << std::endl;
 }
 
 std::ostream & Polymer::print(std::ostream &os) const {
