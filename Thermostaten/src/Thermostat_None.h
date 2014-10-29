@@ -6,16 +6,15 @@
 
 class Thermostat_None {
 
- private: 
-  Polymer& poly; 
-  double step; 
-  double stepd2; 
+private:
+	Polymer& poly;
+	double step;
+	double stepd2;
 
- public: 
-  Thermostat_None(Polymer&, double); 
-  ~Thermostat_None(); 
+public:
+	Thermostat_None(Polymer&, double);
+	~Thermostat_None();
 
-  void propagate(); 
-
-}; 
+	void propagate();
+};
 #endif 

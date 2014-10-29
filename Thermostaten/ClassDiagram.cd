@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Nose_Hoover" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAQQAAAAAAAAAAAAAAAAAgAABAACgAAABAAAE=</HashCode>
+      <FileName>src\Nose_Hoover.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Polymer" Collapsed="true">
+    <Position X="4" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABwAAAAAAAAAAAABEAAAAIAAAAAIACAgggQgAwAAAIA=</HashCode>
+      <FileName>src\Polymer.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Thermostat_None">
+    <Position X="5.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAAAAAAAAAAAAAAAAAAAggABAAAAAAABAABA=</HashCode>
+      <FileName>src\Thermostat_None.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Nose_Hoover_Chain" Collapsed="true">
+    <Position X="2.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAEAAAAAACABAAAAAAAAIgiABAAAUABARABAI=</HashCode>
+      <FileName>src\Nose_Hoover_Chain.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="Monomer">
+    <Position X="7.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAAAAAAAAAAAAAAAIAAAAAAAAAABAAQAAAAAAAA=</HashCode>
+      <FileName>src\Monomer.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

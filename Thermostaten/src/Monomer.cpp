@@ -5,11 +5,11 @@
 
 using namespace std;
 
-Monomer::Monomer() {position=velocity=force=0;}
+Monomer::Monomer() { position = velocity = force = 0; }
 Monomer::Monomer(double pos, double vel) {
-	position=pos;
-	velocity=vel;
-	force=0;
+	position = pos;
+	velocity = vel;
+	force = 0;
 }
 
 double operator-(const Monomer & m1, const Monomer &m2) {

@@ -17,46 +17,46 @@ void Polymer::initiate_monomer_array(const int size, double pos, double vel) {
 }
 
 Polymer::Polymer(int length, double temp) : epot(0) {
-	monomer_mass=1./length;
-	temperature=temp;		// damit beim monomer Inizialisieren bereits temperature vorhanden ist
+	monomer_mass = 1. / length;
+	temperature = temp;		// damit beim monomer initialisieren bereits temperature vorhanden ist
 	initiate_monomer_array(length, 0, 0);
 	update_ekin();
-	
+
 	set_temp(temp);		// zum berechnen der Federkonstante
-	
+
 	double sum_velocity = 0.0;
-	for (auto& m : monomers) { 
-		sum_velocity += m.velocity; 
+	for (auto& m : monomers) {
+		sum_velocity += m.velocity;
 	}
 	sum_velocity /= (double)length;
-	for (auto& m : monomers) { 
-	        m.velocity -= sum_velocity; 
+	for (auto& m : monomers) {
+		m.velocity -= sum_velocity;
 	}
 	update_ekin();
-	double scale_factor = sqrt(temperature*((double)length - 1.)/ (2.*ekin));
+	double scale_factor = sqrt(temperature*((double)length - 1.) / (2.*ekin));
 	for (auto& m : monomers) {
-	        m.velocity = m.velocity*scale_factor;
+		m.velocity = m.velocity*scale_factor;
 	}
 }
 
 Polymer::~Polymer() {}
 
-double Polymer::get_temp() {return temperature;}
+double Polymer::get_temp() { return temperature; }
 
-void		Polymer::set_temp(double temp) {
-		temperature=temp;
-		feder_konst=monomer_mass*pow(monomers.size()*temperature*ref_k/ref_hbar,2);
+void Polymer::set_temp(double temp) {
+	temperature = temp;
+	feder_konst = monomer_mass * pow(monomers.size() * temperature * ref_k / ref_hbar, 2);
 }
 
 std::ostream & Polymer::print(std::ostream &os) const {
 	for (auto& m : monomers) {
-		print_m(m,os);
+		print_m(m, os);
 		os << std::endl;
 	}
 	return os;
 }
 
-double Polymer::force(double r) {return -r*feder_konst;}
+double Polymer::force(double r) { return -r*feder_konst; }
 
 void Polymer::update_forces() {
 	//wahrscheinlich durch Optimierung der nächsten Schleife unnötig
