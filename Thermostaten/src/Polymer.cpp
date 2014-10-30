@@ -23,14 +23,14 @@ void Polymer::initiate_monomers_random() {
 
 	update_ekin();
 
-	double scale_factor = sqrt(_temp*monomers.size() / ekin*0.5*ref_k);
+	double scale_factor = sqrt(temp()*monomers.size() / ekin*0.5*ref_k);
 	for (auto& m : monomers) {
 		m.velocity = m.velocity*scale_factor;
 	}
 }
 
 void Polymer::initiate_monomers_one() { //erstes Monomer großteil der Energie
-	double max_vel = sqrt((monomers.size() - 1)*ref_k*_temp / monomer_mass);
+	double max_vel = sqrt((monomers.size() - 1)*ref_k*temp() / monomer_mass);
 	double speed = -max_vel / (monomers.size() - 1);
 	for (auto& m : monomers){
 		m.velocity = speed;
