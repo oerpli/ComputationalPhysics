@@ -10,7 +10,7 @@ using namespace consts;
 using namespace std;
 
 Andersen::Andersen(Polymer &poly, double dtime, double nu) : poly(poly),
-  nu(nu), uniform_real(0.,1.) {
+  nu(nu), uniform_real(0.,1.), gauss_real(0.,1.) {
     
   time_step(dtime);
   update_sigma();
@@ -18,10 +18,6 @@ Andersen::Andersen(Polymer &poly, double dtime, double nu) : poly(poly),
 
 double Andersen::update_sigma() {
   sigma=sqrt(ref_k*poly.temp()/poly.monomer_mass);
-  
-  // weiß grad keinen anderen Weg die Verteilung zu verändern...
-  std::normal_distribution<double> gauss_buf(0.,sigma);
-  gauss_real.param(gauss_buf.param());
   
 return sigma;
 }
@@ -52,7 +48,7 @@ void  Andersen::propagate() {
   //Andersen
   for (auto& m : poly.monomers) {
 		if (nu_dt > uniform_real(generator))
-      m.velocity=gauss_real(generator);
+      m.velocity=sigma*gauss_real(generator);
 	}
   
 }
