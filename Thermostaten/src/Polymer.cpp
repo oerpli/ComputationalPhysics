@@ -29,9 +29,10 @@ void Polymer::initiate_monomers_one() { //erstes Monomer großteil der Energie
 	monomers[0].velocity = max_vel;
 }
 
-Polymer::Polymer(int length, double temperature) : epot(0) {
-	monomers = std::vector<Monomer>(length, Monomer(0.0, 0.));
-	monomer_mass = 1. / length;
+Polymer::Polymer(int length, double temperature) :
+epot(0),
+monomer_mass(1. / length),
+monomers(std::vector<Monomer>(length, Monomer(0.0, 0.))) {
 	temp(temperature);
 	initiate_monomers_one();
 }
