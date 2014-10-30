@@ -13,42 +13,81 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="src\Functions.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Monomer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Nose_Hoover.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Polymer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Thermostate.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Rand.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+    <Filter Include="Header Files\thermostats">
+      <UniqueIdentifier>{7a19cfb7-e7ce-4d53-9cac-8da0960a6a47}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\thermostats">
+      <UniqueIdentifier>{bc2b5061-2fac-438d-bcfc-d35fda504b6a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\utility">
+      <UniqueIdentifier>{63b35555-6df3-479e-bd14-c5e5a7a75680}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\utility">
+      <UniqueIdentifier>{52f0dc04-e2bd-41f8-9d4d-54b2616a7119}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Monomer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Nose_Hoover.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Polymer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Andersen.cpp">
+      <Filter>Source Files\thermostats</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Gaussian.cpp">
+      <Filter>Source Files\thermostats</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Nose_Hoover.cpp">
+      <Filter>Source Files\thermostats</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Nose_Hoover_Chain.cpp">
+      <Filter>Source Files\thermostats</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Thermostat_None.cpp">
+      <Filter>Source Files\thermostats</Filter>
+    </ClCompile>
     <ClCompile Include="src\test.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\utility</Filter>
     </ClCompile>
     <ClCompile Include="src\Rand.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\utility</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Monomer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Polymer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Andersen.h">
+      <Filter>Header Files\thermostats</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Nose_Hoover.h">
+      <Filter>Header Files\thermostats</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Nose_Hoover_Chain.h">
+      <Filter>Header Files\thermostats</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Thermostat_None.h">
+      <Filter>Header Files\thermostats</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Thermostate.h">
+      <Filter>Header Files\thermostats</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Gaussian.h">
+      <Filter>Header Files\thermostats</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Functions.h">
+      <Filter>Header Files\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Consts.h">
+      <Filter>Header Files\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rand.h">
+      <Filter>Header Files\utility</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

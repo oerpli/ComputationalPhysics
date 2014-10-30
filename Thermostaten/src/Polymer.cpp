@@ -5,44 +5,44 @@
 #include<stdlib.h>
 #include<vector>
 #include<algorithm>
-
+#include<numeric>
 #include "consts.h"
 using namespace consts;
+using namespace std;
 
-void Polymer::initiate_monomers_random(const int size) {
+void Polymer::initiate_monomers_random() {
 	double av_velocity = 0.0;
-        monomers = std::vector<Monomer>(size,Monomer(0.0, 0.));
-        
-	for (auto& m : monomers) 
-                av_velocity += m.velocity = drand48() - 0.5;
-        
-	av_velocity /= size;
-	
-        for (auto& m : monomers) {
+	for (auto& m : monomers)
+		av_velocity += m.velocity = drand48() - 0.5;
+
+	av_velocity /= monomers.size();
+
+	for (auto& m : monomers) {
 		m.velocity -= av_velocity;
 	}
-        
+
 	update_ekin();
-        
-	double scale_factor = sqrt(_temp*size/ekin*0.5*ref_k);
+
+	double scale_factor = sqrt(_temp*monomers.size() / ekin*0.5*ref_k);
 	for (auto& m : monomers) {
 		m.velocity = m.velocity*scale_factor;
 	}
 }
 
-void Polymer::initiate_monomers_one(const int size) { //erstes Monomer großteil der Energie
-	double max_vel = sqrt( (size-1)*ref_k*_temp/monomer_mass );
-        monomers = std::vector<Monomer>(size,Monomer(0.0, -max_vel/(size-1) ));
-        
-        monomers[0].velocity=max_vel;
+void Polymer::initiate_monomers_one() { //erstes Monomer großteil der Energie
+	double max_vel = sqrt((monomers.size() - 1)*ref_k*_temp / monomer_mass);
+	double speed = -max_vel / (monomers.size() - 1);
+	for (auto& m : monomers){
+		m.velocity = speed;
+	}
+	monomers[0].velocity = max_vel;
 }
 
 Polymer::Polymer(int length, double temperature) : epot(0) {
+	monomers = std::vector<Monomer>(length, Monomer(0.0, 0.));
+	temp(temperature);
 	monomer_mass = 1. / length;
-        _temp=temperature;  //Muss da sein, damit Temp beim Initieren des Array vorhanden ist
-	initiate_monomers_one(length);
-        
-	temp(_temp);      //Passt die Federkonstante an die Temperatur an
+	initiate_monomers_one();
 }
 
 Polymer::~Polymer() {}
@@ -87,15 +87,15 @@ double Polymer::update_ekin(){
 }
 
 double Polymer::calculate_temp() const {
-        double av_velocity=0, av_energy=0;
-        
-        for (auto& m : monomers) 
-                av_velocity += m.velocity;
-        av_velocity /= monomers.size();
-        
-        for (auto& m : monomers)
-                av_energy += pow(m.velocity-av_velocity,2);
-        av_energy *= monomer_mass/2/monomers.size();
-        
-return av_energy/(0.5*ref_k);
+	double av_velocity = 0, av_energy = 0;
+
+	for (auto& m : monomers)
+		av_velocity += m.velocity;
+	av_velocity /= monomers.size();
+
+	for (auto& m : monomers)
+		av_energy += pow(m.velocity - av_velocity, 2);
+	av_energy *= monomer_mass / 2 / monomers.size();
+
+	return av_energy / (0.5*ref_k);
 }

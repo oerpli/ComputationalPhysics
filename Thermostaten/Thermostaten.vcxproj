@@ -10,6 +10,30 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\Andersen.cpp" />
+    <ClCompile Include="src\Gaussian.cpp" />
+    <ClCompile Include="src\test.cpp" />
+    <ClCompile Include="src\Monomer.cpp" />
+    <ClCompile Include="src\Nose_Hoover.cpp" />
+    <ClCompile Include="src\Nose_Hoover_Chain.cpp" />
+    <ClCompile Include="src\Polymer.cpp" />
+    <ClCompile Include="src\Rand.cpp" />
+    <ClCompile Include="src\Thermostat_None.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Andersen.h" />
+    <ClInclude Include="src\Consts.h" />
+    <ClInclude Include="src\Functions.h" />
+    <ClInclude Include="src\Gaussian.h" />
+    <ClInclude Include="src\Monomer.h" />
+    <ClInclude Include="src\Nose_Hoover.h" />
+    <ClInclude Include="src\Nose_Hoover_Chain.h" />
+    <ClInclude Include="src\Polymer.h" />
+    <ClInclude Include="src\Rand.h" />
+    <ClInclude Include="src\Thermostate.h" />
+    <ClInclude Include="src\Thermostat_None.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{585B2AEF-F6A7-448C-8533-FDB5B91272F6}</ProjectGuid>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
@@ -68,21 +92,6 @@
       <AdditionalDependencies />
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClInclude Include="src\Functions.h" />
-    <ClInclude Include="src\Monomer.h" />
-    <ClInclude Include="src\Nose_Hoover.h" />
-    <ClInclude Include="src\Polymer.h" />
-    <ClInclude Include="src\Rand.h" />
-    <ClInclude Include="src\Thermostate.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="src\Monomer.cpp" />
-    <ClCompile Include="src\Nose_Hoover.cpp" />
-    <ClCompile Include="src\Polymer.cpp" />
-    <ClCompile Include="src\Rand.cpp" />
-    <ClCompile Include="src\test.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
