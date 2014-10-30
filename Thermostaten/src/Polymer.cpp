@@ -34,7 +34,6 @@ epot(0),
 monomer_mass(1. / length),
 monomers(std::vector<Monomer>(length, Monomer(0.0, 0.))) {
 	temp(temperature);
-	initiate_monomers_one();
 }
 
 Polymer::~Polymer() {}
