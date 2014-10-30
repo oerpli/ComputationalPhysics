@@ -38,7 +38,6 @@ return dtime;
 
 void  Andersen::propagate() {
   // velocity verlet
-  
   for (auto& m : poly.monomers) {
 		m.velocity += dtime2*m.force/poly.monomer_mass;
 		m.position += dtime*m.velocity;
@@ -50,10 +49,10 @@ void  Andersen::propagate() {
 		m.velocity += dtime2*m.force/poly.monomer_mass;
 	}
   
+  //Andersen
   for (auto& m : poly.monomers) {
-		if (nu_dt < uniform_real(generator))
-      continue;
-    m.velocity=gauss_real(generator);
+		if (nu_dt > uniform_real(generator))
+      m.velocity=gauss_real(generator);
 	}
   
 }
