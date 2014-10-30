@@ -11,8 +11,8 @@
 class Polymer {
 private:
 	double	feder_konst, _temp;
-	void	initiate_monomer_array(int, double pos, double vel);
-	void	initiate_polymer_std();
+	void    initiate_monomers_random(const int size);
+        void    initiate_monomers_one(const int size);
 	double	force(double r);
 public:
 	Polymer(int length, double temperature);

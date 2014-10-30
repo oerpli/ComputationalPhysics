@@ -9,33 +9,40 @@
 #include "consts.h"
 using namespace consts;
 
-void Polymer::initiate_monomer_array(const int size, double pos, double vel) {
-	monomers = std::vector<Monomer>();
-	for (int i = 0; i < size; i++){
-		monomers.push_back(Monomer(0.0, drand48() - 0.5));
+void Polymer::initiate_monomers_random(const int size) {
+	double av_velocity = 0.0;
+        monomers = std::vector<Monomer>(size,Monomer(0.0, 0.));
+        
+	for (auto& m : monomers) 
+                av_velocity += m.velocity = drand48() - 0.5;
+        
+	av_velocity /= size;
+	
+        for (auto& m : monomers) {
+		m.velocity -= av_velocity;
 	}
+        
+	update_ekin();
+        
+	double scale_factor = sqrt(_temp*size/ekin*0.5*ref_k);
+	for (auto& m : monomers) {
+		m.velocity = m.velocity*scale_factor;
+	}
+}
+
+void Polymer::initiate_monomers_one(const int size) { //erstes Monomer großteil der Energie
+	double max_vel = sqrt( (size-1)*ref_k*_temp/monomer_mass );
+        monomers = std::vector<Monomer>(size,Monomer(0.0, -max_vel/(size-1) ));
+        
+        monomers[0].velocity=max_vel;
 }
 
 Polymer::Polymer(int length, double temperature) : epot(0) {
 	monomer_mass = 1. / length;
         _temp=temperature;  //Muss da sein, damit Temp beim Initieren des Array vorhanden ist
-	initiate_monomer_array(length, 0, 0);
+	initiate_monomers_one(length);
         
 	temp(_temp);      //Passt die Federkonstante an die Temperatur an
-        
-	double sum_velocity = 0.0;
-	for (auto& m : monomers) {
-		sum_velocity += m.velocity;
-	}
-	sum_velocity /= (double)length;
-	for (auto& m : monomers) {
-		m.velocity -= sum_velocity;
-	}
-	update_ekin();
-	double scale_factor = sqrt(_temp*length/ekin*0.5*ref_k);
-	for (auto& m : monomers) {
-		m.velocity = m.velocity*scale_factor;
-	}
 }
 
 Polymer::~Polymer() {}
