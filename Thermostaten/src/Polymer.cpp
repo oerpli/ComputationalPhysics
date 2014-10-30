@@ -40,8 +40,9 @@ void Polymer::initiate_monomers_one() { //erstes Monomer großteil der Energie
 
 Polymer::Polymer(int length, double temperature) : epot(0) {
 	monomers = std::vector<Monomer>(length, Monomer(0.0, 0.));
-	temp(temperature);
 	monomer_mass = 1. / length;
+	temp(temperature);
+        
 	initiate_monomers_one();
 }
 
