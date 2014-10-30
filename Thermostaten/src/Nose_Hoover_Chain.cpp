@@ -25,12 +25,8 @@ void Nose_Hoover_Chain::pos_vel() {
 		m.velocity += m.force*stepd2;
 		m.position += m.velocity*step;
 	}
-
 	poly.update_forces();
-
-	for (auto& m : poly.monomers) {
-		m.velocity += m.force*stepd2;
-	}
+	for (auto& m : poly.monomers) m.velocity += m.force*stepd2;
 }
 
 void Nose_Hoover_Chain::chain() {
@@ -43,9 +39,7 @@ void Nose_Hoover_Chain::chain() {
 	nuxi1 = exp(-nuxi2*stepd8);    // L_nuxi1
 	double s = exp(-nuxi1*stepd2);
 
-	for (auto& m : poly.monomers) {// L_Cv
-		m.velocity *= s;
-	}
+	for (auto& m : poly.monomers) m.velocity *= s;// L_Cv
 
 	xi1 -= nuxi1*stepd2;            // L_xi
 	xi2 -= nuxi2*stepd2;           // L_xi
