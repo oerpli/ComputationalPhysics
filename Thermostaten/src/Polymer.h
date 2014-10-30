@@ -11,7 +11,8 @@
 class Polymer {
 private:
 	double	feder_konst, _temp;
-	void    initiate_monomers_one(const int size);
+	void    initiate_monomers_random();
+	void    initiate_monomers_one();
 	double	force(double r);
 public:
 	Polymer(int length, double temperature);
@@ -20,8 +21,6 @@ public:
 	std::ostream & print(std::ostream &os) const; //Wahrscheinlich besser Name Möglich...
 	double	ekin, epot;
 	double monomer_mass;
-        
-	void    initiate_monomers_random();
 
 	double	temp();
 	void	temp(double temperature);

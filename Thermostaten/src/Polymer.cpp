@@ -29,18 +29,20 @@ void Polymer::initiate_monomers_random() {
 	}
 }
 
-void Polymer::initiate_monomers_one(const int size) { //erstes Monomer großteil der Energie
-	double max_vel = sqrt((size - 1)*ref_k*_temp / monomer_mass);   
-        monomers = std::vector<Monomer>(size, Monomer(0.0, -max_vel/(size-1)) );
-        
+void Polymer::initiate_monomers_one() { //erstes Monomer großteil der Energie
+	double max_vel = sqrt((monomers.size() - 1)*ref_k*_temp / monomer_mass);
+	double speed = -max_vel / (monomers.size() - 1);
+	for (auto& m : monomers){
+		m.velocity = speed;
+	}
 	monomers[0].velocity = max_vel;
 }
 
-Polymer::Polymer(int length, double temperature) : _temp(temperature) , epot(0) {
-	monomer_mass = 1. / length;
-	initiate_monomers_one(length);
-        
+Polymer::Polymer(int length, double temperature) : epot(0) {
+	monomers = std::vector<Monomer>(length, Monomer(0.0, 0.));
 	temp(temperature);
+	monomer_mass = 1. / length;
+	initiate_monomers_one();
 }
 
 Polymer::~Polymer() {}
