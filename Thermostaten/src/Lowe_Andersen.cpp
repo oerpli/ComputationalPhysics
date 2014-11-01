@@ -34,8 +34,8 @@ return dtime;
 
 void  Lowe_Andersen::propagate() {
   double delta_v=0, therm_v=0;
-  auto  m_i= poly.monomers.begin();
-  auto  m_j= m_i;
+  auto  mi= poly.monomers.begin();
+  auto  mj= mi;
   
   // velocity verlet
   for (auto& m : poly.monomers) {
@@ -44,18 +44,18 @@ void  Lowe_Andersen::propagate() {
 	}
 
   //Lowe_Andersen
-  for (m_i = poly.monomers.begin(); m_i != poly.monomers.end(); ++m_i) {
+  for (mi = poly.monomers.begin(); mi != poly.monomers.end(); ++mi) {
 		if ( nu_dt < uniform_real(generator) ) continue;
     
-    m_j=m_i;
-    ++m_j;
-    if ( m_j == poly.monomers.end() ) m_j=poly.monomers.begin();
+    mj=mi;
+    ++mj;
+    if ( mj == poly.monomers.end() ) mj=poly.monomers.begin();
     
-    delta_v=m_i->velocity - m_j->velocity;
+    delta_v=mi->velocity - mj->velocity;
     therm_v=poly.monomer_mass*0.5*( delta_v - copysign( sigma, delta_v )*gauss_real(generator) );
     
-    m_i->velocity += therm_v;
-    m_j->velocity -= therm_v;
+    mi->velocity += therm_v;
+    mj->velocity -= therm_v;
 	}
   
   // second half of vel. verlet
