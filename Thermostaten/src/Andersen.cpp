@@ -9,46 +9,46 @@ using namespace consts;
 
 using namespace std;
 
-Andersen::Andersen(Polymer &poly, double dtime, double nu) : poly(poly),
-  nu(nu), uniform_real(0.,1.), gauss_real(0.,1.) {
+Andersen::Andersen(Polymer &poly, double dtime, double nu) : m_poly(poly),
+  m_nu(nu), uniform_real(0.,1.), gauss_real(0.,1.) {
     
   time_step(dtime);
   update_sigma();
 }
 
 double Andersen::update_sigma() {
-  sigma=sqrt(ref_k*poly.temp()/poly.monomer_mass);
+  m_sigma=sqrt(ref_k*m_poly.temp()/m_poly.monomer_mass);
   
-return sigma;
+return m_sigma;
 }
 
-double  Andersen::time_step() {return dtime;}
+double  Andersen::time_step() {return m_dtime;}
 
-double  Andersen::time_step(double dt) {
-    dtime=dt;
-    dtime2=dtime/2;
-    nu_dt=nu*dtime;
+double  Andersen::time_step(double dtime) {
+    m_dtime=dtime;
+    m_dtime2=m_dtime/2;
+    m_nu_dt=m_nu*m_dtime;
     
-return dtime;
+return m_dtime;
 }
 
 void  Andersen::propagate() {
   // velocity verlet
-  for (auto& m : poly.monomers) {
-		m.velocity += dtime2*m.force/poly.monomer_mass;
-		m.position += dtime*m.velocity;
+  for (auto& m : m_poly.monomers) {
+		m.velocity += m_dtime2*m.force/m_poly.monomer_mass;
+		m.position += m_dtime*m.velocity;
 	}
 
-	poly.update_forces();
+	m_poly.update_forces();
 
-	for (auto& m : poly.monomers) {
-		m.velocity += dtime2*m.force/poly.monomer_mass;
+	for (auto& m : m_poly.monomers) {
+		m.velocity += m_dtime2*m.force/m_poly.monomer_mass;
 	}
   
   //Andersen
-  for (auto& m : poly.monomers) {
-		if (nu_dt > uniform_real(generator))
-      m.velocity=sigma*gauss_real(generator);
+  for (auto& m : m_poly.monomers) {
+		if (m_nu_dt > uniform_real(generator))
+      m.velocity=m_sigma*gauss_real(generator);
 	}
   
 }

@@ -10,7 +10,7 @@
 
 class Polymer {
 private:
-	double	feder_konst, _temp;
+	double	m_feder_konst, m_temp;
 	double	force(double r);
 public:
 	Polymer(int length, double temperature);

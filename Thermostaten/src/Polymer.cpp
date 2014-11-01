@@ -40,11 +40,11 @@ monomers(std::vector<Monomer>(length, Monomer(0.0, 0.))) {
 
 Polymer::~Polymer() {}
 
-double Polymer::temp() { return _temp; }
+double Polymer::temp() { return m_temp; }
 
 void Polymer::temp(double temperature) {
-	_temp = temperature;
-	feder_konst = monomer_mass * pow(monomers.size() * _temp * ref_k / ref_hbar, 2);
+	m_temp = temperature;
+	m_feder_konst = monomer_mass * pow(monomers.size() * m_temp * ref_k / ref_hbar, 2);
 }
 
 std::ostream & Polymer::print(std::ostream &os) const {
@@ -55,7 +55,7 @@ std::ostream & Polymer::print(std::ostream &os) const {
 	return os;
 }
 
-double Polymer::force(double r) { return -r*feder_konst; }
+double Polymer::force(double r) { return -r*m_feder_konst; }
 
 void Polymer::update_forces() {
         double force_buf = 0;
