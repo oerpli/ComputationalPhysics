@@ -15,8 +15,8 @@ private:
         double nu, nu_dt, sigma;
         
         std::default_random_engine generator;
-        std::uniform_real_distribution<double>  uniform_real;
-        std::normal_distribution<double>        gauss_real;
+        //std::uniform_real_distribution<double>  uniform_real;
+        //std::normal_distribution<double>        gauss_real;
         
 public:
         double time;
