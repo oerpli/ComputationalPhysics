@@ -56,9 +56,9 @@ std::ostream & Polymer::print(std::ostream &os) const {
 double Polymer::force(double r) { return -r*m_feder_konst; }
 
 void Polymer::update_forces() {
+	for (auto& m : monomers) m.force = 0;
 	unsigned int size = monomers.size();
 	for (unsigned int i = 1; i <= size; i++) {
-		monomers[i - 1].force = 0;
 		double force_buf = force(monomers[i - 1] - monomers[i % size]);
 		monomers[i - 1].force += force_buf; //bin mir da mit dem Vorzeichen nicht sicher!
 		monomers[i % size].force -= force_buf;
