@@ -12,7 +12,7 @@ using namespace std;
 void Polymer::initiate_monomers_random() {
 	double av_velocity = 0.0;
 	for (auto& m : monomers) {
-		m.velocity = drand48() - 0.5;
+		m.velocity = Rand::real_uniform() - 0.5;
 		av_velocity += m.velocity;
 	}
 	av_velocity /= monomers.size();
@@ -56,7 +56,6 @@ std::ostream & Polymer::print(std::ostream &os) const {
 double Polymer::force(double r) { return -r*m_feder_konst; }
 
 void Polymer::update_forces() {
-	//wahrscheinlich durch Optimierung der nächsten Schleife unnötig
 	for (auto& m : monomers) m.force = 0;
 	unsigned int size = monomers.size();
 	for (unsigned int i = 1; i <= size; i++) {

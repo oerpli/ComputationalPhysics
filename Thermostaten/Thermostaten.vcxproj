@@ -13,6 +13,7 @@
   <ItemGroup>
     <ClCompile Include="src\Andersen.cpp" />
     <ClCompile Include="src\Gaussian.cpp" />
+    <ClCompile Include="src\Lowe_Andersen.cpp" />
     <ClCompile Include="src\test.cpp" />
     <ClCompile Include="src\Monomer.cpp" />
     <ClCompile Include="src\Nose_Hoover.cpp" />
@@ -26,6 +27,7 @@
     <ClInclude Include="src\Consts.h" />
     <ClInclude Include="src\Functions.h" />
     <ClInclude Include="src\Gaussian.h" />
+    <ClInclude Include="src\Lowe_Andersen.h" />
     <ClInclude Include="src\Monomer.h" />
     <ClInclude Include="src\Nose_Hoover.h" />
     <ClInclude Include="src\Nose_Hoover_Chain.h" />

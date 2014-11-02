@@ -54,6 +54,9 @@
     <ClCompile Include="src\Rand.cpp">
       <Filter>Source Files\utility</Filter>
     </ClCompile>
+    <ClCompile Include="src\Lowe_Andersen.cpp">
+      <Filter>Source Files\thermostats</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Monomer.h">
@@ -88,6 +91,9 @@
     </ClInclude>
     <ClInclude Include="src\Rand.h">
       <Filter>Header Files\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Lowe_Andersen.h">
+      <Filter>Header Files\thermostats</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
