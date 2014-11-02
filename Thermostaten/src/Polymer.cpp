@@ -38,7 +38,7 @@ monomers(std::vector<Monomer>(length, Monomer(0.0, 0.))) {
 
 Polymer::~Polymer() {}
 
-double Polymer::temp() { return m_temp; }
+double Polymer::temp() const { return m_temp; }
 
 void Polymer::temp(double temperature) {
 	m_temp = temperature;
@@ -53,7 +53,7 @@ std::ostream & Polymer::print(std::ostream &os) const {
 	return os;
 }
 
-double Polymer::force(double r) { return -r*m_feder_konst; }
+double Polymer::force(double r) const { return -r*m_feder_konst; }
 
 void Polymer::update_forces() {
 	for (auto& m : monomers) m.force = 0;

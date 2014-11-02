@@ -11,7 +11,7 @@
 class Polymer {
 private:
 	double	m_feder_konst, m_temp;
-	double	force(double r);
+	double	force(double r) const;
 public:
 	Polymer(unsigned length, double temperature);
 	~Polymer();
@@ -23,7 +23,7 @@ public:
 	void    initiate_monomers_random();
 	void    initiate_monomers_one();
 
-	double	temp();
+	double	temp() const;
 	void	temp(double temperature);
 
 	double	update_ekin();

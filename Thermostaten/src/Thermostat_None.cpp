@@ -14,9 +14,7 @@ void Thermostat_None::propagate() {
 		m.velocity += stepd2*m.force / poly.monomer_mass;
 		m.position += step*m.velocity;
 	}
-
 	poly.update_forces();
-
 	for (auto& m : poly.monomers) {
 		m.velocity += stepd2*m.force / poly.monomer_mass;
 	}
