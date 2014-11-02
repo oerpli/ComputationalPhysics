@@ -2,7 +2,7 @@
 using namespace std;
 
 //Define static members
-mt19937_64 Rand::generator = mt19937_64(chrono::system_clock::now().time_since_epoch().count());
+mt19937_64 Rand::generator(1);
 normal_distribution<double> Rand::dis_normal;
 uniform_real_distribution<double> Rand::dis_uniform;
 uniform_int_distribution<int> Rand::dis_intuniform;

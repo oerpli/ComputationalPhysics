@@ -5,7 +5,7 @@
 
 #include<cmath>
 
-void Thermos_none(Polymer & poly, double time) {
+void Thermos_none(Polymer& poly, double time) {
 	//kein Thermostat Verlet
 	//poly.Calculate_force();
 	//poly.Next_velocity(time / 2);
