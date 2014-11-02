@@ -13,13 +13,13 @@ private:
 	double	m_feder_konst, m_temp;
 	double	force(double r);
 public:
-	Polymer(int length, double temperature);
+	Polymer(unsigned length, double temperature);
 	~Polymer();
 	std::vector<Monomer> monomers;
 	std::ostream & print(std::ostream &os) const; //Wahrscheinlich besser Name Möglich...
 	double	ekin, epot;
 	double monomer_mass;
-        
+
 	void    initiate_monomers_random();
 	void    initiate_monomers_one();
 

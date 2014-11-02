@@ -1,11 +1,11 @@
 #include "Polymer.h"
-
+#include "consts.h"
+#include "Rand.h"
+#include<algorithm>
 #include<cmath>
 #include<iostream>
 #include<stdlib.h>
 #include<vector>
-#include<algorithm>
-#include "consts.h"
 using namespace consts;
 using namespace std;
 
@@ -29,7 +29,7 @@ void Polymer::initiate_monomers_one() { //erstes Monomer großteil der Energie
 	monomers[0].velocity = max_vel;
 }
 
-Polymer::Polymer(int length, double temperature) :
+Polymer::Polymer(unsigned length, double temperature) :
 epot(0),
 monomer_mass(1. / length),
 monomers(std::vector<Monomer>(length, Monomer(0.0, 0.))) {
