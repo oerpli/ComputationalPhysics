@@ -3,7 +3,7 @@
 #include "Polymer.h"
 #include "Monomer.h"
 #include "consts.h"
-#include "Rand.h";
+#include "Rand.h"
 using namespace consts;
 
 #include<cmath>

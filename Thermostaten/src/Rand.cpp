@@ -11,17 +11,15 @@ double Rand::real_normal(){
 	return Rand::dis_normal(Rand::generator);
 }
 double Rand::real_normal(double mean, double std){
-	double rnd = Rand::dis_normal(Rand::generator);
-	return (rnd*std) + mean;
+	return (Rand::real_normal()*std) + mean;
 }
 
 double Rand::real_uniform(){
 	return Rand::dis_uniform(Rand::generator);
 }
 double Rand::real_uniform(double max){
-	return Rand::dis_uniform(Rand::generator)*max;
+	return Rand::real_uniform()*max;
 }
 double Rand::real_uniform(double min, double max){
-	double rnd = Rand::dis_uniform(Rand::generator);
-	return (rnd)*(max - min) + min;
+	return Rand::real_uniform()*(max - min) + min;
 }
