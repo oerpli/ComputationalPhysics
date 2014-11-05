@@ -25,6 +25,7 @@ int main() {
 			cout << "Ekin: " << p_a.update_ekin() << endl;
 			cout << "T: " << p_a.calculate_temp() << endl;
 		}
+return 0;
 		thermostat.propagate();
 	}
 
