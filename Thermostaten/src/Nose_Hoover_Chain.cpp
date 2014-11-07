@@ -22,11 +22,11 @@ Nose_Hoover_Chain::~Nose_Hoover_Chain() {}
 
 void Nose_Hoover_Chain::pos_vel() {
 	for (auto& m : poly.monomers) {
-		m.velocity += m.force*stepd2;
+		m.velocity += m.force*stepd2 / poly.monomer_mass;
 		m.position += m.velocity*step;
 	}
 	poly.update_forces();
-	for (auto& m : poly.monomers) m.velocity += m.force*stepd2;
+	for (auto& m : poly.monomers) m.velocity += m.force*stepd2 / poly.monomer_mass;
 }
 
 void Nose_Hoover_Chain::chain() {

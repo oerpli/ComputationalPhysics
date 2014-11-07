@@ -15,8 +15,8 @@ Nose_Hoover::~Nose_Hoover() {}
 
 void Nose_Hoover::propagate() {
 	for (auto& m : poly.monomers){
-		m.position += step*m.velocity + stepsq*.5*(m.force - eta*m.velocity);
-		m.velocity += step*0.5*(m.force - eta*m.velocity);
+	        m.position += step*m.velocity + stepsq*.5*((m.force / poly.monomer_mass) - eta*m.velocity);
+		m.velocity += step*0.5*((m.force / poly.monomer_mass) - eta*m.velocity);
 	}
 
 	eta += step*(poly.ekin - gkT*0.5) / q;
@@ -24,7 +24,7 @@ void Nose_Hoover::propagate() {
 	eta += step*(poly.ekin - gkT*0.5) / q;
 
 	poly.update_forces();
-	for (auto& m : poly.monomers) m.velocity = 2.0 * (m.velocity + step*0.5*m.force) / (2.0 + step*eta);
+	for (auto& m : poly.monomers) m.velocity = 2.0 * (m.velocity + (step*0.5*m.force / poly.monomer_mass)) / (2.0 + step*eta);
 	poly.update_ekin();
 }
 
