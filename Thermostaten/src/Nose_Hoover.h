@@ -15,7 +15,7 @@ private:
 	double eta;
 
 public:
-	Nose_Hoover(Polymer&, double, double, double);
+	Nose_Hoover(Polymer&, double, double);
 	~Nose_Hoover();
 
 	void propagate();

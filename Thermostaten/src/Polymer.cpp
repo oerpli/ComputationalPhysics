@@ -18,7 +18,7 @@ void Polymer::initiate_monomers_random() {
 	av_velocity /= monomers.size();
 	for (auto& m : monomers) m.velocity -= av_velocity;
 	update_ekin();
-	double scale_factor = sqrt(temp()*monomers.size() / ekin*0.5*ref_k);
+	double scale_factor = sqrt(temp()*monomers.size() / ekin*0.5);
 	for (auto& m : monomers) m.velocity *= scale_factor;
 }
 
@@ -37,6 +37,8 @@ monomers(std::vector<Monomer>(length, Monomer(0.0, 0.))) {
 }
 
 Polymer::~Polymer() {}
+
+double Polymer::feder_konst() const { return m_feder_konst; }
 
 double Polymer::temp() const { return m_temp; }
 
@@ -80,3 +82,4 @@ double Polymer::calculate_temp() const {
 	av_energy *= monomer_mass / 2 / monomers.size();
 	return av_energy / (0.5*ref_k);
 }
+

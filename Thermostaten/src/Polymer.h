@@ -23,6 +23,8 @@ public:
 	void    initiate_monomers_random();
 	void    initiate_monomers_one();
 
+        double feder_konst() const; 
+
 	double	temp() const;
 	void	temp(double temperature);
 

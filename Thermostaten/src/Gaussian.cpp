@@ -8,7 +8,7 @@ using namespace std;
 
 
 Gaussian::Gaussian(Polymer &polymere, double timestep) : poly(polymere), dtime(timestep) {
-	target_temperature = poly.calculate_temp();
+	target_temperature = poly.temp();
 }
 
 void  Gaussian::propagate() {

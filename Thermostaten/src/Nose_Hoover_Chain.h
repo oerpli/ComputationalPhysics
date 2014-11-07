@@ -8,10 +8,10 @@ class Nose_Hoover_Chain {
 
 private:
 	Polymer& poly;
-	double temperature, q1, q2, step, xi1, xi2, nuxi1, nuxi2, g1, g2, stepd2, stepd4, stepd8;
+	double q1, q2, step, xi1, xi2, nuxi1, nuxi2, g1, g2, stepd2, stepd4, stepd8;
 
 public:
-	Nose_Hoover_Chain(Polymer&, double, double, double, double);
+	Nose_Hoover_Chain(Polymer&, double, double, double);
 	~Nose_Hoover_Chain();
 
 	void chain();
