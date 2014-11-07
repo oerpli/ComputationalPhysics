@@ -23,7 +23,7 @@ void Polymer::initiate_monomers_random() {
 }
 
 void Polymer::initiate_monomers_one() { //erstes Monomer großteil der Energie
-	double max_vel = sqrt((monomers.size() - 1)*ref_k*temp() / monomer_mass);
+	double max_vel = sqrt((monomers.size() - 1)*temp() / monomer_mass);
 	double speed = -max_vel / (monomers.size() - 1);
 	for (auto& m : monomers) m.velocity = speed;
 	monomers[0].velocity = max_vel;
@@ -44,7 +44,7 @@ double Polymer::temp() const { return m_temp; }
 
 void Polymer::temp(double temperature) {
 	m_temp = temperature;
-	m_feder_konst = monomer_mass * pow(monomers.size() * m_temp * ref_k / ref_hbar, 2);
+	m_feder_konst = monomer_mass * pow(monomers.size() * m_temp / ref_hbar, 2);
 }
 
 std::ostream & Polymer::print(std::ostream &os) const {
