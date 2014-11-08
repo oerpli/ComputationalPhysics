@@ -1,28 +1,24 @@
 #ifndef ANDERSEN_H
 #define ANDERSEN_H
 
+#include "Thermostat.h"
 #include "Polymer.h"
 #include "consts.h"
 
 #include<cmath>
-#include<random>
 
-
-class Andersen {
+class Andersen : Thermostat {
 private:
-	Polymer& m_poly;
-	double m_dtime, m_dtime2;
+	double m_dtime2;
 	double m_nu, m_nu_dt, m_sigma;
 public:
 	double time;
 
 	Andersen(Polymer &poly, double dtime, double nu);
 
-	double  time_step();
-	double  time_step(double dtime);
-
-	double  update_sigma();
-	void    propagate();
+	double	dtime(double delta_time);
+	double	update_temp();
+	void		propagate();
 };
 #endif 
 
