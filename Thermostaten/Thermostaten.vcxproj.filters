@@ -57,6 +57,9 @@
     <ClCompile Include="src\Lowe_Andersen.cpp">
       <Filter>Source Files\thermostats</Filter>
     </ClCompile>
+    <ClCompile Include="Bussi.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Monomer.h">
@@ -94,6 +97,9 @@
     </ClInclude>
     <ClInclude Include="src\Lowe_Andersen.h">
       <Filter>Header Files\thermostats</Filter>
+    </ClInclude>
+    <ClInclude Include="Bussi.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

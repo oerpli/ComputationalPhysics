@@ -5,7 +5,7 @@ poly(a_polymer),
 q(a_q),
 step(a_step),
 stepsq(a_step*a_step) {
-        gkT = (poly.monomers.size() - 1.0)*poly.temp();
+	gkT = (poly.monomers.size() - 1.0)*poly.temp();
 	eta = 0.0;
 	poly.update_ekin();
 	poly.update_forces();
@@ -15,7 +15,7 @@ Nose_Hoover::~Nose_Hoover() {}
 
 void Nose_Hoover::propagate() {
 	for (auto& m : poly.monomers){
-	        m.position += step*m.velocity + stepsq*.5*((m.force / poly.monomer_mass) - eta*m.velocity);
+		m.position += step*m.velocity + stepsq*.5*((m.force / poly.monomer_mass) - eta*m.velocity);
 		m.velocity += step*0.5*((m.force / poly.monomer_mass) - eta*m.velocity);
 	}
 

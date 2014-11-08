@@ -16,17 +16,18 @@ Lowe_Andersen::Lowe_Andersen(Polymer &poly, double dtime, double nu) : poly(poly
 }
 
 double Lowe_Andersen::update_sigma() {
-	sigma = sqrt(2 *poly.temp() / poly.monomer_mass);
+	sigma = sqrt(2 * poly.temp() / poly.monomer_mass);
 	return sigma;
 }
 
-double  Lowe_Andersen::time_step() { return dtime; }
+double  Lowe_Andersen::time_step() {
+	return dtime;
+}
 
 double  Lowe_Andersen::time_step(double dt) {
 	dtime = dt;
 	dtime2 = dtime / 2;
 	nu_dt = nu*dtime;
-
 	return dtime;
 }
 
@@ -61,7 +62,4 @@ void  Lowe_Andersen::propagate() {
 	for (auto& m : poly.monomers) {
 		m.velocity += dtime2*m.force / poly.monomer_mass;
 	}
-
-
-
 }
