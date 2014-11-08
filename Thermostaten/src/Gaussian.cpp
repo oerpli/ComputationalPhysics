@@ -22,6 +22,6 @@ void  Gaussian::propagate() {
 	for (auto& m : poly.monomers) {
 		m.velocity += dtimehalf*m.force / poly.monomer_mass;
 	}
-	auto scalefactor = sqrt(target_temperature / poly.calculate_temp());
+	auto scalefactor = sqrt(target_temperature / (poly.update_ekin()*2./poly.monomers.size()));
 	for (auto& m : poly.monomers)m.velocity += scalefactor;//velocity rescaling
 }
