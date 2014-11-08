@@ -69,7 +69,10 @@ void Polymer::update_forces() {
 
 double Polymer::update_ekin(){
 	ekin = 0.0;
-	for (auto& m : monomers) ekin += m.velocity*m.velocity; //mass = 1 
+	double av_velocity = 0.0; 
+      	for (auto& m : monomers) av_velocity += m.velocity;
+	av_velocity /= monomers.size();
+	for (auto& m : monomers) ekin += pow(m.velocity-av_velocity, 2);
 	ekin *= monomer_mass*0.5;
 	return ekin;
 }
