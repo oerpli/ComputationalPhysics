@@ -20,21 +20,21 @@ double Lowe_Andersen::update_sigma() {
 	return sigma;
 }
 
-double  Lowe_Andersen::time_step() {
+double Lowe_Andersen::time_step() {
 	return dtime;
 }
 
-double  Lowe_Andersen::time_step(double dt) {
+double Lowe_Andersen::time_step(double dt) {
 	dtime = dt;
 	dtime2 = dtime / 2;
 	nu_dt = nu*dtime;
 	return dtime;
 }
 
-void  Lowe_Andersen::propagate() {
+void Lowe_Andersen::propagate() {
 	double delta_v = 0, therm_v = 0;
-	auto  mi = poly.monomers.begin();
-	auto  mj = mi;
+	auto mi = poly.monomers.begin();
+	auto mj = mi;
 
 	// velocity verlet
 	for (auto& m : poly.monomers) {

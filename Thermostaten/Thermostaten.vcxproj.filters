@@ -28,6 +28,15 @@
     <Filter Include="Source Files\tests">
       <UniqueIdentifier>{c6d816ed-cefc-48d5-901f-2920833cd55e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\thermostats\patrick">
+      <UniqueIdentifier>{154a0eaf-6e55-4e08-b4d2-226ba929bca8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\thermostats\oerpli">
+      <UniqueIdentifier>{eb843315-c5e9-4bcf-a1b3-66451af9d0da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\thermostats\maud">
+      <UniqueIdentifier>{ef31d2e9-16ea-4c7b-a80d-388db098748d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Monomer.cpp">
@@ -36,38 +45,38 @@
     <ClCompile Include="src\Polymer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Andersen.cpp">
-      <Filter>Source Files\thermostats</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Gaussian.cpp">
-      <Filter>Source Files\thermostats</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Nose_Hoover.cpp">
-      <Filter>Source Files\thermostats</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Nose_Hoover_Chain.cpp">
-      <Filter>Source Files\thermostats</Filter>
-    </ClCompile>
     <ClCompile Include="src\Thermostat_None.cpp">
       <Filter>Source Files\thermostats</Filter>
     </ClCompile>
     <ClCompile Include="src\Rand.cpp">
       <Filter>Source Files\utility</Filter>
     </ClCompile>
-    <ClCompile Include="src\Lowe_Andersen.cpp">
-      <Filter>Source Files\thermostats</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Bussi.cpp">
-      <Filter>Source Files\thermostats</Filter>
-    </ClCompile>
     <ClCompile Include="src\test.cpp">
       <Filter>Source Files\tests</Filter>
     </ClCompile>
-    <ClCompile Include="src\Berendsen.cpp">
-      <Filter>Source Files\thermostats</Filter>
-    </ClCompile>
     <ClCompile Include="src\Functions.cpp">
       <Filter>Source Files\utility</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Lowe_Andersen.cpp">
+      <Filter>Source Files\thermostats\patrick</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Andersen.cpp">
+      <Filter>Source Files\thermostats\patrick</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Berendsen.cpp">
+      <Filter>Source Files\thermostats\oerpli</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Bussi.cpp">
+      <Filter>Source Files\thermostats\oerpli</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Gaussian.cpp">
+      <Filter>Source Files\thermostats\oerpli</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Nose_Hoover.cpp">
+      <Filter>Source Files\thermostats\maud</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Nose_Hoover_Chain.cpp">
+      <Filter>Source Files\thermostats\maud</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -9,6 +9,15 @@
 using namespace consts;
 using namespace std;
 
+
+
+Polymer::Polymer(unsigned length, double temperature)
+	: epot(0)
+	, monomer_mass(2. / length)
+	, monomers(std::vector<Monomer>(length, Monomer(0.0, 0.))) {
+	target_temperature(temperature);
+}
+
 void Polymer::initiate_monomers_random() {
 	double av_velocity = 0.0;
 	for (auto& m : monomers) {
@@ -21,22 +30,12 @@ void Polymer::initiate_monomers_random() {
 	double scale_factor = sqrt(target_temperature()*monomers.size() / ekin*0.5);
 	for (auto& m : monomers) m.velocity *= scale_factor;
 }
-
 void Polymer::initiate_monomers_one() { //erstes Monomer großteil der Energie
 	double max_vel = sqrt((monomers.size() - 1)*target_temperature() / monomer_mass);
 	double speed = -max_vel / (monomers.size() - 1);
 	for (auto& m : monomers) m.velocity = speed;
 	monomers[0].velocity = max_vel;
 }
-
-Polymer::Polymer(unsigned length, double temperature) :
-epot(0),
-monomer_mass(2. / length),
-monomers(std::vector<Monomer>(length, Monomer(0.0, 0.))) {
-	target_temperature(temperature);
-}
-
-Polymer::~Polymer() {}
 
 double Polymer::feder_konst() const { return m_feder_konst; }
 

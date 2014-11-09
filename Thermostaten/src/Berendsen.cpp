@@ -11,7 +11,7 @@ Berendsen::Berendsen(Polymer &polymere, double timestep, double coupling_time)
 //1. propagate 1 timestep with velocity verlet
 //2. calculate scaling factor from temperature difference and coupling time (coupling time = 0 => gaussian)
 //3. rescale velocities
-void  Berendsen::propagate() {
+void Berendsen::propagate() {
 	//1. velocity verlet: 
 	auto dtimehalf = dtime*0.5;
 	for (auto& m : poly.monomers) {
