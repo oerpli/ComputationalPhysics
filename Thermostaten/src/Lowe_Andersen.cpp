@@ -16,7 +16,7 @@ Lowe_Andersen::Lowe_Andersen(Polymer &poly, double dtime, double nu) : poly(poly
 }
 
 double Lowe_Andersen::update_sigma() {
-	sigma = sqrt(2 * poly.temp() / poly.monomer_mass);
+	sigma = sqrt(2 * poly.target_temperature() / poly.monomer_mass);
 	return sigma;
 }
 

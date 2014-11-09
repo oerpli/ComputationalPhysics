@@ -7,7 +7,6 @@ class Gaussian {
 private:
 	Polymer& poly;
 	double	dtime;
-	double	target_temperature;
 public:
 	Gaussian(Polymer &poly, double timestep);
 	void    propagate();

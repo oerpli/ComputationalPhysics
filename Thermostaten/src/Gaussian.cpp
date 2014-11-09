@@ -8,7 +8,6 @@ using namespace std;
 
 
 Gaussian::Gaussian(Polymer &polymere, double timestep) : poly(polymere), dtime(timestep) {
-	target_temperature = poly.temp();
 }
 
 void  Gaussian::propagate() {
@@ -22,6 +21,6 @@ void  Gaussian::propagate() {
 	for (auto& m : poly.monomers) {
 		m.velocity += dtimehalf*m.force / poly.monomer_mass;
 	}
-	auto scalefactor = sqrt(target_temperature / (poly.update_ekin()*2./poly.monomers.size()));
+	auto scalefactor = sqrt(poly.target_temperature() / (poly.update_ekin()*2./poly.monomers.size()));
 	for (auto& m : poly.monomers)m.velocity *= scalefactor;//velocity rescaling
 }

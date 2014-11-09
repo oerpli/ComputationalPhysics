@@ -5,7 +5,7 @@ poly(a_polymer),
 q(a_q),
 step(a_step),
 stepsq(a_step*a_step) {
-	gkT = (poly.monomers.size() - 1.0)*poly.temp();
+	gkT = (poly.monomers.size() - 1.0)*poly.target_temperature();
 	eta = 0.0;
 	poly.update_ekin();
 	poly.update_forces();

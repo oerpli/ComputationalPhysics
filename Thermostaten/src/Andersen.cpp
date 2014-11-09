@@ -17,7 +17,7 @@ m_nu(nu) {
 }
 
 double Andersen::update_sigma() {
-	m_sigma = sqrt(m_poly.temp() / m_poly.monomer_mass);
+	m_sigma = sqrt(m_poly.target_temperature() / m_poly.monomer_mass);
 
 	return m_sigma;
 }

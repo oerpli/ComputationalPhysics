@@ -10,7 +10,8 @@
 
 class Polymer {
 private:
-	double	m_feder_konst, m_temp;
+	double	m_feder_konst;
+	double	target_temp;
 	double	force(double r) const;
 public:
 	Polymer(unsigned length, double temperature);
@@ -25,8 +26,8 @@ public:
 
 	double feder_konst() const;
 
-	double	temp() const;
-	void	temp(double temperature);
+	double	target_temperature() const;
+	void	target_temperature(double);
 
 	double	update_ekin();
 	void	update_forces();

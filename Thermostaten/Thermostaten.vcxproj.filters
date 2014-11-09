@@ -25,6 +25,9 @@
     <Filter Include="Header Files\utility">
       <UniqueIdentifier>{52f0dc04-e2bd-41f8-9d4d-54b2616a7119}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\tests">
+      <UniqueIdentifier>{c6d816ed-cefc-48d5-901f-2920833cd55e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Monomer.cpp">
@@ -48,17 +51,29 @@
     <ClCompile Include="src\Thermostat_None.cpp">
       <Filter>Source Files\thermostats</Filter>
     </ClCompile>
-    <ClCompile Include="src\test.cpp">
-      <Filter>Source Files\utility</Filter>
-    </ClCompile>
     <ClCompile Include="src\Rand.cpp">
       <Filter>Source Files\utility</Filter>
     </ClCompile>
     <ClCompile Include="src\Lowe_Andersen.cpp">
       <Filter>Source Files\thermostats</Filter>
     </ClCompile>
-    <ClCompile Include="Bussi.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\Bussi.cpp">
+      <Filter>Source Files\thermostats</Filter>
+    </ClCompile>
+    <ClCompile Include="src\test.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="src\test_andersen.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="src\test_NH.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Thermostat.cpp">
+      <Filter>Source Files\thermostats</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Berendsen.cpp">
+      <Filter>Source Files\thermostats</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -98,8 +113,14 @@
     <ClInclude Include="src\Lowe_Andersen.h">
       <Filter>Header Files\thermostats</Filter>
     </ClInclude>
-    <ClInclude Include="Bussi.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\Bussi.h">
+      <Filter>Header Files\thermostats</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Thermostat.h">
+      <Filter>Header Files\thermostats</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Berendsen.h">
+      <Filter>Header Files\thermostats</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
