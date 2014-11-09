@@ -13,7 +13,7 @@ public:
 	Thermostat(Polymer &poly, double delta_time);
 	
 	double dtime() const;
-	double	dtime(double new_dtime);
+	virtual double	dtime(double new_dtime);
 	virtual double update_temp() = 0;	// für mögliche Erwärmung
 	
 	virtual void propagate() = 0;
