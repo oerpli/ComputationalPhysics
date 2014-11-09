@@ -14,6 +14,7 @@
     <ClCompile Include="src\Andersen.cpp" />
     <ClCompile Include="src\Berendsen.cpp" />
     <ClCompile Include="src\Bussi.cpp" />
+    <ClCompile Include="src\Functions.cpp" />
     <ClCompile Include="src\Gaussian.cpp" />
     <ClCompile Include="src\Lowe_Andersen.cpp" />
     <ClCompile Include="src\test.cpp" />
@@ -22,8 +23,6 @@
     <ClCompile Include="src\Nose_Hoover_Chain.cpp" />
     <ClCompile Include="src\Polymer.cpp" />
     <ClCompile Include="src\Rand.cpp" />
-    <ClCompile Include="src\test_andersen.cpp" />
-    <ClCompile Include="src\test_NH.cpp" />
     <ClCompile Include="src\Thermostat_None.cpp" />
   </ItemGroup>
   <ItemGroup>
