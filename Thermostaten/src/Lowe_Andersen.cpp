@@ -10,56 +10,53 @@ using namespace consts;
 
 using namespace std;
 
-Lowe_Andersen::Lowe_Andersen(Polymer &poly, double dtime, double nu) : poly(poly), nu(nu){
-	time_step(dtime);
-	update_sigma();
+Lowe_Andersen::Lowe_Andersen(Polymer &poly, double dtime, double nu) :
+Thermostat(poly,dtime), 
+m_nu(nu){
+	update_temp();
 }
 
-double Lowe_Andersen::update_sigma() {
-	sigma = sqrt(2 * poly.temp() / poly.monomer_mass);
-	return sigma;
+double Lowe_Andersen::update_temp() {
+	m_sigma = sqrt(2 * m_poly.temp() / m_poly.monomer_mass);
+	return m_sigma;
 }
 
-double  Lowe_Andersen::time_step() {
-	return dtime;
-}
-
-double  Lowe_Andersen::time_step(double dt) {
-	dtime = dt;
-	dtime2 = dtime / 2;
-	nu_dt = nu*dtime;
-	return dtime;
+double  Lowe_Andersen::dtime(double dt) {
+	dtime(dt);
+	m_dtime2 = m_dtime * 0.5;
+	m_nu_dt = m_nu*m_dtime;
+	return m_dtime;
 }
 
 void  Lowe_Andersen::propagate() {
 	double delta_v = 0, therm_v = 0;
-	auto  mi = poly.monomers.begin();
+	auto  mi = m_poly.monomers.begin();
 	auto  mj = mi;
 
 	// velocity verlet
-	for (auto& m : poly.monomers) {
-		m.velocity += dtime2*m.force / poly.monomer_mass;
-		m.position += dtime*m.velocity;
+	for (auto& m : m_poly.monomers) {
+		m.velocity += m_dtime2*m.force / m_poly.monomer_mass;
+		m.position += m_dtime*m.velocity;
 	}
 
 	//Lowe_Andersen
-	for (mi = poly.monomers.begin(); mi != poly.monomers.end(); ++mi) {
-		if (nu_dt < Rand::real_uniform()) continue;
+	for (mi = m_poly.monomers.begin(); mi != m_poly.monomers.end(); ++mi) {
+		if (m_nu_dt < Rand::real_uniform()) continue;
 
 		mj = mi;
 		++mj;
-		if (mj == poly.monomers.end()) mj = poly.monomers.begin();
+		if (mj == m_poly.monomers.end()) mj = m_poly.monomers.begin();
 
 		delta_v = mi->velocity - mj->velocity;
-		therm_v = poly.monomer_mass*0.5*(delta_v - copysign(sigma, delta_v)*Rand::real_normal());
+		therm_v = m_poly.monomer_mass*0.5*(delta_v - copysign(m_sigma, delta_v)*Rand::real_normal());
 
 		mi->velocity += therm_v;
 		mj->velocity -= therm_v;
 	}
 
 	// second half of vel. verlet
-	poly.update_forces();
-	for (auto& m : poly.monomers) {
-		m.velocity += dtime2*m.force / poly.monomer_mass;
+	m_poly.update_forces();
+	for (auto& m : m_poly.monomers) {
+		m.velocity += m_dtime2*m.force / m_poly.monomer_mass;
 	}
 }
