@@ -10,10 +10,10 @@ using namespace consts;
 
 using namespace std;
 
-Lowe_Andersen::Lowe_Andersen(Polymer &poly, double dtime, double nu) :
-Thermostat(poly,dtime), 
+Lowe_Andersen::Lowe_Andersen(Polymer &poly, double delta_time, double nu) :
+Thermostat(poly,delta_time), 
 m_nu(nu){
-	update_temp();
+	dtime(delta_time);
 }
 
 double Lowe_Andersen::update_temp() {
