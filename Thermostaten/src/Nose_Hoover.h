@@ -1,5 +1,5 @@
-#ifndef Nose_Hoover_H
-#define Nose_Hoover_H
+#pragma once
+
 
 #include<cmath>
 #include "Polymer.h"
@@ -20,5 +20,5 @@ public:
 
 	void propagate();
 };
-#endif 
+ 
 

@@ -1,6 +1,4 @@
-#ifndef GAUSSIAN_H
-#define GAUSSIAN_H
-
+#pragma once
 #include "Polymer.h"
 
 class Gaussian {
@@ -11,5 +9,4 @@ public:
 	Gaussian(Polymer &poly, double timestep);
 	void    propagate();
 };
-#endif 
 

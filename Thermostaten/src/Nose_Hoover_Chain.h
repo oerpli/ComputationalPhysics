@@ -1,5 +1,5 @@
-#ifndef Nose_Hoover_Chain_H
-#define Nose_Hoover_Chain_H
+#pragma once
+
 
 #include<cmath> 
 #include "Polymer.h"
@@ -18,4 +18,4 @@ public:
 	void pos_vel();
 	void propagate();
 };
-#endif
+

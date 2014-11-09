@@ -24,7 +24,6 @@
     <ClCompile Include="src\Rand.cpp" />
     <ClCompile Include="src\test_andersen.cpp" />
     <ClCompile Include="src\test_NH.cpp" />
-    <ClCompile Include="src\Thermostat.cpp" />
     <ClCompile Include="src\Thermostat_None.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -40,7 +39,6 @@
     <ClInclude Include="src\Nose_Hoover_Chain.h" />
     <ClInclude Include="src\Polymer.h" />
     <ClInclude Include="src\Rand.h" />
-    <ClInclude Include="src\Thermostat.h" />
     <ClInclude Include="src\Thermostate.h" />
     <ClInclude Include="src\Thermostat_None.h" />
   </ItemGroup>

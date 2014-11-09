@@ -1,6 +1,4 @@
-#ifndef CONSTS_H
-#define CONSTS_H
-
+#pragma once
 namespace consts{
 	const double ref_length = 1E-9;	//in m... 1nm
 	const double ref_mass = 1.66054E-27; 	//in kg... 1u
@@ -15,4 +13,3 @@ namespace consts{
 	const double ref_eV = 96.4853;	//1eV=ref_eV	
 }
 
-#endif

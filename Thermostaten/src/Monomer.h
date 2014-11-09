@@ -1,5 +1,4 @@
-#ifndef Monomer_H
-#define Monomer_H
+#pragma once
 
 #include<iostream>
 
@@ -15,5 +14,5 @@ struct Monomer {
 double operator-(const Monomer & m1, const Monomer &m2);
 std::ostream & print_m(const Monomer &mono, std::ostream &os); //Wahrscheinlich besser Name Möglich...
 
-#endif
+
 

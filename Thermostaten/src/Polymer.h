@@ -1,5 +1,5 @@
-#ifndef Polymer_H
-#define Polymer_H
+#pragma once
+
 
 #include "Monomer.h"
 #include "consts.h"
@@ -34,4 +34,4 @@ public:
 
 	double calculate_temp() const;
 };
-#endif
+

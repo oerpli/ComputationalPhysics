@@ -1,5 +1,5 @@
-#ifndef Thermostate_H
-#define Thermostate_H
+#pragma once
+
 
 #include "Polymer.h"
 
@@ -14,4 +14,4 @@ void Thermos_none(Polymer& poly, double time) {
 	//poly.Next_velocity(time / 2);
 } //Thermos_none
 
-#endif
+

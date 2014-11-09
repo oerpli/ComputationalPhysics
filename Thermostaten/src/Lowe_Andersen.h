@@ -1,5 +1,5 @@
-#ifndef LOWE_ANDERSEN_H
-#define LOWE_ANDERSEN_H
+#pragma once
+
 
 #include "Polymer.h"
 #include "consts.h"
@@ -24,5 +24,5 @@ public:
 	double  update_sigma();
 	void    propagate();
 };
-#endif 
+ 
 

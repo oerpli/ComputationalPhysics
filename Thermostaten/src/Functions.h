@@ -1,5 +1,4 @@
-#ifndef Functions_H
-#define Functions_H
+#pragma once
 
 #include "Thermostate.h"
 #include "Polymer.h" //redundant Thermostat
@@ -20,4 +19,4 @@ ostream& operator<<(ostream& os, const Polymer & poly) {
 	return os;
 }
 
-#endif
+

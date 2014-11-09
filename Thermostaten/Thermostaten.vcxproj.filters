@@ -69,9 +69,6 @@
     <ClCompile Include="src\test_NH.cpp">
       <Filter>Source Files\tests</Filter>
     </ClCompile>
-    <ClCompile Include="src\Thermostat.cpp">
-      <Filter>Source Files\thermostats</Filter>
-    </ClCompile>
     <ClCompile Include="src\Berendsen.cpp">
       <Filter>Source Files\thermostats</Filter>
     </ClCompile>
@@ -114,9 +111,6 @@
       <Filter>Header Files\thermostats</Filter>
     </ClInclude>
     <ClInclude Include="src\Bussi.h">
-      <Filter>Header Files\thermostats</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Thermostat.h">
       <Filter>Header Files\thermostats</Filter>
     </ClInclude>
     <ClInclude Include="src\Berendsen.h">

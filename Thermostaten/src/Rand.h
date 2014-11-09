@@ -1,4 +1,5 @@
-#ifndef Rand_H
+#pragma once
+
 
 #include <random>
 #include <chrono>
@@ -20,5 +21,3 @@ public:
 	static double real_uniform(double);
 	static double real_uniform(double, double);
 };
-
-#endif

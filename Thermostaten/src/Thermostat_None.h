@@ -1,5 +1,5 @@
-#ifndef Thermostat_None_H
-#define Thermostat_None_H
+#pragma once
+
 
 #include "Polymer.h"
 #include<cmath>
@@ -17,4 +17,4 @@ public:
 
 	void propagate();
 };
-#endif 
+ 
