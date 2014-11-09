@@ -7,21 +7,28 @@ using namespace consts;
 using namespace std;
 
 
-Gaussian::Gaussian(Polymer &polymere, double timestep) : poly(polymere), dtime(timestep) {
-	target_temperature = poly.temp();
+Gaussian::Gaussian(Polymer &poly, double delta_time) : Thermostat(poly,delta_time) {
+	update_temp();
+	dtime(delta_time);
+}
+
+double Gaussian::update_temp() {return m_target_temperature = m_poly.temp();}
+
+double Gaussian::dtime(double delta_time) {
+	Thermostat::dtime(delta_time);
+	m_dtime_half=m_dtime * 0.5;
 }
 
 void  Gaussian::propagate() {
-	auto dtimehalf = dtime*0.5;
 	// velocity verlet //kopiert von thermostat_none::propagate()
-	for (auto& m : poly.monomers) {
-		m.velocity += dtimehalf*m.force / poly.monomer_mass;
-		m.position += dtime*m.velocity;
+	for (auto& m : m_poly.monomers) {
+		m.velocity += m_dtime_half*m.force / m_poly.monomer_mass;
+		m.position += m_dtime*m.velocity;
 	}
-	poly.update_forces();
-	for (auto& m : poly.monomers) {
-		m.velocity += dtimehalf*m.force / poly.monomer_mass;
+	m_poly.update_forces();
+	for (auto& m : m_poly.monomers) {
+		m.velocity += m_dtime_half*m.force / m_poly.monomer_mass;
 	}
-	auto scalefactor = sqrt(target_temperature / (poly.update_ekin()*2./poly.monomers.size()));
-	for (auto& m : poly.monomers)m.velocity *= scalefactor;//velocity rescaling
+	auto scalefactor = sqrt(m_target_temperature / (m_poly.update_ekin()*2./m_poly.monomers.size()));
+	for (auto& m : m_poly.monomers)m.velocity *= scalefactor;//velocity rescaling
 }

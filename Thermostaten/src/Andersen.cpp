@@ -13,6 +13,7 @@ using namespace std;
 Andersen::Andersen(Polymer &poly, double delta_time, double nu) : 
 Thermostat(poly,delta_time),
 m_nu(nu) {
+	update_temp();
 	dtime(delta_time);
 }
 
