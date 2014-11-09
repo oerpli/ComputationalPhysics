@@ -14,9 +14,9 @@ public:
 	
 	double dtime() const;
 	double	dtime(double new_dtime);
-	double update_temp();	// für mögliche Erwärmung
+	virtual double update_temp() = 0;	// für mögliche Erwärmung
 	
-	void propagate();
+	virtual void propagate() = 0;
 };
 
 #endif
