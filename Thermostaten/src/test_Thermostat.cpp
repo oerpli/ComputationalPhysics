@@ -35,7 +35,8 @@ ostream& operator<<(ostream& os, const Polymer & poly) {
 
 /* ######################### */
 int main(int argc, char* argv[]) {
-	double a_para[]{4, 20, 1E-15, 1E6};  //default für p,Temp,dtime,runs
+	//default für    p,Temp,dtime,runs,warmlauf
+	double a_para[]{4, 20, 1E-15, 1E6, 1E3};  
 	int			i_para{1};
 	string  s_para{}, s_therm{};
 	string	s_temp{}, s_pos_vel{};
@@ -43,7 +44,7 @@ int main(int argc, char* argv[]) {
 	Thermostat *thermostat{};
 	
 	// Bestimmen der Parameter zur Initialisierung von Poly und Thermostat
-	for (i_para=1; i_para<min(5,argc); ++i_para) {
+	for (i_para=1; i_para<min(6,argc); ++i_para) {
 		if ( is_number(argv[i_para]) ) a_para[i_para-1]=stod(argv[i_para]);
 		else break;
 	}
@@ -103,6 +104,10 @@ int main(int argc, char* argv[]) {
 	
 	s_pos_vel = s_therm + "_pos_vel" + s_para + ".dat";
 	dat_pos_vel.open(s_pos_vel, ios::out | ios::trunc);
+	
+	// Simulation
+	for (int i = 0; i < a_para[4]; ++i) thermostat->propagate();
+	cout << "Warmlauf abgeschlossen" << endl;
 	
 	int index_print{a_para[3]*1E-1*4};	
 	for (int i = 0; i < a_para[3]; i++) {
