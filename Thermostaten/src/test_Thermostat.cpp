@@ -14,6 +14,7 @@ using namespace consts;
 #include <algorithm>
 #include <cmath>
 #include <string>
+#include <cstring>
 using namespace std;
 
 
