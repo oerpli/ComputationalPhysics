@@ -2,6 +2,7 @@
 #include "Polymer.h"
 #include "Monomer.h"
 #include "consts.h"
+#include <string>
 
 using namespace consts;
 using namespace std;
@@ -13,6 +14,7 @@ Gaussian::Gaussian(Polymer &poly, double delta_time)
 	dtime(delta_time);
 }
 
+
 void Gaussian::update_temp() {
 	m_target_temperature = m_poly.target_temperature();
 }
@@ -22,7 +24,7 @@ void Gaussian::dtime(double delta_time) {
 	m_dtime_half = m_dtime * 0.5;
 }
 
-void  Gaussian::propagate() {
+void Gaussian::propagate() {
 	// velocity verlet //kopiert von thermostat_none::propagate()
 	for (auto& m : m_poly.monomers) {
 		m.velocity += m_dtime_half*m.force / m_poly.monomer_mass;

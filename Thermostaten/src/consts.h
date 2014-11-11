@@ -4,7 +4,7 @@
 namespace consts{
 	const double ref_length = 1E-9;	//in m... 1nm
 	const double ref_mass = 1.66054E-27; 	//in kg... 1u
-	const double ref_temp = 1;	        //in °K
+	const double ref_temp = 1;	 //in °K
 	const double ref_time = 1E-12;	//in s... 1ps
 
 	const double ref_hbar = 0.0635078;

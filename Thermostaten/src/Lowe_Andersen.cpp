@@ -27,10 +27,10 @@ void Lowe_Andersen::dtime(double dt) {
 	m_nu_dt = m_nu*m_dtime*exp(-m_dtime*m_nu);
 }
 
-void  Lowe_Andersen::propagate() {
+void Lowe_Andersen::propagate() {
 	double delta_v = 0, therm_v = 0;
-	auto  mi = m_poly.monomers.begin();
-	auto  mj = mi;
+	auto mi = m_poly.monomers.begin();
+	auto mj = mi;
 
 	// velocity verlet
 	for (auto& m : m_poly.monomers) {

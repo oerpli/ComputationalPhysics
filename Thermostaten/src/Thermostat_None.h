@@ -1,5 +1,4 @@
-#ifndef Thermostat_None_H
-#define Thermostat_None_H
+#pragma once
 
 #include "Thermostat.h"
 #include "Polymer.h"
@@ -16,4 +15,3 @@ public:
 	void	dtime(double delta_time);
 	void 	propagate();
 };
-#endif 

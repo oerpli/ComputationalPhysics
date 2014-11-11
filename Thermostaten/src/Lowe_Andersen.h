@@ -1,5 +1,4 @@
-#ifndef LOWE_ANDERSEN_H
-#define LOWE_ANDERSEN_H
+#pragma once
 
 #include "Thermostat.h"
 
@@ -20,5 +19,3 @@ public:
 	void	update_temp();
 	void	propagate();
 };
-#endif 
-

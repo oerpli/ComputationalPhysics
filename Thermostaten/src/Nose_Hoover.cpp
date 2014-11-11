@@ -8,8 +8,8 @@ m_eta(0.0)
 {
 	update_temp();
 	dtime(delta_time);
-	m_poly.update_ekin();
-	m_poly.update_forces();
+	poly.update_ekin();
+	poly.update_forces();
 }
 
 Nose_Hoover::~Nose_Hoover() {}

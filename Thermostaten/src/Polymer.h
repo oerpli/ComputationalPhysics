@@ -19,12 +19,12 @@ public:
 	std::vector<Monomer> monomers;
 	std::ostream & print(std::ostream &os) const; //Wahrscheinlich besser Name Möglich...
 	double	ekin, epot;
-	double monomer_mass;
+	double	monomer_mass;
 
-	void    initiate_monomers_random();
-	void    initiate_monomers_one();
+	void	initiate_monomers_random();
+	void	initiate_monomers_one();
 
-	double feder_konst() const;
+	double	feder_konst() const;
 
 	double	target_temperature() const;
 	void	target_temperature(double temperature);

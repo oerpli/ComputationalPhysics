@@ -13,17 +13,16 @@ using namespace consts;
 #include <fstream>
 #include <algorithm>
 #include <cmath>
-#include <stdlib.h>     // atof
-#include <cstring> //strcmp
+#include <string>
 using namespace std;
 
 
 /* ######################### */
 int main(int argc, char* argv[]) {
-	//default für    p,Temp,dtime,runs,warmlauf
+	//default für  p,Temp,dtime,runs,warmlauf
 	double a_para[]{4, 20, 1E-15, 1E6, 1E3};
 	int			i_para{ 1 };
-	string  s_para{}, s_therm{};
+	string s_para{}, s_therm{};
 	string	s_temp{}, s_pos_vel{};
 	ofstream dat_temp{}, dat_pos_vel{};
 	Thermostat *thermostat{};
@@ -94,7 +93,7 @@ int main(int argc, char* argv[]) {
 	for (int i = 0; i < a_para[4]; ++i) thermostat->propagate();
 	cout << "Warmlauf abgeschlossen" << endl;
 
-	int index_print{ a_para[3] * 1E-1 * 4 };
+	int index_print{ (int)(a_para[3] * 4E-1) };
 	for (int i = 0; i < a_para[3]; i++) {
 		dat_temp << i*a_para[2] << " " << poly.calculate_temp() << endl;
 		dat_pos_vel << poly;

@@ -1,5 +1,4 @@
-#ifndef Nose_Hoover_H
-#define Nose_Hoover_H
+#pragma once
 
 #include "Thermostat.h"
 
@@ -22,5 +21,3 @@ public:
 	void	update_temp();
 	void	propagate();
 };
-#endif 
-

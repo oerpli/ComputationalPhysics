@@ -31,25 +31,24 @@ void Nose_Hoover_Chain::pos_vel() {
 void Nose_Hoover_Chain::chain() {
 	poly.update_ekin();
 	g2 = (q1*nuxi1*nuxi1 - poly.target_temperature()) / q2;
-	nuxi2 += g2*stepd4;            // L_G2 
-	nuxi1 *= exp(-nuxi2*stepd8);    // L_nuxi1
+	nuxi2 += g2*stepd4;				// L_G2 
+	nuxi1 *= exp(-nuxi2*stepd8);	// L_nuxi1
 	g1 = (2.0*poly.ekin - (poly.monomers.size() - 1)*poly.target_temperature()) / q1;
-	nuxi1 += g1*stepd4;           // L_G1
-	nuxi1 *= exp(-nuxi2*stepd8);    // L_nuxi1
-	xi1 += nuxi1*stepd2;            // L_xi
-	xi2 += nuxi2*stepd2;           // L_xi
+	nuxi1 += g1*stepd4;				// L_G1
+	nuxi1 *= exp(-nuxi2*stepd8);	// L_nuxi1
+	xi1 += nuxi1*stepd2;			// L_xi
+	xi2 += nuxi2*stepd2;			// L_xi
 	double s = exp(-nuxi1*stepd2);
 
 	for (auto& m : poly.monomers) m.velocity *= s;// L_Cv
 
-	nuxi1 *= exp(-nuxi2*stepd8);    // L_nuxi1
+	nuxi1 *= exp(-nuxi2*stepd8);	// L_nuxi1
 	poly.update_ekin();
 	g1 = (2.0*poly.ekin - (poly.monomers.size() - 1)*poly.target_temperature()) / q1;
-	nuxi1 += g1*stepd4;           // L_G1
-	nuxi1 *= exp(-nuxi2*stepd8);    // L_nuxi1
+	nuxi1 += g1*stepd4;				// L_G1
+	nuxi1 *= exp(-nuxi2*stepd8);	// L_nuxi1
 	g2 = (q1*nuxi1*nuxi1 - poly.target_temperature()) / q2;
-	nuxi2 += g2*stepd4;            // L_G2 
-	return;
+	nuxi2 += g2*stepd4;				// L_G2 
 }
 
 void Nose_Hoover_Chain::propagate() {
