@@ -18,14 +18,14 @@ m_nu(nu){
 }
 
 double Lowe_Andersen::update_temp() {
-	m_sigma = sqrt(2 * m_poly.temp() / m_poly.monomer_mass);
+	m_sigma = sqrt(m_poly.temp() / m_poly.monomer_mass);
 	return m_sigma;
 }
 
 double  Lowe_Andersen::dtime(double dt) {
-	dtime(dt);
+	Thermostat::dtime(dt);
 	m_dtime2 = m_dtime * 0.5;
-	m_nu_dt = m_nu*m_dtime;
+	m_nu_dt = m_nu*m_dtime*exp(-m_dtime*m_nu);
 	return m_dtime;
 }
 
@@ -48,11 +48,12 @@ void  Lowe_Andersen::propagate() {
 		++mj;
 		if (mj == m_poly.monomers.end()) mj = m_poly.monomers.begin();
 
-		delta_v = mi->velocity - mj->velocity;
-		therm_v = m_poly.monomer_mass*0.5*(delta_v - copysign(m_sigma, delta_v)*Rand::real_normal());
-
-		mi->velocity += therm_v;
-		mj->velocity -= therm_v;
+//		delta_v = mi->velocity - mj->velocity;
+//		therm_v = m_poly.monomer_mass*0.5*(delta_v - copysign(m_sigma, delta_v)*Rand::real_normal());
+		therm_v=Rand::real_normal(0,m_sigma);
+		
+		mi->velocity = therm_v;
+		mj->velocity = -therm_v;
 	}
 
 	// second half of vel. verlet

@@ -23,11 +23,10 @@ double Andersen::update_temp() {
 	return m_sigma;
 }
 
-double  Andersen::dtime(double delta_time) {
-	Thermostat::dtime(delta_time);
-	m_dtime2 = m_dtime / 2;
+double  Andersen::dtime(double dt) {
+	Thermostat::dtime(dt);
+	m_dtime2 = m_dtime * 0.5;
 	m_nu_dt = m_nu*m_dtime;
-
 	return m_dtime;
 }
 

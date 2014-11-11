@@ -16,7 +16,7 @@ public:
 
 	Andersen(Polymer &poly, double dtime, double nu);
 
-	double	dtime(double delta_time);
+	double	dtime(double dt);
 	double	update_temp();
 	void		propagate();
 };
