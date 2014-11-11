@@ -50,7 +50,7 @@ int main(int argc, char* argv[]) {
 
 	Gaussian gaussian_therm{ poly, a_para[2] };
 
-	double q_def{ poly.monomers.size()*poly.temp()*ref_time / 1E-14 };
+	double q_def{ poly.monomers.size()*poly.target_temperature()*ref_time / 1E-14 };
 	double q{ set_param(q_def, argv, argc, i_para + 1) };
 	Nose_Hoover nose_hoover_therm{ poly, a_para[2], q };
 
