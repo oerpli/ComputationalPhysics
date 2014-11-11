@@ -64,4 +64,5 @@ print -p "quit"
 
 wait
 
+print "<< Das Bild '$outF' wurde erstellt."
 eog $outF &

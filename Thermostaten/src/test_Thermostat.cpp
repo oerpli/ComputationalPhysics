@@ -123,8 +123,8 @@ int main(int argc, char* argv[]) {
 		thermostat->propagate();
 	}
 	
-	cout << "Die Datei '" << s_temp << "' wurde erstellt." << endl;
-	cout << "Die Datei '" << s_pos_vel << "' wurde erstellt." << endl;
+	cout << "<< Die Datei '" << s_temp << "' wurde erstellt." << endl;
+	cout << "<< Die Datei '" << s_pos_vel << "' wurde erstellt." << endl;
 	
 	dat_temp.close();
 	dat_pos_vel.close();
