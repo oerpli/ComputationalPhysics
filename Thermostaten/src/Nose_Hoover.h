@@ -6,7 +6,7 @@
 #include<cmath>
 #include "Polymer.h"
 
-class Nose_Hoover : Thermostat {
+class Nose_Hoover : public Thermostat {
 
 private:
 	double m_q;

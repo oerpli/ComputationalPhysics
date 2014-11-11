@@ -7,7 +7,7 @@
 
 #include<cmath>
 
-class Lowe_Andersen : Thermostat {
+class Lowe_Andersen : public Thermostat {
 private:
 	double m_dtime2;
 	double m_nu, m_nu_dt, m_sigma;

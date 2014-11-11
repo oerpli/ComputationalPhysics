@@ -5,7 +5,7 @@
 
 #include "Polymer.h"
 
-class Gaussian : Thermostat{
+class Gaussian : public Thermostat{
 private:
 	double	m_target_temperature;
 	double m_dtime_half;
