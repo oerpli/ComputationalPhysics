@@ -5,6 +5,7 @@
 #include "Functions.h"
 #include "Thermostat_None.h"
 #include "Andersen.h"
+#include "Lowe_Andersen.h"
 #include "Nose_Hoover.h"
 #include "Nose_Hoover_Chain.h"
 #include "consts.h"
@@ -23,25 +24,29 @@ int main() {
 	cout << "T nach skalierung: " << p_a.calculate_temp() << endl;
 	double step = 1E-15 / ref_time;
 	cout << "step = " << step << endl;
-	Andersen thermostat(p_a, step, 0.1);
-	MyFile.open("Andersen_temp_p=4_T=20.dat", ios::out | ios::trunc);
-	MyFile2.open("Andersen_pos_vel_p=4_T=20.dat", ios::out | ios::trunc);
+	Lowe_Andersen thermostat(p_a, step, 1./4./step);
+	cout << "Lowe_Andersen" << endl;
+	MyFile.open("Lowe_Andersen_temp_p4_T20.dat", ios::out | ios::trunc);
+	MyFile2.open("Lowe_Andersen_pos_vel_p4_T20.dat", ios::out | ios::trunc);
 
-	for (int i = 0; i < 1E9; i++) {
-		if (!(i % (int)1E3)) {
+
+	double av_velocity = 0.0;
+	int runs=(int) 1E6;
+	for (int i = 0; i < runs; i++) {
+		MyFile << i*step << " " << p_a.calculate_temp() << endl;
+		if (!(i % (int)(runs*1E-2))) {
 			cout << endl << i << endl;
 			//cout << endl << p_a;
 			cout << "Ekin: " << p_a.update_ekin() << endl;
 			cout << "T: " << p_a.calculate_temp() << endl;
-			MyFile << i*step << " " << p_a.calculate_temp() << endl;
-			double av_velocity = 0.0;
+			av_velocity = 0.0;
 			for (auto& m : p_a.monomers) av_velocity += m.velocity;
 			av_velocity /= p_a.monomers.size();
-			for (unsigned int i = 1; i <= p_a.monomers.size(); i++) {
-				MyFile2 << p_a.monomers[i].position - p_a.monomers[i - 1].position << " " << p_a.monomers[i].velocity - av_velocity << endl;
-			}
-			MyFile2 << p_a.monomers[0].position - p_a.monomers.back().position << " " << p_a.monomers[0].velocity - av_velocity << endl;
 		}
+		for (unsigned int i = 1; i <= p_a.monomers.size(); i++) {
+			MyFile2 << p_a.monomers[i].position - p_a.monomers[i - 1].position << " " << p_a.monomers[i].velocity - av_velocity << endl;
+		}
+		MyFile2 << p_a.monomers[0].position - p_a.monomers.back().position << " " << p_a.monomers[0].velocity - av_velocity << endl;
 		thermostat.propagate();
 	}
 	MyFile.close();
