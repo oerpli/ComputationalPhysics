@@ -1,22 +1,27 @@
 #include "Thermostat_None.h"
 
-Thermostat_None::Thermostat_None(Polymer& a_polymer, double a_step) :
-poly(a_polymer),
-step(a_step),
-stepd2(0.5*a_step) {
-	poly.update_forces();
+Thermostat_None::Thermostat_None(Polymer& poly, double delta_time) :
+Thermostat(poly,delta_time) 
+{
+	update_temp();
+	dtime(delta_time);
 }
 
-Thermostat_None::~Thermostat_None() {}
+double Thermostat_None::update_temp() {return m_poly.temp();}
+
+double Thermostat_None::dtime(double delta_time) {
+	Thermostat::dtime(delta_time);
+	m_dtime_half=m_dtime * 0.5;
+}
 
 void Thermostat_None::propagate() {
-	for (auto& m : poly.monomers) {
-		m.velocity += stepd2*m.force / poly.monomer_mass;
-		m.position += step*m.velocity;
+	for (auto& m : m_poly.monomers) {
+		m.velocity += m_dtime_half*m.force / m_poly.monomer_mass;
+		m.position += m_dtime*m.velocity;
 	}
-	poly.update_forces();
-	for (auto& m : poly.monomers) {
-		m.velocity += stepd2*m.force / poly.monomer_mass;
+	m_poly.update_forces();
+	for (auto& m : m_poly.monomers) {
+		m.velocity += m_dtime_half*m.force / m_poly.monomer_mass;
 	}
 }
 

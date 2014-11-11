@@ -1,20 +1,19 @@
 #ifndef Thermostat_None_H
 #define Thermostat_None_H
 
+#include "Thermostat.h"
 #include "Polymer.h"
 #include<cmath>
 
-class Thermostat_None {
+class Thermostat_None : public Thermostat {
 
 private:
-	Polymer& poly;
-	double step;
-	double stepd2;
+	double m_dtime_half;
 
 public:
-	Thermostat_None(Polymer&, double);
-	~Thermostat_None();
-
-	void propagate();
+	Thermostat_None(Polymer& poly, double delta_time);
+	double	update_temp();
+	double dtime(double delta_time);
+	void 		propagate();
 };
 #endif 
