@@ -8,6 +8,6 @@ private:
 	double	couplingtime;
 public:
 	Berendsen(Polymer &poly, double dtime, double couplingtime);
-	void    propagate();
+	void	propagate();
 };
 

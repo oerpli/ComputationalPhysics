@@ -12,8 +12,8 @@ private:
 
 public:
 	Thermostat_None(Polymer& poly, double delta_time);
-	double	update_temp();
-	double dtime(double delta_time);
-	void 		propagate();
+	void	update_temp();
+	void	dtime(double delta_time);
+	void 	propagate();
 };
 #endif 

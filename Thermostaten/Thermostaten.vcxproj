@@ -11,21 +11,23 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Bussi.cpp" />
     <ClCompile Include="src\Andersen.cpp" />
+    <ClCompile Include="src\Berendsen.cpp" />
+    <ClCompile Include="src\Functions.cpp" />
     <ClCompile Include="src\Gaussian.cpp" />
     <ClCompile Include="src\Lowe_Andersen.cpp" />
-    <ClCompile Include="src\test.cpp" />
     <ClCompile Include="src\Monomer.cpp" />
     <ClCompile Include="src\Nose_Hoover.cpp" />
     <ClCompile Include="src\Nose_Hoover_Chain.cpp" />
     <ClCompile Include="src\Polymer.cpp" />
     <ClCompile Include="src\Rand.cpp" />
+    <ClCompile Include="src\test_Thermostat.cpp" />
+    <ClCompile Include="src\Thermostat.cpp" />
     <ClCompile Include="src\Thermostat_None.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Bussi.h" />
     <ClInclude Include="src\Andersen.h" />
+    <ClInclude Include="src\Berendsen.h" />
     <ClInclude Include="src\Consts.h" />
     <ClInclude Include="src\Functions.h" />
     <ClInclude Include="src\Gaussian.h" />
@@ -35,7 +37,7 @@
     <ClInclude Include="src\Nose_Hoover_Chain.h" />
     <ClInclude Include="src\Polymer.h" />
     <ClInclude Include="src\Rand.h" />
-    <ClInclude Include="src\Thermostate.h" />
+    <ClInclude Include="src\Thermostat.h" />
     <ClInclude Include="src\Thermostat_None.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

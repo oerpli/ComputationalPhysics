@@ -48,17 +48,23 @@
     <ClCompile Include="src\Thermostat_None.cpp">
       <Filter>Source Files\thermostats</Filter>
     </ClCompile>
-    <ClCompile Include="src\test.cpp">
-      <Filter>Source Files\utility</Filter>
-    </ClCompile>
     <ClCompile Include="src\Rand.cpp">
       <Filter>Source Files\utility</Filter>
     </ClCompile>
     <ClCompile Include="src\Lowe_Andersen.cpp">
       <Filter>Source Files\thermostats</Filter>
     </ClCompile>
-    <ClCompile Include="Bussi.cpp">
+    <ClCompile Include="src\test_Thermostat.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Berendsen.cpp">
+      <Filter>Source Files\thermostats</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Thermostat.cpp">
+      <Filter>Source Files\thermostats</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Functions.cpp">
+      <Filter>Source Files\utility</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -80,9 +86,6 @@
     <ClInclude Include="src\Thermostat_None.h">
       <Filter>Header Files\thermostats</Filter>
     </ClInclude>
-    <ClInclude Include="src\Thermostate.h">
-      <Filter>Header Files\thermostats</Filter>
-    </ClInclude>
     <ClInclude Include="src\Gaussian.h">
       <Filter>Header Files\thermostats</Filter>
     </ClInclude>
@@ -98,8 +101,11 @@
     <ClInclude Include="src\Lowe_Andersen.h">
       <Filter>Header Files\thermostats</Filter>
     </ClInclude>
-    <ClInclude Include="Bussi.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\Thermostat.h">
+      <Filter>Header Files\thermostats</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Berendsen.h">
+      <Filter>Header Files\thermostats</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

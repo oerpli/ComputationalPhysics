@@ -11,8 +11,8 @@ private:
 	double m_dtime_half;
 public:
 	Gaussian(Polymer &poly, double delta_time);
-	double	update_temp();
-	double dtime(double delta_time);
+	void	update_temp();
+	void	dtime(double delta_time);
 	void    propagate();
 };
 #endif 

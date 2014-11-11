@@ -18,40 +18,40 @@ void Polymer::initiate_monomers_random() {
 	av_velocity /= monomers.size();
 	for (auto& m : monomers) m.velocity -= av_velocity;
 	update_ekin();
-	double scale_factor = sqrt(temp()*monomers.size() / ekin*0.5);
+	double scale_factor = sqrt(target_temperature()*monomers.size() / ekin*0.5);
 	for (auto& m : monomers) m.velocity *= scale_factor;
 }
 
 void Polymer::initiate_monomers_one() { //erstes Monomer großteil der Energie
-	double max_vel = sqrt((monomers.size() - 1)*temp() / monomer_mass);
+	double max_vel = sqrt((monomers.size() - 1)*target_temperature() / monomer_mass);
 	double speed = -max_vel / (monomers.size() - 1);
 	for (auto& m : monomers) m.velocity = speed;
 	monomers[0].velocity = max_vel;
 }
 
-Polymer::Polymer(unsigned length, double temperature) :
-epot(0),
-monomer_mass(2. / length),
-monomers(std::vector<Monomer>(length, Monomer(0.0, 0.))) {
-	temp(temperature);
+Polymer::Polymer(unsigned length, double temperature)
+	: epot(0)
+	, monomer_mass(2. / length)
+	, monomers(std::vector<Monomer>(length, Monomer(0.0, 0.))) {
+	target_temperature(temperature);
 }
 
 Polymer::~Polymer() {}
 
 double Polymer::feder_konst() const { return m_feder_konst; }
 
-double Polymer::temp() const { return m_target_temp; }
+double Polymer::target_temperature() const { return m_target_temp; }
 
-void Polymer::temp(double temperature) {
+void Polymer::target_temperature(double temperature) {
 	m_target_temp = temperature*ref_k;
 	m_feder_konst = monomer_mass * pow(monomers.size() * m_target_temp / ref_hbar, 2);
 }
 
 std::ostream & Polymer::print(std::ostream &os) const {
-	auto mi=monomers.begin(), mj=monomers.begin(), mend=monomers.end();
+	auto mi = monomers.begin(), mj = monomers.begin(), mend = monomers.end();
 	++mj;
-	for ( ; mi != mend ; ++mi, ++mj) {
-		if ( mj==monomers.end() ) mj = monomers.begin();
+	for (; mi != mend; ++mi, ++mj) {
+		if (mj == monomers.end()) mj = monomers.begin();
 		print_m(*mi, os);
 		os << "  " << *mj - *mi << std::endl;
 	}

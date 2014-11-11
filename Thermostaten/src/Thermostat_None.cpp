@@ -1,17 +1,17 @@
 #include "Thermostat_None.h"
 
-Thermostat_None::Thermostat_None(Polymer& poly, double delta_time) :
-Thermostat(poly,delta_time) 
-{
+Thermostat_None::Thermostat_None(Polymer& poly, double delta_time)
+	: Thermostat(poly, delta_time){
 	update_temp();
 	dtime(delta_time);
 }
 
-double Thermostat_None::update_temp() {return m_poly.temp();}
+void Thermostat_None::update_temp() {
+}
 
-double Thermostat_None::dtime(double delta_time) {
+void Thermostat_None::dtime(double delta_time) {
 	Thermostat::dtime(delta_time);
-	m_dtime_half=m_dtime * 0.5;
+	m_dtime_half = m_dtime * 0.5;
 }
 
 void Thermostat_None::propagate() {

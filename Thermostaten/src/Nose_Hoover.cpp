@@ -2,7 +2,7 @@
 #include <cmath>
 
 Nose_Hoover::Nose_Hoover(Polymer &poly, double delta_time, double q) :
-Thermostat(poly,delta_time),
+Thermostat(poly, delta_time),
 m_q(q),
 m_eta(0.0)
 {
@@ -14,15 +14,13 @@ m_eta(0.0)
 
 Nose_Hoover::~Nose_Hoover() {}
 
-double Nose_Hoover::update_temp() {
-	m_gkT = (m_poly.monomers.size() - 1.0)*m_poly.temp();
-return m_gkT;	
+void Nose_Hoover::update_temp() {
+	m_gkT = (m_poly.monomers.size() - 1.0)*m_poly.target_temperature();
 }
 
-double Nose_Hoover::dtime(double delta_time) { 
+void Nose_Hoover::dtime(double delta_time) {
 	Thermostat::dtime(delta_time);
-	m_dtimesq=pow(m_dtime,2);
-	return m_dtime;
+	m_dtimesq = pow(m_dtime, 2);
 }
 
 void Nose_Hoover::propagate() {

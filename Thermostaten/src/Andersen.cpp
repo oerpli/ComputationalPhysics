@@ -10,24 +10,21 @@ using namespace consts;
 
 using namespace std;
 
-Andersen::Andersen(Polymer &poly, double delta_time, double nu) : 
-Thermostat(poly,delta_time),
+Andersen::Andersen(Polymer &poly, double delta_time, double nu) :
+Thermostat(poly, delta_time),
 m_nu(nu) {
 	update_temp();
 	dtime(delta_time);
 }
 
-double Andersen::update_temp() {
-	m_sigma = sqrt(m_poly.temp() / m_poly.monomer_mass);
-
-	return m_sigma;
+void Andersen::update_temp() {
+	m_sigma = sqrt(m_poly.target_temperature() / m_poly.monomer_mass);
 }
 
-double  Andersen::dtime(double dt) {
+void Andersen::dtime(double dt) {
 	Thermostat::dtime(dt);
 	m_dtime2 = m_dtime * 0.5;
 	m_nu_dt = m_nu*m_dtime;
-	return m_dtime;
 }
 
 void  Andersen::propagate() {

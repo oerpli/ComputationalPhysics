@@ -15,12 +15,12 @@ private:
 	double m_eta;
 
 public:
-	Nose_Hoover(Polymer& poly , double delta_time, double q);
+	Nose_Hoover(Polymer& poly, double delta_time, double q);
 	~Nose_Hoover();
 
-	double	dtime(double new_dtime);
-	double update_temp();
-	void propagate();
+	void	dtime(double new_dtime);
+	void	update_temp();
+	void	propagate();
 };
 #endif 
 

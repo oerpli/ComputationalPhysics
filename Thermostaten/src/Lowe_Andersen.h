@@ -16,9 +16,9 @@ public:
 
 	Lowe_Andersen(Polymer &poly, double dtime, double nu);
 
-	double	dtime(double delta_time);
-	double	update_temp();
-	void		propagate();
+	void	dtime(double delta_time);
+	void	update_temp();
+	void	propagate();
 };
 #endif 
 

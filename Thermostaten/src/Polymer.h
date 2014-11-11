@@ -26,8 +26,8 @@ public:
 
 	double feder_konst() const;
 
-	double	temp() const;
-	void	temp(double temperature);
+	double	target_temperature() const;
+	void	target_temperature(double temperature);
 
 	double	update_ekin();
 	void	update_forces();
