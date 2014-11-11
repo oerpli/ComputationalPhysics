@@ -40,11 +40,11 @@ Polymer::~Polymer() {}
 
 double Polymer::feder_konst() const { return m_feder_konst; }
 
-double Polymer::temp() const { return m_temp; }
+double Polymer::temp() const { return m_target_temp; }
 
 void Polymer::temp(double temperature) {
-	m_temp = temperature*ref_k;
-	m_feder_konst = monomer_mass * pow(monomers.size() * m_temp / ref_hbar, 2);
+	m_target_temp = temperature*ref_k;
+	m_feder_konst = monomer_mass * pow(monomers.size() * m_target_temp / ref_hbar, 2);
 }
 
 std::ostream & Polymer::print(std::ostream &os) const {
