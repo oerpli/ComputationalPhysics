@@ -48,9 +48,12 @@ void Polymer::temp(double temperature) {
 }
 
 std::ostream & Polymer::print(std::ostream &os) const {
-	for (auto& m : monomers) {
-		print_m(m, os);
-		os << std::endl;
+	auto mi=monomers.begin(), mj=monomers.begin(), mend=monomers.end();
+	++mj;
+	for ( ; mi != mend ; ++mi, ++mj) {
+		if ( mj==monomers.end() ) mj = monomers.begin();
+		print_m(*mi, os);
+		os << "  " << *mi - *mj << std::endl;
 	}
 	return os;
 }

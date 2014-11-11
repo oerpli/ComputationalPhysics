@@ -27,6 +27,12 @@ if [[ $col -eq 1 ]] ; then
 elif [[ $col -eq 2 ]] ; then
 	outF="${therm}_vel_${para}.jpg"
 	xlabel="velocity"
+elif [[ $col -eq 3 ]] ; then
+	outF="${therm}_force_${para}.jpg"
+	xlabel="force"
+elif [[ $col -eq 4 ]] ; then
+	outF="${therm}_dis_${para}.jpg"
+	xlabel="distance to neighbor"
 else
 	outF="${therm}_col${col}_${para}.jpg"
 	xlabel="other"
