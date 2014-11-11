@@ -55,7 +55,7 @@ int main(int argc, char* argv[]) {
 	poly.initiate_monomers_random();
 	
 	s_para = "_p"; s_para += to_string( (int)a_para[0] ); 
-	s_para += "_T"; s_para += to_string( a_para[1] );
+	s_para += "_T"; s_para += to_string( (int)a_para[1] );
 	
 	// Initialisieren aller Thermostate
 	double nu{ set_param( 1./a_para[2]/a_para[0], argv, argc, i_para+1 ) };
@@ -107,7 +107,7 @@ int main(int argc, char* argv[]) {
 	int index_print{a_para[3]*1E-1*4};	
 	for (int i = 0; i < a_para[3]; i++) {
 		dat_temp << i*a_para[2] << " " << poly.calculate_temp() << endl;
-		dat_pos_vel << poly << endl;
+		dat_pos_vel << poly;
 		
 		if ( !( i % index_print ) ) {
 			cout << i*a_para[2] << endl;
