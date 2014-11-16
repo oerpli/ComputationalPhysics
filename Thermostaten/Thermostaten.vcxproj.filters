@@ -66,6 +66,9 @@
     <ClCompile Include="src\Functions.cpp">
       <Filter>Source Files\utility</Filter>
     </ClCompile>
+    <ClCompile Include="src\Bussi.cpp">
+      <Filter>Source Files\thermostats</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Monomer.h">
@@ -105,6 +108,9 @@
       <Filter>Header Files\thermostats</Filter>
     </ClInclude>
     <ClInclude Include="src\Berendsen.h">
+      <Filter>Header Files\thermostats</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Bussi.h">
       <Filter>Header Files\thermostats</Filter>
     </ClInclude>
   </ItemGroup>

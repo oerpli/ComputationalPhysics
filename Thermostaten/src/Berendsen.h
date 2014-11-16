@@ -1,13 +1,11 @@
 #pragma once
-#include "Polymer.h"
-ref class Berendsen{
+#include "Thermostat.h"
+class Berendsen : public Thermostat{
 private:
-	Polymer& poly;
-	double	dtime;
-	double	target_temperature;
 	double	couplingtime;
 public:
 	Berendsen(Polymer &poly, double dtime, double couplingtime);
 	void	propagate();
+	void	update_temp();
 };
 

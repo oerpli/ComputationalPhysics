@@ -1,14 +1,13 @@
 #pragma once
-#include "Polymer.h"
-ref class Bussi{
+#include "Thermostat.h"
+
+class Bussi : public Thermostat {
 private:
-	Polymer& poly;
-	double	dtime;
 	double	target_temperature;
 	double	couplingtime;
-	double	calc_scalingfactor();
 public:
 	Bussi(Polymer &poly, double dtime, double couplingtime);
+
+	void	update_temp();
 	void	propagate();
 };
-

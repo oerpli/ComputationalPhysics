@@ -13,6 +13,7 @@
   <ItemGroup>
     <ClCompile Include="src\Andersen.cpp" />
     <ClCompile Include="src\Berendsen.cpp" />
+    <ClCompile Include="src\Bussi.cpp" />
     <ClCompile Include="src\Functions.cpp" />
     <ClCompile Include="src\Gaussian.cpp" />
     <ClCompile Include="src\Lowe_Andersen.cpp" />
@@ -28,6 +29,7 @@
   <ItemGroup>
     <ClInclude Include="src\Andersen.h" />
     <ClInclude Include="src\Berendsen.h" />
+    <ClInclude Include="src\Bussi.h" />
     <ClInclude Include="src\Consts.h" />
     <ClInclude Include="src\Functions.h" />
     <ClInclude Include="src\Gaussian.h" />

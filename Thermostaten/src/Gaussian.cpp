@@ -10,13 +10,11 @@ using namespace std;
 
 Gaussian::Gaussian(Polymer &poly, double delta_time)
 	: Thermostat(poly, delta_time) {
-	update_temp();
 	dtime(delta_time);
 }
 
 
 void Gaussian::update_temp() {
-	m_target_temperature = m_poly.target_temperature();
 }
 
 void Gaussian::dtime(double delta_time) {
@@ -34,6 +32,6 @@ void Gaussian::propagate() {
 	for (auto& m : m_poly.monomers) {
 		m.velocity += m_dtime_half*m.force / m_poly.monomer_mass;
 	}
-	auto scalefactor = sqrt(m_target_temperature / (m_poly.update_ekin()*2. / m_poly.monomers.size()));
+	auto scalefactor = sqrt(m_poly.target_temperature() / (m_poly.update_ekin()*2. / m_poly.monomers.size()));
 	for (auto& m : m_poly.monomers)m.velocity *= scalefactor;//velocity rescaling
 }
