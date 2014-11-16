@@ -73,9 +73,9 @@ int main(int argc, char* argv[]) {
 			s_therm = "Nose_Hoover";
 		}
 		else if (strcmp(argv[i_thermos], "Nose_Hoover_Chain") == 0) {
-		  double q_def{ poly.monomers.size()*poly.monomer_mass*poly.target_temperature()/poly.feder_konst() };
-			double q{ set_param(q_def, argv, argc, i_thermos + 1) };
-			double q2 = poly.monomer_mass*poly.target_temperature()/poly.feder_konst(); //changemeplease
+		  double q_def{ poly.monomer_mass*poly.target_temperature()/poly.feder_konst() };
+			double q{ set_param(q_def * poly.monomers.size() , argv, argc, i_thermos + 1) };
+			double q2{ set_param( q_def , argv, argc, i_thermos + 2 ) };
 			thermostat = new Nose_Hoover_Chain{ poly, a_para[2], q, q2 };
 			s_therm = "Nose_Hoover_Chain";
 		}
