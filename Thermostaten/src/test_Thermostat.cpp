@@ -90,7 +90,7 @@ int main(int argc, char* argv[]) {
 			thermostat = new Thermostat_None{ poly, a_para[2] };
 		s_therm = "None";
 	}
-
+	cout << "Thermostat:\t" << s_therm << endl;
 	s_para = "_p"; s_para += to_string((int)a_para[0]);
 	s_para += "_T"; s_para += to_string((int)a_para[1]);
 
