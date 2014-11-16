@@ -80,6 +80,16 @@ double Polymer::update_ekin(){
 	return ekin;
 }
 
+double Polymer::update_epot() {
+	auto mi = monomers.begin(), mj = monomers.begin(), mend = monomers.end();
+	++mj;
+	epot=0;
+	for (; mj != mend; ++mi, ++mj) epot += pow(*mj - *mi , 2);
+	mj = monomers.begin();
+	epot += pow(*mj - *mi , 2);
+	return epot *= m_feder_konst;
+}
+
 double Polymer::calculate_temp() const {
 	double av_velocity = 0, av_energy = 0;
 	for (auto& m : monomers) av_velocity += m.velocity;

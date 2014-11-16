@@ -116,7 +116,9 @@ int main(int argc, char* argv[]) {
 	int index_to_file{ (int)a_para[5] };
 	for (int i = 0; i < a_para[3]; i++) {
 		if (!(i % index_to_file)) {
-			dat_temp << i*a_para[2] << " " << poly.calculate_temp() << endl;
+			dat_temp << i*a_para[2];
+			dat_temp << " " << poly.calculate_temp();
+			dat_temp << " " << poly.update_epot()  << endl;
 			dat_pos_vel << poly;
 		}
 

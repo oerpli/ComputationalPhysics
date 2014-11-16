@@ -29,6 +29,7 @@ public:
 	double	target_temperature() const;
 	void	target_temperature(double temperature);
 
+	double update_epot();
 	double	update_ekin();
 	void	update_forces();
 
