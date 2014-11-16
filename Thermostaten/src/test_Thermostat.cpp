@@ -119,6 +119,7 @@ int main(int argc, char* argv[]) {
 		}
 		thermostat->propagate();
 	}
+	delete thermostat;
 
 	cout << "<< Die Datei '" << s_temp << "' wurde erstellt." << endl;
 	cout << "<< Die Datei '" << s_pos_vel << "' wurde erstellt." << endl;
