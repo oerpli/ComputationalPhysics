@@ -87,7 +87,7 @@ double Polymer::update_epot() {
 	for (; mj != mend; ++mi, ++mj) epot += pow(*mj - *mi , 2);
 	mj = monomers.begin();
 	epot += pow(*mj - *mi , 2);
-	return epot *= m_feder_konst;
+	return epot *= m_feder_konst *0.5;
 }
 
 double Polymer::calculate_temp() const {
