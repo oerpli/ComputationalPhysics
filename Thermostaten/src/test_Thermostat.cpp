@@ -20,8 +20,8 @@ using namespace std;
 
 /* ######################### */
 int main(int argc, char* argv[]) {
-	//default für  p,Temp,dtime,runs,warmlauf
-	double a_para[]{4, 20, 1E-15, 1E6, 1E3};
+	//default für  p,Temp,dtime,runs,warmlauf,ausgabe   :jedes xte wird ausgegeben
+	double a_para[]{4, 20, 1E-15, 1E6, 1E3,1};
 	int			i_para{ 1 };
 	string s_para{}, s_therm{};
 	string	s_temp{}, s_pos_vel{};
@@ -29,7 +29,7 @@ int main(int argc, char* argv[]) {
 	Thermostat *thermostat{};
 
 	// Bestimmen der Parameter zur Initialisierung von Poly und Thermostat
-	for (i_para = 1; i_para < min(6, argc); ++i_para) {
+	for (i_para = 1; i_para < min(7, argc); ++i_para) {
 		if (is_number(argv[i_para])) a_para[i_para - 1] = stod(argv[i_para]);
 		else break;
 	}
@@ -95,10 +95,13 @@ int main(int argc, char* argv[]) {
 	cout << "Warmlauf abgeschlossen" << endl;
 
 	int index_print{ (int)(a_para[3] * 4E-1) };
+	int index_to_file{ (int) a_para[5] };
 	for (int i = 0; i < a_para[3]; i++) {
-		dat_temp << i*a_para[2] << " " << poly.calculate_temp() << endl;
-		dat_pos_vel << poly;
-
+		if ( ! ( i % index_to_file ) ) {
+			dat_temp << i*a_para[2] << " " << poly.calculate_temp() << endl;
+			dat_pos_vel << poly;
+		}
+		
 		if (!(i % index_print)) {
 			cout << i*a_para[2] << endl;
 			cout << "Ekin: " << poly.update_ekin() << endl;
