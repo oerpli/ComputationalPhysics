@@ -2,18 +2,18 @@
 
 #include<cmath> 
 #include "Polymer.h"
-
-class Nose_Hoover_Chain {
+#include "Thermostat.h"
+class Nose_Hoover_Chain :public Thermostat {
 
 private:
-	Polymer& poly;
-	double q1, q2, step, xi1, xi2, nuxi1, nuxi2, g1, g2, stepd2, stepd4, stepd8;
+	double q1, q2, xi1, xi2, nuxi1, nuxi2, g1, g2, stepd2, stepd4, stepd8;
+
+	void chain();
+	void pos_vel();
 
 public:
 	Nose_Hoover_Chain(Polymer&, double, double, double);
 	~Nose_Hoover_Chain();
-
-	void chain();
-	void pos_vel();
 	void propagate();
+	void update_temp();
 };

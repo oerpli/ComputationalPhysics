@@ -1,4 +1,5 @@
 #include "Thermostat.h"
+#include "Nose_Hoover_Chain.h"
 #include "Andersen.h"
 #include "Lowe_Andersen.h"
 #include "Gaussian.h"
@@ -48,7 +49,7 @@ int main(int argc, char* argv[]) {
 		poly.initiate_monomers_one();
 	else
 		poly.initiate_monomers_random();
-	
+
 	// Auswählen des Thermostats
 	if (argc > 1 && i_thermos < argc) {
 		if (strcmp(argv[i_thermos], "Andersen") == 0) {
@@ -71,6 +72,13 @@ int main(int argc, char* argv[]) {
 			thermostat = new Nose_Hoover{ poly, a_para[2], q };
 			s_therm = "Nose_Hoover";
 		}
+		else if (strcmp(argv[i_thermos], "Nose_Hoover_Chain") == 0) {
+			double q_def{ poly.monomers.size()*poly.target_temperature()*ref_time / 1E-14 };
+			double q{ set_param(q_def, argv, argc, i_thermos + 1) };
+			double q2 = 0; //changemeplease
+			thermostat = new Nose_Hoover_Chain{ poly, a_para[2], q, q2 };
+			s_therm = "Nose_Hoover_Chain";
+		}
 		else if (strcmp(argv[i_thermos], "Berendsen") == 0) {
 			double couplingtime = 10 * a_para[2];
 			thermostat = new Berendsen{ poly, a_para[2], couplingtime };
@@ -87,7 +95,7 @@ int main(int argc, char* argv[]) {
 		}
 	}
 	else {
-			thermostat = new Thermostat_None{ poly, a_para[2] };
+		thermostat = new Thermostat_None{ poly, a_para[2] };
 		s_therm = "None";
 	}
 	cout << "Thermostat:\t" << s_therm << endl;
