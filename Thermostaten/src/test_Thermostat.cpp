@@ -33,44 +33,49 @@ int main(int argc, char* argv[]) {
 		if (is_number(argv[i_para])) a_para[i_para - 1] = stod(argv[i_para]);
 		else break;
 	}
-
-	while (i_para < argc - 1 && is_number(argv[i_para])) ++i_para;
-
 	a_para[2] /= ref_time;
+	
+	while (i_para < argc - 1 && is_number(argv[i_para])) ++i_para;
+	int i_thermos=i_para;
+	
+	while (++i_para < argc - 1 && is_number(argv[i_para])) ++i_para;
+	int i_poly_init=min(argc-1,i_para);
+	
 	Polymer poly{ static_cast<unsigned> (a_para[0]), a_para[1] };
-	poly.initiate_monomers_random();
-
-	s_para = "_p"; s_para += to_string((int)a_para[0]);
-	s_para += "_T"; s_para += to_string((int)a_para[1]);
-
+	if (strcmp(argv[i_poly_init], "one") == 0)
+		poly.initiate_monomers_one();
+	else
+		poly.initiate_monomers_random();
+	
+cout << poly << endl;
 	// Initialisieren aller Thermostate
-	double nu{ set_param(1. / a_para[2] / a_para[0], argv, argc, i_para + 1) };
+	double nu{ set_param(1. / a_para[2] / a_para[0], argv, argc, i_thermos + 1) };
 	Andersen andersen_therm{ poly, a_para[2], nu };
 	Lowe_Andersen lowe_andersen_therm{ poly, a_para[2], nu };
 
 	Gaussian gaussian_therm{ poly, a_para[2] };
 
 	double q_def{ poly.monomers.size()*poly.target_temperature()*ref_time / 1E-14 };
-	double q{ set_param(q_def, argv, argc, i_para + 1) };
+	double q{ set_param(q_def, argv, argc, i_thermos + 1) };
 	Nose_Hoover nose_hoover_therm{ poly, a_para[2], q };
 
 	Thermostat_None none_therm{ poly, a_para[2] };
 
 	// Auswählen des Thermostats
-	if (argc > 1 && i_para < argc) {
-		if (strcmp(argv[i_para], "Andersen") == 0) {
+	if (argc > 1 && i_thermos < argc) {
+		if (strcmp(argv[i_thermos], "Andersen") == 0) {
 			thermostat = &andersen_therm;
 			s_therm = "Andersen";
 		}
-		else if (strcmp(argv[i_para], "Lowe_Andersen") == 0) {
+		else if (strcmp(argv[i_thermos], "Lowe_Andersen") == 0) {
 			thermostat = &lowe_andersen_therm;
 			s_therm = "Lowe_Andersen";
 		}
-		else if (strcmp(argv[i_para], "Gaussian") == 0) {
+		else if (strcmp(argv[i_thermos], "Gaussian") == 0) {
 			thermostat = &gaussian_therm;
 			s_therm = "Gaussian";
 		}
-		else if (strcmp(argv[i_para], "Nose_Hoover") == 0) {
+		else if (strcmp(argv[i_thermos], "Nose_Hoover") == 0) {
 			thermostat = &nose_hoover_therm;
 			s_therm = "Nose_Hoover";
 		}
@@ -83,6 +88,9 @@ int main(int argc, char* argv[]) {
 		thermostat = &none_therm;
 		s_therm = "None";
 	}
+	
+	s_para = "_p"; s_para += to_string((int)a_para[0]);
+	s_para += "_T"; s_para += to_string((int)a_para[1]);
 
 	s_temp = s_therm + "_temp" + s_para + ".dat";
 	dat_temp.open(s_temp, ios::out | ios::trunc);
