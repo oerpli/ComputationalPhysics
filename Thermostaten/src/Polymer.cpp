@@ -20,6 +20,7 @@ void Polymer::initiate_monomers_random() {
 	update_ekin();
 	double scale_factor = sqrt(target_temperature()*monomers.size() / ekin*0.5);
 	for (auto& m : monomers) m.velocity *= scale_factor;
+	update_all();
 }
 
 void Polymer::initiate_monomers_one() { //erstes Monomer großteil der Energie
@@ -27,6 +28,7 @@ void Polymer::initiate_monomers_one() { //erstes Monomer großteil der Energie
 	double speed = -max_vel / (monomers.size() - 1);
 	for (auto& m : monomers) m.velocity = speed;
 	monomers[0].velocity = max_vel;
+	update_all();
 }
 
 Polymer::Polymer(unsigned length, double temperature)
@@ -88,6 +90,12 @@ double Polymer::update_epot() {
 	mj = monomers.begin();
 	epot += pow(*mj - *mi , 2);
 	return epot *= m_feder_konst *0.5;
+}
+
+void Polymer::update_all() {
+	update_forces();
+	update_epot();
+	update_ekin();
 }
 
 double Polymer::calculate_temp() const {

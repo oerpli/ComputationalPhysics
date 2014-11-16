@@ -32,7 +32,8 @@ public:
 	double update_epot();
 	double	update_ekin();
 	void	update_forces();
-
+	void	update_all();
+	
 	double calculate_temp() const;
 };
 #endif
