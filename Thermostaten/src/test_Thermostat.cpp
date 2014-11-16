@@ -53,49 +53,41 @@ int main(int argc, char* argv[]) {
 	if (argc > 1 && i_thermos < argc) {
 		if (strcmp(argv[i_thermos], "Andersen") == 0) {
 			double nu{ set_param(1. / a_para[2] / a_para[0], argv, argc, i_thermos + 1) };
-			Andersen andersen_therm{ poly, a_para[2], nu };
-			thermostat = &andersen_therm;
+			thermostat = new Andersen{ poly, a_para[2], nu };
 			s_therm = "Andersen";
 		}
 		else if (strcmp(argv[i_thermos], "Lowe_Andersen") == 0) {
 			double nu{ set_param(1. / a_para[2] / a_para[0], argv, argc, i_thermos + 1) };
-			Lowe_Andersen lowe_andersen_therm{ poly, a_para[2], nu };
-			thermostat = &lowe_andersen_therm;
+			thermostat = new Lowe_Andersen{ poly, a_para[2], nu };
 			s_therm = "Lowe_Andersen";
 		}
 		else if (strcmp(argv[i_thermos], "Gaussian") == 0) {
-			Gaussian gaussian_therm{ poly, a_para[2] };
-			thermostat = &gaussian_therm;
+			thermostat = new Gaussian{ poly, a_para[2] };
 			s_therm = "Gaussian";
 		}
 		else if (strcmp(argv[i_thermos], "Nose_Hoover") == 0) {
 			double q_def{ poly.monomers.size()*poly.target_temperature()*ref_time / 1E-14 };
 			double q{ set_param(q_def, argv, argc, i_thermos + 1) };
-			Nose_Hoover nose_hoover_therm{ poly, a_para[2], q };
-			thermostat = &nose_hoover_therm;
+			thermostat = new Nose_Hoover{ poly, a_para[2], q };
 			s_therm = "Nose_Hoover";
 		}
 		else if (strcmp(argv[i_thermos], "Berendsen") == 0) {
 			double couplingtime = 10 * a_para[2];
-			Berendsen berendsen_therm{ poly, a_para[2], couplingtime };
-			thermostat = &berendsen_therm;
+			thermostat = new Berendsen{ poly, a_para[2], couplingtime };
 			s_therm = "Berendsen";
 		}
 		else if (strcmp(argv[i_thermos], "Bussi") == 0) {
 			double couplingtime = 10 * a_para[2];
-			Bussi bussi_therm{ poly, a_para[2], couplingtime };
-			thermostat = &bussi_therm;
+			thermostat = new Bussi{ poly, a_para[2], couplingtime };
 			s_therm = "Bussi";
 		}
 		else {
-			Thermostat_None none_therm{ poly, a_para[2] };
-			thermostat = &none_therm;
+			thermostat = new Thermostat_None{ poly, a_para[2] };
 			s_therm = "None";
 		}
 	}
 	else {
-		Thermostat_None none_therm{ poly, a_para[2] };
-		thermostat = &none_therm;
+			thermostat = new Thermostat_None{ poly, a_para[2] };
 		s_therm = "None";
 	}
 
