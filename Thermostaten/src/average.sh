@@ -6,7 +6,7 @@ awk '
 		min=max=$col+0;
 	}
 
-	{j++; val=$col+0;
+	!/^#/{j++; val=$col+0;
 		av+=val;
 		
 		if (min > val)
