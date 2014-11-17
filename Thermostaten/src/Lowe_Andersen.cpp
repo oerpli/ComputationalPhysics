@@ -28,7 +28,7 @@ void Lowe_Andersen::dtime(double dt) {
 }
 
 void Lowe_Andersen::propagate() {
-	double delta_v = 0, therm_v = 0;
+	double therm_v = 0;
 	auto mi = m_poly.monomers.begin();
 	auto mj = mi;
 
@@ -45,9 +45,6 @@ void Lowe_Andersen::propagate() {
 		mj = mi;
 		++mj;
 		if (mj == m_poly.monomers.end()) mj = m_poly.monomers.begin();
-
-		//		delta_v = mi->velocity - mj->velocity;
-		//		therm_v = m_poly.monomer_mass*0.5*(delta_v - copysign(m_sigma, delta_v)*Rand::real_normal());
 		therm_v = Rand::real_normal(0, m_sigma);
 
 		mi->velocity = therm_v;
