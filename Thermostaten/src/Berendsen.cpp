@@ -22,7 +22,9 @@ void Berendsen::propagate() {
 
 	//2. calculate scaling factor
 	auto ekin = m_poly.update_ekin();
-	auto scalingfactor = sqrt(1 + m_dtime / couplingtime * (m_poly.target_temperature() / m_poly.calculate_temp() - 1));
+	auto temperature_ratio = m_poly.target_temperature() / m_poly.calculate_temp();
+	auto timeratio = m_dtime / couplingtime;
+	auto scalingfactor = sqrt(1 + timeratio * (temperature_ratio - 1));
 
 	//3. rescale 
 	for (auto& m : m_poly.monomers)m.velocity *= scalingfactor;

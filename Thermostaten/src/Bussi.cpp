@@ -37,7 +37,10 @@ void Bussi::propagate() {
 	auto r1 = (sum + pow(r, 2)) * rate;
 	auto r2 = 2.0 * r *sqrt(expfactor*rate);
 	auto  scalingfactor = sqrt(expfactor + r1 + r2);
-	if (r + sqrt(expfactor / rate) < 0.0) scalingfactor = -scalingfactor;	//3. rescale 
+	if (r + sqrt(expfactor / rate) < 0.0) {
+		scalingfactor = -scalingfactor;
+	}
+	//3. rescale 
 	for (auto& m : m_poly.monomers) m.velocity *= scalingfactor;
 }
 
