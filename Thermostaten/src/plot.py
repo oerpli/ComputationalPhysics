@@ -16,11 +16,12 @@ print 'T = ', T
 R = 0.0083143
 k = 1.3806488e-23
 beta = R*T
+#beta = T
 m = 2.
 
 #setting up the figure 
 #plt.rcParams.update({'font.size': 24})
-f = plt.figure(figsize = (12,14))
+f = plt.figure(figsize = (10,12))
 ax1 = plt.subplot(121)
 ax2 = plt.subplot(122)
 #f, (ax1, ax2) = plt.subplots(1, 2, sharey = True) 
@@ -31,18 +32,18 @@ ax2 = plt.subplot(122)
 
 
 pos_points = np.linspace(-0.08, 0.08, num = 100)
-pos_prob = np.exp(-(m*p/(2.*beta))*pos_points**2)*np.sqrt(2.*p/(2*np.pi*beta))
+pos_prob = np.exp(-(m*p/(2.*beta))*pos_points**2)*np.sqrt(m*p/(2*np.pi*beta))
 
 vel_points = np.linspace(-9, 9, num=100)
-vel_prob = np.exp(-(beta/p)*(m/2.)*vel_points**2)*np.sqrt(p/(2.*2.*beta*np.pi))
+vel_prob = np.exp(-(m*beta/(2.*p))*vel_points**2)*np.sqrt(m*beta/(2*np.pi*p))
 
 vel, pos = np.loadtxt(filename, usecols = (1, 3), unpack=True)
 
 ax1.hist(pos, bins=100, normed=True, log=True, histtype=u'step') 
-#ax1.plot(pos_points, pos_prob)
+ax1.plot(pos_points, pos_prob)
 
 ax2.hist(vel, bins=100 , normed=True, log=True, histtype=u'step') 
-#ax2.plot(vel_points, vel_prob)
+ax2.plot(vel_points, vel_prob)
 
 ax1.set_ylim(10e-5, 10e1)
 ax1.set_xlim(-0.08,0.08)

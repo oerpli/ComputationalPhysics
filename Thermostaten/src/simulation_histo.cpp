@@ -90,7 +90,7 @@ int main(int argc, char* argv[]) {
 			thermostat = new Gaussian{ poly, para_dtime };
 		}
 		else if (strcmp(argv[i_thermos], "Nose_Hoover") == 0) {
-			double q_def{ poly.monomers.size()*poly.target_temperature()*ref_time / 1E-12 };
+			double q_def{ poly.monomers.size()*poly.target_temperature()*ref_time / 1E-13 };
 			double q{ set_param(q_def, argv, argc, i_thermos + 1) };
 			thermostat = new Nose_Hoover{ poly, para_dtime, q };
 		}
