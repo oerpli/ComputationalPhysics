@@ -1,4 +1,7 @@
 #include "Thermostat_None.h"
+#include <string>
+
+const std::string Thermostat_None::m_name = "None";
 
 Thermostat_None::Thermostat_None(Polymer& poly, double delta_time)
 	: Thermostat(poly, delta_time){
@@ -25,3 +28,12 @@ void Thermostat_None::propagate() {
 	}
 }
 
+std::string Thermostat_None::name() const {return m_name;}
+
+std::string Thermostat_None::info() const {
+	std::string str{"Thermostat "};
+	str += m_name;
+	str += " dtime ";
+	str += std::to_string ( m_dtime );
+return str;
+}

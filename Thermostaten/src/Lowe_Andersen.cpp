@@ -6,9 +6,12 @@
 #include "Rand.h"
 using namespace consts;
 
-#include<cmath>
+#include <cmath>
+#include <string>
 
 using namespace std;
+
+const string Lowe_Andersen::m_name = "Lowe_Andersen";
 
 Lowe_Andersen::Lowe_Andersen(Polymer &poly, double delta_time, double nu) :
 Thermostat(poly, delta_time),
@@ -56,4 +59,16 @@ void Lowe_Andersen::propagate() {
 	for (auto& m : m_poly.monomers) {
 		m.velocity += m_dtime2*m.force / m_poly.monomer_mass;
 	}
+}
+
+string Lowe_Andersen::name() const {return m_name;}
+
+string Lowe_Andersen::info() const {
+	string str{"Thermostat "};
+	str += m_name;
+	str += " dtime ";
+	str += to_string ( m_dtime );
+	str += " nu ";
+	str += to_string ( m_nu );
+return str;
 }

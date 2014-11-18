@@ -7,6 +7,7 @@
 using namespace consts;
 using namespace std;
 
+const string Gaussian::m_name = "Gaussian";
 
 Gaussian::Gaussian(Polymer &poly, double delta_time)
 	: Thermostat(poly, delta_time) {
@@ -34,4 +35,14 @@ void Gaussian::propagate() {
 	}
 	auto scalefactor = sqrt(m_poly.target_temperature() / (m_poly.update_ekin()*2. / m_poly.monomers.size()));
 	for (auto& m : m_poly.monomers)m.velocity *= scalefactor;//velocity rescaling
+}
+
+string Gaussian::name() const {return m_name;}
+
+string Gaussian::info() const {
+	string str{"Thermostat "};
+	str += m_name;
+	str += " dtime ";
+	str += to_string ( m_dtime );
+return str;
 }

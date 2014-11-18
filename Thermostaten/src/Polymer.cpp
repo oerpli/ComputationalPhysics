@@ -6,6 +6,7 @@
 #include<iostream>
 #include<stdlib.h>
 #include<vector>
+#include <string>
 using namespace consts;
 using namespace std;
 
@@ -21,6 +22,7 @@ void Polymer::initiate_monomers_random() {
 	double scale_factor = sqrt(target_temperature()*monomers.size() / ekin*0.5);
 	for (auto& m : monomers) m.velocity *= scale_factor;
 	update_all();
+	m_ini = "rand";
 }
 
 void Polymer::initiate_monomers_one() { //erstes Monomer großteil der Energie
@@ -29,12 +31,14 @@ void Polymer::initiate_monomers_one() { //erstes Monomer großteil der Energie
 	for (auto& m : monomers) m.velocity = speed;
 	monomers[0].velocity = max_vel;
 	update_all();
+	m_ini = "one";
 }
 
 Polymer::Polymer(unsigned length, double temperature)
-	: epot(0)
-	, monomer_mass(2. / length)
-	, monomers(std::vector<Monomer>(length, Monomer(0.0, 0.))) {
+	: m_ini{}
+	, monomers(std::vector<Monomer>(length, Monomer(0.0, 0.)))
+	, epot(0)
+	, monomer_mass(2. / length) {
 	target_temperature(temperature);
 }
 
@@ -107,3 +111,13 @@ double Polymer::calculate_temp() const {
 	return av_energy / (0.5*ref_k);
 }
 
+string Polymer::info() const {
+	string ret{"Polymer "};
+	ret += "p ";
+	ret += to_string( monomers.size() );
+	ret += " Temp ";
+	ret += to_string( m_target_temp );
+	ret += " ";
+	ret += m_ini;
+	return ret;
+}

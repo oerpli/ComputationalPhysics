@@ -1,6 +1,9 @@
 #include "Berendsen.h"
 #include "Polymer.h"
 #include "Monomer.h"
+#include <string>
+
+const std::string Berendsen::m_name = "Berendsen";
 
 Berendsen::Berendsen(Polymer &polymere, double timestep, double coupling_time)
 	: Thermostat(polymere, timestep)
@@ -32,4 +35,16 @@ void Berendsen::propagate() {
 
 void Berendsen::update_temp(){
 
+}
+
+std::string Berendsen::name() const {return m_name;}
+
+std::string Berendsen::info() const {
+	std::string str{"Thermostat "};
+	str += m_name;
+	str += " dtime ";
+	str += std::to_string ( m_dtime );
+	str += " couplTime ";
+	str += std::to_string ( couplingtime );
+return str;
 }

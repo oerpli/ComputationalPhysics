@@ -6,12 +6,14 @@
 
 #include<cmath>
 #include<iostream>
-#include<vector>
+#include <vector>
+#include <string>
 
 class Polymer {
 private:
 	double	m_feder_konst;
 	double	m_target_temp;
+	std::string	m_ini;
 	double	force(double r) const;
 public:
 	Polymer(unsigned length, double temperature);
@@ -35,5 +37,6 @@ public:
 	void	update_all();
 	
 	double calculate_temp() const;
+	std::string info() const;
 };
 #endif

@@ -4,12 +4,14 @@
 #include "Polymer.h"
 #include "consts.h"
 
-#include<cmath>
+#include <cmath>
+#include <string>
 
 class Andersen : public Thermostat {
 private:
 	double	m_dtime2;
 	double	m_nu, m_nu_dt, m_sigma;
+	static const std::string m_name;
 public:
 	double	time;
 
@@ -18,4 +20,6 @@ public:
 	void	dtime(double dt);
 	void	update_temp();
 	void	propagate();
+	std::string name() const;
+	std::string info() const;
 };

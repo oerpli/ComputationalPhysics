@@ -1,5 +1,8 @@
 #include "Nose_Hoover.h"
 #include <cmath>
+#include <string>
+
+const std::string Nose_Hoover::m_name = "Nose_Hoover";
 
 Nose_Hoover::Nose_Hoover(Polymer &poly, double delta_time, double q) :
 Thermostat(poly, delta_time),
@@ -38,3 +41,14 @@ void Nose_Hoover::propagate() {
 	m_poly.update_ekin();
 }
 
+std::string Nose_Hoover::name() const {return m_name;}
+
+std::string Nose_Hoover::info() const {
+	std::string str{"Thermostat "};
+	str += m_name;
+	str += " dtime ";
+	str += std::to_string ( m_dtime );
+	str += " q ";
+	str += std::to_string ( m_q );
+return str;
+}

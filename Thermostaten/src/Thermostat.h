@@ -1,5 +1,6 @@
 #pragma once
 #include "Polymer.h"
+#include <string>
 
 class Thermostat {
 
@@ -14,4 +15,6 @@ public:
 	virtual void dtime(double new_dtime);
 	virtual void update_temp() = 0;	// für mögliche Erwärmung
 	virtual void propagate() = 0;
+	virtual std::string name() const = 0;
+	virtual std::string info() const = 0;
 };

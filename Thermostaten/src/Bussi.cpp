@@ -3,6 +3,10 @@
 #include "Monomer.h"
 #include "Thermostat.h"
 #include "Rand.h"
+#include <string>
+
+
+const std::string Bussi::m_name = "Bussi";
 
 Bussi::Bussi(Polymer &polymere, double timestep, double coupling_time)
 	: Thermostat(polymere, timestep)
@@ -46,4 +50,16 @@ void Bussi::propagate() {
 
 
 void Bussi::update_temp(){
+}
+
+std::string Bussi::name() const {return m_name;}
+
+std::string Bussi::info() const {
+	std::string str{"Thermostat "};
+	str += m_name;
+	str += " dtime ";
+	str += std::to_string ( m_dtime );
+	str += " couplTime ";
+	str += std::to_string ( couplingtime );
+return str;
 }

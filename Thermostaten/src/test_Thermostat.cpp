@@ -26,7 +26,7 @@ int main(int argc, char* argv[]) {
 	//default für  p,Temp,dtime,runs,warmlauf,ausgabe   :jedes xte wird ausgegeben
 	double a_para[]{4, 20, 1E-15, 1E6, 1E3, 1};
 	int			i_para{ 1 };
-	string s_para{}, s_therm{};
+	string s_para{};
 	string	s_temp{}, s_pos_vel{};
 	ofstream dat_temp{}, dat_pos_vel{};
 	Thermostat *thermostat{};
@@ -55,59 +55,54 @@ int main(int argc, char* argv[]) {
 		if (strcmp(argv[i_thermos], "Andersen") == 0) {
 			double nu{ set_param(1. / a_para[2] / a_para[0], argv, argc, i_thermos + 1) };
 			thermostat = new Andersen{ poly, a_para[2], nu };
-			s_therm = "Andersen";
 		}
 		else if (strcmp(argv[i_thermos], "Lowe_Andersen") == 0) {
 			double nu{ set_param(1. / a_para[2] / a_para[0], argv, argc, i_thermos + 1) };
 			thermostat = new Lowe_Andersen{ poly, a_para[2], nu };
-			s_therm = "Lowe_Andersen";
 		}
 		else if (strcmp(argv[i_thermos], "Gaussian") == 0) {
 			thermostat = new Gaussian{ poly, a_para[2] };
-			s_therm = "Gaussian";
 		}
 		else if (strcmp(argv[i_thermos], "Nose_Hoover") == 0) {
 			double q_def{ poly.monomers.size()*poly.target_temperature()*ref_time / 1E-12 };
 			double q{ set_param(q_def, argv, argc, i_thermos + 1) };
 			thermostat = new Nose_Hoover{ poly, a_para[2], q };
-			s_therm = "Nose_Hoover";
 		}
 		else if (strcmp(argv[i_thermos], "Nose_Hoover_Chain") == 0) {
 		  double q_def{ poly.monomer_mass*poly.target_temperature()/poly.feder_konst() };
 			double q{ set_param(q_def * poly.monomers.size() , argv, argc, i_thermos + 1) };
 			double q2{ set_param( q_def , argv, argc, i_thermos + 2 ) };
 			thermostat = new Nose_Hoover_Chain{ poly, a_para[2], q, q2 };
-			s_therm = "Nose_Hoover_Chain";
 		}
 		else if (strcmp(argv[i_thermos], "Berendsen") == 0) {
 			double couplingtime = 10 * a_para[2];
 			thermostat = new Berendsen{ poly, a_para[2], couplingtime };
-			s_therm = "Berendsen";
 		}
 		else if (strcmp(argv[i_thermos], "Bussi") == 0) {
 			double couplingtime = 10 * a_para[2];
 			thermostat = new Bussi{ poly, a_para[2], couplingtime };
-			s_therm = "Bussi";
 		}
 		else {
 			thermostat = new Thermostat_None{ poly, a_para[2] };
-			s_therm = "None";
 		}
 	}
 	else {
 		thermostat = new Thermostat_None{ poly, a_para[2] };
-		s_therm = "None";
 	}
-	cout << "Thermostat:\t" << s_therm << endl;
+	cout << "Thermostat:\t" << thermostat->name() << endl;
+	
 	s_para = "_p"; s_para += to_string((int)a_para[0]);
 	s_para += "_T"; s_para += to_string((int)a_para[1]);
 
-	s_temp = s_therm + "_temp" + s_para + ".dat";
+	s_temp = thermostat->name() + "_temp" + s_para + ".dat";
 	dat_temp.open(s_temp, ios::out | ios::trunc);
 
-	s_pos_vel = s_therm + "_pos_vel" + s_para + ".dat";
+	s_pos_vel = thermostat->name() + "_pos_vel" + s_para + ".dat";
 	dat_pos_vel.open(s_pos_vel, ios::out | ios::trunc);
 
+	dat_temp << "# " << poly.info()  << "\n# " << thermostat->info() << endl;
+	dat_pos_vel << "# " << poly.info() << "\n# " << thermostat->info() << endl;
+	
 	// Simulation
 	for (int i = 0; i < a_para[4]; ++i) thermostat->propagate();
 	cout << "Warmlauf abgeschlossen" << endl;

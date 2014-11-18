@@ -1,4 +1,7 @@
 #include "Nose_Hoover_Chain.h"
+#include <string>
+
+const std::string Nose_Hoover_Chain::m_name = "Nose_Hoover_Chain";
 
 Nose_Hoover_Chain::Nose_Hoover_Chain(Polymer &a_polymer, double timestep, double a_q1, double a_q2 )
 	: Thermostat(a_polymer, timestep)
@@ -57,4 +60,18 @@ void Nose_Hoover_Chain::propagate() {
 }
 
 void Nose_Hoover_Chain::update_temp(){
+}
+
+std::string Nose_Hoover_Chain::name() const {return m_name;}
+
+std::string Nose_Hoover_Chain::info() const {
+	std::string str{"Thermostat "};
+	str += m_name;
+	str += " dtime ";
+	str += std::to_string ( m_dtime );
+	str += " q1 ";
+	str += std::to_string ( q1 );
+	str += " q2 ";
+	str += std::to_string ( q2 );
+return str;
 }

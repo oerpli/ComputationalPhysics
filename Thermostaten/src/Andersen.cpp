@@ -6,9 +6,12 @@
 #include "Rand.h"
 using namespace consts;
 
-#include<cmath>
+#include <cmath>
+#include <string>
 
 using namespace std;
+
+const string Andersen::m_name = "Andersen";
 
 Andersen::Andersen(Polymer &poly, double delta_time, double nu) :
 Thermostat(poly, delta_time),
@@ -45,4 +48,16 @@ void  Andersen::propagate() {
 		if (m_nu_dt > Rand::real_uniform())
 			m.velocity = m_sigma*Rand::real_normal();
 	}
+}
+
+string Andersen::name() const {return m_name;}
+
+string Andersen::info() const {
+	string str{"Thermostat "};
+	str += m_name;
+	str += " dtime ";
+	str += to_string ( m_dtime );
+	str += " nu ";
+	str += to_string ( m_nu );
+return str;
 }
