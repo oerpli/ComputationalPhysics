@@ -15,6 +15,7 @@ public:
 	Histo();
 	Histo(int in, double imin, double imax);
 	void set(int in, double imin, double imax);
+	void set(int in, double imax);
 	void add(double val);
 	bool output(std::ostream& os);
 	bool output();

@@ -25,6 +25,8 @@ void Histo::set(int in, double imin, double imax) {
 	hist.resize(n);
 }
 
+void Histo::set(int in, double imax) {set(in,-imax,imax);}
+
 void Histo::add(double val) {
 	count++;
 	if ( val >= max || val < min ) return;
