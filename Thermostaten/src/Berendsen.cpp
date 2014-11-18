@@ -25,7 +25,7 @@ void Berendsen::propagate() {
 
 	//2. calculate scaling factor
 	auto ekin = m_poly.update_ekin();
-	auto temperature_ratio = m_poly.target_temperature() / m_poly.calculate_temp();
+	auto temperature_ratio = m_poly.target_temperature() / (ekin / (0.5*m_poly.monomers.size()));
 	auto timeratio = m_dtime / couplingtime;
 	auto scalingfactor = sqrt(1 + timeratio * (temperature_ratio - 1));
 
@@ -37,14 +37,14 @@ void Berendsen::update_temp(){
 
 }
 
-std::string Berendsen::name() const {return m_name;}
+std::string Berendsen::name() const { return m_name; }
 
 std::string Berendsen::info() const {
-	std::string str{"Thermostat "};
+	std::string str{ "Thermostat " };
 	str += m_name;
 	str += " dtime ";
-	str += std::to_string ( m_dtime );
+	str += std::to_string(m_dtime);
 	str += " couplTime ";
-	str += std::to_string ( couplingtime );
-return str;
+	str += std::to_string(couplingtime);
+	return str;
 }
