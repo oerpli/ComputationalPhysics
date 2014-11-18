@@ -6,6 +6,7 @@ mt19937_64 Rand::generator(1);
 normal_distribution<double> Rand::dis_normal;
 uniform_real_distribution<double> Rand::dis_uniform;
 uniform_int_distribution<int> Rand::dis_intuniform;
+chi_squared_distribution<double> Rand::dis_chisquared;
 
 double Rand::real_normal(){
 	return Rand::dis_normal(Rand::generator);
@@ -22,4 +23,9 @@ double Rand::real_uniform(double max){
 }
 double Rand::real_uniform(double min, double max){
 	return Rand::real_uniform()*(max - min) + min;
+}
+
+double Rand::real_chisquared(double n){
+	dis_chisquared.param(n);
+	return dis_chisquared(generator);
 }

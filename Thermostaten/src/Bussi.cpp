@@ -33,12 +33,12 @@ void Bussi::propagate() {
 	auto expfactor = exp(-m_dtime / couplingtime);
 
 	auto rate = (1.0 - expfactor)*temperature_ratio / m_poly.monomers.size();
-	double sum = 0.0;
-	for (unsigned i = 1; i < m_poly.monomers.size(); i++){ // n-1 times
-		sum += pow(Rand::real_normal(), 2);
-	}
+	double chisquared = Rand::real_chisquared(m_poly.monomers.size() - 1);
+	//for (unsigned i = 1; i < m_poly.monomers.size(); i++){ // n-1 times
+	//	chisquared += pow(Rand::real_normal(), 2);
+	//}
 	auto r = Rand::real_normal();
-	auto r1 = (sum + pow(r, 2)) * rate;
+	auto r1 = (chisquared + pow(r, 2)) * rate;
 	auto r2 = 2.0 * r *sqrt(expfactor*rate);
 	auto  scalingfactor = sqrt(expfactor + r1 + r2);
 	if (r + sqrt(expfactor / rate) < 0.0) {

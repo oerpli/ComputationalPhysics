@@ -1,3 +1,4 @@
+#define _USE_MATH_DEFINES
 #include "Thermostat.h"
 #include "Stat.h"
 #include "Histo.h"
@@ -24,6 +25,7 @@ using namespace consts;
 #include <string>
 #include <cstring>
 using namespace std;
+
 
 double width_normal(double sigma2, int n, int a) {
 	return sqrt( abs ( 2*sigma2 * log( sqrt(M_PI_2 * sigma2) * a ) ) );
