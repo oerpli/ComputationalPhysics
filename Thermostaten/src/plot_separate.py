@@ -10,7 +10,7 @@ T = float(sys.argv[2])
 R = 0.0083143
 beta = 1./(R*T)
 hbarsq = 0.00403324
-m = 2.
+m = 2.0
 
 sigma_pos_sq = beta*hbarsq/(m*p)
 sigma_pos = np.sqrt(sigma_pos_sq)
