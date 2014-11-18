@@ -26,6 +26,8 @@ void Histo::set(int in, double imin, double imax) {
 }
 
 void Histo::add(double val) {
+	count++;
+	if ( val >= max || val < min ) return;
 	if ( val < min_border ) hist[0]++;
 	else if (val >= max_border ) hist[n-1]++;
 	else hist[ (int) ( (val-min) / width ) ]++;
@@ -46,9 +48,6 @@ bool Histo::output() {return output(cout);}
 void Histo::output_reset() {n_out=0;}
 
 void Histo::norm() {
-	double scale{};
-	for (auto& s : hist) scale += s;
-	scale *= width;
-	
+	double scale{count * width};
 	for (auto& s : hist) s /= scale;
 }
