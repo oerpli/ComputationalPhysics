@@ -40,6 +40,7 @@ int main(int argc, char* argv[]) {
 	//default für  p,runs,warmlauf,hist,Temp,dtime,ausgabe   :jedes xte wird ausgegeben
 	double a_para[]{64, 1E5, 1E4, 500, 20, 1E-15, 1};
 	double para_p, para_temp, para_dtime, para_runs, para_warm, para_aus, para_hist;
+	int a_para_size=sizeof(a_para)/sizeof(*a_para);
 	int			i_para{ 1 };
 	string s_para{};
 	string	s_histo{};
@@ -49,7 +50,7 @@ int main(int argc, char* argv[]) {
 	vector<Stat> v_stat;
 	
 	// Bestimmen der Parameter zur Initialisierung von Poly und Thermostat
-	for (i_para = 1; i_para < min(7, argc); ++i_para) {
+	for (i_para = 1; i_para < min(a_para_size+1, argc); ++i_para) {
 		if (is_number(argv[i_para])) a_para[i_para - 1] = stod(argv[i_para]);
 		else break;
 	}
