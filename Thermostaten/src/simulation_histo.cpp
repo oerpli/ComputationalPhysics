@@ -26,13 +26,19 @@ using namespace consts;
 using namespace std;
 
 double width_normal(double sigma2, int n, int a) {
-	return sqrt( abs ( sigma2 * log( M_PI * sigma2 * a * n ) ) );
+	return sqrt( abs ( 2*sigma2 * log( sqrt(M_PI_2 * sigma2) * a ) ) );
+}
+
+void statistic_add(double val, uint index, vector<Histo>& v_h, vector<Stat>& v_s) {
+		if ( index >= v_h.size() ) return;
+		v_h[index].add(val);
+		v_s[index].add(val);
 }
 
 /* ######################### */
 int main(int argc, char* argv[]) {
 	//default für  p,runs,warmlauf,hist,Temp,dtime,ausgabe   :jedes xte wird ausgegeben
-	double a_para[]{64, 1E9, 1E8, 500, 20, 1E-15, 1};
+	double a_para[]{64, 1E5, 1E4, 500, 20, 1E-15, 1};
 	double para_p, para_temp, para_dtime, para_runs, para_warm, para_aus, para_hist;
 	int			i_para{ 1 };
 	string s_para{};
@@ -40,6 +46,7 @@ int main(int argc, char* argv[]) {
 	ofstream dat_histo{};
 	Thermostat *thermostat{};
 	vector<Histo> v_histo;
+	vector<Stat> v_stat;
 	
 	// Bestimmen der Parameter zur Initialisierung von Poly und Thermostat
 	for (i_para = 1; i_para < min(7, argc); ++i_para) {
@@ -116,13 +123,12 @@ int main(int argc, char* argv[]) {
 	dat_histo << "# " << poly.info()  << "\n# " << thermostat->info() << endl;
 	dat_histo << "# velocity relPosition" << endl;
 	
+	v_stat.resize(2);
 	v_histo.resize(2);
 	double sigma2=poly.target_temperature() / poly.monomer_mass;
-	double width=width_normal(sigma2,para_hist,para_runs*1E-5);
-cout << sigma2 << "  " << width << endl;
-	v_histo[0].set(para_hist, width);
+	v_histo[0].set(para_hist, 5*sqrt(sigma2));
 	sigma2=poly.target_temperature() / poly.feder_konst();
-	v_histo[1].set(para_hist, width_normal(sigma2,para_hist,para_runs*1E-5));
+	v_histo[1].set(para_hist, 5*sqrt(sigma2));
 	
 	// Simulation
 	for (int i = 0; i < para_warm; ++i) thermostat->propagate();
@@ -136,8 +142,8 @@ cout << sigma2 << "  " << width << endl;
 				auto mend = poly.monomers.end();
 				for (++mj; mi != mend; ++mi, ++mj) {
 					if (mj == mend) mj = poly.monomers.begin();
-					v_histo[0].add( mi->velocity );
-					v_histo[1].add( *mj - *mi );
+					statistic_add( mi->velocity, 0, v_histo, v_stat);
+					statistic_add( *mj - *mi, 1, v_histo, v_stat);
 				}
 		}
 
@@ -150,6 +156,13 @@ cout << sigma2 << "  " << width << endl;
 	}
 	delete thermostat;
 
+	dat_histo << "# " << scientific;
+	for (auto& stat : v_stat) {
+		stat.calc();
+		dat_histo << stat.mu << " " << stat.sigma << " ";
+	}
+	dat_histo << endl;
+	
 	for (auto& h : v_histo) h.norm();
 	dat_histo << v_histo;
 	
