@@ -115,6 +115,8 @@ string Polymer::info() const {
 	string ret{"Polymer "};
 	ret += "p ";
 	ret += to_string( monomers.size() );
+	ret += " monomerMass ";
+	ret += to_string( monomer_mass );
 	ret += " Temp ";
 	ret += to_string( m_target_temp );
 	ret += " ";

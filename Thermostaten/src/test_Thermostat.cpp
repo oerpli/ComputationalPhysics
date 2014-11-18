@@ -101,7 +101,10 @@ int main(int argc, char* argv[]) {
 	dat_pos_vel.open(s_pos_vel, ios::out | ios::trunc);
 
 	dat_temp << "# " << poly.info()  << "\n# " << thermostat->info() << endl;
+	dat_temp << "# time temp epot" << endl;
+	
 	dat_pos_vel << "# " << poly.info() << "\n# " << thermostat->info() << endl;
+	dat_pos_vel << "# absPosition velocity force relPosition" << endl;
 	
 	// Simulation
 	for (int i = 0; i < a_para[4]; ++i) thermostat->propagate();
