@@ -69,6 +69,15 @@
     <ClCompile Include="src\Bussi.cpp">
       <Filter>Source Files\thermostats</Filter>
     </ClCompile>
+    <ClCompile Include="src\Histo.cpp">
+      <Filter>Source Files\utility</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Stat.cpp">
+      <Filter>Source Files\utility</Filter>
+    </ClCompile>
+    <ClCompile Include="src\simulation_histo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Monomer.h">
@@ -112,6 +121,12 @@
     </ClInclude>
     <ClInclude Include="src\Bussi.h">
       <Filter>Header Files\thermostats</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Histo.h">
+      <Filter>Header Files\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Stat.h">
+      <Filter>Header Files\utility</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -27,7 +27,7 @@ void Bussi::propagate() {
 	for (auto& m : m_poly.monomers) m.velocity += dtimehalf * m.force / m_poly.monomer_mass;
 
 	//2. calculate scaling factor
-	auto currenttemp = m_poly.calculate_temp();
+	auto currenttemp = m_poly.update_ekin() / (0.5*m_poly.monomers.size());
 	auto temperature_ratio = m_poly.target_temperature() / currenttemp;
 
 	auto expfactor = exp(-m_dtime / couplingtime);
@@ -52,14 +52,14 @@ void Bussi::propagate() {
 void Bussi::update_temp(){
 }
 
-std::string Bussi::name() const {return m_name;}
+std::string Bussi::name() const { return m_name; }
 
 std::string Bussi::info() const {
-	std::string str{"Thermostat "};
+	std::string str{ "Thermostat " };
 	str += m_name;
 	str += " dtime ";
-	str += std::to_string ( m_dtime );
+	str += std::to_string(m_dtime);
 	str += " couplTime ";
-	str += std::to_string ( couplingtime );
-return str;
+	str += std::to_string(couplingtime);
+	return str;
 }

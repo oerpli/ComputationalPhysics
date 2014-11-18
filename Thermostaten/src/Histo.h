@@ -1,5 +1,4 @@
-#ifndef HISTO_H
-#define HISTO_H
+#pragma once
 
 #include <vector>
 #include <ostream>
@@ -10,7 +9,7 @@ private:
 	double min, max, width;
 	double min_border, max_border, min_output;
 	int n, n_out, count;
-	
+
 public:
 	Histo();
 	Histo(int in, double imin, double imax);
@@ -22,4 +21,3 @@ public:
 	void output_reset();
 	void norm();
 };
-#endif

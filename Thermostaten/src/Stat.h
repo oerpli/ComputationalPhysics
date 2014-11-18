@@ -1,5 +1,4 @@
-#ifndef STAT_H
-#define STAT_H
+#pragma once
 
 #include <cmath>
 
@@ -15,4 +14,3 @@ public:
 	void calc();
 	void reset();
 };
-#endif
