@@ -177,6 +177,9 @@ int main(int argc, char* argv[]) {
 	for (auto& h : v_histo) h.norm();
 	
 	output << s_header;
+	output << "# " << scientific;
+	for (auto& stat : v_stat) output << stat.mu << " " << stat.sigma << " ";
+	output << endl;
 	output << v_histo;
 	
 	cout << "<< Die Datei '" << filename << "' wurde erstellt." << endl;
