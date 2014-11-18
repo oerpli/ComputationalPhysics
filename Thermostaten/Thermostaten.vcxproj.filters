@@ -25,6 +25,9 @@
     <Filter Include="Header Files\utility">
       <UniqueIdentifier>{52f0dc04-e2bd-41f8-9d4d-54b2616a7119}</UniqueIdentifier>
     </Filter>
+    <Filter Include="histo">
+      <UniqueIdentifier>{c386e336-1e25-44b9-9316-501799d4464b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Monomer.cpp">
@@ -70,13 +73,13 @@
       <Filter>Source Files\thermostats</Filter>
     </ClCompile>
     <ClCompile Include="src\Histo.cpp">
-      <Filter>Source Files\utility</Filter>
+      <Filter>histo</Filter>
     </ClCompile>
     <ClCompile Include="src\Stat.cpp">
-      <Filter>Source Files\utility</Filter>
+      <Filter>histo</Filter>
     </ClCompile>
     <ClCompile Include="src\simulation_histo.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>histo</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -122,11 +125,11 @@
     <ClInclude Include="src\Bussi.h">
       <Filter>Header Files\thermostats</Filter>
     </ClInclude>
-    <ClInclude Include="src\Histo.h">
-      <Filter>Header Files\utility</Filter>
-    </ClInclude>
     <ClInclude Include="src\Stat.h">
-      <Filter>Header Files\utility</Filter>
+      <Filter>histo</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Histo.h">
+      <Filter>histo</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -29,7 +29,7 @@ double width_normal(double sigma2, int n, int a) {
 	return sqrt( abs ( 2*sigma2 * log( sqrt(M_PI_2 * sigma2) * a ) ) );
 }
 
-void statistic_add(double val, uint index, vector<Histo>& v_h, vector<Stat>& v_s) {
+void statistic_add(double val, unsigned index, vector<Histo>& v_h, vector<Stat>& v_s) {
 		if ( index >= v_h.size() ) return;
 		v_h[index].add(val);
 		v_s[index].add(val);
