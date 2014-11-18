@@ -114,12 +114,12 @@ return os;
 }
 
 int main(int argc, char* argv[]) {
-	ifstream input( argv[1] );
-	ofstream output( "hist_out.dat", ios::trunc);
+	string filename{argv[1]};
+	ifstream input(filename);
+	ofstream output;
 	istringstream iss;
 	string line{};
 	
-	int n_header=0;
 	string s_header;
 	streampos pos_header;
 	
@@ -128,16 +128,17 @@ int main(int argc, char* argv[]) {
 	vector <Stat> v_stat;
 	vector <Histo> v_histo;
 	
+	output.open(filename.insert(filename.find(".dat"),"_histo"), ios::out | ios::trunc);
+	
 	if (argc > 2) histoN = stod(argv[2]);
 	
-	for (int i=0; i<n_header; ++i) {
-		getline(input,line);
+	pos_header=input.tellg();
+	for (getline(input,line); !line.compare(0, 1, "#"); getline(input,line)) {
 		s_header += line;
 		s_header += '\n';
-	}
 	pos_header=input.tellg();
+	}
 	
-	getline(input,line);
 	assign(iss,line);
 	for (columns=0; ! iss.eof() ; ++columns) iss >> val;
 	v_stat.resize(columns);
@@ -175,7 +176,10 @@ int main(int argc, char* argv[]) {
 
 	for (auto& h : v_histo) h.norm();
 	
+	output << s_header;
 	output << v_histo;
 	
+	cout << "<< Die Datei '" << filename << "' wurde erstellt." << endl;
+	output.close();
 return 0;
 }
