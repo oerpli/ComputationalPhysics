@@ -1,6 +1,6 @@
 import Gnuplot
 import sys 
-import math as m
+import os
 
 def string_after(s,dem):
 	str_r = s.partition(dem)[2]
@@ -119,7 +119,10 @@ def set_titles(l_sim):
 ######### MAIN ##########
 g = Gnuplot.Gnuplot(persist = 1)
 
-l_sim = [Simulation(sys.argv[i]) for i in range( 1 , len(sys.argv) ) ]
+l_sim = [Simulation(sys.argv[i]) for i in range( 1 , len(sys.argv) ) if os.path.isfile(sys.argv[i])]
+if len(l_sim) == 0:
+	print "<< Es wurde keine Datei uebergeben."
+	sys.exit()
 print
 
 title = set_titles(l_sim)
