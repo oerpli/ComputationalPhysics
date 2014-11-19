@@ -75,9 +75,9 @@ int main(int argc, char* argv[]) {
 			thermostat = new Nose_Hoover{ poly, para_dtime, q };
 		}
 		else if (strcmp(argv[i_thermos], "Nose_Hoover_Chain") == 0) {
-		  double q_def{ poly.monomer_mass*poly.target_temperature()/poly.feder_konst() };
-			double q{ set_param(q_def * poly.monomers.size() , argv, argc, i_thermos + 1) };
-			double q2{ set_param( q_def , argv, argc, i_thermos + 2 ) };
+			double q_def{ poly.monomer_mass*poly.target_temperature() / poly.feder_konst() };
+			double q{ set_param(q_def * poly.monomers.size(), argv, argc, i_thermos + 1) };
+			double q2{ set_param(q_def, argv, argc, i_thermos + 2) };
 			thermostat = new Nose_Hoover_Chain{ poly, para_dtime, q, q2 };
 		}
 		else if (strcmp(argv[i_thermos], "Berendsen") == 0) {
@@ -96,7 +96,7 @@ int main(int argc, char* argv[]) {
 		thermostat = new Thermostat_None{ poly, para_dtime };
 	}
 	cout << "Thermostat:\t" << thermostat->name() << endl;
-	
+
 	s_para = "_p"; s_para += to_string((int)para_p);
 	s_para += "_T"; s_para += to_string((int)para_temp);
 
@@ -106,12 +106,12 @@ int main(int argc, char* argv[]) {
 	s_pos_vel = thermostat->name() + "_pos_vel" + s_para + ".dat";
 	dat_pos_vel.open(s_pos_vel, ios::out | ios::trunc);
 
-	dat_temp << "# " << poly.info()  << "\n# " << thermostat->info() << endl;
+	dat_temp << "# " << poly.info() << "\n# " << thermostat->info() << endl;
 	dat_temp << "# time temp epot" << endl;
-	
+
 	dat_pos_vel << "# " << poly.info() << "\n# " << thermostat->info() << endl;
 	dat_pos_vel << "# absPosition velocity force relPosition" << endl;
-	
+
 	// Simulation
 	for (int i = 0; i < para_warm; ++i) thermostat->propagate();
 	cout << "Warmlauf abgeschlossen" << endl;
@@ -122,7 +122,7 @@ int main(int argc, char* argv[]) {
 		if (!(i % index_to_file)) {
 			dat_temp << i*para_dtime;
 			dat_temp << " " << poly.calculate_temp();
-			dat_temp << " " << poly.update_epot()  << endl;
+			dat_temp << " " << poly.update_epot() << endl;
 			dat_pos_vel << poly;
 		}
 

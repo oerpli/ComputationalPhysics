@@ -23,7 +23,6 @@
     <ClCompile Include="src\Nose_Hoover_Chain.cpp" />
     <ClCompile Include="src\Polymer.cpp" />
     <ClCompile Include="src\Rand.cpp" />
-    <ClCompile Include="src\simulation_histo.cpp" />
     <ClCompile Include="src\Stat.cpp" />
     <ClCompile Include="src\test_Thermostat.cpp" />
     <ClCompile Include="src\Thermostat.cpp" />
@@ -86,7 +85,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>EnableAllWarnings</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>

@@ -73,13 +73,10 @@
       <Filter>Source Files\thermostats</Filter>
     </ClCompile>
     <ClCompile Include="src\Histo.cpp">
-      <Filter>histo</Filter>
+      <Filter>Source Files\utility</Filter>
     </ClCompile>
     <ClCompile Include="src\Stat.cpp">
-      <Filter>histo</Filter>
-    </ClCompile>
-    <ClCompile Include="src\simulation_histo.cpp">
-      <Filter>histo</Filter>
+      <Filter>Source Files\utility</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
