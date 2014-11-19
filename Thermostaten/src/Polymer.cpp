@@ -114,14 +114,18 @@ double Polymer::calculate_temp() const {
 string Polymer::ini() const {return m_ini;}
 
 string Polymer::info() const {
-	string ret{"Polymer "};
-	ret += "trotter ";
-	ret += to_string( monomers.size() );
-	ret += " monomerMass ";
-	ret += to_string( monomer_mass );
-	ret += " temp ";
-	ret += to_string( m_target_temp );
+	string ret{"Polymer"};
 	ret += " initiate ";
 	ret += m_ini;
+	ret += " trotter ";
+	ret += to_string( monomers.size() );
+	ret += " temp ";
+	ret += to_string( m_target_temp / ref_k );
+	ret += " beta ";
+	ret += to_string( 1. / m_target_temp );
+	ret += " monomerMass ";
+	ret += to_string( monomer_mass );
+	ret += " feder ";
+	ret += to_string( m_feder_konst );
 	return ret;
 }
