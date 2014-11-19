@@ -40,7 +40,7 @@ void statistic_add(double val, unsigned index, vector<Histo>& v_h, vector<Stat>&
 /* ######################### */
 int main(int argc, char* argv[]) {
 	//default für  p,runs,warmlauf,hist,Temp,dtime,ausgabe   :jedes xte wird ausgegeben
-	double a_para[]{64, 1E8, 1E7, 500, 20, 1E-15, 1};
+	double a_para[]{64, 1E8, 1E7, 1000, 20, 1E-15, 1};
 	double para_p, para_temp, para_dtime, para_runs, para_warm, para_aus, para_hist;
 	int a_para_size=sizeof(a_para)/sizeof(*a_para);
 	int			i_para{ 1 };
@@ -123,12 +123,16 @@ int main(int argc, char* argv[]) {
 
 	s_histo = thermostat->name() + "_histo" + s_para + ".dat";
 	
-	v_stat.resize(2);
-	v_histo.resize(2);
-	double sigma2=poly.target_temperature() / poly.monomer_mass;
-	v_histo[0].set(para_hist, 5*sqrt(sigma2));
-	sigma2=poly.target_temperature() / poly.feder_konst();
-	v_histo[1].set(para_hist, 5*sqrt(sigma2));
+	v_stat.resize(5);
+	v_histo.resize(5);
+	double sigma2 = poly.target_temperature() / poly.monomer_mass;
+	v_histo[0].set(para_hist, 5*sqrt(sigma2));  // velocity
+	sigma2 = poly.target_temperature() / poly.feder_konst();
+	v_histo[1].set(para_hist, 5*sqrt(sigma2));  // relPosition
+	sigma2 = 2.5 * pow( ref_k * para_temp , 2 );
+	v_histo[2].set(para_hist, .0, 100. ); // temp
+	v_histo[3].set(para_hist, 1); // absPosition
+	v_histo[4].set(para_hist, 0. , 100.); // epot
 	
 	// Simulation
 	for (int i = 0; i < para_warm; ++i) thermostat->propagate();
@@ -142,9 +146,12 @@ int main(int argc, char* argv[]) {
 				auto mend = poly.monomers.end();
 				for (++mj; mi != mend; ++mi, ++mj) {
 					if (mj == mend) mj = poly.monomers.begin();
+					statistic_add( mj->position, 3, v_histo, v_stat);
 					statistic_add( mi->velocity, 0, v_histo, v_stat);
 					statistic_add( *mj - *mi, 1, v_histo, v_stat);
 				}
+				statistic_add( poly.calculate_temp(), 2, v_histo, v_stat);
+				statistic_add( poly.update_epot(), 4, v_histo, v_stat);
 		}
 
 		if (!(i % index_print)) {
@@ -159,7 +166,7 @@ int main(int argc, char* argv[]) {
 
 	dat_histo << "# " << poly.info()  << "\n# " << thermostat->info() << endl;
 	dat_histo << "# " << "runs " << para_runs << " warm " << para_warm << endl;
-	dat_histo << "# velocity 1 relPos 3" << endl;
+	dat_histo << "# velocity 1 relPos 3 tempCol 5 absPosition 7 epot 9" << endl;
 	
 	dat_histo << "# " << scientific;
 	for (auto& stat : v_stat) {
