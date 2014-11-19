@@ -106,11 +106,13 @@ int main(int argc, char* argv[]) {
 	s_pos_vel = thermostat->name() + "_pos_vel" + s_para + ".dat";
 	dat_pos_vel.open(s_pos_vel, ios::out | ios::trunc);
 
-	dat_temp << "# " << poly.info() << "\n# " << thermostat->info() << endl;
-	dat_temp << "# time temp epot" << endl;
+	dat_temp << "# " << poly.info()  << "\n# " << thermostat->info() << endl;
+	dat_temp << "# " << "runs " << para_runs << " warm " << para_warm << endl;
+	dat_temp << "# velocity 1 relPos 3" << endl;
 
-	dat_pos_vel << "# " << poly.info() << "\n# " << thermostat->info() << endl;
-	dat_pos_vel << "# absPosition velocity force relPosition" << endl;
+	dat_pos_vel << "# " << poly.info()  << "\n# " << thermostat->info() << endl;
+	dat_pos_vel << "# " << "runs " << para_runs << " warm " << para_warm << endl;
+	dat_pos_vel << "# velocity 1 relPos 3" << endl;
 	
 	int index_to_flush = 64E6 / 64;
 	// Simulation
