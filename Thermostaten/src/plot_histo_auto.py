@@ -17,11 +17,14 @@ def plot_norm(kind , sim):
 	return re + "w l t 'theory',"
 
 class Simulation(object):
-	all_kinds = ["relPos" , "velocity", "testRAND"]
+	all_kinds = ["relPos", "absPosition", "velocity", "tempCol", "epot"]
 	
 	def plot_kind(self,s):
 		if s == "relPos": return "distance to neighbor"
 		if s == "velocity": return "velocity"
+		if s == "absPosition": return "absolut position"
+		if s == "tempCol": return "temperature"
+		
 		return s
 		
 	def __init__(self,filename):
