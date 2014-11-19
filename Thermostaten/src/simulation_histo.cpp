@@ -40,7 +40,7 @@ void statistic_add(double val, unsigned index, vector<Histo>& v_h, vector<Stat>&
 /* ######################### */
 int main(int argc, char* argv[]) {
 	//default für  p,runs,warmlauf,hist,Temp,dtime,ausgabe   :jedes xte wird ausgegeben
-	double a_para[]{64, 1E5, 1E4, 500, 20, 1E-15, 1};
+	double a_para[]{64, 1E8, 1E7, 500, 20, 1E-15, 1};
 	double para_p, para_temp, para_dtime, para_runs, para_warm, para_aus, para_hist;
 	int a_para_size=sizeof(a_para)/sizeof(*a_para);
 	int			i_para{ 1 };
@@ -154,7 +154,6 @@ int main(int argc, char* argv[]) {
 		}
 		thermostat->propagate();
 	}
-	delete thermostat;
 
 	dat_histo.open(s_histo, ios::out | ios::trunc);
 
@@ -172,9 +171,11 @@ int main(int argc, char* argv[]) {
 	for (auto& h : v_histo) h.norm();
 	dat_histo << v_histo;
 	
+	dat_histo << flush;
 	dat_histo.close();
 	
 	cout << "<< Die Datei '" << s_histo << "' wurde erstellt." << endl;
+	delete thermostat;
 	return 0;
 }
 
