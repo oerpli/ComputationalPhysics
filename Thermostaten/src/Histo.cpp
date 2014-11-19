@@ -37,14 +37,11 @@ void Histo::add(double val) {
 }
 
 bool Histo::output(ostream& os) {
-	if ( n_out >= n ) { 
-		os << "        \t        \t";
-		return false;
-	}
 	os.precision(8);
 	os << scientific;
 	os << min_output + n_out * width << '\t';
 	os << hist[n_out] << '\t';
+	if ( n_out >= n - 1 ) return false;
 	n_out++;
 	return true;
 }
