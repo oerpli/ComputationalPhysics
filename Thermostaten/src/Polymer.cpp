@@ -111,15 +111,17 @@ double Polymer::calculate_temp() const {
 	return av_energy / (0.5*ref_k);
 }
 
+string Polymer::ini() const {return m_ini;}
+
 string Polymer::info() const {
 	string ret{"Polymer "};
-	ret += "p ";
+	ret += "trotter ";
 	ret += to_string( monomers.size() );
 	ret += " monomerMass ";
 	ret += to_string( monomer_mass );
-	ret += " Temp ";
+	ret += " temp ";
 	ret += to_string( m_target_temp );
-	ret += " ";
+	ret += " initiate ";
 	ret += m_ini;
 	return ret;
 }

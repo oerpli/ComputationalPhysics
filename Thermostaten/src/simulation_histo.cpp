@@ -119,12 +119,14 @@ int main(int argc, char* argv[]) {
 	
 	s_para = "_p"; s_para += to_string((int)para_p);
 	s_para += "_T"; s_para += to_string((int)para_temp);
+	s_para += "_"; s_para += poly.ini();
 
 	s_histo = thermostat->name() + "_histo" + s_para + ".dat";
 	dat_histo.open(s_histo, ios::out | ios::trunc);
 
 	dat_histo << "# " << poly.info()  << "\n# " << thermostat->info() << endl;
-	dat_histo << "# velocity relPosition" << endl;
+	dat_histo << "# " << "runs " << para_runs << " warm " << para_warm << endl;
+	dat_histo << "# velocity 1 relPos 3" << endl;
 	
 	v_stat.resize(2);
 	v_histo.resize(2);

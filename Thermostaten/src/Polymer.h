@@ -37,6 +37,8 @@ public:
 	void	update_all();
 	
 	double calculate_temp() const;
+	
+	std::string ini() const;
 	std::string info() const;
 };
 #endif
