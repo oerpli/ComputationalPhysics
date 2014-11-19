@@ -25,7 +25,13 @@ double Rand::real_uniform(double min, double max){
 	return Rand::real_uniform()*(max - min) + min;
 }
 
-double Rand::real_chisquared(double n){
-	dis_chisquared.param(n);
+void Rand::real_chisquared_set(int n) {
+	if ( n == dis_chisquared.n() ) return;
+	chi_squared_distribution<double> buf_chi2(n);
+	dis_chisquared.param( buf_chi2.param() );
+}
+
+double Rand::real_chisquared(int n){
+	real_chisquared_set(n);
 	return dis_chisquared(generator);
 }
