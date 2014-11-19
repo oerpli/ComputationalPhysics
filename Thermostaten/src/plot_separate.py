@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 
 p = float(sys.argv[1])
 T = float(sys.argv[2])
+init = str(sys.argv[3])
 
 R = 0.0083143
 beta = 1./(R*T)
@@ -21,7 +22,7 @@ fig_pos = plt.figure(1, figsize = (16,12))
 fig_vel = plt.figure(2, figsize = (16,12))
 
 
-string ="*_histo_p"+str(int(p))+"_T"+str(int(T))+".dat"
+string ="*_histo_p"+str(int(p))+"_T"+str(int(T))+"_"+init+".dat"
 print string
 for file in glob.glob(string):
 	filename = str(file)
@@ -45,7 +46,7 @@ plt.xlim(-5.*sigma_pos,5.*sigma_pos)
 plt.ylim(10e-5, 10e2)
 plt.xlabel(r"distance to neighbor")
 plt.ylabel(r"probability")
-image_filename = "distance_distribution_p"+str(int(p))+"_T"+str(int(T))+".jpg"
+image_filename = "distance_distribution_p"+str(int(p))+"_T"+str(int(T))+"_"+init+".jpg"
 plt.savefig(image_filename)
 
 
@@ -57,7 +58,7 @@ plt.xlim(-5.*sigma_vel,5.*sigma_vel)
 plt.ylim(10e-5, 10e1)
 plt.xlabel(r"velocity")
 plt.ylabel(r"probability")
-image_filename = "velocity_distribution_p"+str(int(p))+"_T"+str(int(T))+".jpg"
+image_filename = "velocity_distribution_p"+str(int(p))+"_T"+str(int(T))+"_"+init+".jpg"
 plt.savefig(image_filename)
 plt.show()
 
