@@ -14,6 +14,6 @@ awk '
 	}
 
 	END {
-		printf "Integrate: %g\n",val/i*(last-first);
+		printf "Integrate: %g\n",val/(i+1)*(last-first);
 	} ' $1
 		
