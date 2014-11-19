@@ -23,6 +23,7 @@ void Histo::set(int in, double imin, double imax) {
 		
 	hist.clear();
 	hist.resize(n);
+	count = 0;
 }
 
 void Histo::set(int in, double imax) {set(in,-imax,imax);}
@@ -36,11 +37,14 @@ void Histo::add(double val) {
 }
 
 bool Histo::output(ostream& os) {
-	if ( n_out >= n ) return false;
+	if ( n_out >= n ) { 
+		os << "        \t        \t";
+		return false;
+	}
 	os.precision(8);
 	os << scientific;
-	os << min_output + n_out * width << " ";
-	os << hist[n_out] << " ";
+	os << min_output + n_out * width << '\t';
+	os << hist[n_out] << '\t';
 	n_out++;
 	return true;
 }
