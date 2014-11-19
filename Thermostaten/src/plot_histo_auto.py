@@ -26,6 +26,7 @@ class Simulation(object):
 		
 	def __init__(self,filename):
 		f = open(filename, 'r')
+		print "Lese '%s'" %filename
 		line = f.readline()
 		head = ""
 		while line[0] == '#':
@@ -116,9 +117,9 @@ def set_titles(l_sim):
 g = Gnuplot.Gnuplot(persist = 1)
 
 l_sim = [Simulation(sys.argv[i]) for i in range( 1 , len(sys.argv) ) ]
+print
 
 title = set_titles(l_sim)
-print title
 g( 'set title "' + title + '"' )
 
 g( 'set yrange [1E-5:]' )
@@ -128,10 +129,10 @@ plot_count = -1
 all_outF = "" 
 for kind in Simulation.all_kinds:
 	plot_data="plot"
+	l_p = list();
+	l_temp = list();
 	
 	for sim in l_sim:
-		l_p = list();
-		l_temp = list();
 		if sim.kinds.find(kind) < 0 : continue
 		l_p.append(sim.p)
 		l_temp.append(sim.temp)
