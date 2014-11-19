@@ -1,5 +1,6 @@
 #include "Stat.h"
 #include <cmath>
+#include <float.h>
 
 using namespace std;
 
@@ -24,6 +25,6 @@ void Stat::calc() {
 void Stat::reset() {
 	sum = sum2 = sigma = mu = 0;
 	n = 0;
-	min = INFINITY;
-	max = -INFINITY;
+	min = DBL_MAX; //instead of +-infinity to prevent overflow warnin.g
+	max = DBL_MIN;
 }
