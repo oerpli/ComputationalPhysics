@@ -108,11 +108,11 @@ int main(int argc, char* argv[]) {
 
 	dat_temp << "# " << poly.info()  << "\n# " << thermostat->info() << endl;
 	dat_temp << "# " << "runs " << para_runs << " warm " << para_warm << endl;
-	dat_temp << "# velocity 1 relPos 3" << endl;
-
+	dat_temp << "# time 1 tempCol 3 epot 5" << endl;
+	
 	dat_pos_vel << "# " << poly.info()  << "\n# " << thermostat->info() << endl;
 	dat_pos_vel << "# " << "runs " << para_runs << " warm " << para_warm << endl;
-	dat_pos_vel << "# velocity 1 relPos 3" << endl;
+	dat_pos_vel << "# absPosition 1 velocity 3 force 5 relPos 7" << endl;
 	
 	int index_to_flush = 64E6 / 64;
 	// Simulation
