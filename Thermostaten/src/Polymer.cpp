@@ -59,7 +59,7 @@ std::ostream & Polymer::print(std::ostream &os) const {
 	for (; mi != mend; ++mi, ++mj) {
 		if (mj == monomers.end()) mj = monomers.begin();
 		print_m(*mi, os);
-		os << "  " << *mj - *mi << std::endl;
+		os << "  " << *mj - *mi << '\n';
 	}
 	return os;
 }

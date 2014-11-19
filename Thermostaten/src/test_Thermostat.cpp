@@ -111,7 +111,8 @@ int main(int argc, char* argv[]) {
 
 	dat_pos_vel << "# " << poly.info() << "\n# " << thermostat->info() << endl;
 	dat_pos_vel << "# absPosition velocity force relPosition" << endl;
-
+	
+	int index_to_flush = 1E3 / poly.monomers.size();
 	// Simulation
 	for (int i = 0; i < para_warm; ++i) thermostat->propagate();
 	cout << "Warmlauf abgeschlossen" << endl;
@@ -122,8 +123,12 @@ int main(int argc, char* argv[]) {
 		if (!(i % index_to_file)) {
 			dat_temp << i*para_dtime;
 			dat_temp << " " << poly.calculate_temp();
-			dat_temp << " " << poly.update_epot() << endl;
+			dat_temp << " " << poly.update_epot() << '\n';
 			dat_pos_vel << poly;
+			if ( ! (i % index_to_flush) ) {
+				dat_temp << flush;
+				dat_pos_vel << flush;
+			}
 		}
 
 		if (!(i % index_print)) {
