@@ -96,9 +96,13 @@ int main(int argc, char* argv[]) {
 		thermostat = new Thermostat_None{ poly, para_dtime };
 	}
 	cout << "Thermostat:\t" << thermostat->name() << endl;
-
+	
+	char s_buf[]{};
 	s_para = "_p"; s_para += to_string((int)para_p);
 	s_para += "_T"; s_para += to_string((int)para_temp);
+	sprintf(s_buf, "%.1E", para_runs);
+	s_para += "_run"; s_para += s_buf;
+	s_para += "_"; s_para += poly.ini();
 
 	s_temp = thermostat->name() + "_temp" + s_para + ".dat";
 	dat_temp.open(s_temp, ios::out | ios::trunc);
