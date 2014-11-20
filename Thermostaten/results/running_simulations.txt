@@ -3,4 +3,6 @@ Abraham:
 Maud:
 
 Patrick:
-	def Lowe_Andersen def; def Lowe_Andersen one;
+	def Nose_Hoover def; def Nose_Hoover def one
+	def Nose_Hoover_Chain def
+	def Andersen def one
