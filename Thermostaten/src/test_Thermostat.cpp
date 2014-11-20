@@ -20,6 +20,9 @@ using namespace consts;
 #include <cstring>
 using namespace std;
 
+inline string& remove_special( string& str ) { 
+	return str.erase( str.find( "+" ) , 1 );
+}
 
 /* ######################### */
 int main(int argc, char* argv[]) {
@@ -27,7 +30,7 @@ int main(int argc, char* argv[]) {
 	double a_para[]{4, 20, 1E-15, 1E6, 1E3, 1};
 	double para_p, para_temp, para_dtime, para_runs, para_warm, para_aus;
 	int			i_para{ 1 };
-	string s_para{};
+	stringstream ss_para;
 	string	s_temp{}, s_pos_vel{};
 	ofstream dat_temp{}, dat_pos_vel{};
 	Thermostat *thermostat{};
@@ -97,18 +100,17 @@ int main(int argc, char* argv[]) {
 	}
 	cout << "Thermostat:\t" << thermostat->name() << endl;
 	
-	char s_buf[]{};
-	s_para = "_p"; s_para += to_string((int)para_p);
-	s_para += "_T"; s_para += to_string((int)para_temp);
-	sprintf(s_buf, "%.1E", para_runs);
-	s_para += "_run"; s_para += s_buf;
-	s_para += "_"; s_para += poly.ini();
+	ss_para.precision(0);
+	ss_para << "_p" << (int) para_p;
+	ss_para << "_T" << (int) para_temp;
+	ss_para << "_run" << scientific <<  para_runs;
+	ss_para << "_" << poly.ini();
 
-	s_temp = thermostat->name() + "_temp" + s_para + ".dat";
-	dat_temp.open(s_temp, ios::out | ios::trunc);
+	s_temp = thermostat->name() + "_temp" + ss_para.str() + ".dat";
+	dat_temp.open( remove_special( s_temp ), ios::out | ios::trunc);
 
-	s_pos_vel = thermostat->name() + "_pos_vel" + s_para + ".dat";
-	dat_pos_vel.open(s_pos_vel, ios::out | ios::trunc);
+	s_pos_vel = thermostat->name() + "_pos_vel" + ss_para.str() + ".dat";
+	dat_pos_vel.open( remove_special( s_pos_vel ), ios::out | ios::trunc);
 
 	dat_temp << "# " << poly.info()  << "\n# " << thermostat->info() << endl;
 	dat_temp << "# " << "runs " << para_runs << " warm " << para_warm << endl;

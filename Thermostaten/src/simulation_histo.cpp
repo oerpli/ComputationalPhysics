@@ -26,6 +26,9 @@ using namespace consts;
 #include <cstring>
 using namespace std;
 
+inline string& remove_special( string& str ) { 
+	return str.erase( str.find( "+" ) , 1 );
+}
 
 double width_normal(double sigma2, int n, int a) {
 	return sqrt( abs ( 2*sigma2 * log( sqrt(M_PI_2 * sigma2) * a ) ) );
@@ -44,7 +47,7 @@ int main(int argc, char* argv[]) {
 	double para_p, para_temp, para_dtime, para_runs, para_warm, para_aus, para_hist;
 	int a_para_size=sizeof(a_para)/sizeof(*a_para);
 	int			i_para{ 1 };
-	string s_para{};
+	stringstream ss_para;
 	string	s_histo{};
 	ofstream dat_histo{};
 	Thermostat *thermostat{};
@@ -117,15 +120,15 @@ int main(int argc, char* argv[]) {
 	}
 	cout << "Thermostat:\t" << thermostat->name() << endl;
 	
-	char s_buf[]{};
-	s_para = "_p"; s_para += to_string((int)para_p);
-	s_para += "_T"; s_para += to_string((int)para_temp);
-	sprintf(s_buf, "%.1E", para_runs);
-	s_para += "_run"; s_para += s_buf;
-	s_para += "_"; s_para += poly.ini();
 	
-	s_histo = thermostat->name() + "_histo" + s_para + ".dat";
+	ss_para.precision(0);
+	ss_para << "_p" << (int) para_p;
+	ss_para << "_T" << (int) para_temp;
+	ss_para << "_run" << scientific <<  para_runs;
+	ss_para << "_" << poly.ini();
 	
+	s_histo = thermostat->name() + "_histo" + ss_para.str() + ".dat";
+		
 	v_stat.resize(5);
 	v_histo.resize(5);
 	double sigma2 = poly.target_temperature() / poly.monomer_mass;
@@ -165,7 +168,7 @@ int main(int argc, char* argv[]) {
 		thermostat->propagate();
 	}
 
-	dat_histo.open(s_histo, ios::out | ios::trunc);
+	dat_histo.open(remove_special( s_histo ), ios::out | ios::trunc);
 
 	dat_histo << "# " << poly.info()  << "\n# " << thermostat->info() << endl;
 	dat_histo << "# " << "runs " << para_runs << " warm " << para_warm << endl;
