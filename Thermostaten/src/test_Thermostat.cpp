@@ -20,8 +20,8 @@ using namespace consts;
 #include <cstring>
 using namespace std;
 
-inline string& remove_special( string& str ) { 
-	return str.erase( str.find( "+" ) , 1 );
+inline string& remove_special(string& str) {
+	return str.erase(str.find("+"), 1);
 }
 
 /* ######################### */
@@ -98,28 +98,33 @@ int main(int argc, char* argv[]) {
 	else {
 		thermostat = new Thermostat_None{ poly, para_dtime };
 	}
+
 	cout << "Thermostat:\t" << thermostat->name() << endl;
-	
+	cout << "Trotter Zahl:\t" << para_p << endl;
+	cout << "Zeitschritt:\t" << para_dtime << endl;
+	cout << "Sim. Laenge:\t" << para_runs << endl;
+	cout << "Warmlaufzeit:\t" << para_warm << endl;
+
 	ss_para.precision(0);
-	ss_para << "_p" << (int) para_p;
-	ss_para << "_T" << (int) para_temp;
-	ss_para << "_run" << scientific <<  para_runs;
+	ss_para << "_p" << (int)para_p;
+	ss_para << "_T" << (int)para_temp;
+	ss_para << "_run" << scientific << para_runs;
 	ss_para << "_" << poly.ini();
 
 	s_temp = thermostat->name() + "_temp" + ss_para.str() + ".dat";
-	dat_temp.open( remove_special( s_temp ), ios::out | ios::trunc);
+	dat_temp.open(remove_special(s_temp), ios::out | ios::trunc);
 
 	s_pos_vel = thermostat->name() + "_pos_vel" + ss_para.str() + ".dat";
-	dat_pos_vel.open( remove_special( s_pos_vel ), ios::out | ios::trunc);
+	dat_pos_vel.open(remove_special(s_pos_vel), ios::out | ios::trunc);
 
-	dat_temp << "# " << poly.info()  << "\n# " << thermostat->info() << endl;
+	dat_temp << "# " << poly.info() << "\n# " << thermostat->info() << endl;
 	dat_temp << "# " << "runs " << para_runs << " warm " << para_warm << endl;
 	dat_temp << "# time 1 tempCol 3 epot 5" << endl;
-	
-	dat_pos_vel << "# " << poly.info()  << "\n# " << thermostat->info() << endl;
+
+	dat_pos_vel << "# " << poly.info() << "\n# " << thermostat->info() << endl;
 	dat_pos_vel << "# " << "runs " << para_runs << " warm " << para_warm << endl;
 	dat_pos_vel << "# absPosition 1 velocity 3 force 5 relPos 7" << endl;
-	
+
 	int index_to_flush = 64E6 / 64;
 	// Simulation
 	for (int i = 0; i < para_warm; ++i) thermostat->propagate();
@@ -127,18 +132,22 @@ int main(int argc, char* argv[]) {
 
 	int index_print{ (int)(para_runs * 4E-1) };
 	int index_to_file{ (int)para_aus };
+	int onepercent = para_runs / 100;
+	int percent = 0;
 	for (int i = 0; i < para_runs; i++) {
 		if (!(i % index_to_file)) {
 			dat_temp << i*para_dtime;
 			dat_temp << " " << poly.calculate_temp();
 			dat_temp << " " << poly.update_epot() << '\n';
 			dat_pos_vel << poly;
-			if ( ! (i % index_to_flush) ) {
+			if (!(i % index_to_flush)) {
 				dat_temp << flush;
 				dat_pos_vel << flush;
 			}
 		}
-
+		if (!(i % onepercent)){
+			cout << percent++ << "%" << endl;
+		}
 		if (!(i % index_print)) {
 			cout << i*para_dtime << endl;
 			cout << "Ekin: " << poly.update_ekin() << endl;
