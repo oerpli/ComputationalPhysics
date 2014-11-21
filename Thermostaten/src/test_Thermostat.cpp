@@ -125,7 +125,7 @@ int main(int argc, char* argv[]) {
 	dat_pos_vel << "# " << "runs " << para_runs << " warm " << para_warm << endl;
 	dat_pos_vel << "# absPosition 1 velocity 3 force 5 relPos 7" << endl;
 
-	int index_to_flush = 64E6 / 64;
+	int index_to_flush = 1E6;
 	// Simulation
 	for (int i = 0; i < para_warm; ++i) thermostat->propagate();
 	cout << "Warmlauf abgeschlossen" << endl;
