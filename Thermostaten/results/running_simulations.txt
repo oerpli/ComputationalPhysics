@@ -1,6 +1,6 @@
 Abraham:
 
-Maud:
+Maud: Bussi p64 T20 one, Gaussian p64 T20 one, Nose_Hoover step 1E-16 1E9 one 
 
 Patrick:
 
