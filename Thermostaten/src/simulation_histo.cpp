@@ -144,25 +144,16 @@ int main(int argc, char* argv[]) {
 	int onepercent = para_warm / 100;
 	int percent = 0;
 	for (int i = 0; i < para_warm; ++i){
-		if (!(i%onepercent)) {
-			++percent;
-			if (! (percent % 10) ) cout << endl;
-			cout << percent << "% " << flush;
-		}
+		if (!(i%onepercent)) cout << ++percent << "%\r" << flush;
 		thermostat->propagate();
 	}
 	cout << endl << "Warmlauf abgeschlossen" << endl;
-	
+
 	onepercent = para_runs / 100;
 	percent = 0;
 	int index_to_file{ (int)para_aus };
 	for (int i = 0; i < para_runs; i++) {
-		if (!(i%onepercent)){
-			++percent;
-			if (! (percent % 10) ) cout << endl;
-			cout << percent << "% " << flush;
-		}
-		
+		if (!(i%onepercent)) cout << ++percent << "%\r" << flush;
 		if (!(i % index_to_file)) {
 			auto mi = poly.monomers.begin(), mj = poly.monomers.begin();
 			auto mend = poly.monomers.end();
@@ -179,7 +170,7 @@ int main(int argc, char* argv[]) {
 		thermostat->propagate();
 	}
 	cout << endl;
-	
+
 	dat_histo.open(remove_special(s_histo), ios::out | ios::trunc);
 
 	dat_histo << "# " << poly.info() << "\n# " << thermostat->info() << endl;
