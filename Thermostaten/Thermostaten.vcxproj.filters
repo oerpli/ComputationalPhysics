@@ -57,9 +57,6 @@
     <ClCompile Include="src\Lowe_Andersen.cpp">
       <Filter>Source Files\thermostats</Filter>
     </ClCompile>
-    <ClCompile Include="src\test_Thermostat.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Berendsen.cpp">
       <Filter>Source Files\thermostats</Filter>
     </ClCompile>
@@ -77,6 +74,9 @@
     </ClCompile>
     <ClCompile Include="src\Stat.cpp">
       <Filter>Source Files\utility</Filter>
+    </ClCompile>
+    <ClCompile Include="src\simulation_histo.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

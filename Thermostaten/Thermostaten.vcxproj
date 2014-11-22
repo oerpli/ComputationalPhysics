@@ -23,8 +23,8 @@
     <ClCompile Include="src\Nose_Hoover_Chain.cpp" />
     <ClCompile Include="src\Polymer.cpp" />
     <ClCompile Include="src\Rand.cpp" />
+    <ClCompile Include="src\simulation_histo.cpp" />
     <ClCompile Include="src\Stat.cpp" />
-    <ClCompile Include="src\test_Thermostat.cpp" />
     <ClCompile Include="src\Thermostat.cpp" />
     <ClCompile Include="src\Thermostat_None.cpp" />
   </ItemGroup>
