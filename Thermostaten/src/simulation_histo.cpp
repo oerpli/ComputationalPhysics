@@ -144,17 +144,25 @@ int main(int argc, char* argv[]) {
 	int onepercent = para_warm / 100;
 	int percent = 0;
 	for (int i = 0; i < para_warm; ++i){
-		if (!(i%onepercent))cout << percent++ << "%" << endl;
+		if (!(i%onepercent)) {
+			++percent;
+			if (! (percent % 10) ) cout << endl;
+			cout << percent << "% " << flush;
+		}
 		thermostat->propagate();
 	}
-	cout << "Warmlauf abgeschlossen" << endl;
+	cout << endl << "Warmlauf abgeschlossen" << endl;
+	
 	onepercent = para_runs / 100;
 	percent = 0;
-	int index_print{ (int)(para_runs * 4E-1) };
 	int index_to_file{ (int)para_aus };
 	for (int i = 0; i < para_runs; i++) {
-		if (!(i%onepercent))cout << percent++ << "%" << endl;
-
+		if (!(i%onepercent)){
+			++percent;
+			if (! (percent % 10) ) cout << endl;
+			cout << percent << "% " << flush;
+		}
+		
 		if (!(i % index_to_file)) {
 			auto mi = poly.monomers.begin(), mj = poly.monomers.begin();
 			auto mend = poly.monomers.end();
@@ -168,14 +176,10 @@ int main(int argc, char* argv[]) {
 			statistic_add(poly.update_epot(), 4, v_histo, v_stat);
 		}
 
-		if (!(i % index_print)) {
-			cout << i*para_dtime << endl;
-			cout << "Ekin: " << poly.update_ekin() << endl;
-			cout << "T: " << poly.calculate_temp() << endl;
-		}
 		thermostat->propagate();
 	}
-
+	cout << endl;
+	
 	dat_histo.open(remove_special(s_histo), ios::out | ios::trunc);
 
 	dat_histo << "# " << poly.info() << "\n# " << thermostat->info() << endl;
