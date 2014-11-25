@@ -143,7 +143,7 @@ int main(int argc, char* argv[]) {
 	// Simulation
 	int onepercent = para_warm / 100;
 	int percent = 0;
-	for (int i = 0; i < para_warm; ++i){
+	for (long long i = 0; i < para_warm; ++i){
 		if (!(i%onepercent)) cout << ++percent << "%\r" << flush;
 		thermostat->propagate();
 	}
@@ -152,7 +152,7 @@ int main(int argc, char* argv[]) {
 	onepercent = para_runs / 100;
 	percent = 0;
 	int index_to_file{ (int)para_aus };
-	for (int i = 0; i < para_runs; i++) {
+	for (long long i = 0; i < para_runs; i++) {
 		if (!(i%onepercent)) cout << ++percent << "%\r" << flush;
 		if (!(i % index_to_file)) {
 			auto mi = poly.monomers.begin(), mj = poly.monomers.begin();

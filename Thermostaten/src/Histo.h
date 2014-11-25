@@ -8,8 +8,8 @@ private:
 	std::vector<double> hist;
 	double min, max, width;
 	double min_border, max_border, min_output;
-	int n, n_out;
-	long count;
+	long n, n_out;
+	long long count;
 
 public:
 	Histo();

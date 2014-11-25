@@ -125,16 +125,16 @@ int main(int argc, char* argv[]) {
 	dat_pos_vel << "# " << "runs " << para_runs << " warm " << para_warm << endl;
 	dat_pos_vel << "# absPosition 1 velocity 3 force 5 relPos 7" << endl;
 
-	int index_to_flush = 1E6;
+	int index_to_flush{ (int) ( 1E8 / ( 15 * 4 * poly.monomers.size() ) ) }; //Ausgabe etwa alle 1E8 B
 	// Simulation
-	for (int i = 0; i < para_warm; ++i) thermostat->propagate();
+	for (long long i = 0; i < para_warm; ++i) thermostat->propagate();
 	cout << "Warmlauf abgeschlossen" << endl;
 
 	int index_print{ (int)(para_runs * 4E-1) };
 	int index_to_file{ (int)para_aus };
 	int onepercent = para_runs / 100;
 	int percent = 0;
-	for (int i = 0; i < para_runs; i++) {
+	for (long long i = 0; i < para_runs; i++) {
 		if (!(i % index_to_file)) {
 			dat_temp << i*para_dtime;
 			dat_temp << " " << poly.calculate_temp();
