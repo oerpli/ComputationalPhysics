@@ -125,15 +125,19 @@ int main(int argc, char* argv[]) {
 	dat_pos_vel << "# " << "runs " << para_runs << " warm " << para_warm << endl;
 	dat_pos_vel << "# absPosition 1 velocity 3 force 5 relPos 7" << endl;
 
-	int index_to_flush{ (int) ( 1E8 / ( 15 * 4 * poly.monomers.size() ) ) }; //Ausgabe etwa alle 1E8 B
 	// Simulation
-	for (long long i = 0; i < para_warm; ++i) thermostat->propagate();
+	int index_to_flush{ (int) ( 1E8 / ( 15 * 4 * poly.monomers.size() ) ) }; //Ausgabe etwa alle 1E8 B
+	long long onepercent = para_warm / 100;
+	int percent = 0;
+	for (long long i = 0; i < para_warm; ++i){
+		if (!(i%onepercent)) cout << ++percent << "%\r" << flush;
+		thermostat->propagate();
+	}
 	cout << "Warmlauf abgeschlossen" << endl;
 
-	int index_print{ (int)(para_runs * 4E-1) };
 	int index_to_file{ (int)para_aus };
-	int onepercent = para_runs / 100;
-	int percent = 0;
+	onepercent = para_runs / 100;
+	percent = 0;
 	for (long long i = 0; i < para_runs; i++) {
 		if (!(i % index_to_file)) {
 			dat_temp << i*para_dtime;
@@ -145,14 +149,7 @@ int main(int argc, char* argv[]) {
 				dat_pos_vel << flush;
 			}
 		}
-		if (!(i % onepercent)){
-			cout << percent++ << "%" << endl;
-		}
-		if (!(i % index_print)) {
-			cout << i*para_dtime << endl;
-			cout << "Ekin: " << poly.update_ekin() << endl;
-			cout << "T: " << poly.calculate_temp() << endl;
-		}
+		if (!(i%onepercent)) cout << ++percent << "%\r" << flush;
 		thermostat->propagate();
 	}
 	dat_temp << flush;
