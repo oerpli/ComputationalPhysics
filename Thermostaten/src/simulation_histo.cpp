@@ -141,7 +141,7 @@ int main(int argc, char* argv[]) {
 	v_histo[4].set(para_hist, 0., 100.); // epot
 
 	// Simulation
-	int onepercent = para_warm / 100;
+	long long onepercent = para_warm / 100;
 	int percent = 0;
 	for (long long i = 0; i < para_warm; ++i){
 		if (!(i%onepercent)) cout << ++percent << "%\r" << flush;

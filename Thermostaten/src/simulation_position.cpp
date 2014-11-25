@@ -161,7 +161,7 @@ int main(int argc, char* argv[]) {
 	s_position = thermostat->name() + "_position" + ss_para.str() + ".dat";
 
 	// Simulation
-	int onepercent = para_warm / 100;
+	long long onepercent = para_warm / 100;
 	int percent = 0;
 	for (long long i = 0; i < para_warm; ++i){
 		if (!(i%onepercent)) cout << ++percent << "%\r" << flush;
