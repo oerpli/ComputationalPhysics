@@ -26,8 +26,8 @@ inline string& remove_special(string& str) {
 
 /* ######################### */
 int main(int argc, char* argv[]) {
-	//default für  p,Temp,dtime,runs,warmlauf,ausgabe   :jedes xte wird ausgegeben
-	double a_para[]{4, 20, 1E-15, 1E6, 1E3, 1};
+	//default für  runs,warmlauf,dtime,p,Temp,ausgabe   :jedes xte wird ausgegeben
+	double a_para[]{1E8, 1E7, 1E-15, 64, 20, 1};
 	double para_p, para_temp, para_dtime, para_runs, para_warm, para_aus;
 	int			i_para{ 1 };
 	stringstream ss_para;
@@ -40,11 +40,11 @@ int main(int argc, char* argv[]) {
 		if (is_number(argv[i_para])) a_para[i_para - 1] = stod(argv[i_para]);
 		else break;
 	}
-	para_p = a_para[0];
-	para_temp = a_para[1];
+	para_p = a_para[3];
+	para_temp = a_para[4];
 	para_dtime = a_para[2] / ref_time;
-	para_runs = a_para[3];
-	para_warm = a_para[4];
+	para_runs = a_para[0];
+	para_warm = a_para[1];
 	para_aus = a_para[5];
 
 	while (i_para < argc - 1 && is_number(argv[i_para])) ++i_para;
@@ -119,7 +119,7 @@ int main(int argc, char* argv[]) {
 
 	dat_temp << "# " << poly.info() << "\n# " << thermostat->info() << endl;
 	dat_temp << "# " << "runs " << para_runs << " warm " << para_warm << endl;
-	dat_temp << "# time 1 tempCol 3 epot 5" << endl;
+	dat_temp << "# time 1 tempCol 3 epot 5 schwerPos 7 schwerVel 9" << endl;
 
 	dat_pos_vel << "# " << poly.info() << "\n# " << thermostat->info() << endl;
 	dat_pos_vel << "# " << "runs " << para_runs << " warm " << para_warm << endl;
@@ -142,7 +142,9 @@ int main(int argc, char* argv[]) {
 		if (!(i % index_to_file)) {
 			dat_temp << i*para_dtime;
 			dat_temp << " " << poly.calculate_temp();
-			dat_temp << " " << poly.update_epot() << '\n';
+			dat_temp << " " << poly.update_epot();
+			dat_temp << " " << poly.update_position();
+			dat_temp << " " << poly.velocity << '\n';
 			dat_pos_vel << poly;
 			if (!(i % index_to_flush)) {
 				dat_temp << flush;

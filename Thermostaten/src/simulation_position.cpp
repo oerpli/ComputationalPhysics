@@ -65,8 +65,8 @@ void statistic_add(double val, unsigned index, vector<Histo>& v_h, vector<Stat>&
 
 /* ######################### */
 int main(int argc, char* argv[]) {
-	//default für  p,runs,warmlauf,hist,Temp,dtime,ausgabe   :jedes xte wird ausgegeben
-	double a_para[]{64, 1E8, 1E7, 20, 1E-15, 1};
+	//default für  runs,warmlauf,dtime,p,Temp,hist,ausgabe   :jedes xte wird ausgegeben
+	double a_para[]{1E8, 1E7, 1E-15, 64, 20, 1};
 	double para_p, para_temp, para_dtime, para_runs, para_warm, para_aus;
 	int a_para_size = sizeof(a_para) / sizeof(*a_para);
 	int			i_para{ 1 };
@@ -82,11 +82,11 @@ int main(int argc, char* argv[]) {
 		if (is_number(argv[i_para])) a_para[i_para - 1] = stod(argv[i_para]);
 		else break;
 	}
-	para_p = a_para[0];
-	para_temp = a_para[3];
-	para_dtime = a_para[4] / ref_time;
-	para_runs = a_para[1];
-	para_warm = a_para[2];
+	para_p = a_para[3];
+	para_temp = a_para[4];
+	para_dtime = a_para[2] / ref_time;
+	para_runs = a_para[0];
+	para_warm = a_para[1];
 	para_aus = a_para[5];
 
 	cout << "Es werden etwa " << to_human ( 15 * 7./8 * (1 + para_p) * para_runs );

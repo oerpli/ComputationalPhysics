@@ -42,8 +42,9 @@ void statistic_add(double val, unsigned index, vector<Histo>& v_h, vector<Stat>&
 
 /* ######################### */
 int main(int argc, char* argv[]) {
-	//default für  p,runs,warmlauf,hist,Temp,dtime,ausgabe   :jedes xte wird ausgegeben
-	double a_para[]{64, 1E8, 1E7, 1000, 20, 1E-15, 1};
+	//default für  runs,warmlauf,dtime,p,Temp,hist,ausgabe   :jedes xte wird ausgegeben
+	double a_para[]{1E8, 1E7, 1E-15, 64, 20, 1000, 1};
+	
 	double para_p, para_temp, para_dtime, para_runs, para_warm, para_aus, para_hist;
 	int a_para_size = sizeof(a_para) / sizeof(*a_para);
 	int			i_para{ 1 };
@@ -59,13 +60,13 @@ int main(int argc, char* argv[]) {
 		if (is_number(argv[i_para])) a_para[i_para - 1] = stod(argv[i_para]);
 		else break;
 	}
-	para_p = a_para[0];
+	para_p = a_para[3];
 	para_temp = a_para[4];
-	para_dtime = a_para[5] / ref_time;
-	para_runs = a_para[1];
-	para_warm = a_para[2];
+	para_dtime = a_para[2] / ref_time;
+	para_runs = a_para[0];
+	para_warm = a_para[1];
 	para_aus = a_para[6];
-	para_hist = a_para[3];
+	para_hist = a_para[5];
 
 	while (i_para < argc - 1 && is_number(argv[i_para])) ++i_para;
 	int i_thermos = i_para;
@@ -129,17 +130,20 @@ int main(int argc, char* argv[]) {
 
 	s_histo = thermostat->name() + "_histo" + ss_para.str() + ".dat";
 
-	v_stat.resize(5);
-	v_histo.resize(5);
+	v_stat.resize(7);
+	v_histo.resize(7);
 	double sigma2 = poly.target_temperature() / poly.monomer_mass;
 	v_histo[0].set(para_hist, 5 * sqrt(sigma2));  // velocity
 	sigma2 = poly.target_temperature() / poly.feder_konst();
 	v_histo[1].set(para_hist, 5 * sqrt(sigma2));  // relPosition
 	sigma2 = 2.5 * pow(ref_k * para_temp, 2);
-	v_histo[2].set(para_hist, .0, 100.); // temp
-	v_histo[3].set(para_hist, 1); // absPosition
+	v_histo[2].set(para_hist, .0, 150.); // temp
+	v_histo[3].set(para_hist, 5); // absPosition
 	v_histo[4].set(para_hist, 0., 100.); // epot
-
+	v_histo[5].set(para_hist, 5); // schwerPos
+	sigma2 = poly.target_temperature() / poly.monomer_mass;
+	v_histo[6].set(para_hist, 5 * sqrt(sigma2));  // schwerVel
+	
 	// Simulation
 	long long onepercent = para_warm / 100;
 	int percent = 0;
@@ -165,6 +169,8 @@ int main(int argc, char* argv[]) {
 			}
 			statistic_add(poly.calculate_temp(), 2, v_histo, v_stat);
 			statistic_add(poly.update_epot(), 4, v_histo, v_stat);
+			statistic_add(poly.update_position(), 5, v_histo, v_stat);
+			statistic_add(poly.velocity, 6, v_histo, v_stat);
 		}
 
 		thermostat->propagate();
@@ -175,7 +181,8 @@ int main(int argc, char* argv[]) {
 
 	dat_histo << "# " << poly.info() << "\n# " << thermostat->info() << endl;
 	dat_histo << "# " << "runs " << para_runs << " warm " << para_warm << endl;
-	dat_histo << "# velocity 1 relPos 3 tempCol 5 absPosition 7 epot 9" << endl;
+	dat_histo << "# velocity 1 relPos 3 tempCol 5 absPosition 7 epot 9";
+	dat_histo << " schwerPos 11 schwerVel 13" << endl;
 
 	dat_histo << "# " << scientific;
 	for (auto& stat : v_stat) {
