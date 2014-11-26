@@ -78,10 +78,8 @@ void Polymer::update_forces() {
 
 double Polymer::update_ekin(){
 	ekin = 0.0;
-	double av_velocity = 0.0;
-	for (auto& m : monomers) av_velocity += m.velocity;
-	av_velocity /= monomers.size();
-	for (auto& m : monomers) ekin += pow(m.velocity - av_velocity, 2);
+	update_velocity();
+	for (auto& m : monomers) ekin += pow(m.velocity - velocity, 2);
 	ekin *= monomer_mass*0.5;
 	return ekin;
 }
@@ -96,17 +94,31 @@ double Polymer::update_epot() {
 	return epot *= m_feder_konst *0.5;
 }
 
+double Polymer::update_position() {
+	position = 0;
+	for ( auto& m : monomers ) position += m.position;
+	position /= monomers.size();
+	return position;
+}
+
+double Polymer::update_velocity() {
+	velocity = 0;
+	for ( auto& m : monomers ) velocity += m.velocity;
+	velocity /= monomers.size();
+	return velocity;
+}
+
 void Polymer::update_all() {
 	update_forces();
 	update_epot();
-	update_ekin();
+	update_ekin(); // Aufruf von update_velocity();
+	update_position();
 }
 
-double Polymer::calculate_temp() const {
-	double av_velocity = 0, av_energy = 0;
-	for (auto& m : monomers) av_velocity += m.velocity;
-	av_velocity /= monomers.size();
-	for (auto& m : monomers) av_energy += pow(m.velocity - av_velocity, 2);
+double Polymer::calculate_temp() {
+	double av_energy = 0;
+	update_velocity();
+	for (auto& m : monomers) av_energy += pow(m.velocity - velocity, 2);
 	av_energy *= monomer_mass / 2 / monomers.size();
 	return av_energy / (0.5*ref_k);
 }
