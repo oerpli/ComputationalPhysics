@@ -46,8 +46,6 @@ bool Histo::output(ostream& os) {
 	return true;
 }
 
-bool Histo::output() {return output(cout);}
-
 void Histo::output_reset() {n_out=0;}
 
 void Histo::norm() {
