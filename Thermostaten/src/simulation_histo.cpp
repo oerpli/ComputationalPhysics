@@ -119,9 +119,14 @@ int main(int argc, char* argv[]) {
 	else {
 		thermostat = new Thermostat_None{ poly, para_dtime };
 	}
+
 	cout << "Thermostat:\t" << thermostat->name() << endl;
-
-
+	cout << "Trotter Zahl:\t" << poly.monomers.size() << endl;
+	cout << "Initierung:\t" << poly.ini() << endl;
+	cout << "Zeitschritt:\t" << para_dtime << endl;
+	cout << "Sim. Laenge:\t" << para_runs << endl;
+	cout << "Warmlaufzeit:\t" << para_warm << endl;
+	
 	ss_para.precision(0);
 	ss_para << "_p" << (int)para_p;
 	ss_para << "_T" << (int)para_temp;

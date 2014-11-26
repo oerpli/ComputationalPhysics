@@ -100,7 +100,8 @@ int main(int argc, char* argv[]) {
 	}
 
 	cout << "Thermostat:\t" << thermostat->name() << endl;
-	cout << "Trotter Zahl:\t" << para_p << endl;
+	cout << "Trotter Zahl:\t" << poly.monomers.size() << endl;
+	cout << "Initierung:\t" << poly.ini() << endl;
 	cout << "Zeitschritt:\t" << para_dtime << endl;
 	cout << "Sim. Laenge:\t" << para_runs << endl;
 	cout << "Warmlaufzeit:\t" << para_warm << endl;
