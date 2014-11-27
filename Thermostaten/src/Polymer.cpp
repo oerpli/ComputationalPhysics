@@ -64,6 +64,21 @@ std::ostream & Polymer::print(std::ostream &os) const {
 	return os;
 }
 
+void	Polymer::set_position(double pos) {
+	double delta_pos{ update_position() - pos };
+	for (auto& m : monomers) m.position -= delta_pos;
+}
+
+void	Polymer::set_velocity(double vel) {
+	double delta_vel{ update_velocity() - vel };
+	for (auto& m : monomers) m.velocity -= delta_vel;
+}
+
+void	Polymer::set_pos_vel(double pos, double vel) {
+	set_position(pos);
+	set_velocity(vel);
+}
+
 double Polymer::force(double r) const { return -r*m_feder_konst; }
 
 void Polymer::update_forces() {

@@ -54,7 +54,10 @@ int main(int argc, char* argv[]) {
 	Thermostat *thermostat{};
 	vector<Histo> v_histo;
 	vector<Stat> v_stat;
-
+	
+	bool reset_pos_vel{};
+	int	index_reset_pos_vel{100};
+	
 	// Bestimmen der Parameter zur Initialisierung von Poly und Thermostat
 	for (i_para = 1; i_para < min(a_para_size + 1, argc); ++i_para) {
 		if (is_number(argv[i_para])) a_para[i_para - 1] = stod(argv[i_para]);
@@ -74,12 +77,18 @@ int main(int argc, char* argv[]) {
 	while (++i_para < argc - 1 && is_number(argv[i_para])) ++i_para;
 	int i_poly_init = min(argc - 1, i_para);
 
+	while (++i_para < argc - 1 && is_number(argv[i_para])) ++i_para;
+	int i_reset_pos_vel = min(argc - 1, i_para);
+
 	Polymer poly{ static_cast<unsigned> (para_p), para_temp };
-	if (strcmp(argv[i_poly_init], "one") == 0)
+	if (strcmp(argv[i_poly_init], "one") == 0 || strcmp(argv[i_reset_pos_vel], "one") == 0)
 		poly.initiate_monomers_one();
 	else
 		poly.initiate_monomers_random();
-
+		
+	reset_pos_vel = (strcmp(argv[i_poly_init], "reset") == 0 || strcmp(argv[i_reset_pos_vel], "reset") == 0);
+	if ( reset_pos_vel ) index_reset_pos_vel=set_param(index_reset_pos_vel, argv, argc, i_reset_pos_vel + 1);
+	
 	// Auswählen des Thermostats
 	if (argc > 1 && i_thermos < argc) {
 		if (strcmp(argv[i_thermos], "Andersen") == 0) {
@@ -123,6 +132,7 @@ int main(int argc, char* argv[]) {
 	cout << "Thermostat:\t" << thermostat->name() << endl;
 	cout << "Trotter Zahl:\t" << poly.monomers.size() << endl;
 	cout << "Initierung:\t" << poly.ini() << endl;
+	cout << "Reset:\t\t" << (reset_pos_vel ? index_reset_pos_vel : 0) << endl;
 	cout << "Zeitschritt:\t" << para_dtime << endl;
 	cout << "Sim. Laenge:\t" << para_runs << endl;
 	cout << "Warmlaufzeit:\t" << para_warm << endl;
@@ -131,6 +141,7 @@ int main(int argc, char* argv[]) {
 	ss_para << "_p" << (int)para_p;
 	ss_para << "_T" << (int)para_temp;
 	ss_para << "_run" << scientific << para_runs;
+	if (reset_pos_vel) ss_para << "_reset" << scientific << index_reset_pos_vel;
 	ss_para << "_" << poly.ini();
 
 	s_histo = thermostat->name() + "_histo" + ss_para.str() + ".dat";
@@ -154,6 +165,7 @@ int main(int argc, char* argv[]) {
 	int percent = 0;
 	for (long long i = 0; i < para_warm; ++i){
 		if (!(i%onepercent)) cout << ++percent << "%\r" << flush;
+		if ( reset_pos_vel && !(i%index_reset_pos_vel) ) poly.set_pos_vel();
 		thermostat->propagate();
 	}
 	cout << endl << "Warmlauf abgeschlossen" << endl;
@@ -178,6 +190,7 @@ int main(int argc, char* argv[]) {
 			statistic_add(poly.velocity, 6, v_histo, v_stat);
 		}
 
+		if ( reset_pos_vel && !(i%index_reset_pos_vel) ) poly.set_pos_vel();
 		thermostat->propagate();
 	}
 	cout << endl;
@@ -185,7 +198,8 @@ int main(int argc, char* argv[]) {
 	dat_histo.open(remove_special(s_histo), ios::out | ios::trunc);
 
 	dat_histo << "# " << poly.info() << "\n# " << thermostat->info() << endl;
-	dat_histo << "# " << "runs " << para_runs << " warm " << para_warm << endl;
+	dat_histo << "# " << "runs " << para_runs << " warm " << para_warm;
+	dat_histo << " reset " << (reset_pos_vel ? index_reset_pos_vel : 0) << endl;
 	dat_histo << "# velocity 1 relPos 3 tempCol 5 absPosition 7 epot 9";
 	dat_histo << " schwerPos 11 schwerVel 13" << endl;
 

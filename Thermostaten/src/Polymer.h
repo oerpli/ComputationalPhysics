@@ -31,6 +31,10 @@ public:
 	double	target_temperature() const;
 	void	target_temperature(double temperature);
 
+	void	set_position(double pos=0);
+	void	set_velocity(double vel=0);
+	void	set_pos_vel(double pos=0, double vel=0);
+
 	double update_epot();
 	double	update_ekin();
 	void	update_forces();
