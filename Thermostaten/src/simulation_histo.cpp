@@ -114,11 +114,11 @@ int main(int argc, char* argv[]) {
 			thermostat = new Nose_Hoover_Chain{ poly, para_dtime, q, q2 };
 		}
 		else if (strcmp(argv[i_thermos], "Berendsen") == 0) {
-			double couplingtime = 10 * para_dtime;
+			double couplingtime = set_param(10 * para_dtime, argv, argc, i_thermos + 1);
 			thermostat = new Berendsen{ poly, para_dtime, couplingtime };
 		}
 		else if (strcmp(argv[i_thermos], "Bussi") == 0) {
-			double couplingtime = 10 * para_dtime;
+			double couplingtime = set_param(10 * para_dtime, argv, argc, i_thermos + 1);
 			thermostat = new Bussi{ poly, para_dtime, couplingtime };
 		}
 		else {
