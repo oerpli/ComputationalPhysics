@@ -104,10 +104,12 @@ int main(int argc, char* argv[]) {
 	while (i_para < argc - 1 && is_number(argv[i_para])) ++i_para;
 	int i_thermos = i_para;
 
-	while (++i_para < argc - 1 && is_number(argv[i_para])) ++i_para;
+	++i_para;
+	while (i_para < argc - 1 && is_number(argv[i_para])) ++i_para;
 	int i_poly_init = min(argc - 1, i_para);
 
-	while (++i_para < argc - 1 && is_number(argv[i_para])) ++i_para;
+	++i_para;
+	while (i_para < argc - 1 && is_number(argv[i_para])) ++i_para;
 	int i_reset_pos_vel = min(argc - 1, i_para);
 
 	Polymer poly{ static_cast<unsigned> (para_p), para_temp };
