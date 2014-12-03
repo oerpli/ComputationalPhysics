@@ -10,9 +10,18 @@ def string_after(s,dem):
 def norm_func(sigma2):
 	return "sqrt(1/(2*pi*" + str(sigma2) + "))*exp(-x**2/(2*" + str(sigma2) + "))" 
 	
-def plot_norm(kind , sim):
+def plot_theory(kind , sim):
 	if kind == "relPos": re = norm_func( 1./(sim.feder*sim.beta) )
 	elif kind == "velocity": re = norm_func( 1./(sim.mass*sim.beta) )
+	elif kind == "tempCol": 
+		re = "exp(-" + "x/" + str(2*sim.temp) + "*" + str(sim.p) + ")"
+		#re = re + "*2*pi**(" + str( int( sim.p/2) ) + ")/gamma(" + str(sim.p) + "/2)"
+		#re = re + "*(" + str(sim.mass) + "*x*" + str(sim.p/(sim.beta*sim.temp)) + ")**((" + str(sim.p) + "-1)/2)"
+		re = re + "/2**(" + str( sim.p/2 ) + ")/gamma(" + str(sim.p) + "/2)"
+		re = re + "*(x/" + str(sim.temp) + ")**(" + str(sim.p) + "/2 - 1)"
+		#re = re + "*"  + str(0.5*sim.p/(sim.beta*sim.temp))
+		re = re + "*1E58"
+		print re
 	else: return ""
 	return re + "w l t 'theory',"
 
@@ -53,6 +62,7 @@ class Simulation(object):
 		
 		self.runs = int( float( string_after( head , "runs" ) ) )
 		self.warm = int( float( string_after( head , "warm" ) ) )
+		self.reset = int( float( string_after( head , "reset" ) ) )
 		
 		self.title = ""
 		self.kinds = ""
@@ -79,7 +89,16 @@ def set_titles(l_sim):
 	if flag: title += " " + buf
 	else: 
 		for sim in l_sim: sim.title += " " + sim.initiate
-	
+		
+	buf = l_sim[0].reset
+	flag = True
+	for sim in l_sim: flag = flag and (buf == sim.reset)
+	if flag: 
+		if sim.reset > 0: title += " reset=" + '%g' % (buf)
+	else: 
+		for sim in l_sim:
+			if sim.reset > 0: sim.title += " reset=" + '%g' % ( sim.reset )
+		
 	buf = l_sim[0].temp
 	flag = True
 	for sim in l_sim: flag = flag and (buf == sim.temp)
@@ -131,6 +150,7 @@ title = set_titles(l_sim)
 g( 'set title "' + title + '"' )
 
 g( 'set yrange [1E-5:]' )
+#g( 'set xrange [0:1E4]' )
 g( 'set logscale y' )
 g( 'set ylabel "probability"' )
 plot_count = -1
@@ -157,7 +177,7 @@ for kind in Simulation.all_kinds:
 	for i in range( 1 , len(l_p) ):
 		b_same = b_same and l_p[0] == l_p[1] and l_temp[0] == l_temp[i]
 	if b_same:
-		plot_data += plot_norm( kind, sim_plot )
+		plot_data += plot_theory( kind, sim_plot )
 	plot_data = plot_data[:-1]
 	
 	g( 'set term x11 ' + str( plot_count ) )
