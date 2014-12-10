@@ -36,6 +36,10 @@ const Vec3D<double>& Sphere::velocity(const Vec3D<double>& pos) {
 	return m_velocity = pos;
 }
 
+double Sphere::mass() const { return m_mass; }
+
+double Sphere::radius() const { return m_radius; }
+
 ostream& Sphere::print(ostream & os) const {
 	os << " mas: " << m_mass;
 	os << " rad: " << m_radius;

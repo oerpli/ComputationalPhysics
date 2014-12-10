@@ -31,6 +31,9 @@ public:
 	const Vec3D<double>& velocity() const;
 	const Vec3D<double>& velocity(const Vec3D<double> & velocity);
 	
+	double mass() const;
+	double radius() const;
+	
 	std::ostream& print(std::ostream & os = std::cout) const;
 };
 
