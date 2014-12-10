@@ -36,6 +36,8 @@ public:
 	Vec3D<Type> operator * (Type value) const;
 	const Vec3D<Type>& operator *= (Type value);
 	
+	const Vec3D<Type>& operator /= (Type value);
+	
 	Vec3D<Type> inv() const;
 	
 	Vec3D<Type> operator ^(double exponent) const;

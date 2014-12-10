@@ -92,6 +92,14 @@ const Vec3D<Type>& Vec3D<Type>::operator *= (Type value) {
 }
 
 template<class Type>
+const Vec3D<Type>& Vec3D<Type>::operator /= (Type value) {
+	Type one{};
+	++one;
+	value = one / value;
+	return *this *= value;
+}
+
+template<class Type>
 Vec3D<Type> Vec3D<Type>::inv() const {
 	Vec3D<Type> v{*this};
 	Type one{};
