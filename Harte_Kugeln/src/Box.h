@@ -13,12 +13,17 @@ private:
 	list<Sphere> m_spheres;
 	
 public:
-	Box()= delete;
+	Box()= default;
 	Box(const Box&)= delete;
 	Box(Box&&)= delete;
 	
-	Box(long unsigned element_number, const Sphere& sph);
-	Box(long unsigned element_number, double mass, double radius);
+	Box(long unsigned n, const Sphere& sph);
+	Box(long unsigned n, double mass, double radius);
+	
+	void add(long unsigned n, const Sphere& sph);
+	void add(long unsigned n, double mass, double radius);
+	
+	void collide(Sphere& sph1, Sphere& sph2);
 	
 	std::ostream& print(ostream& os) const ;
 };
