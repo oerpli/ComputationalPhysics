@@ -11,6 +11,9 @@ int main() {
 	
 	cout << "v1{2,3,-1}: " << endl << v1 << endl;
 	cout << "v2{ar}: " << endl << v2 << endl;
+	cout << "v2[1]: " << endl << v2[1] << endl;
+	v2[1]=4;
+	cout << "v2[1]=4: " << endl << v2 << endl;
 	v3=v1;
 	cout << "v3=v1: " << endl << v3  << endl;
 	cout << "(v3==v1): " << endl << (v3==v1) << endl;
