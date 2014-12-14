@@ -187,8 +187,9 @@ FakesAssemblies/
 #TeX
 *.gz
 *.toc
-*.log
 *.out
 *.synctex.gz
 *.aux
 *.pdf
+/.project
+/.cproject
