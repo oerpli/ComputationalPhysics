@@ -1,7 +1,6 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
-
 //Bin noch nicht so vertraut mit Units, hab einfach mal einige reingeladen...
 #include <boost/units/cmath.hpp>
 #include <boost/units/io.hpp>
@@ -15,7 +14,7 @@ using namespace boost::units;
 using namespace boost::units::si;
 
 template<typename T1, typename T2>
-auto operator+ (const vector<T1>& v1, const vector<T2>& v2) {
+auto operator+ (const vector<T1>& v1, const vector<T2>& v2) -> vector<decltype( T1{} + T2{} )> {
 	vector< decltype( T1{} + T2{} ) > res( min(v1.size(), v2.size() ), 0);
 	for (int i=0; i<res.size(); ++i)
 		res[i] = v1[i] + v2[i];
@@ -23,7 +22,7 @@ auto operator+ (const vector<T1>& v1, const vector<T2>& v2) {
 }
 
 template<typename T1, typename T2>
-auto operator* (const vector<T1>& v, const T2& s) {
+auto operator* (const vector<T1>& v, const T2& s) -> vector<decltype( T1{} * T2{} )> {
 	vector< decltype( T1{} * T2{} ) > res( v.size(), 0);
 	for (int i=0; i<res.size(); ++i)
 		res[i] = v[i] * s;
@@ -31,7 +30,7 @@ auto operator* (const vector<T1>& v, const T2& s) {
 }
 
 template<typename T1, typename T2>
-auto operator* (const vector<T1>& v1, const vector<T2>& v2) {
+auto operator* (const vector<T1>& v1, const vector<T2>& v2) -> decltype( T1{} * T2{} ) {
 	decltype( T1{} * T2{} ) res=0;
 	auto size = min( v1.size(), v2.size() );
 
@@ -62,15 +61,14 @@ int main() {
 	vec_length[2] = 10 * m;
 
 	std::vector< quantity<force> >  vec_newton(3);
-	for(int i=0; i<vec_newton.size(); ++i)
+	for(unsigned i=0; i<vec_newton.size(); ++i)
 		vec_newton[i] = 2 * i * newton;
 
 	cout << "Newton Vector:\n";
 	for(auto& el : vec_newton) cout << el << '\n';
 
-	cout << "Newton Vector * 5:\n";
-	quantity<dimensionless> scalar = 5;
-	auto vec_newton2 = vec_newton * scalar;
+	cout << "Newton Vector * 5m:\n";
+	auto vec_newton2 = vec_newton * (5 * m);
 	for(auto& el : vec_newton2) cout << el << '\n';
 
 	cout << "Length Vector:\n";
