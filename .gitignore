@@ -191,5 +191,8 @@ FakesAssemblies/
 *.synctex.gz
 *.aux
 *.pdf
-/.project
-/.cproject
+
+#Eclipse
+*.project
+*.cproject
+/.settings/
