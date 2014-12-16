@@ -23,6 +23,9 @@ public:
   ElementType& operator [] (int i) { return m_vec[i]; }
   const ElementType& operator [] (int i) const { return m_vec[i]; }
 
+  auto begin() -> decltype( m_vec.begin() ) { return m_vec.begin(); }
+  auto end() -> decltype( m_vec.end() ) { return m_vec.end(); }
+
   //Für overload << von aussen
   std::ostream& print(std::ostream& os) const {
 		for (auto& el : m_vec) os << el << '\n';
@@ -58,8 +61,12 @@ int main() {
 	quantity<length> lengthScalar = 3 * meter;
 	MatVec<quantity<length>, 3> lengthVec { lengthScalar };
 
+	forceVec[1] = 5 * newton;
+
 	cout << forceVec << '\n';
-	cout << lengthVec << '\n';
+
+	for (auto& el : lengthVec) cout << el << '\n';
+	cout << '\n';
 
 	auto flVec = forceVec * lengthVec;
 	cout << flVec << '\n';
@@ -67,6 +74,7 @@ int main() {
 
 	MatVec<double,3> dVec { 3.1 };
 	MatVec<int,3> iVec {3};
+
 
 	cout << dVec * iVec << '\n';
 
