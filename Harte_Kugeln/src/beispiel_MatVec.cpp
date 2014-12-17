@@ -13,9 +13,6 @@
 #include "MatVec.h"
 #include "Kugel.h"
 
-template<typename T, unsigned DIM>
-std::ostream& operator<< (std::ostream& os, const MatVec<T,DIM>& vec);
-
 using namespace std;
 using namespace boost::units;
 using namespace boost::units::si;
@@ -35,11 +32,10 @@ int main() {
 
 	cout << forceVec << '\n';
 
-	for (auto& el : lengthVec) cout << el << ' ';
+	for (auto& el : lengthVec) cout << el << ", ";
 	cout << '\n';
 
-	MatVec<quantity<length>,3> lfVec {};
-	cout << lfVec << '\n';
+
 
 	const unsigned dim {4};
 	cout << '\n' << "Kugelbeispiele mit Dimension " << dim << ":" << '\n';
