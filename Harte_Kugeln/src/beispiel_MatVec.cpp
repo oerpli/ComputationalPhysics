@@ -47,6 +47,7 @@ int main() {
 	cout << "lengthVec {2 * m, 3 * m, 1 * m}:\n";
 	for (auto& el : lengthVec) cout << el << ", "; //range based loops sind verwendbar
 	cout << '\n';
+	cout << "norm2: " << lengthVec.norm2() << "  norm: " << lengthVec.norm() << '\n';
 
 	cout << "forceVec * lengthVec:\n" << forceVec * lengthVec << '\n';
 
