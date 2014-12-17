@@ -1,5 +1,7 @@
 template <unsigned DIM>
-Kugel<DIM>::Kugel() : m_mass(quantity<mass>{}), m_diameter(quantity<length>{})
+Kugel<DIM>::Kugel() :
+		m_mass(boost::units::quantity<boost::units::si::mass> { }), m_diameter(
+				boost::units::quantity<boost::units::si::length> { })
 					, vec_pos{}, vec_vel{} {}
 
 template <unsigned DIM>
@@ -9,7 +11,9 @@ Kugel<DIM>::Kugel(const Kugel<DIM> & kugel) : m_mass{kugel.m_mass},
 	vec_vel{kugel.vec_vel} {}
 
 template <unsigned DIM>
-Kugel<DIM>::Kugel(quantity<mass> m, quantity<length> d) : m_mass{m}, m_diameter{d}
+Kugel<DIM>::Kugel(boost::units::quantity<boost::units::si::mass> m,
+		boost::units::quantity<boost::units::si::length> d) :
+		m_mass { m }, m_diameter { d }
 														, vec_pos{}, vec_vel{} {}
 
 template <unsigned DIM>
