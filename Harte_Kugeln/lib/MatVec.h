@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <ostream>
+#include <initializer_list>
 
 template<typename ElementType, unsigned DIM>
 class MatVec {
@@ -11,6 +12,17 @@ private:
 public:
   MatVec() : m_vec(DIM, ElementType{}) {}
   MatVec(ElementType element) : m_vec(DIM, element) {}
+  MatVec(std::initializer_list<ElementType> args) : MatVec{} {
+	  auto begin = args.begin(), end = args.end();
+	  auto vbegin = m_vec.begin(), vend = m_vec.end();
+
+	  for (; begin != end && vbegin != vend; ++begin, ++vbegin) {
+		  *vbegin = *begin;
+	  }
+	  for (; vbegin != vend; ++vbegin) {
+		  *vbegin = ElementType{};
+	  }
+  }
   MatVec(const MatVec<ElementType, DIM>& mec) : m_vec{mec.m_vec} {}
   MatVec(MatVec<ElementType, DIM>&& mec) : MatVec{} { swap(*this, mec); }
   virtual ~MatVec() {}
@@ -44,13 +56,20 @@ public:
 		return os;
   }
 
+  template<typename T2>
+  auto operator* (const MatVec<T2, DIM>& vec2) const -> MatVec<decltype( ElementType{} * T2{} ), DIM>  {
+  	  MatVec<decltype( ElementType{} * T2{} ), DIM> result{};
+  	  for (unsigned i=0; i<DIM; ++i)
+  		  result[i] = m_vec[i] * vec2[i];
+  	  return result;
+  }
 };
 
 template<typename T, unsigned DIM>
 std::ostream& operator<< (std::ostream& os, const MatVec<T,DIM>& vec) {
 	return vec.print(os);
 }
-
+/*
 template<typename T1, typename T2, unsigned DIM>
 auto operator* (const MatVec<T1, DIM>& vec1, const MatVec<T2, DIM>& vec2) -> MatVec<decltype( T1{} * T2{} ), DIM> {
 	  MatVec<decltype( T1{} * T2{} ), DIM> result{};
@@ -58,5 +77,5 @@ auto operator* (const MatVec<T1, DIM>& vec1, const MatVec<T2, DIM>& vec2) -> Mat
 		  result[i] = vec1[i] * vec2[i];
 	  return result;
 }
-
+*/
 #endif /* SRC_MATVEC_H_ */
