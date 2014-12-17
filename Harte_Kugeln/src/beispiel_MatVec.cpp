@@ -23,13 +23,6 @@ using namespace boost::units::si;
 
 // Vectoren elementweise mulitiplizieren
 // Scilab: vec1.*vec2
-template<typename T1, typename T2, unsigned DIM>
-auto operator* (const MatVec<T1, DIM>& vec1, const MatVec<T2, DIM>& vec2) -> MatVec<decltype( T1{} * T2{} ), DIM> {
-	  MatVec<decltype( T1{} * T2{} ), DIM> result{};
-	  for (unsigned i=0; i<DIM; ++i)
-		  result[i] = vec1[i] * vec2[i];
-	  return result;
-}
 
 int main() {
 
@@ -45,12 +38,14 @@ int main() {
 	for (auto& el : lengthVec) cout << el << ' ';
 	cout << '\n';
 
+	MatVec<quantity<length>,3> lfVec {};
+	cout << lfVec << '\n';
+
 	const unsigned dim {4};
 	cout << '\n' << "Kugelbeispiele mit Dimension " << dim << ":" << '\n';
 
-	Kugel<dim> k1{}, k2{ (3*kilogram),(.5*meter)};
+	Kugel<dim> k1{}, k2{ (3 * kilogram),(.5 * meter)};
 	Kugel<dim> k3{k2};
-
 	cout << '\n' << "k1 Standard:" << '\n';
 	k1.print();
 
