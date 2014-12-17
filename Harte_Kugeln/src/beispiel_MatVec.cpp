@@ -10,38 +10,15 @@
 
 #include <typeinfo>
 
-//Klasse die den Vektor enthält
-template<typename ElementType, unsigned DIM>
-class MatVec {
-private:
-	std::vector<ElementType> m_vec;
-public:
-  MatVec() : m_vec(DIM, ElementType{}) {}
-  MatVec(ElementType element) : m_vec(DIM, element) {}
+#include "MatVec.h"
+#include "Kugel.h"
 
-  //Zugriff wie auf Array: matvec[i]
-  ElementType& operator [] (int i) { return m_vec[i]; }
-  const ElementType& operator [] (int i) const { return m_vec[i]; }
-
-  auto begin() -> decltype( m_vec.begin() ) { return m_vec.begin(); }
-  auto end() -> decltype( m_vec.end() ) { return m_vec.end(); }
-
-  //Für overload << von aussen
-  std::ostream& print(std::ostream& os) const {
-		for (auto& el : m_vec) os << el << '\n';
-		return os;
-  }
-
-};
+template<typename T, unsigned DIM>
+std::ostream& operator<< (std::ostream& os, const MatVec<T,DIM>& vec);
 
 using namespace std;
 using namespace boost::units;
 using namespace boost::units::si;
-
-template<typename T, unsigned DIM>
-ostream& operator<< (ostream& os, const MatVec<T,DIM>& vec) {
-	return vec.print(os);
-}
 
 
 // Vectoren elementweise mulitiplizieren
@@ -65,17 +42,22 @@ int main() {
 
 	cout << forceVec << '\n';
 
-	for (auto& el : lengthVec) cout << el << '\n';
+	for (auto& el : lengthVec) cout << el << ' ';
 	cout << '\n';
 
-	auto flVec = forceVec * lengthVec;
-	cout << flVec << '\n';
+	const unsigned dim {4};
+	cout << '\n' << "Kugelbeispiele mit Dimension " << dim << ":" << '\n';
 
+	Kugel<dim> k1{}, k2{ (3*kilogram),(.5*meter)};
+	Kugel<dim> k3{k2};
 
-	MatVec<double,3> dVec { 3.1 };
-	MatVec<int,3> iVec {3};
+	cout << '\n' << "k1 Standard:" << '\n';
+	k1.print();
 
+	cout << '\n' << "k2:" << '\n';
+	k2.print();
 
-	cout << dVec * iVec << '\n';
+	cout << '\n' << "k3 Copy k2:" << '\n';
+	k3.print();
 
 }
