@@ -24,8 +24,10 @@ using namespace boost::units::si;
 int main() {
 	const length m = meter;
 	const force N = newton;
+	const velocity mps = meters_per_second;
 	typedef quantity<length> lengthT;
 	typedef quantity<force> forceT;
+	typedef quantity<velocity> velocityT;
 
 
 	// erzeugt einen Vektor der, so weit wie möglich,
@@ -48,10 +50,13 @@ int main() {
 
 	cout << "forceVec * lengthVec:\n" << forceVec * lengthVec << '\n';
 
-	const unsigned dim {4};
+	const unsigned dim {3};
 	cout << '\n' << "Kugelbeispiele mit Dimension " << dim << ":" << '\n';
 
+	MatVec<velocityT, dim> velVec {2 * mps, -1 * mps, 3 * mps};
+
 	Kugel<dim> k1{}, k2{ (3 * kilogram),(.5 * meter)};
+	k2.velocity(velVec);
 	Kugel<dim> k3{k2};
 	cout << '\n' << "k1 Standard:" << '\n';
 	k1.print();
