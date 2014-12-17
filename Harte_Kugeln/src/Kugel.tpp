@@ -10,8 +10,7 @@ Kugel<DIM>::Kugel(const Kugel<DIM> & kugel) : m_mass{kugel.m_mass},
 	vec_vel{kugel.vec_vel} {}
 
 template <unsigned DIM>
-Kugel<DIM>::Kugel(mass_type m,
-		length_type d) :
+Kugel<DIM>::Kugel(mass_type m, length_type d) :
 		m_mass { m }, m_diameter { d }
 		, vec_pos{}, vec_vel{} {}
 
