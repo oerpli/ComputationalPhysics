@@ -31,8 +31,8 @@ public:
 	friend void swap(Kugel<DIM>& kugelA, Kugel<DIM>& kugelB) {
 			swap(kugelA.vec_pos, kugelB.vec_pos); //swap von MatVec
 			swap(kugelA.vec_vel, kugelB.vec_vel); //swap von MatVec
-			std::swap(kugelA.m_mass, kugelB.m_mass);
-			std::swap(kugelA.m_diameter, kugelB.m_diameter);
+			swap(kugelA.m_mass, kugelB.m_mass); //units swap
+			swap(kugelA.m_diameter, kugelB.m_diameter); //units swap
 	}
 
 	std::ostream& print(std::ostream & os = std::cout) const;
