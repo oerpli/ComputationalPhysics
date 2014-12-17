@@ -1,3 +1,6 @@
+#ifndef KUGEL_H
+#define KUGEL_H
+
 #include <iostream>
 #include <vector>
 #include "MatVec.h"
@@ -28,8 +31,8 @@ public:
 	friend void swap(Kugel<DIM>& kugelA, Kugel<DIM>& kugelB) {
 			swap(kugelA.vec_pos, kugelB.vec_pos); //swap von MatVec
 			swap(kugelA.vec_vel, kugelB.vec_vel); //swap von MatVec
-			std::swap(kugelA.mass, kugelB.mass);
-			std::swap(kugelA.diameter, kugelB.diameter);
+			std::swap(kugelA.m_mass, kugelB.m_mass);
+			std::swap(kugelA.m_diameter, kugelB.m_diameter);
 	}
 
 	std::ostream& print(std::ostream & os = std::cout) const;
@@ -40,4 +43,5 @@ public:
 
 #include "Kugel.cpp"
 
+#endif
 
