@@ -22,20 +22,31 @@ using namespace boost::units::si;
 // Scilab: vec1.*vec2
 
 int main() {
+	const length m = meter;
+	const force N = newton;
+	typedef quantity<length> lengthT;
+	typedef quantity<force> forceT;
 
-	quantity<force> forceScalar = 3 * newton;
-	MatVec<quantity<force>, 3> forceVec { forceScalar };
-	quantity<length> lengthScalar = 3 * meter;
-	MatVec<quantity<length>, 3> lengthVec { lengthScalar };
 
-	forceVec[1] = 5 * newton;
+	// erzeugt einen Vektor der, so weit wie möglich,
+	// mit den Übergabewerten befüllt ist,
+	// der Rest wird mit 0 aufgefüllt
+	MatVec<lengthT, 3> lengthVec {2 * m, 3 * m, 1 * m};
 
-	cout << forceVec << '\n';
+	// erzeugt einen Vektor befüllt mit 3*N
+	MatVec<forceT, 3> forceVec (3 * N);
 
-	for (auto& el : lengthVec) cout << el << ", ";
+	// wird behandelt wie {1*N, 0*N, 0*N}
+	MatVec<forceT, 3> forceVec1 {1 * N};
+
+	cout << "forceVec (3 * N):\n" << forceVec << '\n';
+	cout << "forceVec1 {1 * N}:\n" << forceVec1 << '\n';
+
+	cout << "lengthVec {2 * m, 3 * m, 1 * m}:\n";
+	for (auto& el : lengthVec) cout << el << ", "; //range based loops sind verwendbar
 	cout << '\n';
 
-
+	cout << "forceVec * lengthVec:\n" << forceVec * lengthVec << '\n';
 
 	const unsigned dim {4};
 	cout << '\n' << "Kugelbeispiele mit Dimension " << dim << ":" << '\n';
