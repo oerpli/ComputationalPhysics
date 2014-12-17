@@ -50,6 +50,10 @@ public:
 			swap(kugelA.m_ekin, kugelB.m_ekin);
 	}
 
+	auto radius() const -> decltype(m_diameter) {return m_diameter * 0.5;}
+
+	auto mass() const -> decltype(m_mass) {return m_mass;}
+
 	void velocity(MatVec<velocity_type, DIM> vec);
 	auto velocity() const -> decltype(vec_vel);
 
@@ -62,5 +66,24 @@ public:
 
 #include "Kugel.tpp"
 
+
+template<unsigned DIM>
+void collide(Kugel<DIM>& kugel1, Kugel<DIM>& kugel2) {
+	const auto dist =  kugel2.vec_pos - kugel1.vec_pos;
+	const auto d = dist / dist.norm();
+
+	const auto v1 = kugel1.velocity(), v2 = kugel2.velocity();
+	const auto m1 = kugel1.mass(), m2 = kugel2.mass();
+
+	const auto v_rel = ( d * (d * v2) - d * (d * v1) ) / ( 0.5 * (m1 + m2) );
+
+	kugel1.velocity( v1 + ( v_rel * m2) );
+	kugel2.velocity( v2 - ( v_rel * m1) );
+}
+
+template<unsigned DIM>
+std::ostream& operator<< (std::ostream& os, const Kugel<DIM>& kugel) {
+	return kugel.print(os);
+}
 #endif
 
