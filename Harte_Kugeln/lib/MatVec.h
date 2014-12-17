@@ -9,6 +9,9 @@ template<typename ElementType, unsigned DIM>
 class MatVec {
 private:
 	std::vector<ElementType> m_vec;
+
+  // make negative
+  void neg() { for (auto& el : m_vec) el = -el; }
 public:
   MatVec() : m_vec(DIM, ElementType{}) {}
   MatVec(ElementType element) : m_vec(DIM, element) {}
@@ -38,7 +41,6 @@ public:
   }
 
   friend void swap(MatVec<ElementType, DIM>& meca, MatVec<ElementType, DIM>& mecb) {
-	std::cout << "MatVecSwap" << '\n';
 	std::swap(meca.m_vec, mecb.m_vec);
   }
 
@@ -60,6 +62,42 @@ public:
 	  return m_vec == other.m_vec;
   }
 
+  // Vektoraddition
+  template<typename T2>
+  auto operator+ (const MatVec<T2, DIM>& vec2) const -> MatVec<decltype( ElementType{} + T2{} ), DIM>  {
+  	  MatVec<decltype( ElementType{} + T2{} ), DIM> result{};
+  	  for (unsigned i=0; i<DIM; ++i)
+  		  result[i] = m_vec[i] + vec2[i];
+  	  return result;
+  }
+
+  // Addition jedes Elements mit Skalar
+  template<typename T2>
+  auto operator+ (const T2& s) const -> MatVec<decltype( ElementType{} + T2{} ), DIM>  {
+  	  MatVec<decltype( ElementType{} + T2{} ), DIM> result{};
+  	  for (unsigned i=0; i<DIM; ++i)
+  		  result[i] = m_vec[i] + s;
+  	  return result;
+  }
+
+  // Vektorsubtraktion
+  template<typename T2>
+  auto operator- (const MatVec<T2, DIM>& vec2) const -> MatVec<decltype( ElementType{} - T2{} ), DIM>  {
+  	  MatVec<decltype( ElementType{} - T2{} ), DIM> result{};
+  	  for (unsigned i=0; i<DIM; ++i)
+  		  result[i] = m_vec[i] - vec2[i];
+  	  return result;
+  }
+
+  // Subtraktion jedes Elements mit Skalar
+  template<typename T2>
+  auto operator- (const T2& s) const -> MatVec<decltype( ElementType{} - T2{} ), DIM>  {
+  	  MatVec<decltype( ElementType{} - T2{} ), DIM> result{};
+  	  for (unsigned i=0; i<DIM; ++i)
+  		  result[i] = m_vec[i] - s;
+  	  return result;
+  }
+
   // Skalarprodukt
   template<typename T2>
   auto operator* (const MatVec<T2, DIM>& vec2) const -> decltype( ElementType{} * T2{} )  {
@@ -67,6 +105,31 @@ public:
   	  for (unsigned i=0; i<DIM; ++i)
   		  result += m_vec[i] * vec2[i];
   	  return result;
+  }
+
+  // Multiplikation mit Skalar
+  template<typename T2>
+  auto operator* (const T2& s) const -> MatVec<decltype( ElementType{} * T2{} ), DIM>  {
+	  MatVec<decltype( ElementType{} * T2{} ), DIM> result{};
+  	  for (unsigned i=0; i<DIM; ++i)
+  		  result[i] = m_vec[i] * s;
+  	  return result;
+  }
+
+  // Division durch Skalar
+  template<typename T2>
+  auto operator/ (const T2& s) const -> MatVec<decltype( ElementType{} / T2{} ), DIM>  {
+	  MatVec<decltype( ElementType{} / T2{} ), DIM> result{};
+	  auto inv = 1.0 / s;
+  	  return operator*(inv);
+  }
+
+
+  // return negative vector
+  MatVec<ElementType, DIM> operator- () const {
+	MatVec<ElementType, DIM> result{*this};
+	result.neg();
+	return result;
   }
 
   /*
