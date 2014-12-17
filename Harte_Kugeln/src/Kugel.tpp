@@ -13,7 +13,7 @@ template <unsigned DIM>
 Kugel<DIM>::Kugel(mass_type m,
 		length_type d) :
 		m_mass { m }, m_diameter { d }
-														, vec_pos{}, vec_vel{} {}
+		, vec_pos{}, vec_vel{} {}
 
 template <unsigned DIM>
 std::ostream& Kugel<DIM>::print(std::ostream & os) const {

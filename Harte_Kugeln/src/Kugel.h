@@ -41,7 +41,7 @@ public:
 };
 
 
-#include "Kugel.cpp"
+#include "Kugel.tpp"
 
 #endif
 
