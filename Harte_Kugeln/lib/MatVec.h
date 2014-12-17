@@ -56,12 +56,38 @@ public:
 		return os;
   }
 
+  bool operator== (const MatVec<ElementType, DIM>& other) const {
+	  return m_vec == other.m_vec;
+  }
+
+  // Skalarprodukt
+  template<typename T2>
+  auto operator* (const MatVec<T2, DIM>& vec2) const -> decltype( ElementType{} * T2{} )  {
+  	  decltype( ElementType{} * T2{} ) result{};
+  	  for (unsigned i=0; i<DIM; ++i)
+  		  result += m_vec[i] * vec2[i];
+  	  return result;
+  }
+
+  /*
+  // Vektorprodukt wie in Scilab vec1.*vec2
   template<typename T2>
   auto operator* (const MatVec<T2, DIM>& vec2) const -> MatVec<decltype( ElementType{} * T2{} ), DIM>  {
   	  MatVec<decltype( ElementType{} * T2{} ), DIM> result{};
   	  for (unsigned i=0; i<DIM; ++i)
   		  result[i] = m_vec[i] * vec2[i];
   	  return result;
+  }
+  */
+
+  auto norm2() const -> decltype(ElementType{} * ElementType{}) {
+	  decltype(ElementType{} * ElementType{}) sum{};
+	  for (auto& el : m_vec) sum += el * el;
+	  return sum;
+  }
+
+  auto norm() const -> decltype(ElementType{}) {
+	  return sqrt( norm2() );
   }
 };
 
