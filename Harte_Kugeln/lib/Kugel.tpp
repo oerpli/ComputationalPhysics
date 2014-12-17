@@ -30,6 +30,11 @@ void Kugel<DIM>::velocity(MatVec<velocity_type, DIM> vec) {
 }
 
 template<unsigned DIM>
+auto Kugel<DIM>::velocity() const -> decltype(vec_vel) {
+	return vec_vel;
+}
+
+template<unsigned DIM>
 auto Kugel<DIM>::ekin() const -> decltype(m_ekin) {
 	return m_ekin;
 }

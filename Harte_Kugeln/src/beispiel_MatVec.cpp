@@ -56,13 +56,15 @@ int main() {
 	MatVec<velocityT, dim> velVec {2 * mps, -1 * mps, 3 * mps};
 
 	Kugel<dim> k1{}, k2{ (3 * kilogram),(.5 * meter)};
-	k2.velocity(velVec);
+	k2.velocity(velVec); // setzt velocity von k2 auf die Werte von velVec
+
 	Kugel<dim> k3{k2};
 	cout << '\n' << "k1 Standard:" << '\n';
 	k1.print();
 
 	cout << '\n' << "k2:" << '\n';
 	k2.print();
+	cout << "VelVec:   " << k2.velocity() << '\n';
 
 	cout << '\n' << "k3 Copy k2:" << '\n';
 	k3.print();

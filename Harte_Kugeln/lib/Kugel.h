@@ -51,6 +51,7 @@ public:
 	}
 
 	void velocity(MatVec<velocity_type, DIM> vec);
+	auto velocity() const -> decltype(vec_vel);
 
 	auto ekin() const -> decltype(m_ekin);
 
