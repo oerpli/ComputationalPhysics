@@ -17,10 +17,7 @@ Kugel<DIM>::Kugel(mass_type m, length_type d) :
 
 template<unsigned DIM>
 void Kugel<DIM>::update_ekin() {
-	quantity < dose_equivalent > v2sum { };
-	for (auto& v : vec_vel)
-		v2sum += pow < 2 > (v);
-	m_ekin = 0.5 * m_mass * v2sum;
+	m_ekin = m_mass * vec_vel.norm2() * 0.5;
 }
 
 template<unsigned DIM>
