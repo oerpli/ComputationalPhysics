@@ -14,6 +14,13 @@ void empty_double_initialisation() {
 	ASSERTM("somewhere not the same", same);
 }
 
+void incomplete_initialisation() {
+	MatVec<double, 3> vec1 {1, 2};
+	MatVec<double, 3> vec2 {1, 2, 0};
+
+	ASSERTM("", vec1 == vec2);
+}
+
 void vektor_addition() {
 	MatVec<double, 3> vec1{1,2,3};
 	MatVec<double, 3> vec2{-1,-3,2};
@@ -100,6 +107,7 @@ void runAllTests(int argc, char const *argv[]){
 	s.push_back(CUTE(vektor_subtraktion));
 	s.push_back(CUTE(vektorElemente_SkalarAddition));
 	s.push_back(CUTE(vektorElemente_SkalarSubtraktion));
+	s.push_back(CUTE(incomplete_initialisation));
 	//TODO add your test here
 	cute::xml_file_opener xmlfile(argc,argv);
 	cute::xml_listener<cute::ide_listener<> >  lis(xmlfile.out);
