@@ -19,12 +19,8 @@ public:
 	  auto begin = args.begin(), end = args.end();
 	  auto vbegin = m_vec.begin(), vend = m_vec.end();
 
-	  for (; begin != end && vbegin != vend; ++begin, ++vbegin) {
+	  for (; begin != end && vbegin != vend; ++begin, ++vbegin)
 		  *vbegin = *begin;
-	  }
-	  for (; vbegin != vend; ++vbegin) {
-		  *vbegin = ElementType{};
-	  }
   }
   MatVec(const MatVec<ElementType, DIM>& mec) : m_vec{mec.m_vec} {}
   MatVec(MatVec<ElementType, DIM>&& mec) : MatVec{} { swap(*this, mec); }
