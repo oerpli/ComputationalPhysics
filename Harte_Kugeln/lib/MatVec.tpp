@@ -87,6 +87,12 @@ inline bool MatVec<ElementType, DIM>::operator ==(
 }
 
 template<typename ElementType, unsigned DIM>
+inline bool MatVec<ElementType, DIM>::operator !=(
+		const MatVec<ElementType, DIM>& other) const {
+	return !operator ==(other);
+}
+
+template<typename ElementType, unsigned DIM>
 template<typename T2>
 inline auto MatVec<ElementType, DIM>::operator +(const MatVec<T2, DIM>& vec2) const
 	-> MatVec<decltype(ElementType {}+ T2 {}), DIM> {

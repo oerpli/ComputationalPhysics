@@ -40,6 +40,7 @@ public:
 	std::ostream& print(std::ostream& os) const;
 
 	bool operator ==(const MatVec<ElementType, DIM>& other) const;
+	bool operator !=(const MatVec<ElementType, DIM>& other) const;
 
 	// Vektoraddition
 	template<typename T2>
