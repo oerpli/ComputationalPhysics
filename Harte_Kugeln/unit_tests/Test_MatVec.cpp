@@ -108,7 +108,7 @@ void runAllTests(int argc, char const *argv[]){
 	s.push_back(CUTE(vektorElemente_SkalarAddition));
 	s.push_back(CUTE(vektorElemente_SkalarSubtraktion));
 	s.push_back(CUTE(incomplete_initialisation));
-	//TODO add your test here
+
 	cute::xml_file_opener xmlfile(argc,argv);
 	cute::xml_listener<cute::ide_listener<> >  lis(xmlfile.out);
 	cute::makeRunner(lis,argc,argv)(s, "AllTests");
