@@ -12,14 +12,14 @@ inline CollisionPair<DIM>::CollisionPair(MetaKugel<DIM>& kugel1, MetaKugel<DIM>&
 }
 
 template<unsigned DIM>
-inline CollisionPair<DIM>&CollisionPair<DIM>::operator =(
+inline CollisionPair<DIM>& CollisionPair<DIM>::operator =(
 		CollisionPair<DIM> other) {
 	swap(*this, other);
 	return *this;
 }
 
 template<unsigned DIM>
-inline CollisionPair<DIM>&CollisionPair<DIM>::operator <=(
+inline CollisionPair<DIM>& CollisionPair<DIM>::operator <=(
 		const CollisionPair<DIM>& other) {
 	if (other < *this)
 		return operator =(other);
