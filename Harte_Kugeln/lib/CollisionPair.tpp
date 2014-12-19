@@ -35,9 +35,6 @@ inline void CollisionPair<DIM>::set_collision(const time_type& dt, bool b) {
 
 template<unsigned DIM>
 inline bool CollisionPair<DIM>::operator <(const CollisionPair<DIM>& other) const {
-	if (collision != other.collision)
-		return !other.collision;
-
 	return dtime < other.dtime;
 }
 
