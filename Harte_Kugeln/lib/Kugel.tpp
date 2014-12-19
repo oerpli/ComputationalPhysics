@@ -1,19 +1,20 @@
 template <unsigned DIM>
 Kugel<DIM>::Kugel() :
 		m_mass(mass_type { }), m_diameter(length_type { })
-		, m_ekin{}, vec_vel{}, vec_pos{} {}
+		, m_ekin{}, vec_vel{}, cp{*this,*this}, vec_pos{} {}
 
 template <unsigned DIM>
 Kugel<DIM>::Kugel(const Kugel<DIM> & kugel) : m_mass{kugel.m_mass},
 	m_diameter{kugel.m_diameter},
 	m_ekin{kugel.m_ekin},
 	vec_vel{kugel.vec_vel},
+	cp{*this,*this},
 	vec_pos{kugel.vec_pos} {}
 
 template <unsigned DIM>
 Kugel<DIM>::Kugel(mass_type m, length_type d) :
 		m_mass { m }, m_diameter { d }
-		, m_ekin{}, vec_vel{}, vec_pos{} {}
+		, m_ekin{}, vec_vel{}, cp{*this,*this}, vec_pos{} {}
 
 template<unsigned DIM>
 void Kugel<DIM>::update_ekin() {

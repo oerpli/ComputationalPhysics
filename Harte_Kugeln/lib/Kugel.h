@@ -16,11 +16,14 @@
 #include <boost/units/physical_dimensions/mass.hpp>
 #include <boost/units/physical_dimensions/time.hpp>
 
+#include "CollisionPair.h"
+#include "MetaKugel.h"
+
 using namespace boost::units;
 using namespace boost::units::si;
 
 template <unsigned DIM>
-class Kugel {
+class Kugel : public MetaKugel<DIM> {
 	typedef boost::units::quantity< boost::units::si::length , double > length_type;
 	typedef boost::units::quantity< boost::units::si::velocity , double > velocity_type;
 	typedef boost::units::quantity< boost::units::si::mass , double > mass_type;
@@ -30,6 +33,8 @@ class Kugel {
 	length_type m_diameter;
 	energy_type m_ekin;
 	MatVec<velocity_type, DIM> vec_vel; //velocity ist nun ein Datentyp
+
+	CollisionPair<DIM> cp;
 
 	void update_ekin();
 

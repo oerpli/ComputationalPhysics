@@ -1,11 +1,11 @@
 
 template<unsigned DIM>
-inline CollisionPair<DIM>::CollisionPair(Kugel<DIM>& kugel1, Kugel<DIM>& kugel2) :
+inline CollisionPair<DIM>::CollisionPair(MetaKugel<DIM>& kugel1, MetaKugel<DIM>& kugel2) :
 		p_kugel1 { &kugel1 }, p_kugel2 { &kugel2 }, dtime { }, collision { } {
 }
 
 template<unsigned DIM>
-inline CollisionPair<DIM>::CollisionPair(Kugel<DIM>& kugel1, Kugel<DIM>& kugel2,
+inline CollisionPair<DIM>::CollisionPair(MetaKugel<DIM>& kugel1, MetaKugel<DIM>& kugel2,
 		time_type dtime, bool collision) :
 		p_kugel1 { &kugel1 }, p_kugel2 { &kugel2 }, dtime { dtime }, collision {
 				collision } {

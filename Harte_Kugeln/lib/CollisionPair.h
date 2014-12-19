@@ -1,7 +1,7 @@
 #ifndef UNIT_TESTS_COLLISIONPAIR_H_
 #define UNIT_TESTS_COLLISIONPAIR_H_
 
-#include "Kugel.h"
+#include "MetaKugel.h"
 #include <boost/units/systems/si.hpp>
 
 template<unsigned DIM>
@@ -9,14 +9,14 @@ class CollisionPair {
 private:
 	typedef boost::units::quantity< boost::units::si::time , double > time_type;
 
-	Kugel<DIM> *p_kugel1, *p_kugel2;
+	MetaKugel<DIM> *p_kugel1, *p_kugel2;
 	time_type dtime; //change to time_type
 	bool collision;
 public:
 
 	CollisionPair() = delete;
-	CollisionPair(Kugel<DIM>& kugel1, Kugel<DIM>& kugel2);
-	CollisionPair(Kugel<DIM>& kugel1, Kugel<DIM>& kugel2, time_type dtime,
+	CollisionPair(MetaKugel<DIM>& kugel1, MetaKugel<DIM>& kugel2);
+	CollisionPair(MetaKugel<DIM>& kugel1, MetaKugel<DIM>& kugel2, time_type dtime,
 			bool collision);
 
 	friend void swap (CollisionPair<DIM>& cp1, CollisionPair<DIM>& cp2) {
