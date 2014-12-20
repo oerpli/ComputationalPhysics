@@ -43,9 +43,11 @@ public:
 	bool operator !=(const MatVec<ElementType, DIM>& other) const;
 
 	// Vektoraddition
-	template<typename T2>
-	auto operator +(
-			const MatVec<T2, DIM>& vec2) const -> MatVec<decltype(ElementType {}+ T2 {}),DIM>;
+	MatVec<ElementType,DIM>& operator +=(
+			const MatVec<ElementType, DIM>& vec2);
+
+	MatVec<ElementType,DIM> operator +(
+			const MatVec<ElementType, DIM>& vec2) const;
 
 	// Addition jedes Elements mit Skalar
 	template<typename T2>

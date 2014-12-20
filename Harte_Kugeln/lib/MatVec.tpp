@@ -93,15 +93,20 @@ inline bool MatVec<ElementType, DIM>::operator !=(
 }
 
 template<typename ElementType, unsigned DIM>
-template<typename T2>
-inline auto MatVec<ElementType, DIM>::operator +(const MatVec<T2, DIM>& vec2) const
-	-> MatVec<decltype(ElementType {}+ T2 {}), DIM> {
-	MatVec<decltype(ElementType {}+ T2 {}), DIM> result { };
+inline MatVec<ElementType, DIM>& MatVec<ElementType, DIM>::operator +=(
+		const MatVec<ElementType, DIM>& vec2) {
 	for (unsigned i = 0; i < DIM; ++i)
-		result[i] = m_vec[i] + vec2[i];
-	return result;
+		m_vec[i] = m_vec[i] + vec2[i];
+	return *this;
 }
 
+template<typename ElementType, unsigned DIM>
+inline MatVec<ElementType, DIM> MatVec<ElementType, DIM>::operator +(
+		const MatVec<ElementType, DIM>& vec2) const {
+	MatVec<ElementType, DIM> result { *this };
+		result += vec2;
+	return result;
+}
 
 template<typename ElementType, unsigned DIM>
 template<typename T2>
