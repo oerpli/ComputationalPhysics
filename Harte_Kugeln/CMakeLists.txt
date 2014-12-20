@@ -5,11 +5,11 @@ list( APPEND CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS} -Wall -g -ftest-cove
 
 include_directories ("${PROJECT_BINARY_DIR}")
 
-include_directories ("${PROJECT_SOURCE_DIR}/lib")
-add_subdirectory (lib)
-
 include_directories ("${PROJECT_SOURCE_DIR}/cute")
 add_subdirectory (cute)
+
+include_directories ("${PROJECT_SOURCE_DIR}/src_sonstiges")
+add_subdirectory (src_sonstiges)
 
 include_directories ("${PROJECT_SOURCE_DIR}/src")
 add_subdirectory (src)
