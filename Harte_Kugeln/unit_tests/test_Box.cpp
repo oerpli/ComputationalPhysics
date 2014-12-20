@@ -14,8 +14,10 @@ class Box {
 	typedef boost::units::quantity< boost::units::si::energy , double > energyT;
 	typedef boost::units::quantity< boost::units::si::time , double > timeT;
 
+	timeT m_time;
 	std::vector<Kugel<DIM>> vec_kugel;
 	MatVec<lengthT, DIM> vec_abmessung;
+
 
 	void wrap_one(Kugel<DIM>& kugel) {
 		auto pos = kugel.position();
@@ -32,7 +34,10 @@ class Box {
 	}
 
 public:
+	timeT time() const { return m_time; }
+
 	void fast_forward(const timeT& dt) {
+		m_time += dt;
 		for (auto& kugel : vec_kugel) {
 			kugel.fast_forward(dt);
 			wrap_one(kugel);
@@ -44,9 +49,9 @@ public:
 	}
 
 	Box(const MatVec<lengthT, DIM>& dim, unsigned size, const Kugel<DIM>& kugel)
-		: vec_kugel(size, kugel), vec_abmessung{dim} {}
+		: m_time{},vec_kugel(size, kugel), vec_abmessung{dim} {}
 	Box(const MatVec<lengthT, DIM>& dim, unsigned size)
-		: vec_kugel(size), vec_abmessung{dim} {}
+		: m_time{}, vec_kugel(size), vec_abmessung{dim} {}
 	Box(const MatVec<lengthT, DIM>& dim)
 			: Box{dim,0} {}
 
@@ -142,7 +147,7 @@ void wrapPosition() {
 	ASSERTM("", !( box[0].position() == res_pos ) );
 }
 
-void box_fastForward() {
+void box_fastForward_pos() {
 	Kugel<3> k{};
 	MatVec<velocityT,3> vel{.2*mps,3*mps,1*mps};
 	MatVec<lengthT,3> res_pos{.6*m,1*m,0*m}; //res_pos{3*m,6*m,9*m};
@@ -155,6 +160,19 @@ void box_fastForward() {
 	ASSERTM("", !( box[0].position() == res_pos ) );
 }
 
+void box_fastForward_time() {
+	Kugel<3> k{};
+	MatVec<velocityT,3> vel{.2*mps,3*mps,1*mps};
+	MatVec<lengthT,3> res_pos{.6*m,1*m,0*m}; //res_pos{3*m,6*m,9*m};
+
+	k.velocity(vel);
+	Box<3> box{box_dimension,1,k};
+
+	auto dt = 3. * second;
+	box.fast_forward(dt);
+	ASSERTM("", box.time() == dt );
+}
+
 cute::suite make_suite_Box(){
 	cute::suite s;
 	s.push_back(CUTE(emptyBox));
@@ -165,6 +183,7 @@ cute::suite make_suite_Box(){
 	s.push_back(CUTE(randomAccess_constRead));
 	s.push_back(CUTE(randomAccess_write));
 	s.push_back(CUTE(wrapPosition));
-	s.push_back(CUTE(box_fastForward));
+	s.push_back(CUTE(box_fastForward_pos));
+	s.push_back(CUTE(box_fastForward_time));
 	return s;
 }
