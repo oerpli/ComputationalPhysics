@@ -8,13 +8,18 @@
 
 template<unsigned DIM>
 class Box {
-	typedef quantity<length> lengthT;
+	typedef boost::units::quantity< boost::units::si::length , double > lengthT;
+	typedef boost::units::quantity< boost::units::si::velocity , double > velocityT;
+	typedef boost::units::quantity< boost::units::si::mass , double > massT;
+	typedef boost::units::quantity< boost::units::si::energy , double > energyT;
+	typedef boost::units::quantity< boost::units::si::time , double > timeT;
+
 	std::vector<Kugel<DIM>> vec_kugel;
 	MatVec<lengthT, DIM> vec_abmessung;
 
 	void wrap_one(Kugel<DIM>& kugel) {
 		auto pos = kugel.position();
-		quantity<length> null{};
+		lengthT null{};
 		quantity<dimensionless,int> factor{0};
 
 		for (unsigned i=0; i<DIM; ++i) {
@@ -27,6 +32,13 @@ class Box {
 	}
 
 public:
+	void fast_forward(const timeT& dt) {
+		for (auto& kugel : vec_kugel) {
+			kugel.fast_forward(dt);
+			wrap_one(kugel);
+		}
+	}
+
 	void wrap() {
 		for (auto& kugel : vec_kugel) wrap_one(kugel);
 	}
@@ -130,6 +142,18 @@ void wrapPosition() {
 	ASSERTM("", !( box[0].position() == res_pos ) );
 }
 
+void box_fastForward() {
+	Kugel<3> k{};
+	MatVec<velocityT,3> vel{.2*mps,3*mps,1*mps};
+	MatVec<lengthT,3> res_pos{.6*m,1*m,0*m}; //res_pos{3*m,6*m,9*m};
+
+	k.velocity(vel);
+	Box<3> box{box_dimension,1,k};
+
+	box.fast_forward(3*second);
+	std::cout << box[0].position() << '\n' << res_pos << '\n';
+	ASSERTM("", !( box[0].position() == res_pos ) );
+}
 
 cute::suite make_suite_Box(){
 	cute::suite s;
@@ -141,5 +165,6 @@ cute::suite make_suite_Box(){
 	s.push_back(CUTE(randomAccess_constRead));
 	s.push_back(CUTE(randomAccess_write));
 	s.push_back(CUTE(wrapPosition));
+	s.push_back(CUTE(box_fastForward));
 	return s;
 }

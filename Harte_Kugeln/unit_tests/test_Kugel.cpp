@@ -69,7 +69,7 @@ void setPosition() {
 	ASSERTM("", k.position() == pos);
 }
 
-void fastForward() {
+void kugel_fastForward() {
 	Kugel<3> k{};
 	MatVec<velocityT,3> vel{1*mps,2*mps,3*mps};
 	MatVec<lengthT,3> res_pos{3*m,6*m,9*m};
@@ -89,7 +89,7 @@ cute::suite make_suite_Kugel(){
 	s.push_back(CUTE(setVelocity_Energy));
 	s.push_back(CUTE(compareKugelIdentical));
 	s.push_back(CUTE(setPosition));
-	s.push_back(CUTE(fastForward));
+	s.push_back(CUTE(kugel_fastForward));
 	return s;
 }
 
