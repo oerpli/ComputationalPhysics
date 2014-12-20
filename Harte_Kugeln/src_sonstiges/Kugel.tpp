@@ -1,20 +1,20 @@
 template <unsigned DIM>
 Kugel<DIM>::Kugel() :
 		m_mass(mass_type { }), m_radius(length_type { })
-		, m_ekin{}, vec_vel{}, m_cp{*this,*this}, vec_pos{} {}
+		, m_ekin{}, vec_vel{}, vec_pos{}, m_cp{*this,*this} {}
 
 template <unsigned DIM>
 Kugel<DIM>::Kugel(const Kugel<DIM> & kugel) : m_mass{kugel.m_mass},
 	m_radius{kugel.m_radius},
 	m_ekin{kugel.m_ekin},
 	vec_vel{kugel.vec_vel},
-	m_cp{*this,*this},
-	vec_pos{kugel.vec_pos} {}
+	vec_pos{kugel.vec_pos},
+	m_cp{*this,*this} {}
 
 template <unsigned DIM>
 Kugel<DIM>::Kugel(mass_type m, length_type d) :
 		m_mass { m }, m_radius { d }
-		, m_ekin{}, vec_vel{}, m_cp{*this,*this}, vec_pos{} {}
+		, m_ekin{}, vec_vel{}, vec_pos{}, m_cp{*this,*this} {}
 
 
 template <unsigned DIM>
@@ -53,6 +53,17 @@ void Kugel<DIM>::velocity(MatVec<velocity_type, DIM> vec) {
 template<unsigned DIM>
 auto Kugel<DIM>::velocity() const -> decltype(vec_vel) {
 	return vec_vel;
+}
+
+template<unsigned DIM>
+void Kugel<DIM>::position(MatVec<length_type, DIM> vec) {
+	swap(vec_pos, vec);
+	update_ekin();
+}
+
+template<unsigned DIM>
+auto Kugel<DIM>::position() const -> decltype(vec_pos) {
+	return vec_pos;
 }
 
 template<unsigned DIM>

@@ -34,8 +34,8 @@ int main () {
 
 	Kugel<dim> kugel1{1 * kg, dia}, kugel2{1 * kg, dia};
 
-	kugel1.vec_pos = v_pos;
-	kugel2.vec_pos = -v_pos;
+	kugel1.position(v_pos);
+	kugel2.position(-v_pos);
 
 	kugel1.velocity(v_vel);
 	kugel2.velocity(-v_vel);

@@ -33,13 +33,13 @@ class Kugel : public MetaKugel<DIM> {
 	length_type m_radius;
 	energy_type m_ekin;
 	MatVec<velocity_type, DIM> vec_vel; //velocity ist nun ein Datentyp
+	MatVec<length_type, DIM> vec_pos;
 
 	CollisionPair<DIM> m_cp;
 
 	void update_ekin();
 
 public:
-	MatVec<length_type, DIM> vec_pos;
 	//collision next_collision;
 
 	Kugel();
@@ -64,6 +64,9 @@ public:
 	void velocity(MatVec<velocity_type, DIM> vec);
 	auto velocity() const -> decltype(vec_vel);
 
+	void position(MatVec<length_type, DIM> vec);
+	auto position() const -> decltype(vec_pos);
+
 	auto ekin() const -> decltype(m_ekin);
 
 	std::ostream& print(std::ostream & os = std::cout) const;
@@ -76,11 +79,11 @@ public:
 
 template<unsigned DIM>
 void collide(Kugel<DIM>& kugel1, Kugel<DIM>& kugel2) {
-	const auto dist =  kugel2.vec_pos - kugel1.vec_pos;
-	const auto d = dist / dist.norm();
-
 	const auto v1 = kugel1.velocity(), v2 = kugel2.velocity();
 	const auto m1 = kugel1.mass(), m2 = kugel2.mass();
+
+	const auto dist =  kugel2.position() - kugel1.position();
+	const auto d = dist / dist.norm();
 
 	const auto v_rel = ( d * (d * v2) - d * (d * v1) ) / ( 0.5 * (m1 + m2) );
 
