@@ -5,16 +5,17 @@
 
 #include "MatVec.h"
 
+const boost::units::si::mass kg = kilogram;
+const boost::units::si::length m = meter;
+const boost::units::si::force N = newton;
+const boost::units::si::velocity mps = meters_per_second;
+const boost::units::si::time s = second;
 
-const mass kg = kilogram;
-const length m = meter;
-const force N = newton;
-const velocity mps = meters_per_second;
-
-typedef quantity<mass> massT;
-typedef quantity<length> lengthT;
-typedef quantity<force> forceT;
-typedef quantity<velocity> velocityT;
+typedef boost::units::quantity<boost::units::si::mass , double > massT;
+typedef boost::units::quantity<boost::units::si::length , double > lengthT;
+typedef boost::units::quantity<boost::units::si::force , double > forceT;
+typedef boost::units::quantity<boost::units::si::velocity , double > velocityT;
+typedef boost::units::quantity< boost::units::si::time , double > time_type;
 
 void constructorEmpty() {
 	Kugel<3> k{};
@@ -59,6 +60,25 @@ void setVelocity_Energy() {
 	k.velocity(vel);
 	ASSERTM("", k.ekin() == en);
 }
+
+void setPosition() {
+	Kugel<3> k{1*kg, 1*m};
+	MatVec<lengthT, 3> pos{3*m,4*m,5*m};
+
+	k.position(pos);
+	ASSERTM("", k.position() == pos);
+}
+
+void fastForward() {
+	Kugel<3> k{};
+	MatVec<velocityT,3> vel{1*mps,2*mps,3*mps};
+	MatVec<lengthT,3> res_pos{3*m,6*m,9*m};
+
+	k.velocity(vel);
+	k.fast_forward(3*s);
+	ASSERTM("", k.position() == res_pos);
+}
+
 cute::suite make_suite_Kugel(){
 	cute::suite s;
 	s.push_back(CUTE(constructorEmpty));
@@ -68,5 +88,9 @@ cute::suite make_suite_Kugel(){
 	s.push_back(CUTE(setVelocity_Velocity));
 	s.push_back(CUTE(setVelocity_Energy));
 	s.push_back(CUTE(compareKugelIdentical));
+	s.push_back(CUTE(setPosition));
+	s.push_back(CUTE(fastForward));
 	return s;
 }
+
+

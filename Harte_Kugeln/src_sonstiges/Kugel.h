@@ -28,6 +28,7 @@ class Kugel : public MetaKugel<DIM> {
 	typedef boost::units::quantity< boost::units::si::velocity , double > velocity_type;
 	typedef boost::units::quantity< boost::units::si::mass , double > mass_type;
 	typedef boost::units::quantity< boost::units::si::energy , double > energy_type;
+	typedef boost::units::quantity< boost::units::si::time , double > time_type;
 
 	mass_type m_mass; //mass ist nun ein Datentyp
 	length_type m_radius;
@@ -68,6 +69,8 @@ public:
 	auto position() const -> decltype(vec_pos);
 
 	auto ekin() const -> decltype(m_ekin);
+
+	void fast_forward(const time_type& dt) { vec_pos += vec_vel * dt; }
 
 	std::ostream& print(std::ostream & os = std::cout) const;
 
