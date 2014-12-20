@@ -1,12 +1,9 @@
 #include "cute.h"
-#include "ide_listener.h"
-#include "xml_listener.h"
-#include "cute_runner.h"
-
-#include "Kugel.h"
-#include <boost/units/systems/si.hpp>
+#include "test_CollisionPair.h"
 
 #include "CollisionPair.h"
+#include "Kugel.h"
+#include <boost/units/systems/si.hpp>
 
 using namespace std;
 
@@ -89,7 +86,7 @@ void assignLower() {
 }
 
 
-void runAllTests(int argc, char const *argv[]){
+cute::suite make_suite_CollisionPair(){
 	cute::suite s;
 
 	s.push_back(CUTE(typeCastBool));
@@ -104,15 +101,6 @@ void runAllTests(int argc, char const *argv[]){
 	s.push_back(CUTE(equalFalseCollisionSameTime));
 	s.push_back(CUTE(assignment));
 	s.push_back(CUTE(assignLower));
-	cute::xml_file_opener xmlfile(argc,argv);
-	cute::xml_listener<cute::ide_listener<> >  lis(xmlfile.out);
-	cute::makeRunner(lis,argc,argv)(s, "AllTests");
+	return s;
 }
-
-int main(int argc, char const *argv[]){
-    runAllTests(argc,argv);
-    return 0;
-}
-
-
 

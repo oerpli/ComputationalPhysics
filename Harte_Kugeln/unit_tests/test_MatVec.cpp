@@ -1,7 +1,5 @@
 #include "cute.h"
-#include "ide_listener.h"
-#include "xml_listener.h"
-#include "cute_runner.h"
+#include "test_MatVec.h"
 
 #include "MatVec.h"
 
@@ -94,7 +92,7 @@ void make_negative() {
 }
 
 
-void runAllTests(int argc, char const *argv[]){
+cute::suite make_suite_MatVec(){
 	cute::suite s;
 	s.push_back(CUTE(empty_double_initialisation));
 	s.push_back(CUTE(scalar_product));
@@ -108,16 +106,7 @@ void runAllTests(int argc, char const *argv[]){
 	s.push_back(CUTE(vektorElemente_SkalarAddition));
 	s.push_back(CUTE(vektorElemente_SkalarSubtraktion));
 	s.push_back(CUTE(incomplete_initialisation));
-
-	cute::xml_file_opener xmlfile(argc,argv);
-	cute::xml_listener<cute::ide_listener<> >  lis(xmlfile.out);
-	cute::makeRunner(lis,argc,argv)(s, "AllTests");
+	return s;
 }
-
-int main(int argc, char const *argv[]){
-    runAllTests(argc,argv);
-    return 0;
-}
-
 
 

@@ -1,11 +1,10 @@
 #include "cute.h"
-#include "ide_listener.h"
-#include "xml_listener.h"
-#include "cute_runner.h"
+#include "test_Box.h"
 
 #include <vector>
 #include "Kugel.h"
 #include "MatVec.h"
+
 
 template<unsigned DIM>
 class Box {
@@ -71,21 +70,13 @@ void addBoxSize() {
 	box1.add(box2);
 	ASSERTM("", box1.size() == s1 + s2);
 }
-void runAllTests(int argc, char const *argv[]){
+
+
+cute::suite make_suite_Box(){
 	cute::suite s;
 	s.push_back(CUTE(emptyBox));
 	s.push_back(CUTE(boxSize10));
 	s.push_back(CUTE(boxAbmessung));
 	s.push_back(CUTE(addBoxSize));
-	cute::xml_file_opener xmlfile(argc,argv);
-	cute::xml_listener<cute::ide_listener<> >  lis(xmlfile.out);
-	cute::makeRunner(lis,argc,argv)(s, "AllTests");
+	return s;
 }
-
-int main(int argc, char const *argv[]){
-    runAllTests(argc,argv);
-    return 0;
-}
-
-
-
