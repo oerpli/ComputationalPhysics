@@ -30,11 +30,11 @@ class Kugel : public MetaKugel<DIM> {
 	typedef boost::units::quantity< boost::units::si::energy , double > energy_type;
 
 	mass_type m_mass; //mass ist nun ein Datentyp
-	length_type m_diameter;
+	length_type m_radius;
 	energy_type m_ekin;
 	MatVec<velocity_type, DIM> vec_vel; //velocity ist nun ein Datentyp
 
-	CollisionPair<DIM> cp;
+	CollisionPair<DIM> m_cp;
 
 	void update_ekin();
 
@@ -51,11 +51,13 @@ public:
 			swap(kugelA.vec_pos, kugelB.vec_pos); //swap von MatVec
 			swap(kugelA.vec_vel, kugelB.vec_vel); //swap von MatVec
 			swap(kugelA.m_mass, kugelB.m_mass); //units swap
-			swap(kugelA.m_diameter, kugelB.m_diameter); //units swap
+			swap(kugelA.m_radius, kugelB.m_radius); //units swap
 			swap(kugelA.m_ekin, kugelB.m_ekin);
 	}
 
-	auto radius() const -> decltype(m_diameter) {return m_diameter * 0.5;}
+	bool operator==(const Kugel<DIM>& other) const;
+
+	auto radius() const -> decltype(m_radius) {return m_radius;}
 
 	auto mass() const -> decltype(m_mass) {return m_mass;}
 

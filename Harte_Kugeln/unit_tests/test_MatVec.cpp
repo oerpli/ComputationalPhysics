@@ -19,6 +19,14 @@ void incomplete_initialisation() {
 	ASSERTM("", vec1 == vec2);
 }
 
+void vektor_additionAssertion() {
+	MatVec<double, 3> vec1{1,2,3};
+	MatVec<double, 3> vec2{-1,-3,2};
+	MatVec<double, 3> res{0,-1,5};
+	vec1 += vec2;
+	ASSERTM("", vec1 == res);
+}
+
 void vektor_addition() {
 	MatVec<double, 3> vec1{1,2,3};
 	MatVec<double, 3> vec2{-1,-3,2};
@@ -101,6 +109,7 @@ cute::suite make_suite_MatVec(){
 	s.push_back(CUTE(multiplikation_skalar));
 	s.push_back(CUTE(division_skalar));
 	s.push_back(CUTE(make_negative));
+	s.push_back(CUTE(vektor_additionAssertion));
 	s.push_back(CUTE(vektor_addition));
 	s.push_back(CUTE(vektor_subtraktion));
 	s.push_back(CUTE(vektorElemente_SkalarAddition));
