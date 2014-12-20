@@ -18,21 +18,27 @@ Kugel<DIM>::Kugel(mass_type m, length_type d) :
 
 
 template <unsigned DIM>
-Kugel<DIM>::operator ==(const Kugel<DIM>& other) const {
+bool Kugel<DIM>::operator ==(const Kugel<DIM>& other) const {
 	bool flag{ m_ekin == other.m_ekin };
 	if (! flag)
 		return flag;
+
 	flag &= vec_vel == vec_vel;
 	if (! flag)
 		return flag;
 
-	flag &= ( m_mass == other.m_mass && m_radius == m_radius ));
+	flag &= vec_pos == vec_pos;
 	if (! flag)
 		return flag;
 
-	flag &= ( m_cp == other.m_cp )
+	flag &= ( m_mass == other.m_mass && m_radius == m_radius );
+	if (! flag)
+		return flag;
+
+	flag &= m_cp == other.m_cp ;
 	return flag;
 }
+
 template<unsigned DIM>
 void Kugel<DIM>::update_ekin() {
 	m_ekin = m_mass * vec_vel.norm2() * 0.5;
