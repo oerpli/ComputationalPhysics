@@ -44,6 +44,15 @@ void vektor_subtraktion() {
 	ASSERTM("", vec1 - vec2 == res);
 }
 
+void vektor_subtraktion_assignement() {
+	MatVec<double, 3> vec1{1,2,3};
+	MatVec<double, 3> vec2{-1,-3,2};
+	MatVec<double, 3> res{2,5,1};
+
+	vec1 -= vec2;
+	ASSERTM("", vec1 == res);
+}
+
 void vektorElemente_SkalarAddition() {
 	MatVec<double, 3> vec{-1,-3,2};
 	MatVec<double, 3> res{1,-1,4};
@@ -126,6 +135,7 @@ cute::suite make_suite_MatVec(){
 	s.push_back(CUTE(vektor_additionAssertion));
 	s.push_back(CUTE(vektor_addition));
 	s.push_back(CUTE(vektor_subtraktion));
+	s.push_back(CUTE(vektor_subtraktion_assignement));
 	s.push_back(CUTE(vektorElemente_SkalarAddition));
 	s.push_back(CUTE(vektorElemente_SkalarSubtraktion));
 	s.push_back(CUTE(incomplete_initialisation));

@@ -58,6 +58,9 @@ public:
 	auto operator -(
 			const MatVec<T2, DIM>& vec2) const -> MatVec<decltype(ElementType {}- T2 {}),DIM>;
 
+	// Vektorsubtraktion Zuweisung
+	MatVec<ElementType,DIM>& operator -=(const MatVec<ElementType, DIM>& vec2);
+
 	// Subtraktion jedes Elements mit Skalar
 	template<typename T2>
 	auto operator- (const T2& s) const -> MatVec<decltype( ElementType{} - T2{} ), DIM>;
