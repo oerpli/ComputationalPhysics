@@ -5,6 +5,8 @@
 #include <ostream>
 #include <initializer_list>
 
+#include <boost/units/cmath.hpp>
+
 template<typename ElementType, unsigned DIM>
 class MatVec {
 private:
@@ -73,6 +75,15 @@ public:
 	template<typename T2>
 	auto operator* (const T2& s) const -> MatVec<decltype( ElementType{} * T2{} ), DIM>;
 
+	// Multiplikation zwei Vektoren elementweise
+	template<typename T2>
+	auto operator% (
+			const MatVec<T2, DIM>& other) const -> MatVec<decltype( ElementType{} * T2{} ), DIM> {
+		MatVec<decltype( ElementType{} * T2{} ), DIM> result {};
+		for (unsigned i = 0; i < DIM; ++i)
+			result[i] = m_vec[i] * other[i];
+		return result;
+	}
 	// Division durch Skalar
 	template<typename T2>
 	auto operator/ (const T2& s) const -> MatVec<decltype( ElementType{} / T2{} ), DIM>;
@@ -92,6 +103,13 @@ public:
 
 	auto norm2() const -> decltype(ElementType {}* ElementType {});
 	auto norm() const -> decltype(ElementType {});
+
+	MatVec<ElementType,DIM> floor() const { //nicht schön, da nur für boost
+		MatVec<ElementType,DIM> result{};
+		for (unsigned i = 0; i < DIM; ++i)
+			result[i] = boost::units::floor(m_vec[i]);
+		return result;
+	}
 
 	template<class UnaryFunction>
 	auto operator()(UnaryFunction f) const -> MatVec<decltype(f(ElementType{})), DIM> {

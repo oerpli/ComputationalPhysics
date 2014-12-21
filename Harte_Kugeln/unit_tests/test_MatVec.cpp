@@ -94,6 +94,13 @@ void multiplikation_skalar() {
 	ASSERTM("", vec * skalar == res);
 }
 
+void multiplikation_vector() {
+	MatVec<double, 3> vec1{1,-2,3}, vec2{2,3,-3};
+	MatVec<double, 3> res{2,-6,-9};
+
+	ASSERTM("", vec1 % vec2 == res);
+}
+
 void division_skalar() {
 	MatVec<double, 3> vec{-2,4,-6};
 	MatVec<double, 3> res{1,-2,3};
@@ -122,13 +129,20 @@ void unaryFunction() {
 	ASSERTM("", vec(floor) == res);
 }
 
+void matVec_floor() {
+	MatVec<double, 3> vec{1.3,-2.7,-0}, res{1,-3,0};
+
+	ASSERTM("", false);
+}
+
 cute::suite make_suite_MatVec(){
 	cute::suite s;
 	s.push_back(CUTE(empty_double_initialisation));
-	s.push_back(CUTE(scalar_product));
 	s.push_back(CUTE(test_norm2));
 	s.push_back(CUTE(test_norm));
+	s.push_back(CUTE(scalar_product));
 	s.push_back(CUTE(multiplikation_skalar));
+	s.push_back(CUTE(multiplikation_vector));
 	s.push_back(CUTE(division_skalar));
 	s.push_back(CUTE(division_vektor));
 	s.push_back(CUTE(make_negative));
@@ -140,6 +154,7 @@ cute::suite make_suite_MatVec(){
 	s.push_back(CUTE(vektorElemente_SkalarSubtraktion));
 	s.push_back(CUTE(incomplete_initialisation));
 	s.push_back(CUTE(unaryFunction));
+	s.push_back(CUTE(matVec_floor));
 	return s;
 }
 
