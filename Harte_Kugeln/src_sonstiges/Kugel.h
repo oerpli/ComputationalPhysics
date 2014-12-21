@@ -58,6 +58,8 @@ public:
 
 	bool operator==(const Kugel<DIM>& other) const;
 
+	auto collision_time() -> decltype(m_cp.collision_time()) {return m_cp.collision_time();}
+
 	auto radius() const -> decltype(m_radius) {return m_radius;}
 
 	auto mass() const -> decltype(m_mass) {return m_mass;}
@@ -70,6 +72,7 @@ public:
 
 	auto ekin() const -> decltype(m_ekin);
 
+	void set_collision(MetaKugel<DIM>& other, const time_type& dt, bool b) {m_cp.set_collision(other, dt, b);}
 	void fast_forward(const time_type& dt) { vec_pos += vec_vel * dt; }
 
 	std::ostream& print(std::ostream & os = std::cout) const;
