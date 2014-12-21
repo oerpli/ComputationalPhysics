@@ -99,6 +99,11 @@ void make_negative() {
 	ASSERTM("", -vec == res);
 }
 
+void unaryFunction() {
+	MatVec<double, 3> vec{1.3,-2.7,-0}, res{1,-3,0};
+
+	ASSERTM("", vec(floor) == res);
+}
 
 cute::suite make_suite_MatVec(){
 	cute::suite s;
@@ -115,6 +120,7 @@ cute::suite make_suite_MatVec(){
 	s.push_back(CUTE(vektorElemente_SkalarAddition));
 	s.push_back(CUTE(vektorElemente_SkalarSubtraktion));
 	s.push_back(CUTE(incomplete_initialisation));
+	s.push_back(CUTE(unaryFunction));
 	return s;
 }
 

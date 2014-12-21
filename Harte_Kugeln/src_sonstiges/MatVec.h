@@ -80,6 +80,14 @@ public:
 
 	auto norm2() const -> decltype(ElementType {}* ElementType {});
 	auto norm() const -> decltype(ElementType {});
+
+	template<class UnaryFunction>
+	auto operator()(UnaryFunction f) const -> MatVec<decltype(f(ElementType{})), DIM> {
+		MatVec<decltype(f(ElementType{})), DIM> result {};
+		for (unsigned i = 0; i < DIM; ++i)
+			result[i] = f( m_vec[i] );
+		return result;
+	}
 };
 
 template<typename T, unsigned DIM>
