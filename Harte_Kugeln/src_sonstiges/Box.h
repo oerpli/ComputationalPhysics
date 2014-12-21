@@ -47,9 +47,11 @@ public:
 	}
 
 	Box(const MatVec<lengthT, DIM>& dim, unsigned size, const Kugel<DIM>& kugel)
-		: m_time{},vec_kugel(size, kugel), vec_abmessung{dim} { wrap(); }
+		: m_time{},vec_kugel(size, kugel), vec_abmessung{dim}
+		, next_collision_pair{vec_kugel[0], vec_kugel[0]} {}
 	Box(const MatVec<lengthT, DIM>& dim, unsigned size)
-		: m_time{}, vec_kugel(size), vec_abmessung{dim} {}
+		: m_time{}, vec_kugel(size), vec_abmessung{dim}
+		, next_collision_pair{vec_kugel[0], vec_kugel[0]} {}
 	Box(const MatVec<lengthT, DIM>& dim)
 			: Box{dim,0} {}
 
