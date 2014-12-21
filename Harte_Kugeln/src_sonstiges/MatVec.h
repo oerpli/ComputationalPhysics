@@ -74,6 +74,15 @@ public:
 	template<typename T2>
 	auto operator/ (const T2& s) const -> MatVec<decltype( ElementType{} / T2{} ), DIM>;
 
+	// Division zwei Vektoren elementweise
+	template<typename T2>
+	auto operator/ (
+			const MatVec<T2, DIM>& other) const -> MatVec<decltype( ElementType{} / T2{} ), DIM> {
+		MatVec<decltype( ElementType{} / T2{} ), DIM> result {};
+		for (unsigned i = 0; i < DIM; ++i)
+			result[i] = m_vec[i] / other.m_vec[i];
+		return result;
+	}
 
 	// return negative vector
 	MatVec<ElementType, DIM> operator- () const;

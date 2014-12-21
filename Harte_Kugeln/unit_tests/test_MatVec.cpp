@@ -2,6 +2,7 @@
 #include "test_MatVec.h"
 
 #include "MatVec.h"
+#include <iostream>
 
 void empty_double_initialisation() {
 	MatVec<double, 3> vec { };
@@ -92,6 +93,13 @@ void division_skalar() {
 	ASSERTM("", vec / skalar == res);
 }
 
+void division_vektor() {
+	MatVec<double, 3> vec1{-1,4,-5}, vec2{2,2,5};
+	MatVec<double, 3> res{-.5,2,-1};
+
+	ASSERTM("", vec1 / vec2 == res);
+}
+
 void make_negative() {
 	MatVec<double, 3> vec{-2,4,-6};
 	MatVec<double, 3> res{2,-4,6};
@@ -113,6 +121,7 @@ cute::suite make_suite_MatVec(){
 	s.push_back(CUTE(test_norm));
 	s.push_back(CUTE(multiplikation_skalar));
 	s.push_back(CUTE(division_skalar));
+	s.push_back(CUTE(division_vektor));
 	s.push_back(CUTE(make_negative));
 	s.push_back(CUTE(vektor_additionAssertion));
 	s.push_back(CUTE(vektor_addition));
