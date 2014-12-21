@@ -85,6 +85,17 @@ void assignLower() {
 	ASSERTM("", cp1 == cp2);
 }
 
+void get_kugel1() {
+	Kugel<3> k1{}, k2{};
+	CollisionPair<3> cp{k1,k2};
+	ASSERTM("", cp.kugel1() == &k1);
+}
+
+void get_kugel2() {
+	Kugel<3> k1{}, k2{};
+	CollisionPair<3> cp{k1,k2};
+	ASSERTM("", cp.kugel2() == &k2);
+}
 
 cute::suite make_suite_CollisionPair(){
 	cute::suite s;
@@ -101,6 +112,8 @@ cute::suite make_suite_CollisionPair(){
 	s.push_back(CUTE(equalFalseCollisionSameTime));
 	s.push_back(CUTE(assignment));
 	s.push_back(CUTE(assignLower));
+	s.push_back(CUTE(get_kugel1));
+	s.push_back(CUTE(get_kugel2));
 	return s;
 }
 
