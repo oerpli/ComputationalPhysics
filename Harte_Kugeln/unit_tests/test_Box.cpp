@@ -94,6 +94,19 @@ void box_fastForward_time() {
 	ASSERTM("", box.time() == dt );
 }
 
+void wall_collision_wall_time() {
+	Kugel<3> k{};
+	MatVec<velocityT, 3> vel(.25*mps);
+	MatVec<lengthT,3> pos(.25*m);
+	auto res_time = 5*second;
+
+	k.position(pos);
+	k.velocity(vel);
+	Box<3> box{box_dimension,1,k};
+
+	std::cout << box.calc_wall_collision_time(k) << '\n';
+	ASSERTM("", box.calc_wall_collision_time(k) == res_time );
+}
 cute::suite make_suite_Box(){
 	cute::suite s;
 	s.push_back(CUTE(emptyBox));
@@ -106,5 +119,6 @@ cute::suite make_suite_Box(){
 	s.push_back(CUTE(wrapPosition));
 	s.push_back(CUTE(box_fastForward_pos));
 	s.push_back(CUTE(box_fastForward_time));
+	s.push_back(CUTE(wall_collision_wall_time));
 	return s;
 }
