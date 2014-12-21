@@ -1,6 +1,9 @@
+#ifndef BOX_H
+#define BOX_H
 #include <vector>
 #include <algorithm>
 #include "Kugel.h"
+#include "CollisionPair.h"
 #include "MatVec.h"
 
 template<unsigned DIM>
@@ -138,3 +141,4 @@ public:
 	}
 
 };
+#endif
