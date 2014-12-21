@@ -13,6 +13,7 @@ class Box {
 	typedef boost::units::quantity< boost::units::si::mass , double > massT;
 	typedef boost::units::quantity< boost::units::si::energy , double > energyT;
 	typedef boost::units::quantity< boost::units::si::time , double > timeT;
+	typedef boost::units::quantity< boost::units::si::dimensionless , int > idimlessT;
 
 	timeT m_time;
 	std::vector<Kugel<DIM>> vec_kugel;
@@ -79,26 +80,28 @@ public:
 				other.vec_kugel.begin(), other.vec_kugel.end() );
 	}
 
-	void calc_wall_collision_time(Kugel<DIM>& kugel) {
+	timeT calc_wall_collision_time(Kugel<DIM>& kugel) {
 		MatVec<lengthT, DIM> riw { };
-		MatVec<lengthT, DIM> viw { };
+		MatVec<velocityT, DIM> viw { };
+		auto nullm2 = 0*meter*meter/second;
 		timeT coll_time { };
 		for (int j = -1; j < 2; j = j + 2) {
-			MatVec<lengthT,DIM> wall {j*vec_abmessung/2};
-			for (int k = 0; k < DIM; k++) {
-				auto riw = wall[k]-kugel.position()[k];
-				auto viw = -kugel.velocity()[k];
-				if (riw*viw < 0) {
-					coll_time = (- riw * viw - sqrt(pow(riw*viw,2) - (viw*viw)*(riw*riw - pow(kugel.radius()*0.5, 2))))/(viw*viw);
+			MatVec<lengthT,DIM> wall {vec_abmessung*(j*.5)};
+			for (unsigned k = 0; k < DIM; k++) {
+				riw = wall[k]-kugel.position()[k];
+				viw = -kugel.velocity()[k];
+				if (riw*viw < nullm2) {
+					coll_time = (- riw * viw - sqrt(pow<2>(riw*viw) - (viw*viw)*(riw*riw - pow<2>(kugel.radius()*0.5))))/(viw*viw);
 					if (coll_time < kugel.collision_time()) {
 						kugel.set_collision(kugel, coll_time, 1);
 					}
-					if (coll_time < m_time) {
+// TODO					if (coll_time < m_time) {
 						next_collision_pair = CollisionPair<DIM>(kugel, kugel, coll_time, 1);
-					}
+//					}
 				}
 			}
 		}
+		return next_collision_pair.collision_time();
 	}
 
 	void calc_collision_time(Kugel<DIM>& kugel_i, Kugel<DIM>& kugel_j) {
