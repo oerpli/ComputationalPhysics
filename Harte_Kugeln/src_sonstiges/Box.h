@@ -36,8 +36,24 @@ public:
 			wrap_one(kugel);
 		}
 		if (bool(next_collision_pair)) {
-			//collide(next_collision_pair.kugel1(),next_collision_pair.kugel2());
+			Kugel<DIM> *kugel_i = static_cast<Kugel<DIM>*>(next_collision_pair.kugel1());
+			Kugel<DIM> *kugel_j = static_cast<Kugel<DIM>*>(next_collision_pair.kugel2());
+			collide(*kugel_i,*kugel_j);
 		}
+	}
+
+	void collide(Kugel<DIM>& kugel1, Kugel<DIM>& kugel2) {
+		std::cout << "blubb" << std::endl;
+		const auto v1 = kugel1.velocity(), v2 = kugel2.velocity();
+		const auto m1 = kugel1.mass(), m2 = kugel2.mass();
+
+		const auto dist =  kugel2.position() - kugel1.position();
+		const auto d = dist / dist.norm();
+
+		const auto v_rel = ( d * (d * v2) - d * (d * v1) ) / ( 0.5 * (m1 + m2) );
+
+		kugel1.velocity( v1 + ( v_rel * m2) );
+		kugel2.velocity( v2 - ( v_rel * m1) );
 	}
 
 	void wrap() {
@@ -131,7 +147,7 @@ public:
 					vec_kugel[j].set_collision(vec_kugel[i], temp_coll_time, 1);
 				}
 				if (temp_coll_time < next_collision_pair.collision_time()) {
-					next_collision_pair.set_collision(temp_coll_time, 0);
+					next_collision_pair.set_collision(vec_kugel[i], vec_kugel[j], temp_coll_time, 1);
 				}
 			}
 		}
@@ -152,7 +168,7 @@ public:
 				kugel_j.set_collision(kugel_i, temp_coll_time, 1);
 				}
 				if (temp_coll_time < next_collision_pair.collision_time()) {
-				next_collision_pair.set_collision(kugel_i, kugel_j, temp_coll_time, 0);
+				next_collision_pair.set_collision(kugel_i, kugel_j, temp_coll_time, 1);
 				}
 			}
 		}
@@ -168,6 +184,9 @@ public:
 				}
 				if (temp_coll_time < next_collision_pair.collision_time()) {
 					next_collision_pair.set_collision(kugel_i, kugel_j, temp_coll_time, 0);
+				}
+				if (kugel_j.collision_time() < next_collision_pair.collision_time()) {
+					next_collision_pair = kugel_j.collision_pair();
 				}
 			}
 		}
