@@ -36,7 +36,7 @@ public:
 			wrap_one(kugel);
 		}
 		if (bool(next_collision_pair)) {
-			collide(next_collision_pair.kugel1(),next_collision_pair.kugel2());
+			//collide(next_collision_pair.kugel1(),next_collision_pair.kugel2());
 		}
 	}
 
@@ -102,20 +102,20 @@ public:
 
 	timeT calc_collision_time(Kugel<DIM>& kugel_i, Kugel<DIM>& kugel_j) {
 		MatVec<lengthT, DIM> rij { };
-		MatVec<lengthT, DIM> vij { };
+		MatVec<velocityT, DIM> vij { };
 		rij = kugel_j.position() - kugel_i.position();
 		vij = kugel_j.velocity() - kugel_i.velocity();
-		timeT coll_time { };
+		timeT coll_time {100000*second};
 		auto nullm2 = 0*meter*meter/second;
 		if ( rij*vij < nullm2 ) {
-			auto coll_dist_sq = pow(2.0*(kugel_i.radius()+kugel_j.radius()),2);
-			coll_time = (- rij * vij - sqrt((coll_dist_sq - rij*rij)*(vij*vij) + pow(rij*vij,2)))/(vij*vij);
+			auto coll_dist_sq = pow<2>(kugel_i.radius()+kugel_j.radius());
+			coll_time = (- rij * vij - sqrt((coll_dist_sq - rij*rij)*(vij*vij) + pow<2>(rij*vij)))/(vij*vij);
 		}
 		return coll_time;
 	}
 
 	void first_collision() {
-		timeT temp_coll_time {10000}; //arbitrary, irgendwas großes halt
+		timeT temp_coll_time {10000*second}; //arbitrary, irgendwas großes halt
 		next_collision_pair.set_collision(temp_coll_time, 0);
 		for (int i = 0; i < vec_kugel.size(); i++) {
 			temp_coll_time = calc_wall_collision_time(vec_kugel[i]);
@@ -135,10 +135,11 @@ public:
 				}
 			}
 		}
+		fast_forward(next_collision_pair.collision_time());
 	}
 
 	void next_collision() {
-		timeT temp_coll_time {10000}; //arbitrary, irgendwas großes halt
+		timeT temp_coll_time {10000*second}; //arbitrary, irgendwas großes halt
 		next_collision_pair.set_collision(temp_coll_time, 0);
 		Kugel<DIM> *kugel_i {next_collision_pair.kugel1()};
 		for (auto& kugel_j : vec_kugel) {
@@ -160,13 +161,13 @@ public:
 			if (kugel_i != kugel_j) {
 				temp_coll_time = calc_collision_time(kugel_i, kugel_j);
 				if (temp_coll_time < kugel_i.collision_time()) {
-				kugel_i.set_collision(kugel_j, temp_coll_time, 1);
+					kugel_i.set_collision(kugel_j, temp_coll_time, 1);
 				}
 				if (temp_coll_time < kugel_j.collision_time()) {
-				kugel_j.set_collision(kugel_i, temp_coll_time, 1);
+					kugel_j.set_collision(kugel_i, temp_coll_time, 1);
 				}
 				if (temp_coll_time < next_collision_pair.collision_time()) {
-				next_collision_pair.set_collision(kugel_i, kugel_j, temp_coll_time, 0);
+					next_collision_pair.set_collision(kugel_i, kugel_j, temp_coll_time, 0);
 				}
 			}
 		}
