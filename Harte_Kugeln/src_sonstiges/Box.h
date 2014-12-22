@@ -22,13 +22,7 @@ class Box {
 
 	void wrap_one(Kugel<DIM>& kugel) {
 		auto pos = kugel.position();
-		lengthT null{};
-		quantity<dimensionless,int> factor{0};
-
-		for (unsigned i=0; i<DIM; ++i) {
-			factor = static_cast<quantity<dimensionless,int> > (pos[i] / (vec_abmessung[i]));
-			pos[i] -= vec_abmessung[i] * factor;
-		}
+		pos -=  floor(pos/vec_abmessung) % vec_abmessung;
 		kugel.position(pos);
 	}
 
@@ -83,28 +77,27 @@ public:
 				other.vec_kugel.begin(), other.vec_kugel.end() );
 	}
 
-	timeT calc_wall_collision_time(Kugel<DIM>& kugel) {
-		MatVec<lengthT, DIM> riw { };
-		MatVec<velocityT, DIM> viw { };
-		auto nullm2 = 0*meter*meter/second;
-		timeT coll_time { };
-		for (int j = -1; j < 2; j = j + 2) {
-			MatVec<lengthT,DIM> wall {vec_abmessung*(j*.5)};
-			for (unsigned k = 0; k < DIM; k++) {
-				riw = wall[k]-kugel.position()[k];
-				viw = -kugel.velocity()[k];
-				if (riw*viw < nullm2) {
-					coll_time = (- riw * viw - sqrt(pow<2>(riw*viw) - (viw*viw)*(riw*riw - pow<2>(kugel.radius()*0.5))))/(viw*viw);
-					if (coll_time < kugel.collision_time()) {
-						kugel.set_collision(kugel, coll_time, 0);
-					}
-					if (coll_time < next_collision_pair.collision_time()) {
-						next_collision_pair.set_collision(kugel, kugel, coll_time, 0);
-					}
-				}
-			}
-		}
-		return next_collision_pair.collision_time();
+	auto dist(const Kugel<DIM>& kugel1, const Kugel<DIM>& kugel2) const
+			-> decltype(Kugel<DIM>{}.position()) { //TODO Ursprung links unten
+		auto result = kugel2.position() - kugel1.position();
+		result -= round(result/vec_abmessung) % vec_abmessung;
+		return result;
+	}
+
+	timeT calc_wall_collision_time(const Kugel<DIM>& kugel) {
+		auto vel = kugel.velocity();
+		MatVec<lengthT, DIM> border{};
+		velocityT null{};
+
+		for (unsigned i = 0; i < DIM; ++i)
+			if ( vel[i] > null )
+				border[i] = vec_abmessung[i];
+		MatVec<timeT, DIM> vec_time = ( border - kugel.position() ) / vel;
+
+		auto min_time = vec_time[0];
+		for_each (++vec_time.begin(), vec_time.end(), [&] (const timeT& time) {
+			if (time < min_time) min_time = time; });
+		return min_time;
 	}
 
 	void calc_collision_time(Kugel<DIM>& kugel_i, Kugel<DIM>& kugel_j) {

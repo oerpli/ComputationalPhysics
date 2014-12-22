@@ -126,13 +126,29 @@ void make_negative() {
 void unaryFunction() {
 	MatVec<double, 3> vec{1.3,-2.7,-0}, res{1,-3,0};
 
-	ASSERTM("", vec(floor) == res);
+	vec([](decltype(vec[0])& el){el = floor(el);});
+	ASSERTM("", vec == res);
 }
 
-void matVec_floor() {
+void matVec_floor_double() {
 	MatVec<double, 3> vec{1.3,-2.7,-0}, res{1,-3,0};
 
-	ASSERTM("", true);
+	ASSERTM("", floor(vec) == res);
+}
+
+#include <boost/units/systems/si.hpp>
+#include <boost/units/systems/si/io.hpp>
+
+using namespace boost::units::si;
+using namespace boost::units;
+
+void matVec_floor_units() {
+	const length m = meter;
+	typedef quantity<length> lengthT;
+
+	MatVec<lengthT, 3> vec{1.3*m,-2.7*m,-0*m}, res{1*m,-3*m,0*m};
+
+	ASSERTM("", floor(vec) == res);
 }
 
 cute::suite make_suite_MatVec(){
@@ -154,7 +170,8 @@ cute::suite make_suite_MatVec(){
 	s.push_back(CUTE(vektorElemente_SkalarSubtraktion));
 	s.push_back(CUTE(incomplete_initialisation));
 	s.push_back(CUTE(unaryFunction));
-	s.push_back(CUTE(matVec_floor));
+	s.push_back(CUTE(matVec_floor_double));
+	s.push_back(CUTE(matVec_floor_units));
 	return s;
 }
 

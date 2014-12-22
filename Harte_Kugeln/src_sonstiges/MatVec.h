@@ -94,7 +94,7 @@ public:
 			const MatVec<T2, DIM>& other) const -> MatVec<decltype( ElementType{} / T2{} ), DIM> {
 		MatVec<decltype( ElementType{} / T2{} ), DIM> result {};
 		for (unsigned i = 0; i < DIM; ++i)
-			result[i] = m_vec[i] / other.m_vec[i];
+			result[i] = m_vec[i] / other[i];
 		return result;
 	}
 
@@ -104,32 +104,28 @@ public:
 	auto norm2() const -> decltype(ElementType {}* ElementType {});
 	auto norm() const -> decltype(ElementType {});
 
-	MatVec<ElementType,DIM> floor() const { //nicht schön, da nur für boost
-		MatVec<ElementType,DIM> result{};
-		for (unsigned i = 0; i < DIM; ++i)
-			result[i] = boost::units::floor(m_vec[i]);
-		return result;
-	}
-
-	MatVec<ElementType,DIM> round() const { //nicht schön, da nur für boost
-		MatVec<ElementType,DIM> result{};
-		for (unsigned i = 0; i < DIM; ++i)
-			result[i] = boost::units::round(m_vec[i]);
-		return result;
-	}
-
 	template<class UnaryFunction>
-	auto operator()(UnaryFunction f) const -> MatVec<decltype(f(ElementType{})), DIM> {
-		MatVec<decltype(f(ElementType{})), DIM> result {};
-		for (unsigned i = 0; i < DIM; ++i)
-			result[i] = f( m_vec[i] );
-		return result;
+	UnaryFunction operator()(UnaryFunction f) {
+		for (auto& el : m_vec) f( el );
+		return f;
 	}
 };
 
 template<typename T, unsigned DIM>
 std::ostream& operator<< (std::ostream& os, const MatVec<T,DIM>& vec) {
 	return vec.print(os);
+}
+
+template<typename T, unsigned DIM>
+MatVec<T,DIM> floor(MatVec<T,DIM> mec) {
+	mec([](decltype(mec[0])& el){el = floor(el); });
+	return mec;
+}
+
+template<typename T, unsigned DIM>
+MatVec<T,DIM> round(MatVec<T,DIM> mec) {
+	mec([](decltype(mec[0])& el){el = round(el); });
+	return mec;
 }
 
 #include "MatVec.tpp"

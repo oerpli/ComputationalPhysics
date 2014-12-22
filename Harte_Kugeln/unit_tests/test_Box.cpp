@@ -9,6 +9,7 @@ const velocity mps = meters_per_second;
 typedef quantity<length> lengthT;
 typedef quantity<force> forceT;
 typedef quantity<velocity> velocityT;
+typedef quantity<boost::units::si::time> timeT;
 
 const MatVec<lengthT, 3> box_dimension{1*m,2*m,3*m};
 
@@ -68,6 +69,18 @@ void wrapPosition() {
 	ASSERTM("", !( box[0].position() == res_pos ) );
 }
 
+void distance() {
+	Box<3> box{box_dimension,1};
+	MatVec<lengthT,3> pos1{1.5*m, 1.7*m, 1.5*m};
+	MatVec<lengthT,3> pos2{.1*m, 0.2*m, 0*m};
+	MatVec<lengthT,3> dist{-0.4*m, 0.5*m, 1.5*m};
+	Kugel<3> k1{},k2{};
+	k1.position(pos1);
+	k2.position(pos2);
+
+	std::cout << box.dist(k1,k2) << '\n'<< dist << '\n';
+	ASSERTM("", true);
+}
 void box_fastForward_pos() {
 	Kugel<3> k{};
 	MatVec<velocityT,3> vel{.2*mps,3*mps,1*mps};
@@ -96,15 +109,15 @@ void box_fastForward_time() {
 
 void wall_collision_wall_time() {
 	Kugel<3> k{};
-	MatVec<velocityT, 3> vel(.25*mps);
-	MatVec<lengthT,3> pos(.25*m);
-	auto res_time = 5*second;
+	MatVec<velocityT, 3> vel{.5*mps, -1*mps, 2*mps};
+	MatVec<lengthT,3> pos(.5*m);
+//	MatVec<timeT,3> res_time {1*second,.5*second,1.25*second};
+	timeT res_time = .5*second;
 
 	k.position(pos);
 	k.velocity(vel);
 	Box<3> box{box_dimension,1,k};
 
-	std::cout << box.calc_wall_collision_time(k) << '\n';
 	ASSERTM("", box.calc_wall_collision_time(k) == res_time );
 }
 cute::suite make_suite_Box(){
@@ -117,6 +130,7 @@ cute::suite make_suite_Box(){
 	s.push_back(CUTE(randomAccess_constRead));
 	s.push_back(CUTE(randomAccess_write));
 	s.push_back(CUTE(wrapPosition));
+	s.push_back(CUTE(distance));
 	s.push_back(CUTE(box_fastForward_pos));
 	s.push_back(CUTE(box_fastForward_time));
 	s.push_back(CUTE(wall_collision_wall_time));
