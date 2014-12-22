@@ -104,20 +104,6 @@ public:
 	auto norm2() const -> decltype(ElementType {}* ElementType {});
 	auto norm() const -> decltype(ElementType {});
 
-	MatVec<ElementType,DIM> floor() const { //nicht schön, da nur für boost
-		MatVec<ElementType,DIM> result{};
-		for (unsigned i = 0; i < DIM; ++i)
-			result[i] = boost::units::floor(m_vec[i]);
-		return result;
-	}
-
-	MatVec<ElementType,DIM> round() const { //nicht schön, da nur für boost
-		MatVec<ElementType,DIM> result{};
-		for (unsigned i = 0; i < DIM; ++i)
-			result[i] = boost::units::round(m_vec[i]);
-		return result;
-	}
-
 	template<class UnaryFunction>
 	UnaryFunction operator()(UnaryFunction f) {
 		for (auto& el : m_vec) f( el );
