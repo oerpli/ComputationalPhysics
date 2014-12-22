@@ -111,6 +111,13 @@ public:
 		return result;
 	}
 
+	MatVec<ElementType,DIM> round() const { //nicht schön, da nur für boost
+		MatVec<ElementType,DIM> result{};
+		for (unsigned i = 0; i < DIM; ++i)
+			result[i] = boost::units::round(m_vec[i]);
+		return result;
+	}
+
 	template<class UnaryFunction>
 	auto operator()(UnaryFunction f) const -> MatVec<decltype(f(ElementType{})), DIM> {
 		MatVec<decltype(f(ElementType{})), DIM> result {};
