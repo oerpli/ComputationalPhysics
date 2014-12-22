@@ -15,7 +15,7 @@ class Box {
 	typedef boost::units::quantity< boost::units::si::time , double > timeT;
 	typedef boost::units::quantity< boost::units::si::dimensionless , int > idimlessT;
 
-	timeT m_time;
+	timeT m_time; //System Zeit
 	std::vector<Kugel<DIM>> vec_kugel;
 	MatVec<lengthT, DIM> vec_abmessung;
 	CollisionPair<DIM> next_collision_pair;
@@ -26,7 +26,7 @@ class Box {
 		quantity<dimensionless,int> factor{0};
 
 		for (unsigned i=0; i<DIM; ++i) {
-			factor = static_cast<quantity<dimensionless,int> > (pos[i] / (vec_abmessung[i]*0.5));
+			factor = static_cast<quantity<dimensionless,int> > (pos[i] / (vec_abmessung[i]));
 			pos[i] -= vec_abmessung[i] * factor;
 		}
 		kugel.position(pos);
@@ -40,6 +40,9 @@ public:
 		for (auto& kugel : vec_kugel) {
 			kugel.fast_forward(dt);
 			wrap_one(kugel);
+		}
+		if (bool(next_collision_pair)) {
+			collide(next_collision_pair.kugel1(),next_collision_pair.kugel2());
 		}
 	}
 
@@ -93,11 +96,11 @@ public:
 				if (riw*viw < nullm2) {
 					coll_time = (- riw * viw - sqrt(pow<2>(riw*viw) - (viw*viw)*(riw*riw - pow<2>(kugel.radius()*0.5))))/(viw*viw);
 					if (coll_time < kugel.collision_time()) {
-						kugel.set_collision(kugel, coll_time, 1);
+						kugel.set_collision(kugel, coll_time, 0);
 					}
-// TODO					if (coll_time < m_time) {
-						next_collision_pair = CollisionPair<DIM>(kugel, kugel, coll_time, 1);
-//					}
+					if (coll_time < next_collision_pair.collision_time()) {
+						next_collision_pair.set_collision(kugel, kugel, coll_time, 0);
+					}
 				}
 			}
 		}
@@ -110,22 +113,25 @@ public:
 		rij = kugel_j.position() - kugel_i.position();
 		vij = kugel_j.velocity() - kugel_i.velocity();
 		timeT coll_time { };
-		if ( rij*vij < 0.0 ) {
+		auto nullm2 = 0*meter*meter/second;
+		if ( rij*vij < nullm2 ) {
 			auto coll_dist_sq = pow(2.0*(kugel_i.radius()+kugel_j.radius()),2);
 			coll_time = (- rij * vij - sqrt((coll_dist_sq - rij*rij)*(vij*vij) + pow(rij*vij,2)))/(vij*vij);
 			if (coll_time < kugel_i.collision_time()) {
-				kugel_i.set_collision(kugel_j, coll_time, 0);
+				kugel_i.set_collision(kugel_j, coll_time, 1);
 			}
 			if (coll_time < kugel_j.collision_time()) {
-				kugel_j.set_collision(kugel_i, coll_time, 0);
+				kugel_j.set_collision(kugel_i, coll_time, 1);
 			}
-			if (coll_time < m_time) {
-				next_collision_pair = CollisionPair<DIM>(kugel_i, kugel_j, coll_time, 0);
+			if (coll_time < next_collision_pair.collision_time()) {
+				next_collision_pair.set_collision(kugel_i, kugel_j, coll_time, 0);
 			}
 		}
 	}
 
 	void first_collision() {
+		timeT temp_coll_time {10000}; //arbitrary, irgendwas großes halt
+		next_collision_pair.set_collision(temp_coll_time, 0);
 		for (int i = 0; i < vec_kugel.size(); i++) {
 			calc_wall_collision_time(vec_kugel[i]);
 			for (int j = i + 1; j < vec_kugel.size(); j++) {
@@ -135,14 +141,21 @@ public:
 	}
 
 	void next_collision() {
+		timeT temp_coll_time {10000}; //arbitrary, irgendwas großes halt
+		next_collision_pair.set_collision(temp_coll_time, 0);
 		Kugel<DIM> *kugel_i {next_collision_pair.kugel1()};
 		for (auto& kugel_j : vec_kugel) {
-			calc_collision_time(kugel_i, kugel_j);
+			if (kugel_i != kugel_j) { // stimmt das so? gedacht ist, zu schauen, ob *kugel_i und *kugel_j auf die gleiche adresse verweisen.
+				calc_collision_time(kugel_i, kugel_j);
+			}
 		}
 		kugel_i = next_collision_pair.kugel2();
 		for (auto& kugel_j : vec_kugel) {
-			calc_collision_time(kugel_i, kugel_j);
+			if (kugel_i != kugel_j) {
+				calc_collision_time(kugel_i, kugel_j);
+			}
 		}
+		// TODO: next_collision_pair updaten... m_cp is ja private, also brauchen wir unter umständen noch einen getter
 	}
 
 };
