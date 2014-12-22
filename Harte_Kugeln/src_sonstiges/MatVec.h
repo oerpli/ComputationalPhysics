@@ -94,7 +94,7 @@ public:
 			const MatVec<T2, DIM>& other) const -> MatVec<decltype( ElementType{} / T2{} ), DIM> {
 		MatVec<decltype( ElementType{} / T2{} ), DIM> result {};
 		for (unsigned i = 0; i < DIM; ++i)
-			result[i] = m_vec[i] / other.m_vec[i];
+			result[i] = m_vec[i] / other[i];
 		return result;
 	}
 

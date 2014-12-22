@@ -20,15 +20,9 @@ class Box {
 	MatVec<lengthT, DIM> vec_abmessung;
 	CollisionPair<DIM> next_collision_pair;
 
-	void wrap_one(Kugel<DIM>& kugel) {
+	void wrap_one(Kugel<DIM>& kugel) { //TODO Ursprung links unten
 		auto pos = kugel.position();
-		lengthT null{};
-		quantity<dimensionless,int> factor{0};
-
-		for (unsigned i=0; i<DIM; ++i) {
-			factor = static_cast<quantity<dimensionless,int> > (pos[i] / (vec_abmessung[i]*0.5));
-			pos[i] -= vec_abmessung[i] * factor;
-		}
+		pos -=  (pos/vec_abmessung).floor() % vec_abmessung;
 		kugel.position(pos);
 	}
 
@@ -80,7 +74,14 @@ public:
 				other.vec_kugel.begin(), other.vec_kugel.end() );
 	}
 
-	timeT calc_wall_collision_time(Kugel<DIM>& kugel) {
+	auto dist(const Kugel<DIM>& kugel1, const Kugel<DIM>& kugel2) const
+			-> decltype(Kugel<DIM>{}.position()) { //TODO Ursprung links unten
+		auto result = kugel2.position() - kugel1.position();
+		result -= (result/vec_abmessung).round() % vec_abmessung;
+		return result;
+	}
+
+	MatVec<timeT,DIM> calc_wall_collision_time(Kugel<DIM>& kugel) {
 		MatVec<lengthT, DIM> riw { };
 		MatVec<velocityT, DIM> viw { };
 		auto nullm2 = 0*meter*meter/second;
