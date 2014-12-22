@@ -109,15 +109,15 @@ void box_fastForward_time() {
 
 void wall_collision_wall_time() {
 	Kugel<3> k{};
-	MatVec<velocityT, 3> vel(.5*mps);
+	MatVec<velocityT, 3> vel{.5*mps, -1*mps, 2*mps};
 	MatVec<lengthT,3> pos(.5*m);
-//	MatVec<timeT,3> res_time {1*second,2*second,3*second};
-	timeT res_time = 1*second;
+//	MatVec<timeT,3> res_time {1*second,.5*second,1.25*second};
+	timeT res_time = .5*second;
+
 	k.position(pos);
 	k.velocity(vel);
 	Box<3> box{box_dimension,1,k};
 
-	std::cout << box.calc_wall_collision_time(k) << '\n';
 	ASSERTM("", box.calc_wall_collision_time(k) == res_time );
 }
 cute::suite make_suite_Box(){

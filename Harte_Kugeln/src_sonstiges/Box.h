@@ -81,28 +81,20 @@ public:
 		return result;
 	}
 
-	MatVec<timeT,DIM> calc_wall_collision_time(Kugel<DIM>& kugel) {
-		MatVec<lengthT, DIM> riw { };
-		MatVec<velocityT, DIM> viw { };
-		auto nullm2 = 0*meter*meter/second;
-		timeT coll_time { };
-		for (int j = -1; j < 2; j = j + 2) {
-			MatVec<lengthT,DIM> wall {vec_abmessung*(j*.5)};
-			for (unsigned k = 0; k < DIM; k++) {
-				riw = wall[k]-kugel.position()[k];
-				viw = -kugel.velocity()[k];
-				if (riw*viw < nullm2) {
-					coll_time = (- riw * viw - sqrt(pow<2>(riw*viw) - (viw*viw)*(riw*riw - pow<2>(kugel.radius()*0.5))))/(viw*viw);
-					if (coll_time < kugel.collision_time()) {
-						kugel.set_collision(kugel, coll_time, 1);
-					}
-// TODO					if (coll_time < m_time) {
-						next_collision_pair = CollisionPair<DIM>(kugel, kugel, coll_time, 1);
-//					}
-				}
-			}
-		}
-		return next_collision_pair.collision_time();
+	timeT calc_wall_collision_time(const Kugel<DIM>& kugel) {
+		auto vel = kugel.velocity();
+		MatVec<lengthT, DIM> border{};
+		velocityT null{};
+
+		for (unsigned i = 0; i < DIM; ++i)
+			if ( vel[i] > null )
+				border[i] = vec_abmessung[i];
+		MatVec<timeT, DIM> vec_time = ( border - kugel.position() ) / vel;
+
+		auto min_time = vec_time[0];
+		for_each (++vec_time.begin(), vec_time.end(), [&] (const timeT& time) {
+			if (time < min_time) min_time = time; });
+		return min_time;
 	}
 
 	void calc_collision_time(Kugel<DIM>& kugel_i, Kugel<DIM>& kugel_j) {
