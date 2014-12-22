@@ -119,11 +119,9 @@ public:
 	}
 
 	template<class UnaryFunction>
-	auto operator()(UnaryFunction f) const -> MatVec<decltype(f(ElementType{})), DIM> {
-		MatVec<decltype(f(ElementType{})), DIM> result {};
-		for (unsigned i = 0; i < DIM; ++i)
-			result[i] = f( m_vec[i] );
-		return result;
+	UnaryFunction operator()(UnaryFunction f) {
+		for (auto& el : m_vec) f( el );
+		return f;
 	}
 };
 

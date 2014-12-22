@@ -125,8 +125,9 @@ void make_negative() {
 
 void unaryFunction() {
 	MatVec<double, 3> vec{1.3,-2.7,-0}, res{1,-3,0};
-
-	ASSERTM("", vec(floor) == res);
+	vec([](double& el){el = floor(el);});
+	std::cout << vec << '\n';
+	ASSERTM("", vec == res);
 }
 
 void matVec_floor() {
