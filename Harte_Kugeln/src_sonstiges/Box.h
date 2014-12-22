@@ -22,7 +22,7 @@ class Box {
 
 	void wrap_one(Kugel<DIM>& kugel) { //TODO Ursprung links unten
 		auto pos = kugel.position();
-		pos -=  (pos/vec_abmessung).floor() % vec_abmessung;
+		pos -=  floor(pos/vec_abmessung) % vec_abmessung;
 		kugel.position(pos);
 	}
 
@@ -77,7 +77,7 @@ public:
 	auto dist(const Kugel<DIM>& kugel1, const Kugel<DIM>& kugel2) const
 			-> decltype(Kugel<DIM>{}.position()) { //TODO Ursprung links unten
 		auto result = kugel2.position() - kugel1.position();
-		result -= (result/vec_abmessung).round() % vec_abmessung;
+		result -= round(result/vec_abmessung) % vec_abmessung;
 		return result;
 	}
 

@@ -130,6 +130,18 @@ std::ostream& operator<< (std::ostream& os, const MatVec<T,DIM>& vec) {
 	return vec.print(os);
 }
 
+template<typename T, unsigned DIM>
+MatVec<T,DIM> floor(MatVec<T,DIM> mec) {
+	mec([](decltype(mec[0])& el){el = floor(el); });
+	return mec;
+}
+
+template<typename T, unsigned DIM>
+MatVec<T,DIM> round(MatVec<T,DIM> mec) {
+	mec([](decltype(mec[0])& el){el = round(el); });
+	return mec;
+}
+
 #include "MatVec.tpp"
 
 #endif /* SRC_MATVEC_H_ */
