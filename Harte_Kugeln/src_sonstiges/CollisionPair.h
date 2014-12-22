@@ -11,7 +11,7 @@ private:
 
 	MetaKugel<DIM> *p_kugel1, *p_kugel2;
 	time_type dtime; //change to time_type
-	bool collision;
+	bool collision; // 0 für wall, 1 für kugel
 public:
 
 	CollisionPair() = delete;
@@ -32,8 +32,10 @@ public:
 	// if other < this assign other to this
 	CollisionPair<DIM>& operator <=(const CollisionPair<DIM>& other);
 
+	void set_collision(MetaKugel<DIM>& first, MetaKugel<DIM>& other, const time_type& dt, bool b);
 	void set_collision(MetaKugel<DIM>& other, const time_type& dt, bool b);
 	void set_collision(const time_type& dt, bool b);
+	void fast_forward(const time_type& dt);
 
 	auto collision_time() const -> decltype(dtime) {return dtime;}
 

@@ -73,7 +73,10 @@ public:
 	auto ekin() const -> decltype(m_ekin);
 
 	void set_collision(MetaKugel<DIM>& other, const time_type& dt, bool b) {m_cp.set_collision(other, dt, b);}
-	void fast_forward(const time_type& dt) { vec_pos += vec_vel * dt; }
+	void fast_forward(const time_type& dt) {
+		vec_pos += vec_vel * dt;
+		m_cp.fast_forward(dt);
+	}
 
 	std::ostream& print(std::ostream & os = std::cout) const;
 
@@ -85,6 +88,20 @@ public:
 
 template<unsigned DIM>
 void collide(Kugel<DIM>& kugel1, Kugel<DIM>& kugel2) {
+	const auto v1 = kugel1.velocity(), v2 = kugel2.velocity();
+	const auto m1 = kugel1.mass(), m2 = kugel2.mass();
+
+	const auto dist =  kugel2.position() - kugel1.position();
+	const auto d = dist / dist.norm();
+
+	const auto v_rel = ( d * (d * v2) - d * (d * v1) ) / ( 0.5 * (m1 + m2) );
+
+	kugel1.velocity( v1 + ( v_rel * m2) );
+	kugel2.velocity( v2 - ( v_rel * m1) );
+}
+
+template<unsigned DIM>
+void collide(MetaKugel<DIM>& kugel1, MetaKugel<DIM>& kugel2) {
 	const auto v1 = kugel1.velocity(), v2 = kugel2.velocity();
 	const auto m1 = kugel1.mass(), m2 = kugel2.mass();
 
