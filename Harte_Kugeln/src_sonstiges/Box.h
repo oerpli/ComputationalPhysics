@@ -133,12 +133,12 @@ public:
 	void first_collision() {
 		timeT temp_coll_time {10000*second}; //arbitrary, irgendwas großes halt
 		next_collision_pair.set_collision(temp_coll_time, 0);
-		for (int i = 0; i < vec_kugel.size(); i++) {
+		for (unsigned i = 0; i < vec_kugel.size(); i++) {
 			temp_coll_time = calc_wall_collision_time(vec_kugel[i]);
 			if (temp_coll_time < next_collision_pair.collision_time()) {
 				next_collision_pair.set_collision(temp_coll_time, 0);
 			}
-			for (int j = i + 1; j < vec_kugel.size(); j++) {
+			for (unsigned j = i + 1; j < vec_kugel.size(); j++) {
 				temp_coll_time = calc_collision_time(vec_kugel[i], vec_kugel[j]);
 				if (temp_coll_time < vec_kugel[i].collision_time()) {
 					vec_kugel[i].set_collision(vec_kugel[j], temp_coll_time, 1);
