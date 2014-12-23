@@ -51,6 +51,11 @@ public:
 	operator bool() const { return collision; }
 };
 
+template<unsigned DIM>
+void collide(const CollisionPair<DIM>& cp) {
+	return collide(*cp.kugel1(), *cp.kugel2());
+}
+
 #include "CollisionPair.tpp"
 
 #endif /* UNIT_TESTS_COLLISIONPAIR_H_ */
