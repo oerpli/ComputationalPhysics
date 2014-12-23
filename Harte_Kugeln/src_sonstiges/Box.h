@@ -157,7 +157,7 @@ public:
 	void next_collision() {
 		timeT temp_coll_time {10000*second}; //arbitrary, irgendwas großes halt
 		next_collision_pair.set_collision(temp_coll_time, 0);
-		auto kugel_i = (next_collision_pair.kugel1());
+		auto& kugel_i = *(next_collision_pair.kugel1());
 		for (auto& kugel_j : vec_kugel) {
 			if (kugel_i != kugel_j) { // stimmt das so? gedacht ist, zu schauen, ob *kugel_i und *kugel_j auf die gleiche adresse verweisen.
 				temp_coll_time = calc_collision_time(kugel_i, kugel_j);
@@ -172,7 +172,7 @@ public:
 				}
 			}
 		}
-		kugel_i = next_collision_pair.kugel2();
+		kugel_i = *(next_collision_pair.kugel2());
 		for (auto& kugel_j : vec_kugel) {
 			if (kugel_i != kugel_j) {
 				temp_coll_time = calc_collision_time(kugel_i, kugel_j);
