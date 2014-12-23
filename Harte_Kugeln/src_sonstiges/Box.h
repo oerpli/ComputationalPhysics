@@ -2,9 +2,9 @@
 #define BOX_H
 #include <vector>
 #include <algorithm>
-#include "Kugel.h"
 #include "CollisionPair.h"
 #include "MatVec.h"
+#include "MetaKugel.h"
 
 template<unsigned DIM>
 class Box {

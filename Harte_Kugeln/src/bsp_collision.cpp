@@ -10,8 +10,8 @@
 
 #include <typeinfo>
 
+#include "../src_sonstiges/MetaKugel.h"
 #include "MatVec.h"
-#include "Kugel.h"
 
 using namespace std;
 using namespace boost::units;

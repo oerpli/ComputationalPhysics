@@ -1,8 +1,7 @@
 #include "cute.h"
 #include "test_Kugel.h"
 
-#include "Kugel.h"
-
+#include "../src_sonstiges/MetaKugel.h"
 #include "MatVec.h"
 
 const boost::units::si::mass kg = kilogram;
