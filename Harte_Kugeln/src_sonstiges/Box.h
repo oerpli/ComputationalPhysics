@@ -36,24 +36,8 @@ public:
 			wrap_one(kugel);
 		}
 		if (bool(next_collision_pair)) {
-			Kugel<DIM> *kugel_i = static_cast<Kugel<DIM>*>(next_collision_pair.kugel1());
-			Kugel<DIM> *kugel_j = static_cast<Kugel<DIM>*>(next_collision_pair.kugel2());
-			collide(*kugel_i,*kugel_j);
+			collide(*next_collision_pair.kugel1(), *next_collision_pair.kugel2());
 		}
-	}
-
-	void collide(Kugel<DIM>& kugel1, Kugel<DIM>& kugel2) {
-		std::cout << "blubb" << std::endl;
-		const auto v1 = kugel1.velocity(), v2 = kugel2.velocity();
-		const auto m1 = kugel1.mass(), m2 = kugel2.mass();
-
-		const auto dist =  kugel2.position() - kugel1.position();
-		const auto d = dist / dist.norm();
-
-		const auto v_rel = ( d * (d * v2) - d * (d * v1) ) / ( 0.5 * (m1 + m2) );
-
-		kugel1.velocity( v1 + ( v_rel * m2) );
-		kugel2.velocity( v2 - ( v_rel * m1) );
 	}
 
 	void wrap() {
