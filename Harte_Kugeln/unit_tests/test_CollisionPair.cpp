@@ -3,7 +3,7 @@
 
 #include "CollisionPair.h"
 #include <boost/units/systems/si.hpp>
-#include "../src_sonstiges/MetaKugel.h"
+#include "Kugel.h"
 
 using namespace std;
 

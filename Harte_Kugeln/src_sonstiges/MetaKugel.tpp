@@ -79,7 +79,7 @@ std::ostream& MetaKugel<DIM>::print(std::ostream & os) const {
 
 
 template<unsigned DIM>
-inline void MetaKugel<DIM>::fast_forward(const time_type& dt) {
+void MetaKugel<DIM>::fast_forward(const time_type& dt) {
 	vec_pos += vec_vel * dt;
 }
 

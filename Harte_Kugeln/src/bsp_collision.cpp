@@ -10,7 +10,7 @@
 
 #include <typeinfo>
 
-#include "../src_sonstiges/MetaKugel.h"
+#include "Kugel.h"
 #include "MatVec.h"
 
 using namespace std;

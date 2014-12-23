@@ -16,8 +16,6 @@
 #include <boost/units/physical_dimensions/mass.hpp>
 #include <boost/units/physical_dimensions/time.hpp>
 
-#include "CollisionPair.h"
-
 using namespace boost::units;
 using namespace boost::units::si;
 

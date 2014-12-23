@@ -4,7 +4,7 @@
 #include <algorithm>
 #include "CollisionPair.h"
 #include "MatVec.h"
-#include "MetaKugel.h"
+#include "Kugel.h"
 
 template<unsigned DIM>
 class Box {
@@ -157,11 +157,11 @@ public:
 	void next_collision() {
 		timeT temp_coll_time {10000*second}; //arbitrary, irgendwas großes halt
 		next_collision_pair.set_collision(temp_coll_time, 0);
-		Kugel<DIM> *kugel_i {next_collision_pair.kugel1()};
+		auto kugel_i = (next_collision_pair.kugel1());
 		for (auto& kugel_j : vec_kugel) {
 			if (kugel_i != kugel_j) { // stimmt das so? gedacht ist, zu schauen, ob *kugel_i und *kugel_j auf die gleiche adresse verweisen.
 				temp_coll_time = calc_collision_time(kugel_i, kugel_j);
-				if (temp_coll_time < kugel_i.collision_time()) {
+				if (temp_coll_time < kugel_i->collision_time()) {
 				kugel_i.set_collision(kugel_j, temp_coll_time, 1);
 				}
 				if (temp_coll_time < kugel_j.collision_time()) {
