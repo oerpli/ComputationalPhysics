@@ -35,9 +35,8 @@ public:
 			kugel.fast_forward(dt);
 			wrap_one(kugel);
 		}
-		if (bool(next_collision_pair)) {
-			collide(*next_collision_pair.kugel1(), *next_collision_pair.kugel2());
-		}
+		if (next_collision_pair)
+			collide(next_collision_pair);
 	}
 
 	void wrap() {
