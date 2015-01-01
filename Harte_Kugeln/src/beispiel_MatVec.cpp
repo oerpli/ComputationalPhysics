@@ -1,12 +1,6 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
-//Bin noch nicht so vertraut mit Units, hab einfach mal einige reingeladen...
-#include <boost/units/cmath.hpp>
-#include <boost/units/io.hpp>
-#include <boost/units/systems/si.hpp>
-#include <boost/units/systems/si/io.hpp>
-#include <boost/units/systems/si/base.hpp>
 
 #include <typeinfo>
 
@@ -14,22 +8,12 @@
 #include "Kugel.h"
 
 using namespace std;
-using namespace boost::units;
-using namespace boost::units::si;
 
 
 // Vectoren elementweise mulitiplizieren
 // Scilab: vec1.*vec2
 
 int main() {
-	const length m = meter;
-	const force N = newton;
-	const velocity mps = meters_per_second;
-	typedef quantity<length> lengthT;
-	typedef quantity<force> forceT;
-	typedef quantity<velocity> velocityT;
-
-
 	// erzeugt einen Vektor der, so weit wie möglich,
 	// mit den Übergabewerten befüllt ist,
 	// der Rest wird mit 0 aufgefüllt

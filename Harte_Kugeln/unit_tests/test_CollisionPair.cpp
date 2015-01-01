@@ -2,7 +2,6 @@
 #include "test_CollisionPair.h"
 
 #include "CollisionPair.h"
-#include <boost/units/systems/si.hpp>
 #include "Kugel.h"
 
 using namespace std;

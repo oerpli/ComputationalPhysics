@@ -6,7 +6,7 @@ inline CollisionPair<DIM>::CollisionPair(MetaKugel<DIM>& kugel1, MetaKugel<DIM>&
 
 template<unsigned DIM>
 inline CollisionPair<DIM>::CollisionPair(MetaKugel<DIM>& kugel1, MetaKugel<DIM>& kugel2,
-		time_type dtime, bool collision) :
+		timeT dtime, bool collision) :
 		p_kugel1 { &kugel1 }, p_kugel2 { &kugel2 }, dtime { dtime }, collision {
 				collision } {
 }
@@ -28,7 +28,7 @@ inline CollisionPair<DIM>& CollisionPair<DIM>::operator <=(
 }
 
 template<unsigned DIM>
-inline void CollisionPair<DIM>::set_collision(MetaKugel<DIM>& first, MetaKugel<DIM>& other, const time_type& dt, bool b) {
+inline void CollisionPair<DIM>::set_collision(MetaKugel<DIM>& first, MetaKugel<DIM>& other, const timeT& dt, bool b) {
 	p_kugel1 = &first; 
 	p_kugel2 = &other; 
 	dtime = dt;
@@ -36,20 +36,20 @@ inline void CollisionPair<DIM>::set_collision(MetaKugel<DIM>& first, MetaKugel<D
 }
 
 template<unsigned DIM>
-inline void CollisionPair<DIM>::set_collision(MetaKugel<DIM>& other, const time_type& dt, bool b) {
+inline void CollisionPair<DIM>::set_collision(MetaKugel<DIM>& other, const timeT& dt, bool b) {
 	p_kugel2 = &other; 
 	dtime = dt;
 	collision = b;
 }
 
 template<unsigned DIM>
-inline void CollisionPair<DIM>::set_collision(const time_type& dt, bool b) {
+inline void CollisionPair<DIM>::set_collision(const timeT& dt, bool b) {
 	dtime = dt;
 	collision = b;
 }
 
 template<unsigned DIM>
-inline void CollisionPair<DIM>::fast_forward(const time_type& dt) {
+inline void CollisionPair<DIM>::fast_forward(const timeT& dt) {
 	dtime -= dt;
 }
 

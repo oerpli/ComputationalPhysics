@@ -5,33 +5,16 @@
 #include <vector>
 #include "MatVec.h"
 
-#include <boost/units/cmath.hpp>
-#include <boost/units/pow.hpp>
-#include <boost/units/systems/si.hpp>
-#include <boost/units/systems/si/io.hpp>
-#include <boost/units/systems/si/base.hpp>
-#include <boost/units/derived_dimension.hpp>
-
-#include <boost/units/physical_dimensions/length.hpp>
-#include <boost/units/physical_dimensions/mass.hpp>
-#include <boost/units/physical_dimensions/time.hpp>
-
-using namespace boost::units;
-using namespace boost::units::si;
+#include "units_typedef.h"
 
 template <unsigned DIM>
 class MetaKugel {
-	typedef boost::units::quantity< boost::units::si::length , double > length_type;
-	typedef boost::units::quantity< boost::units::si::velocity , double > velocity_type;
-	typedef boost::units::quantity< boost::units::si::mass , double > mass_type;
-	typedef boost::units::quantity< boost::units::si::energy , double > energy_type;
-	typedef boost::units::quantity< boost::units::si::time , double > time_type;
 
-	mass_type m_mass; //mass ist nun ein Datentyp
-	length_type m_radius;
-	energy_type m_ekin;
-	MatVec<velocity_type, DIM> vec_vel; //velocity ist nun ein Datentyp
-	MatVec<length_type, DIM> vec_pos;
+	massT m_mass; //mass ist nun ein Datentyp
+	lengthT m_radius;
+	energyT m_ekin;
+	MatVec<velocityT, DIM> vec_vel; //velocity ist nun ein Datentyp
+	MatVec<lengthT, DIM> vec_pos;
 
 
 	void update_ekin();
@@ -41,7 +24,7 @@ public:
 
 	MetaKugel();
 	MetaKugel(const MetaKugel<DIM> & kugel);
-	MetaKugel(mass_type m_mass,	length_type d);
+	MetaKugel(massT m_mass,	lengthT d);
 	virtual ~MetaKugel() {};
 
 	friend void swap(MetaKugel<DIM>& kugelA, MetaKugel<DIM>& kugelB) {
@@ -58,15 +41,15 @@ public:
 
 	auto mass() const -> decltype(m_mass) {return m_mass;}
 
-	void velocity(MatVec<velocity_type, DIM> vec);
+	void velocity(MatVec<velocityT, DIM> vec);
 	auto velocity() const -> decltype(vec_vel);
 
-	void position(MatVec<length_type, DIM> vec);
+	void position(MatVec<lengthT, DIM> vec);
 	auto position() const -> decltype(vec_pos);
 
 	auto ekin() const -> decltype(m_ekin);
 
-	virtual void fast_forward(const time_type& dt);
+	virtual void fast_forward(const timeT& dt);
 
 	std::ostream& print(std::ostream & os = std::cout) const;
 

@@ -1,12 +1,6 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
-//Bin noch nicht so vertraut mit Units, hab einfach mal einige reingeladen...
-#include <boost/units/cmath.hpp>
-#include <boost/units/io.hpp>
-#include <boost/units/systems/si.hpp>
-#include <boost/units/systems/si/io.hpp>
-#include <boost/units/systems/si/base.hpp>
 
 #include <typeinfo>
 
@@ -14,17 +8,8 @@
 #include "MatVec.h"
 
 using namespace std;
-using namespace boost::units;
-using namespace boost::units::si;
 
 int main () {
-	const length m = meter;
-	const velocity mps = meters_per_second;
-	const mass kg = kilogram;
-
-	typedef quantity<length> lengthT;
-	typedef quantity<velocity> velocityT;
-
 	const unsigned dim{3};
 
 	lengthT dia= 2 * 2.5 * m;

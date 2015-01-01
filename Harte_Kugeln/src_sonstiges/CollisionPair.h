@@ -2,27 +2,27 @@
 #define UNIT_TESTS_COLLISIONPAIR_H_
 
 #include "MetaKugel.h"
-#include <boost/units/systems/si.hpp>
+#include "units_typedef.h"
 
 template<unsigned DIM>
 class CollisionPair {
 private:
-	typedef boost::units::quantity< boost::units::si::time , double > time_type;
+	typedef boost::units::quantity< boost::units::si::time , double > timeT;
 
 	MetaKugel<DIM> *p_kugel1, *p_kugel2;
-	time_type dtime; //change to time_type
+	timeT dtime; //change to timeT
 	bool collision; // 0 für wall, 1 für kugel
 public:
 
 	CollisionPair() = delete;
 	CollisionPair(MetaKugel<DIM>& kugel1, MetaKugel<DIM>& kugel2);
-	CollisionPair(MetaKugel<DIM>& kugel1, MetaKugel<DIM>& kugel2, time_type dtime,
+	CollisionPair(MetaKugel<DIM>& kugel1, MetaKugel<DIM>& kugel2, timeT dtime,
 			bool collision);
 
 	friend void swap (CollisionPair<DIM>& cp1, CollisionPair<DIM>& cp2) {
 		std::swap(cp1.p_kugel1, cp2.p_kugel1);
 		std::swap(cp1.p_kugel2, cp2.p_kugel2);
-		swap(cp1.dtime, cp2.dtime); // sollte swap von time_type verwenden
+		swap(cp1.dtime, cp2.dtime); // sollte swap von timeT verwenden
 		std::swap(cp1.collision, cp2.collision);
 
 	}
@@ -32,10 +32,10 @@ public:
 	// if other < this assign other to this
 	CollisionPair<DIM>& operator <=(const CollisionPair<DIM>& other);
 
-	void set_collision(MetaKugel<DIM>& first, MetaKugel<DIM>& other, const time_type& dt, bool b);
-	void set_collision(MetaKugel<DIM>& other, const time_type& dt, bool b);
-	void set_collision(const time_type& dt, bool b);
-	void fast_forward(const time_type& dt);
+	void set_collision(MetaKugel<DIM>& first, MetaKugel<DIM>& other, const timeT& dt, bool b);
+	void set_collision(MetaKugel<DIM>& other, const timeT& dt, bool b);
+	void set_collision(const timeT& dt, bool b);
+	void fast_forward(const timeT& dt);
 
 	auto collision_time() const -> decltype(dtime) {return dtime;}
 

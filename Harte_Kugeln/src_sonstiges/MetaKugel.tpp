@@ -1,6 +1,9 @@
+using namespace boost::units;
+using namespace boost::units::si;
+
 template <unsigned DIM>
 MetaKugel<DIM>::MetaKugel() :
-		m_mass(mass_type { }), m_radius(length_type { })
+		m_mass(massT { }), m_radius(lengthT { })
 		, m_ekin{}, vec_vel{}, vec_pos{} {}
 
 template <unsigned DIM>
@@ -11,7 +14,7 @@ MetaKugel<DIM>::MetaKugel(const MetaKugel<DIM> & kugel) : m_mass{kugel.m_mass},
 	vec_pos{kugel.vec_pos} {}
 
 template <unsigned DIM>
-MetaKugel<DIM>::MetaKugel(mass_type m, length_type d) :
+MetaKugel<DIM>::MetaKugel(massT m, lengthT d) :
 		m_mass { m }, m_radius { d }
 		, m_ekin{}, vec_vel{}, vec_pos{} {}
 
@@ -41,7 +44,7 @@ void MetaKugel<DIM>::update_ekin() {
 }
 
 template<unsigned DIM>
-void MetaKugel<DIM>::velocity(MatVec<velocity_type, DIM> vec) {
+void MetaKugel<DIM>::velocity(MatVec<velocityT, DIM> vec) {
 	swap(vec_vel, vec);
 	update_ekin();
 }
@@ -52,7 +55,7 @@ auto MetaKugel<DIM>::velocity() const -> decltype(vec_vel) {
 }
 
 template<unsigned DIM>
-void MetaKugel<DIM>::position(MatVec<length_type, DIM> vec) {
+void MetaKugel<DIM>::position(MatVec<lengthT, DIM> vec) {
 	swap(vec_pos, vec);
 	update_ekin();
 }
@@ -79,7 +82,7 @@ std::ostream& MetaKugel<DIM>::print(std::ostream & os) const {
 
 
 template<unsigned DIM>
-void MetaKugel<DIM>::fast_forward(const time_type& dt) {
+void MetaKugel<DIM>::fast_forward(const timeT& dt) {
 	vec_pos += vec_vel * dt;
 }
 

@@ -3,14 +3,6 @@
 
 #include "Box.h"
 
-const length m = meter;
-const force N = newton;
-const velocity mps = meters_per_second;
-typedef quantity<length> lengthT;
-typedef quantity<force> forceT;
-typedef quantity<velocity> velocityT;
-typedef quantity<boost::units::si::time> timeT;
-
 const MatVec<lengthT, 3> box_dimension{1*m,2*m,3*m};
 
 void emptyBox() {

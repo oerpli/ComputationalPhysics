@@ -8,13 +8,6 @@
 
 template<unsigned DIM>
 class Box {
-	typedef boost::units::quantity< boost::units::si::length , double > lengthT;
-	typedef boost::units::quantity< boost::units::si::velocity , double > velocityT;
-	typedef boost::units::quantity< boost::units::si::mass , double > massT;
-	typedef boost::units::quantity< boost::units::si::energy , double > energyT;
-	typedef boost::units::quantity< boost::units::si::time , double > timeT;
-	typedef boost::units::quantity< boost::units::si::dimensionless , int > idimlessT;
-
 	timeT m_time; //System Zeit
 	std::vector<Kugel<DIM>> vec_kugel;
 	MatVec<lengthT, DIM> vec_abmessung;

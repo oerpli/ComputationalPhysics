@@ -4,18 +4,6 @@
 #include "Kugel.h"
 #include "MatVec.h"
 
-const boost::units::si::mass kg = kilogram;
-const boost::units::si::length m = meter;
-const boost::units::si::force N = newton;
-const boost::units::si::velocity mps = meters_per_second;
-const boost::units::si::time s = second;
-
-typedef boost::units::quantity<boost::units::si::mass , double > massT;
-typedef boost::units::quantity<boost::units::si::length , double > lengthT;
-typedef boost::units::quantity<boost::units::si::force , double > forceT;
-typedef boost::units::quantity<boost::units::si::velocity , double > velocityT;
-typedef boost::units::quantity< boost::units::si::time , double > time_type;
-
 void constructorEmpty() {
 	Kugel<3> k{};
 	ASSERTM("", true);
