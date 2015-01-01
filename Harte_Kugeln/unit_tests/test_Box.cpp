@@ -29,21 +29,21 @@ void addBoxSize() {
 }
 
 void randomAccess_read(){
-	Kugel<3> k{1 * kilogram, 1 * m};
+	Kugel<3> k{1 * kg, 1 * m};
 	Box<3> box{box_dimension,10,k};
 
 	ASSERTM("", box[3] == k);
 }
 
 void randomAccess_constRead(){
-	Kugel<3> k{1 * kilogram, 1 * m};
+	Kugel<3> k{1 * kg, 1 * m};
 	const Box<3> box{box_dimension,10,k};
 
 	ASSERTM("", box[3] == k);
 }
 
 void randomAccess_write(){
-	Kugel<3> k1{1 * kilogram, 1 * m}, k2{2 * kilogram, 2*m};
+	Kugel<3> k1{1 * kg, 1 * m}, k2{2 * kg, 2*m};
 	Box<3> box{box_dimension,10, k1};
 
 	box[3]=k2;
@@ -81,7 +81,7 @@ void box_fastForward_pos() {
 	k.velocity(vel);
 	Box<3> box{box_dimension,1,k};
 
-	box.fast_forward(3*second);
+	box.fast_forward(3*s);
 	std::cout << box[0].position() << '\n' << res_pos << '\n';
 	ASSERTM("", !( box[0].position() == res_pos ) );
 }
@@ -94,7 +94,7 @@ void box_fastForward_time() {
 	k.velocity(vel);
 	Box<3> box{box_dimension,1,k};
 
-	auto dt = 3. * second;
+	auto dt = 3. * s;
 	box.fast_forward(dt);
 	ASSERTM("", box.time() == dt );
 }
@@ -103,8 +103,8 @@ void wall_collision_wall_time() {
 	Kugel<3> k{};
 	MatVec<velocityT, 3> vel{.5*mps, -1*mps, 2*mps};
 	MatVec<lengthT,3> pos(.5*m);
-//	MatVec<timeT,3> res_time {1*second,.5*second,1.25*second};
-	timeT res_time = .5*second;
+//	MatVec<timeT,3> res_time {1*s,.5*s,1.25*s};
+	timeT res_time = .5*s;
 
 	k.position(pos);
 	k.velocity(vel);

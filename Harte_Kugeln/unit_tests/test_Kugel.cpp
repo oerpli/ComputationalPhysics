@@ -42,7 +42,7 @@ void setVelocity_Velocity() {
 void setVelocity_Energy() {
 	Kugel<3> k{1*kg, 1*m};
 	MatVec<velocityT, 3> vel{3*mps,4*mps,5*mps};
-	boost::units::quantity<boost::units::si::energy> en{25 * mps*mps*kg};
+	energyT en{25 * mps*mps*kg};
 
 	k.velocity(vel);
 	ASSERTM("", k.ekin() == en);

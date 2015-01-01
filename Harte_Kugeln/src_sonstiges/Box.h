@@ -97,8 +97,8 @@ public:
 		MatVec<velocityT, DIM> vij { };
 		rij = kugel_j.position() - kugel_i.position();
 		vij = kugel_j.velocity() - kugel_i.velocity();
-		timeT coll_time {100000*second};
-		auto nullm2 = 0*meter*meter/second;
+		timeT coll_time {100000*s};
+		auto nullm2 = 0*m*mps;
 		if ( rij*vij < nullm2 ) {
 			auto coll_dist_sq = pow<2>(kugel_i.radius()+kugel_j.radius());
 			coll_time = (- rij * vij - sqrt((coll_dist_sq - rij*rij)*(vij*vij) + pow<2>(rij*vij)))/(vij*vij);
@@ -107,7 +107,7 @@ public:
 	}
 
 	void first_collision() {
-		timeT temp_coll_time {10000*second}; //arbitrary, irgendwas großes halt
+		timeT temp_coll_time {10000*s}; //arbitrary, irgendwas großes halt
 		next_collision_pair.set_collision(temp_coll_time, 0);
 		for (unsigned i = 0; i < vec_kugel.size(); i++) {
 			temp_coll_time = calc_wall_collision_time(vec_kugel[i]);
@@ -131,7 +131,7 @@ public:
 	}
 
 	void next_collision() {
-		timeT temp_coll_time {10000*second}; //arbitrary, irgendwas großes halt
+		timeT temp_coll_time {10000*s}; //arbitrary, irgendwas großes halt
 		next_collision_pair.set_collision(temp_coll_time, 0);
 		auto& kugel_i = *(next_collision_pair.kugel1());
 		for (auto& kugel_j : vec_kugel) {

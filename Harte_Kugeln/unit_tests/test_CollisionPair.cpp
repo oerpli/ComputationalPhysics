@@ -16,39 +16,39 @@ void typeCastBool() {
 void setBool() {
 	Kugel<3> k{};
 	CollisionPair<3> cp{k,k};
-	cp.set_collision(1*second,true);
+	cp.set_collision(1*s,true);
 	ASSERTM("", cp);
 }
 
 void compareTimeSimpleLower() {
 	Kugel<3> k{};
-	CollisionPair<3> cp1{k,k, 1.0 * second, true}, cp2{k,k, 2.0 * second, true};
+	CollisionPair<3> cp1{k,k, 1.0 * s, true}, cp2{k,k, 2.0 * s, true};
 	ASSERTM("", cp1 < cp2);
 }
 
 void compareTimeSimpleGreater() {
 	Kugel<3> k{};
-	CollisionPair<3> cp1{k,k, 1.0 * second, true}, cp2{k,k, 2.0 * second, true};
+	CollisionPair<3> cp1{k,k, 1.0 * s, true}, cp2{k,k, 2.0 * s, true};
 	ASSERTM("", cp2 > cp1);
 }
 
 void compareTimeCollisionTrueFalseLower() {
 	Kugel<3> k{};
-	CollisionPair<3> cp1{k,k, 1.0 * second, true}, cp2{k,k, 2.0 * second, false};
+	CollisionPair<3> cp1{k,k, 1.0 * s, true}, cp2{k,k, 2.0 * s, false};
 	ASSERTM("", cp1 < cp2 );
 }
 
 /*
 void compareTimeCollisionFalseTrueLower() {
 	Kugel<3> k{};
-	CollisionPair<3> cp1{k,k, 1.0 * second, false}, cp2{k,k, 2.0 * second, true};
+	CollisionPair<3> cp1{k,k, 1.0 * s, false}, cp2{k,k, 2.0 * s, true};
 	ASSERTM("", ! ( cp1 < cp2 ) );
 }
 */
 
 void equalSame() {
 	Kugel<3> k{};
-	CollisionPair<3> cp{k,k, 1.0 * second, false};
+	CollisionPair<3> cp{k,k, 1.0 * s, false};
 	ASSERTM("", cp.equal(cp));
 }
 
@@ -60,26 +60,26 @@ void equalDiffButIdentKugel() {
 
 void equalIdent() {
 	Kugel<3> k{};
-	CollisionPair<3> cp1{k,k, 1.0 * second, true}, cp2{k,k, 1.0 * second, true};
+	CollisionPair<3> cp1{k,k, 1.0 * s, true}, cp2{k,k, 1.0 * s, true};
 	ASSERTM("", cp1.equal(cp2));
 }
 
 void equalFalseCollisionSameTime() {
 	Kugel<3> k{};
-	CollisionPair<3> cp1{k,k, 1.0 * second, false}, cp2{k,k, 1.0 * second, true};
+	CollisionPair<3> cp1{k,k, 1.0 * s, false}, cp2{k,k, 1.0 * s, true};
 	ASSERTM("", ! cp1.equal(cp2));
 }
 
 void assignment() {
 	Kugel<3> k1{},k2{};
-	CollisionPair<3> cp1{k1,k1}, cp2{k2,k2, 2*second, true};
+	CollisionPair<3> cp1{k1,k1}, cp2{k2,k2, 2*s, true};
 	cp1 = cp2;
 	ASSERTM("", cp1 == cp2);
 }
 
 void assignLower() {
 	Kugel<3> k{};
-	CollisionPair<3> cp1{k,k,2.0 * second,false}, cp2{k,k,1.0 * second,true};
+	CollisionPair<3> cp1{k,k,2.0 * s,false}, cp2{k,k,1.0 * s,true};
 	cp1 <= cp2;
 	ASSERTM("", cp1 == cp2);
 }

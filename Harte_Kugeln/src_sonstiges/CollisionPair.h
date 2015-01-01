@@ -7,8 +7,6 @@
 template<unsigned DIM>
 class CollisionPair {
 private:
-	typedef boost::units::quantity< boost::units::si::time , double > timeT;
-
 	MetaKugel<DIM> *p_kugel1, *p_kugel2;
 	timeT dtime; //change to timeT
 	bool collision; // 0 für wall, 1 für kugel
@@ -22,7 +20,7 @@ public:
 	friend void swap (CollisionPair<DIM>& cp1, CollisionPair<DIM>& cp2) {
 		std::swap(cp1.p_kugel1, cp2.p_kugel1);
 		std::swap(cp1.p_kugel2, cp2.p_kugel2);
-		swap(cp1.dtime, cp2.dtime); // sollte swap von timeT verwenden
+		std::swap(cp1.dtime, cp2.dtime); // sollte swap von timeT verwenden
 		std::swap(cp1.collision, cp2.collision);
 
 	}

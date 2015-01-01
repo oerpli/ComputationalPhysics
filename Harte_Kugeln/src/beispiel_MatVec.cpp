@@ -40,7 +40,7 @@ int main() {
 
 	MatVec<velocityT, dim> velVec {2 * mps, -1 * mps, 3 * mps};
 
-	Kugel<dim> k1{}, k2{ (3 * kilogram),(.5 * meter)};
+	Kugel<dim> k1{}, k2{ (3 * kg),(.5 * m)};
 	k2.velocity(velVec); // setzt velocity von k2 auf die Werte von velVec
 
 	Kugel<dim> k3{k2};
