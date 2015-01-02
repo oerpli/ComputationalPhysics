@@ -1,6 +1,3 @@
-using namespace boost::units;
-using namespace boost::units::si;
-
 template <unsigned DIM>
 MetaKugel<DIM>::MetaKugel() :
 		m_mass(massT { }), m_radius(lengthT { })

@@ -5,8 +5,6 @@
 #include <ostream>
 #include <initializer_list>
 
-#include <boost/units/cmath.hpp>
-
 template<typename ElementType, unsigned DIM>
 class MatVec {
 private:

@@ -3,6 +3,7 @@
 
 #include "MatVec.h"
 #include <iostream>
+#include "units_typedef.h"
 
 void empty_double_initialisation() {
 	MatVec<double, 3> vec { };
@@ -136,16 +137,7 @@ void matVec_floor_double() {
 	ASSERTM("", floor(vec) == res);
 }
 
-#include <boost/units/systems/si.hpp>
-#include <boost/units/systems/si/io.hpp>
-
-using namespace boost::units::si;
-using namespace boost::units;
-
 void matVec_floor_units() {
-	const length m = meter;
-	typedef quantity<length> lengthT;
-
 	MatVec<lengthT, 3> vec{1.3*m,-2.7*m,-0*m}, res{1*m,-3*m,0*m};
 
 	ASSERTM("", floor(vec) == res);
