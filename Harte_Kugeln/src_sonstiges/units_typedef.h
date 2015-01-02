@@ -30,7 +30,7 @@
 	const boost::units::si::velocity mps = boost::units::si::meters_per_second;
 	const boost::units::si::time s = boost::units::si::second;
 
-#define Pow(base,exp) ( boost::units::pow<(exp)>((base)) )
+	#define Pow(base,exp) ( boost::units::pow<(exp)>((base)) )
 
 #else
 	typedef double lengthT;
@@ -47,8 +47,8 @@
 	const double mps { 1.0 };
 	const double s { 1.0 };
 
-#include <cmath>
-#define Pow(base,exp) ( pow( (base), (exp) ) )
+	#include <cmath>
+	#define Pow(base,exp) ( pow( (base), (exp) ) )
 
 #endif //USE_BOOST_UNITS
 
