@@ -100,8 +100,8 @@ public:
 		timeT coll_time {100000*s};
 		auto nullm2 = 0*m*mps;
 		if ( rij*vij < nullm2 ) {
-			auto coll_dist_sq = pow<2>(kugel_i.radius()+kugel_j.radius());
-			coll_time = (- rij * vij - sqrt((coll_dist_sq - rij*rij)*(vij*vij) + pow<2>(rij*vij)))/(vij*vij);
+			auto coll_dist_sq = Pow(kugel_i.radius()+kugel_j.radius(),2);
+			coll_time = (- rij * vij - sqrt((coll_dist_sq - rij*rij)*(vij*vij) + Pow(rij*vij,2)))/(vij*vij);
 		}
 		return coll_time;
 	}
