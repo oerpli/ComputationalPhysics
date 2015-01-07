@@ -1,10 +1,12 @@
 #ifndef BOX_H
 #define BOX_H
+#include <ostream>
 #include <vector>
 #include <algorithm>
 #include "CollisionPair.h"
 #include "MatVec.h"
 #include "Kugel.h"
+#include "Rand.h"
 
 template<unsigned DIM>
 class Box {
@@ -12,11 +14,34 @@ class Box {
 	std::vector<Kugel<DIM>> vec_kugel;
 	MatVec<lengthT, DIM> vec_abmessung;
 	CollisionPair<DIM> next_collision_pair;
+	bool b_initiate_pos;
 
 	void wrap_one(Kugel<DIM>& kugel) {
 		auto pos = kugel.position();
 		pos -=  floor(pos/vec_abmessung) % vec_abmessung;
 		kugel.position(pos);
+	}
+
+	MatVec<lengthT,DIM> rand_pos_vec() const {
+		MatVec<dimlessT,DIM> vec_rand {};
+		for (auto& el : vec_rand) el = Rand::real_uniform();
+		return vec_abmessung % vec_rand;
+	}
+
+	bool init_pos_rand() {
+		unsigned trys {10}, trys_inner {15};
+		bool b_contact {};
+		const auto iter_begin = vec_kugel.begin(), iter_end = vec_kugel.end();
+		auto iter_first = vec_kugel.begin(), iter_second = vec_kugel.end();
+
+		for (unsigned outer = 0; outer < trys; ++outer) {
+			for (iter_first = iter_begin; iter_first != iter_end; ++iter_first) {
+				for (unsigned inner = 0; inner < trys_inner; ++inner) {
+					iter_first->position(rand_pos_vec());
+				}
+			}
+		}
+		return true;
 	}
 
 public:
@@ -38,13 +63,19 @@ public:
 
 	Box(const MatVec<lengthT, DIM>& dim, unsigned size, const Kugel<DIM>& kugel)
 		: m_time{},vec_kugel(size, kugel), vec_abmessung{dim}
-		, next_collision_pair{vec_kugel[0], vec_kugel[0]} {}
+		, next_collision_pair{vec_kugel[0], vec_kugel[0]}
+		, b_initiate_pos{false} {}
 	Box(const MatVec<lengthT, DIM>& dim, unsigned size)
 		: m_time{}, vec_kugel(size), vec_abmessung{dim}
-		, next_collision_pair{vec_kugel[0], vec_kugel[0]} {}
+		, next_collision_pair{vec_kugel[0], vec_kugel[0]}
+		, b_initiate_pos{false}  {}
 	Box(const MatVec<lengthT, DIM>& dim)
 			: Box{dim,0} {}
 
+
+	void initiate() {
+		if (! b_initiate_pos) init_pos_rand();
+	}
 
 	const Kugel<DIM>& operator [](unsigned i) const {
 		return vec_kugel[i];
@@ -67,6 +98,7 @@ public:
 			return;
 		vec_kugel.insert(vec_kugel.end(),
 				other.vec_kugel.begin(), other.vec_kugel.end() );
+		b_initiate_pos = false;
 	}
 
 	auto dist(const Kugel<DIM>& kugel1, const Kugel<DIM>& kugel2) const
