@@ -22,7 +22,7 @@
 	typedef boost::units::quantity< boost::units::si::mass , double > massT;
 	typedef boost::units::quantity< boost::units::si::force , double > forceT;
 	typedef boost::units::quantity< boost::units::si::energy , double > energyT;
-	typedef boost::units::quantity< boost::units::si::dimensionless , int > idimlessT;
+	typedef boost::units::quantity< boost::units::si::dimensionless , double > dimlessT;
 
 	const boost::units::si::mass kg = boost::units::si::kilogram;
 	const boost::units::si::length m = boost::units::si::meter;
@@ -39,7 +39,7 @@
 	typedef double massT;
 	typedef double forceT;
 	typedef double energyT;
-	typedef double idimlessT;
+	typedef double dimlessT;
 
 	const double kg { 1.0 };
 	const double m { 1.0 };
