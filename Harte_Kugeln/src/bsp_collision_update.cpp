@@ -36,7 +36,7 @@ int main () {
 	box[0].print();
 	box[1].print();
 
-	box.first_collision();
+	box.init_next_collision();
 	std::cout << "after collision" << std::endl;
 	box[0].print();
 	box[1].print();

@@ -86,13 +86,17 @@ void assignLower() {
 
 void get_kugel1() {
 	Kugel<3> k1{}, k2{};
+	MatVec<velocityT,3> vel{1*mps,2*mps,3*mps};
 	CollisionPair<3> cp{k1,k2};
+
+	k1.velocity(vel);
 	ASSERTM("", cp.kugel1() == &k1);
 }
 
 void get_kugel2() {
 	Kugel<3> k1{}, k2{};
 	CollisionPair<3> cp{k1,k2};
+
 	ASSERTM("", cp.kugel2() == &k2);
 }
 
