@@ -14,7 +14,7 @@ class Box {
 	std::vector<Kugel<DIM>> vec_kugel;
 	MatVec<lengthT, DIM> vec_abmessung;
 	CollisionPair<DIM> next_collision_pair;
-	bool b_initiate_pos;
+	bool b_initiate_pos, b_initiate_vel;
 
 	void wrap_one(Kugel<DIM>& kugel) {
 		auto pos = kugel.position();
@@ -58,6 +58,27 @@ class Box {
 		return ! b_contact;
 	}
 
+	bool init_vel_rand() {
+		const auto it_begin = vec_kugel.begin(), it_end = vec_kugel.end();
+		auto first = it_begin;
+
+		MatVec<velocityT,DIM> vec_sum{}, vel_buf{};
+
+		for_each (++first, it_end, [&](Kugel<DIM>& k)->void {
+			for (auto& el : vel_buf) el = Rand::real_uniform() * mps;
+			k.velocity(vel_buf);
+			vec_sum += vel_buf;
+		} );
+		it_begin->velocity(-vec_sum);
+
+		energyT ekin{ };
+		for_each (it_begin, it_end, [&](const Kugel<DIM>& k){ekin+=k.ekin();});
+		dimlessT vel_scale = 1/sqrt( ekin / (N*m) );
+
+		for_each (it_begin, it_end, [&](Kugel<DIM>& k){k.velocity(k.velocity()*vel_scale);});
+		return true;
+	}
+
 public:
 	timeT time() const { return m_time; }
 
@@ -89,7 +110,9 @@ public:
 
 	bool initiate() {
 		if (! b_initiate_pos) b_initiate_pos = init_pos_rand();
-		return b_initiate_pos;
+		if (! b_initiate_vel) b_initiate_vel = init_vel_rand();
+
+		return b_initiate_pos && b_initiate_vel;
 	}
 
 	const Kugel<DIM>& operator [](unsigned i) const {
