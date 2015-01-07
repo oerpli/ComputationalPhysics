@@ -246,6 +246,11 @@ public:
 		}
 		return os;
 	}
+
+	template<class UnitaryFunc>
+	UnitaryFunc unitary(UnitaryFunc func) const {
+		return for_each(vec_kugel.cbegin(), vec_kugel.cend(), func);
+	}
 };
 
 template<unsigned DIM>
