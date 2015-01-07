@@ -169,5 +169,17 @@ public:
 		// TODO: next_collision_pair updaten... m_cp is ja private, also brauchen wir unter umständen noch einen getter
 	}
 
+	template<class UnaryFunc, class BinaryFunc>
+	void operator() (UnaryFunc& ufunc, BinaryFunc& bfunc) const {
+		auto first = vec_kugel.cbegin(), last = vec_kugel.cend();
+		auto second = first;
+
+		for(; first != last; ++first) {
+			ufunc( *first );
+			for( second = first + 1; second != last; ++second )
+				bfunc( *first, *second );
+		}
+	}
+
 };
 #endif
