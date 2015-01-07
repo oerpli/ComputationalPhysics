@@ -28,7 +28,6 @@ public:
 	}
 
 	void operator() (Args ... args) {
-std::cout << "FuncVec.operator()" << 	'\n';
 		for (auto func : vec_func) (*func)(args...);
 	}
 

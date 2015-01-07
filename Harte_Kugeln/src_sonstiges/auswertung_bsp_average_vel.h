@@ -4,8 +4,6 @@
 #include "Auswert.h"
 #include "Kugel.h"
 
-#include <ostream>
-
 template<unsigned DIM>
 class auswertung_bsp_average_vel : public Auswert<Kugel<DIM>> {
 public:
@@ -14,7 +12,6 @@ public:
 
 public:
 	void operator() (const Kugel<DIM>& k) {
-std::cout << "auwertung_bsp_average_vel.operator()" << 	'\n';
 		sum_vel += k.velocity().norm();
 		count++;
 	}
