@@ -13,4 +13,10 @@ int main() {
 
 	if(! box.initiate()) return 1;
 	cout << "after Init\n" << box << '\n';
+
+	MatVec<velocityT,DIM> vel_com {};
+	energyT ekin {};
+	box.unitary([&](const Kugel<DIM>& k){vel_com += k.velocity(); ekin += k.ekin();});
+
+	cout << "com Vel: " << vel_com << "\nekin: " << ekin << '\n';
 }
