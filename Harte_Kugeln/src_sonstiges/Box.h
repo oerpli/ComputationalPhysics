@@ -19,6 +19,15 @@ class Box {
 		kugel.position(pos);
 	}
 
+	CollisionPair<DIM> calc_event(Kugel<DIM>& k1, Kugel<DIM>& k2) {
+		CollisionPair<DIM> result { calc_collision_time(k1,k2) };
+		if (result) return result;
+		timeT wall_t1 { calc_wall_collision_time(k1) };
+		timeT wall_t2 { calc_wall_collision_time(k2) };
+		if (wall_t1 < wall_t2)	return CollisionPair<DIM>{k1, k2, wall_t1, false};
+		return CollisionPair<DIM>{k1,k2, wall_t2, false};
+	}
+
 public:
 	timeT time() const { return m_time; }
 
