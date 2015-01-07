@@ -101,42 +101,25 @@ public:
 		return min_time;
 	}
 
-	timeT calc_collision_time(Kugel<DIM>& kugel_i, Kugel<DIM>& kugel_j) {
-		MatVec<lengthT, DIM> rij { };
-		MatVec<velocityT, DIM> vij { };
-		rij = kugel_j.position() - kugel_i.position();
-		vij = kugel_j.velocity() - kugel_i.velocity();
-		timeT coll_time {100000*s};
-		auto nullm2 = 0*m*mps;
-		if ( rij*vij < nullm2 ) {
-			auto coll_dist_sq = Pow(kugel_i.radius()+kugel_j.radius(),2);
-			coll_time = (- rij * vij - sqrt((coll_dist_sq - rij*rij)*(vij*vij) + Pow(rij*vij,2)))/(vij*vij);
-		}
-		return coll_time;
+	CollisionPair<DIM> calc_collision_time(Kugel<DIM>& kugel_i, Kugel<DIM>& kugel_j) {
+		MatVec<lengthT, DIM> rij { kugel_j.position() - kugel_i.position() };
+		MatVec<velocityT, DIM> vij { kugel_j.velocity() - kugel_i.velocity() };
+
+		if ( rij*vij >= 0*m*mps ) return CollisionPair<DIM>{kugel_i,kugel_j,0,false};
+		auto coll_dist_sq = Pow(kugel_i.radius()+kugel_j.radius(),2);
+		auto coll_time = (- rij * vij - sqrt((coll_dist_sq - rij*rij)*(vij*vij) + Pow(rij*vij,2)))/(vij*vij);
+
+		return CollisionPair<DIM>{kugel_i, kugel_j, coll_time, true};
 	}
 
-	void first_collision() {
-		timeT temp_coll_time {10000*s}; //arbitrary, irgendwas großes halt
-		next_collision_pair.set_collision(temp_coll_time, 0);
-		for (unsigned i = 0; i < vec_kugel.size(); i++) {
-			temp_coll_time = calc_wall_collision_time(vec_kugel[i]);
-			if (temp_coll_time < next_collision_pair.collision_time()) {
-				next_collision_pair.set_collision(temp_coll_time, 0);
-			}
-			for (unsigned j = i + 1; j < vec_kugel.size(); j++) {
-				temp_coll_time = calc_collision_time(vec_kugel[i], vec_kugel[j]);
-				if (temp_coll_time < vec_kugel[i].collision_time()) {
-					vec_kugel[i].set_collision(vec_kugel[j], temp_coll_time, 1);
-				}
-				if (temp_coll_time < vec_kugel[j].collision_time()) {
-					vec_kugel[j].set_collision(vec_kugel[i], temp_coll_time, 1);
-				}
-				if (temp_coll_time < next_collision_pair.collision_time()) {
-					next_collision_pair.set_collision(vec_kugel[i], vec_kugel[j], temp_coll_time, 1);
-				}
-			}
-		}
-		fast_forward(next_collision_pair.collision_time());
+	void init_next_collision() {
+		const auto it_begin = vec_kugel.begin(), it_end = vec_kugel.end();
+		auto first = it_begin, second = first;
+
+		next_collision_pair = calc_event(*first, *second);
+		for (; first != it_end; ++first)
+			for (second = first, ++second; second != it_end; ++second)
+				next_collision_pair <= calc_event(*first, *second);
 	}
 
 	void next_collision() {
