@@ -11,7 +11,6 @@ int main() {
 
 	Box<DIM> box{abmessung, 10, kugel1};
 
-	cout << "Start\n" << box << '\n';
 	if(! box.initiate()) return 1;
 	cout << "after Init\n" << box << '\n';
 }
