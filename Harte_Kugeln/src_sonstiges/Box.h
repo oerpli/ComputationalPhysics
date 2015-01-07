@@ -169,5 +169,18 @@ public:
 		// TODO: next_collision_pair updaten... m_cp is ja private, also brauchen wir unter umständen noch einen getter
 	}
 
+	std::ostream& print(std::ostream& os) const {
+		for(const auto& kugel : vec_kugel) {
+			kugel.print(os);
+			os << '\n';
+		}
+		return os;
+	}
 };
+
+template<unsigned DIM>
+std::ostream& operator<< (std::ostream& os, const Box<DIM>& box) {
+	box.print(os);
+	return os;
+}
 #endif
