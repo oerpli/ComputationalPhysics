@@ -1,3 +1,4 @@
 add_executable(bsp_MatVec beispiel_MatVec.cpp)
 add_executable(bsp_collision bsp_collision.cpp)
 add_executable(bsp_collision_update bsp_collision_update.cpp)
+add_executable(bsp_simulation bsp_simulation.cpp)
