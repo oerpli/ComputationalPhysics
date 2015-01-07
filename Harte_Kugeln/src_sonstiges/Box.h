@@ -33,15 +33,29 @@ class Box {
 		bool b_contact {};
 		const auto iter_begin = vec_kugel.begin(), iter_end = vec_kugel.end();
 		auto iter_first = vec_kugel.begin(), iter_second = vec_kugel.end();
+		lengthT radius_first {};
 
 		for (unsigned outer = 0; outer < trys; ++outer) {
 			for (iter_first = iter_begin; iter_first != iter_end; ++iter_first) {
 				for (unsigned inner = 0; inner < trys_inner; ++inner) {
 					iter_first->position(rand_pos_vec());
+
+					radius_first = iter_first->radius();
+					b_contact = false;
+					// überprüfe Kontakt mit Kugeln
+					for(iter_second = iter_begin; iter_second != iter_first; ++iter_second) {
+						if (dist(*iter_first, *iter_second).norm() <= radius_first + iter_second->radius()) {
+							b_contact = true;
+							break;
+						}
+					}
+					if (! b_contact) break;
 				}
+				if (b_contact) break;
 			}
+			if (! b_contact) break;
 		}
-		return true;
+		return ! b_contact;
 	}
 
 public:
@@ -73,8 +87,9 @@ public:
 			: Box{dim,0} {}
 
 
-	void initiate() {
-		if (! b_initiate_pos) init_pos_rand();
+	bool initiate() {
+		if (! b_initiate_pos) b_initiate_pos = init_pos_rand();
+		return b_initiate_pos;
 	}
 
 	const Kugel<DIM>& operator [](unsigned i) const {
