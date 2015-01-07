@@ -121,6 +121,7 @@ public:
 		if (! b_initiate_pos) b_initiate_pos = init_pos_rand();
 		if (! b_initiate_vel) b_initiate_vel = init_vel_rand();
 
+		init_next_collision();
 		return b_initiate_pos && b_initiate_vel;
 	}
 
