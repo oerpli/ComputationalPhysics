@@ -123,42 +123,14 @@ public:
 	}
 
 	void next_collision() {
-		timeT temp_coll_time {10000*s}; //arbitrary, irgendwas großes halt
-		next_collision_pair.set_collision(temp_coll_time, 0);
-		auto& kugel_i = *(next_collision_pair.kugel1());
-		for (auto& kugel_j : vec_kugel) {
-			if (kugel_i != kugel_j) { // stimmt das so? gedacht ist, zu schauen, ob *kugel_i und *kugel_j auf die gleiche adresse verweisen.
-				temp_coll_time = calc_collision_time(kugel_i, kugel_j);
-				if (temp_coll_time < kugel_i->collision_time()) {
-				kugel_i.set_collision(kugel_j, temp_coll_time, 1);
-				}
-				if (temp_coll_time < kugel_j.collision_time()) {
-				kugel_j.set_collision(kugel_i, temp_coll_time, 1);
-				}
-				if (temp_coll_time < next_collision_pair.collision_time()) {
-				next_collision_pair.set_collision(kugel_i, kugel_j, temp_coll_time, 1);
-				}
-			}
-		}
-		kugel_i = *(next_collision_pair.kugel2());
-		for (auto& kugel_j : vec_kugel) {
-			if (kugel_i != kugel_j) {
-				temp_coll_time = calc_collision_time(kugel_i, kugel_j);
-				if (temp_coll_time < kugel_i.collision_time()) {
-					kugel_i.set_collision(kugel_j, temp_coll_time, 1);
-				}
-				if (temp_coll_time < kugel_j.collision_time()) {
-					kugel_j.set_collision(kugel_i, temp_coll_time, 1);
-				}
-				if (temp_coll_time < next_collision_pair.collision_time()) {
-					next_collision_pair.set_collision(kugel_i, kugel_j, temp_coll_time, 0);
-				}
-				if (kugel_j.collision_time() < next_collision_pair.collision_time()) {
-					next_collision_pair = kugel_j.collision_pair();
-				}
-			}
-		}
-		// TODO: next_collision_pair updaten... m_cp is ja private, also brauchen wir unter umständen noch einen getter
+		const auto k1 = next_collision_pair.kugel1(), k2 = next_collision_pair.kugel2();
+
+		next_collision_pair = calc_event(k1,k2);
+		for_each (vec_kugel.begin(), vec_kugel.end(), [&](Kugel<DIM>& k) {
+			// Optimierung möglich, da wall_collision_time von k1 & k2 = const
+			if (&k != &k1) next_collision_pair <= calc_event(k,k1);
+			if (&k != &k2) next_collision_pair <= calc_event(k,k2);
+		});
 	}
 
 	template<class UnaryFunc, class BinaryFunc>
