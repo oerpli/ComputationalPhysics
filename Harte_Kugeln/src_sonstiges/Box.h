@@ -99,11 +99,11 @@ public:
 	Box(const MatVec<lengthT, DIM>& dim, unsigned size, const Kugel<DIM>& kugel)
 		: m_time{},vec_kugel(size, kugel), vec_abmessung{dim}
 		, next_collision_pair{vec_kugel[0], vec_kugel[0]}
-		, b_initiate_pos{false} {}
+		, b_initiate_pos{false}, b_initiate_vel{false} {}
 	Box(const MatVec<lengthT, DIM>& dim, unsigned size)
 		: m_time{}, vec_kugel(size), vec_abmessung{dim}
 		, next_collision_pair{vec_kugel[0], vec_kugel[0]}
-		, b_initiate_pos{false}  {}
+		, b_initiate_pos{false}, b_initiate_vel{false}  {}
 	Box(const MatVec<lengthT, DIM>& dim)
 			: Box{dim,0} {}
 
@@ -136,7 +136,7 @@ public:
 			return;
 		vec_kugel.insert(vec_kugel.end(),
 				other.vec_kugel.begin(), other.vec_kugel.end() );
-		b_initiate_pos = false;
+		b_initiate_pos = b_initiate_vel = false;
 	}
 
 	auto dist(const Kugel<DIM>& kugel1, const Kugel<DIM>& kugel2) const
