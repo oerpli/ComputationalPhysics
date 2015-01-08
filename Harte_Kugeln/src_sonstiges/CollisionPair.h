@@ -57,6 +57,33 @@ void collide( CollisionPair<DIM>& cp) {
 	return collide(cp.kugel1(), cp.kugel2());
 }
 
+template<unsigned DIM>
+CollisionPair<DIM> set_collision(CollisionPair<DIM>& cp, Kugel<DIM>& k) {
+	if ( &k == &cp.kugel1() ) k.set_collision(cp.kugel2(), cp.collision_time(), (bool)cp);
+	else if ( &k == &cp.kugel2() ) k.set_collision(cp.kugel1(), cp.collision_time(), (bool)cp);
+	return cp;
+}
+
+template<unsigned DIM>
+CollisionPair<DIM> set_collision(CollisionPair<DIM> cp, Kugel<DIM>& k1, Kugel<DIM>& k2) {
+	set_collision(cp,k1);
+	set_collision(cp,k2);
+	return cp;
+}
+
+template<unsigned DIM>
+CollisionPair<DIM> set_collision_if(CollisionPair<DIM>& cp, Kugel<DIM>& k) {
+	if (cp.collision_time() < k.collision_time()) set_collision(cp,k);
+	return cp;
+}
+
+template<unsigned DIM>
+CollisionPair<DIM> set_collision_if(CollisionPair<DIM> cp, Kugel<DIM>& k1, Kugel<DIM>& k2) {
+	set_collision_if(cp,k1);
+	set_collision_if(cp,k2);
+	return cp;
+}
+
 #include "CollisionPair.tpp"
 
 #endif /* UNIT_TESTS_COLLISIONPAIR_H_ */
