@@ -194,13 +194,13 @@ public:
 	}
 
 	void next_collision() {
-		const auto k1 = next_collision_pair.kugel1(), k2 = next_collision_pair.kugel2();
+		auto k1 = next_collision_pair.kugel1(), k2 = next_collision_pair.kugel2();
 
-		next_collision_pair = calc_event(k1,k2);
+		next_collision_pair = set_collision(calc_event(k1,k2),k1,k2);
 		for_each (vec_kugel.begin(), vec_kugel.end(), [&](Kugel<DIM>& k) {
 			// Optimierung möglich, da wall_collision_time von k1 & k2 = const
-			if (&k != &k1) next_collision_pair <= calc_event(k,k1);
-			if (&k != &k2) next_collision_pair <= calc_event(k,k2);
+			if (&k != &k1) next_collision_pair <= set_collision_if(calc_event(k,k1),k,k1);
+			if (&k != &k2) next_collision_pair <= set_collision_if(calc_event(k,k2),k,k2);
 		});
 	}
 
