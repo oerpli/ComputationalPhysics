@@ -1,15 +1,14 @@
 
 template<unsigned DIM>
-inline CollisionPair<DIM>::CollisionPair(MetaKugel<DIM>& kugel1, MetaKugel<DIM>& kugel2) :
+inline CollisionPair<DIM>::CollisionPair(Kugel<DIM>& kugel1, Kugel<DIM>& kugel2) :
 		p_kugel1 { &kugel1 }, p_kugel2 { &kugel2 }, dtime { 1E9 * s}, collision { } { //TODO dirty dtimes
 }
 
 template<unsigned DIM>
-inline CollisionPair<DIM>::CollisionPair(MetaKugel<DIM>& kugel1, MetaKugel<DIM>& kugel2,
+inline CollisionPair<DIM>::CollisionPair(Kugel<DIM>& kugel1, Kugel<DIM>& kugel2,
 		timeT dtime, bool collision) :
 		p_kugel1 { &kugel1 }, p_kugel2 { &kugel2 }, dtime { dtime }, collision {
-				collision } {
-}
+				collision } { }
 
 template<unsigned DIM>
 inline CollisionPair<DIM>& CollisionPair<DIM>::operator =(
@@ -28,7 +27,7 @@ inline CollisionPair<DIM>& CollisionPair<DIM>::operator <=(
 }
 
 template<unsigned DIM>
-inline void CollisionPair<DIM>::set_collision(MetaKugel<DIM>& first, MetaKugel<DIM>& other, const timeT& dt, bool b) {
+inline void CollisionPair<DIM>::set_collision(Kugel<DIM>& first, Kugel<DIM>& other, const timeT& dt, bool b) {
 	p_kugel1 = &first; 
 	p_kugel2 = &other; 
 	dtime = dt;
@@ -36,7 +35,7 @@ inline void CollisionPair<DIM>::set_collision(MetaKugel<DIM>& first, MetaKugel<D
 }
 
 template<unsigned DIM>
-inline void CollisionPair<DIM>::set_collision(MetaKugel<DIM>& other, const timeT& dt, bool b) {
+inline void CollisionPair<DIM>::set_collision(Kugel<DIM>& other, const timeT& dt, bool b) {
 	p_kugel2 = &other; 
 	dtime = dt;
 	collision = b;
