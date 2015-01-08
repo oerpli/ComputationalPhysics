@@ -53,36 +53,17 @@ public:
 };
 
 template<unsigned DIM>
-void collide( CollisionPair<DIM>& cp) {
-	return collide(cp.kugel1(), cp.kugel2());
-}
+void collide( CollisionPair<DIM>& cp);
 
 template<unsigned DIM>
-CollisionPair<DIM> set_collision(CollisionPair<DIM>& cp, Kugel<DIM>& k) {
-	if ( &k == &cp.kugel1() ) k.set_collision(cp.kugel2(), cp.collision_time(), (bool)cp);
-	else if ( &k == &cp.kugel2() ) k.set_collision(cp.kugel1(), cp.collision_time(), (bool)cp);
-	return cp;
-}
+CollisionPair<DIM> set_collision(CollisionPair<DIM>& cp, Kugel<DIM>& k);
+template<unsigned DIM>
+CollisionPair<DIM> set_collision(CollisionPair<DIM> cp, Kugel<DIM>& k1, Kugel<DIM>& k2);
 
 template<unsigned DIM>
-CollisionPair<DIM> set_collision(CollisionPair<DIM> cp, Kugel<DIM>& k1, Kugel<DIM>& k2) {
-	set_collision(cp,k1);
-	set_collision(cp,k2);
-	return cp;
-}
-
+CollisionPair<DIM> set_collision_if(CollisionPair<DIM>& cp, Kugel<DIM>& k);
 template<unsigned DIM>
-CollisionPair<DIM> set_collision_if(CollisionPair<DIM>& cp, Kugel<DIM>& k) {
-	if (cp.collision_time() < k.collision_time()) set_collision(cp,k);
-	return cp;
-}
-
-template<unsigned DIM>
-CollisionPair<DIM> set_collision_if(CollisionPair<DIM> cp, Kugel<DIM>& k1, Kugel<DIM>& k2) {
-	set_collision_if(cp,k1);
-	set_collision_if(cp,k2);
-	return cp;
-}
+CollisionPair<DIM> set_collision_if(CollisionPair<DIM> cp, Kugel<DIM>& k1, Kugel<DIM>& k2);
 
 #include "CollisionPair.tpp"
 
