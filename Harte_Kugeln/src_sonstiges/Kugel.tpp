@@ -1,41 +1,46 @@
 
 template<unsigned DIM>
 Kugel<DIM>::Kugel():
-		MetaKugel<DIM>{}, m_cp { *this, *this } {
+		MetaKugel<DIM>{},
+		m_p_partner{}, m_t_collision{}, m_b_collision{false} {
 }
 
 template<unsigned DIM>
 Kugel<DIM>::Kugel(const Kugel& other) :
-		MetaKugel<DIM> { other }, m_cp { other.m_cp } {
+		MetaKugel<DIM> { other },
+		m_p_partner{other.m_p_partner},
+		m_t_collision{other.m_t_collision},
+		m_b_collision{other.m_b_collision} {
 }
 
 template<unsigned DIM>
 Kugel<DIM>::Kugel(massT mass,	lengthT d):
-		MetaKugel<DIM> { mass, d }, m_cp { *this, *this } {
+		MetaKugel<DIM> { mass, d },
+		m_p_partner{}, m_t_collision{}, m_b_collision{false} {
 }
 template <unsigned DIM>
 bool Kugel<DIM>::operator ==(const Kugel<DIM>& other) const {
-	return MetaKugel<DIM>::operator ==(other) && m_cp == other.m_cp;
+	bool result{ m_p_partner == other.m_p_partner };
+	result &= m_t_collision == other.m_t_collision;
+	result &= m_b_collision == other.m_b_collision;
+	return result && MetaKugel<DIM>::operator ==(other);
 }
 
 template<unsigned DIM>
-auto Kugel<DIM>::collision_time() const -> decltype(m_cp.collision_time()) {
-	return m_cp.collision_time();
+timeT Kugel<DIM>::collision_time() const {
+	return m_t_collision;
 }
 
 template<unsigned DIM>
 void Kugel<DIM>::fast_forward(const timeT& dt) {
 	MetaKugel<DIM>::fast_forward(dt);
-	m_cp.fast_forward(dt);
-}
-
-template<unsigned DIM>
-auto Kugel<DIM>::collision_pair() const -> decltype(m_cp) {
-	return m_cp;
+	m_t_collision -= dt;
 }
 
 template<unsigned DIM>
 void Kugel<DIM>::set_collision(Kugel<DIM>& other, const timeT& dt,
 		bool b) {
-	m_cp.set_collision(other, dt, b);
+	m_p_partner = &other;
+	m_t_collision = dt;
+	m_b_collision = b;
 }
