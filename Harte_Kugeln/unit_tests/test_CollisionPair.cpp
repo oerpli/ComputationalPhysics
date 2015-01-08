@@ -90,14 +90,14 @@ void get_kugel1() {
 	CollisionPair<3> cp{k1,k2};
 
 	k1.velocity(vel);
-	ASSERTM("", cp.kugel1() == &k1);
+	ASSERTM("", &cp.kugel1() == &k1);
 }
 
 void get_kugel2() {
 	Kugel<3> k1{}, k2{};
 	CollisionPair<3> cp{k1,k2};
 
-	ASSERTM("", cp.kugel2() == &k2);
+	ASSERTM("", &cp.kugel2() == &k2);
 }
 
 cute::suite make_suite_CollisionPair(){
