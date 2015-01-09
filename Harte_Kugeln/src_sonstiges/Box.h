@@ -187,10 +187,16 @@ public:
 		const auto it_begin = vec_kugel.begin(), it_end = vec_kugel.end();
 		auto first = it_begin, second = first;
 
-		next_collision_pair = calc_event(*first, *second);
-		for (; first != it_end; ++first)
+		++second;
+		next_collision_pair = set_collision(calc_event(*first, *second), *first, *second);
+		for (++second; second != it_end; ++second)
+			next_collision_pair <= set_collision_if(
+					set_collision(calc_event(*first, *second), *second), *first);
+
+		for (++first; first != it_end; ++first)
 			for (second = first, ++second; second != it_end; ++second)
-				next_collision_pair <= calc_event(*first, *second);
+				next_collision_pair <= set_collision_if(
+						calc_event(*first, *second), *first, *second);
 	}
 
 	void next_collision() {
