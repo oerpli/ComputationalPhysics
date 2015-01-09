@@ -5,6 +5,8 @@
 #include <ostream>
 #include <initializer_list>
 
+#include "units_typedef.h"
+
 template<typename ElementType, unsigned DIM>
 class MatVec {
 private:
