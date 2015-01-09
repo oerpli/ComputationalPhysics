@@ -27,7 +27,21 @@ int main() {
 	kugel1.velocity(vel);
 	Box<DIM> box{box_size, 10, kugel1}; //TODO: kann abhängig von Eingabe sein
 
-	//TODO: Warmlauf einfügen
+	box.initiate();
+
+
+	cout << "\nVor Warmlauf\n\n";
+	box.print(cout);
+	cout << '\n';
+
+	unsigned warm {(unsigned) 1E3};
+	for (unsigned i=0; i<warm; ++i) {
+		box.collide();
+	}
+
+	cout << "\nNach Warmlauf\n\n";
+	box.print(cout);
+	cout << '\n';
 
 	timeT ausw_t_step{13*s}, ausw_t_next{ausw_t_step};
 
