@@ -36,6 +36,21 @@ public:
 	void set_collision(Kugel<DIM>& other, const timeT& dt, bool b);
 };
 
+
+template<unsigned DIM>
+void collide(Kugel<DIM>& kugel1, Kugel<DIM>& kugel2) {
+	const auto v1 = kugel1.velocity(), v2 = kugel2.velocity();
+	const auto m1 = kugel1.mass(), m2 = kugel2.mass();
+
+	const auto dist =  kugel2.position() - kugel1.position();
+	const auto d = dist / dist.norm();
+
+	const auto v_rel = ( d * (d * v2) - d * (d * v1) ) / ( 0.5 * (m1 + m2) );
+
+	kugel1.velocity( v1 + ( v_rel * m2) );
+	kugel2.velocity( v2 - ( v_rel * m1) );
+}
+
 #include "Kugel.tpp"
 
 #endif // KUGEL_H
