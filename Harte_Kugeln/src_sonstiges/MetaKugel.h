@@ -58,22 +58,6 @@ public:
 
 #include "MetaKugel.tpp"
 
-
-template<unsigned DIM>
-void collide(MetaKugel<DIM>& kugel1, MetaKugel<DIM>& kugel2) {
-	const auto v1 = kugel1.velocity(), v2 = kugel2.velocity();
-	const auto m1 = kugel1.mass(), m2 = kugel2.mass();
-
-	const auto dist =  kugel2.position() - kugel1.position();
-	const auto d = dist / dist.norm();
-
-	const auto v_rel = ( d * (d * v2) - d * (d * v1) ) / ( 0.5 * (m1 + m2) );
-
-	kugel1.velocity( v1 + ( v_rel * m2) );
-	kugel2.velocity( v2 - ( v_rel * m1) );
-}
-
-
 template<unsigned DIM>
 std::ostream& operator<< (std::ostream& os, const MetaKugel<DIM>& kugel) {
 	return kugel.print(os);
