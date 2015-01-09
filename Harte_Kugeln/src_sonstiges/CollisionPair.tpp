@@ -76,7 +76,7 @@ void collide( CollisionPair<DIM>& cp) {
 }
 
 template<unsigned DIM>
-CollisionPair<DIM> set_collision(CollisionPair<DIM>& cp, Kugel<DIM>& k) {
+CollisionPair<DIM> set_collision(CollisionPair<DIM> cp, Kugel<DIM>& k) {
 	if ( &k == &cp.kugel1() ) k.set_collision(cp.kugel2(), cp.collision_time(), (bool)cp);
 	else if ( &k == &cp.kugel2() ) k.set_collision(cp.kugel1(), cp.collision_time(), (bool)cp);
 	return cp;
@@ -90,7 +90,7 @@ CollisionPair<DIM> set_collision(CollisionPair<DIM> cp, Kugel<DIM>& k1, Kugel<DI
 }
 
 template<unsigned DIM>
-CollisionPair<DIM> set_collision_if(CollisionPair<DIM>& cp, Kugel<DIM>& k) {
+CollisionPair<DIM> set_collision_if(CollisionPair<DIM> cp, Kugel<DIM>& k) {
 	if (cp.collision_time() < k.collision_time()) set_collision(cp,k);
 	return cp;
 }

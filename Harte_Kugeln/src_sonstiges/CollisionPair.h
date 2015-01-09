@@ -56,12 +56,12 @@ template<unsigned DIM>
 void collide( CollisionPair<DIM>& cp);
 
 template<unsigned DIM>
-CollisionPair<DIM> set_collision(CollisionPair<DIM>& cp, Kugel<DIM>& k);
+CollisionPair<DIM> set_collision(CollisionPair<DIM> cp, Kugel<DIM>& k);
 template<unsigned DIM>
 CollisionPair<DIM> set_collision(CollisionPair<DIM> cp, Kugel<DIM>& k1, Kugel<DIM>& k2);
 
 template<unsigned DIM>
-CollisionPair<DIM> set_collision_if(CollisionPair<DIM>& cp, Kugel<DIM>& k);
+CollisionPair<DIM> set_collision_if(CollisionPair<DIM> cp, Kugel<DIM>& k);
 template<unsigned DIM>
 CollisionPair<DIM> set_collision_if(CollisionPair<DIM> cp, Kugel<DIM>& k1, Kugel<DIM>& k2);
 
