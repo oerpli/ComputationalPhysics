@@ -61,7 +61,7 @@ void wrapPosition() {
 	ASSERTM("", !( box[0].position() == res_pos ) );
 }
 
-void distance() {
+void kugel_distance() {
 	Box<3> box{box_dimension,1};
 	MatVec<lengthT,3> pos1{1.5*m, 1.7*m, 1.5*m};
 	MatVec<lengthT,3> pos2{.1*m, 0.2*m, 0*m};
@@ -122,7 +122,7 @@ cute::suite make_suite_Box(){
 	s.push_back(CUTE(randomAccess_constRead));
 	s.push_back(CUTE(randomAccess_write));
 	s.push_back(CUTE(wrapPosition));
-	s.push_back(CUTE(distance));
+	s.push_back(CUTE(kugel_distance));
 	s.push_back(CUTE(box_fastForward_pos));
 	s.push_back(CUTE(box_fastForward_time));
 	s.push_back(CUTE(wall_collision_wall_time));

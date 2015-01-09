@@ -37,7 +37,12 @@ int main () {
 	box[1].print();
 
 	box.init_next_collision();
-	std::cout << "after collision" << std::endl;
+	std::cout << "\nafter collision" << std::endl;
+	box[0].print();
+	box[1].print();
+
+	box.next_collision();
+	std::cout << "\nafter next collision" << std::endl;
 	box[0].print();
 	box[1].print();
 
