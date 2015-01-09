@@ -71,7 +71,7 @@ inline bool CollisionPair<DIM>::equal(const CollisionPair<DIM>& other) const {
 //non class functions
 
 template<unsigned DIM>
-void collide( CollisionPair<DIM>& cp) {
+void collide_cp( CollisionPair<DIM>& cp) {
 	return collide(cp.kugel1(), cp.kugel2());
 }
 
