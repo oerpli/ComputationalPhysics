@@ -92,15 +92,18 @@ public:
 	timeT time() const { return m_time; }
 
 	void fast_forward(const timeT& dt) {
+		if (dt == 0*s) return;
 		m_time += dt;
+		next_collision_pair.fast_forward(dt);
 		for (auto& kugel : vec_kugel) {
 			kugel.fast_forward(dt);
 			wrap_one(kugel);
 		}
-		if (next_collision_pair)
-			collide(next_collision_pair);
 	}
 
+	void fast_forward() {
+		return fast_forward (next_collision_pair.collision_time());
+	}
 	void wrap() {
 		for (auto& kugel : vec_kugel) wrap_one(kugel);
 	}
@@ -154,6 +157,13 @@ public:
 		auto result = kugel2.position() - kugel1.position();
 		result -= round(result/vec_abmessung) % vec_abmessung;
 		return result;
+	}
+
+	void collide() {
+		fast_forward();
+		if(next_collision_pair)
+			collide_cp(next_collision_pair);
+		next_collision();
 	}
 
 	timeT calc_wall_collision_time(const Kugel<DIM>& kugel) {
