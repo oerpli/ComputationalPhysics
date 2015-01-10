@@ -1,6 +1,8 @@
 #ifndef SRC_MATVEC_H_
 #define SRC_MATVEC_H_
 
+#include <limits>
+
 #include <array>
 #include <ostream>
 #include <initializer_list>
@@ -93,8 +95,10 @@ public:
 	auto operator/ (
 			const MatVec<T2, DIM>& other) const -> MatVec<decltype( ElementType{} / T2{} ), DIM> {
 		MatVec<decltype( ElementType{} / T2{} ), DIM> result {};
-		for (unsigned i = 0; i < DIM; ++i)
-			result[i] = m_vec[i] / other[i];
+		for (unsigned i = 0; i < DIM; ++i) {
+			if (other[i] == 0) result[i] = std::numeric_limits<ElementType>::max();
+			else result[i] = m_vec[i] / other[i];
+		}
 		return result;
 	}
 
