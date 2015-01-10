@@ -13,7 +13,9 @@ inline MatVec<ElementType, DIM>::MatVec(MatVec<ElementType, DIM> && mec) :
 
 template<typename ElementType, unsigned DIM>
 inline MatVec<ElementType, DIM>::MatVec(const MatVec<ElementType, DIM>& mec) :
-		m_vec { mec.m_vec } {
+		m_vec { } {
+	for (unsigned i = 0; i < DIM; ++i)
+		m_vec[i] = mec.m_vec[i];
 }
 
 template<typename ElementType, unsigned DIM>
@@ -27,12 +29,13 @@ inline MatVec<ElementType, DIM>::MatVec(std::initializer_list<ElementType> args)
 
 template<typename ElementType, unsigned DIM>
 inline MatVec<ElementType, DIM>::MatVec(ElementType element) :
-		m_vec(DIM, element) {
+		m_vec{} {
+	m_vec.fill(element);
 }
 
 template<typename ElementType, unsigned DIM>
 inline MatVec<ElementType, DIM>::MatVec() :
-		m_vec(DIM, ElementType { }) {
+		m_vec{} {
 }
 
 template<typename ElementType, unsigned DIM>

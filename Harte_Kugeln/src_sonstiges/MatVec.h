@@ -1,7 +1,7 @@
 #ifndef SRC_MATVEC_H_
 #define SRC_MATVEC_H_
 
-#include <vector>
+#include <array>
 #include <ostream>
 #include <initializer_list>
 
@@ -10,7 +10,7 @@
 template<typename ElementType, unsigned DIM>
 class MatVec {
 private:
-	std::vector<ElementType> m_vec;
+	std::array<ElementType, DIM> m_vec;
 
   // make negative
 	void neg();
