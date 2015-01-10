@@ -49,17 +49,15 @@ int main() {
 	vec_unary.print_result(cout);
 	cout << '\n';
 	vec_binary.print_result(cout);
-/*
-	unsigned max_collisions{100}; //TODO: kann abhängig von Eingabe sein
+
+	unsigned max_collision{100}; //TODO: kann abhängig von Eingabe sein
 	for (unsigned i = 0; i < max_collision; ++i) {
 		while ( ausw_t_next < box.next_event() ) {
 			box.fast_forward(ausw_t_next);
 			ausw_t_next = ausw_t_step;
-			box(vec_unitaryF, vec_binaryF);
+			box(vec_unary, vec_binary);
 		}
-		ausw_t_next -= box.next_event();
-		box.next_collision(); //update next_collision_time in absolute_time
-
+		box.collide();
 	}
-*/
+	vec_unary.print_result(cout);
 }
