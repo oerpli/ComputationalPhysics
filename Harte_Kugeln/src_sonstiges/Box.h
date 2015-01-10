@@ -179,6 +179,8 @@ public:
 		next_collision();
 	}
 
+	timeT next_event() const {return next_collision_pair.collision_time() ;}
+
 	timeT calc_wall_collision_time(const Kugel<DIM>& kugel) {
 		auto vel = kugel.velocity();
 		MatVec<lengthT, DIM> border{};
