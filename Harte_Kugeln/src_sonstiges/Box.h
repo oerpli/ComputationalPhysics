@@ -8,6 +8,8 @@
 #include "Kugel.h"
 #include "Rand.h"
 
+#include <cassert>
+
 template<typename Numeric>
 Numeric min(Numeric a, Numeric b) {
 	if (a < b) return a;
@@ -86,10 +88,15 @@ class Box {
 	}
 
 	CollisionPair<DIM> calc_event(Kugel<DIM>& k1, Kugel<DIM>& k2) {
-		CollisionPair<DIM> result { calc_collision_time(k1,k2) };
+		CollisionPair<DIM> result = calc_collision_time(k1,k2) ;
+		if (result) assert( result.collision_time() >= 0 * s);
 		if (result) return result;
 		timeT wall_t1 { calc_wall_collision_time(k1) };
 		timeT wall_t2 { calc_wall_collision_time(k2) };
+//		std::cout << "Wall_t1: " << wall_t1;
+//		std::cout << "\tWall_t2: " << wall_t2 << std::endl;
+		assert( wall_t1 >= 0 * s );
+		assert( wall_t2 >= 0 * s );
 		if (wall_t1 < wall_t2)	return CollisionPair<DIM>{k1, k2, wall_t1, false};
 		return CollisionPair<DIM>{k1,k2, wall_t2, false};
 	}
@@ -183,7 +190,8 @@ public:
 		MatVec<timeT, DIM> vec_time = ( border - kugel.position() ) / vel;
 
 		auto min_time = vec_time[0];
-		for_each (++vec_time.begin(), vec_time.end(), [&] (const timeT& time) {
+		auto it_start = vec_time.begin();
+		std::for_each (++it_start, vec_time.end(), [&] (const timeT& time) {
 			if (time < min_time) min_time = time; });
 		return min_time;
 	}
@@ -195,8 +203,8 @@ public:
 		auto b = rij * vij;
 		if ( b >= 0*m*mps ) return CollisionPair<DIM>{kugel_i,kugel_j,0,false};
 		auto d2 = Pow(kugel_i.radius()+kugel_j.radius(),2);
-		auto r2 = rij * rij;
-		auto v2 = vij * vij;
+		auto r2 = rij.norm2();
+		auto v2 = vij.norm2();
 
 		auto sqr_sq = Pow(b,2) - v2 * ( r2 - d2 );
 		if ( sqr_sq < 0 ) return CollisionPair<DIM>{kugel_i,kugel_j,0,false};
