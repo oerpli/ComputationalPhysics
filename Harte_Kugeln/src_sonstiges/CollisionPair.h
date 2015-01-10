@@ -53,7 +53,7 @@ public:
 };
 
 template<unsigned DIM>
-void collide( CollisionPair<DIM>& cp);
+void collide_cp( CollisionPair<DIM>& cp);
 
 template<unsigned DIM>
 CollisionPair<DIM> set_collision(CollisionPair<DIM> cp, Kugel<DIM>& k);
