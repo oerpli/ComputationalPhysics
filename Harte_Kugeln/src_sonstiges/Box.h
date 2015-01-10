@@ -8,6 +8,12 @@
 #include "Kugel.h"
 #include "Rand.h"
 
+template<typename Numeric>
+Numeric min(Numeric a, Numeric b) {
+	if (a < b) return a;
+	return b;
+}
+
 template<unsigned DIM>
 class Box {
 	timeT m_time; //System Zeit
@@ -186,10 +192,17 @@ public:
 		MatVec<lengthT, DIM> rij { kugel_j.position() - kugel_i.position() };
 		MatVec<velocityT, DIM> vij { kugel_j.velocity() - kugel_i.velocity() };
 
-		if ( rij*vij >= 0*m*mps ) return CollisionPair<DIM>{kugel_i,kugel_j,0,false};
-		auto coll_dist_sq = Pow(kugel_i.radius()+kugel_j.radius(),2);
-		auto coll_time = (- rij * vij - sqrt((coll_dist_sq - rij*rij)*(vij*vij) + Pow(rij*vij,2)))/(vij*vij);
+		auto b = rij * vij;
+		if ( b >= 0*m*mps ) return CollisionPair<DIM>{kugel_i,kugel_j,0,false};
+		auto d2 = Pow(kugel_i.radius()+kugel_j.radius(),2);
+		auto r2 = rij * rij;
+		auto v2 = vij * vij;
 
+		auto sqr_sq = Pow(b,2) - v2 * ( r2 - d2 );
+		if ( sqr_sq < 0 ) return CollisionPair<DIM>{kugel_i,kugel_j,0,false};
+
+		auto q = - b + sqrt( sqr_sq );
+		timeT coll_time { min( q / v2, ( r2 - d2 ) / q ) };
 		return CollisionPair<DIM>{kugel_i, kugel_j, coll_time, true};
 	}
 
