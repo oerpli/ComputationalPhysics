@@ -127,7 +127,6 @@ class Box {
 
 		MatVec<timeT,DIM> v_res_t { vec_abmessung / v };
 		v_res_t([&](timeT& t) {if (t < 0*s) t = -t;});
-//std::cout << v_res_t << '\n';
 		MatVec<timeT,DIM> v_act_t{ };
 		const MatVec<lengthT,DIM> pos_2 { vec_abmessung / 2 };
 
@@ -142,7 +141,7 @@ class Box {
 			else
 				v_act_t[i] = (vec_abmessung[i] - pos[i]) / v[i];
 		}
-//std::cout << v_act_t << '\n';
+
 		const auto d2 = Pow(k1.radius() + k2.radius(), 2);
 		const auto d2v2 = d2 * v2;
 
@@ -151,8 +150,7 @@ class Box {
 		auto sr2 = 0. *m*m *mps*mps;
 		const auto sr20 = 0. *m*m *mps*mps;
 
-		unsigned i = 0;
-		for (; i < versuche; t_ges += forward(
+		for (unsigned i = 0; i < versuche; t_ges += forward(
 				pos, v, v_act_t, v_res_t, v_res_pos), ++i) {
 			rv = pos * v;
 			if (rv >= rv0) continue;
@@ -162,24 +160,24 @@ class Box {
 			collision = true;
 			break;
 		}
-//std::cout << collision << " : " << i << " : " << t_ges << '\n';
 		return CollisionPair<DIM>{k1,k2, t_ges, collision};
 	}
 
 public:
 	timeT time() const { return m_time; }
 
-	void fast_forward(const timeT& dt) {
-		if (dt == 0*s) return;
+	timeT fast_forward(const timeT& dt) {
+		if (dt == 0*s) return 0*s;
 		m_time += dt;
 		next_collision_pair.fast_forward(dt);
 		for (auto& kugel : vec_kugel) {
 			kugel.fast_forward(dt);
 			wrap_one(kugel);
 		}
+		return dt;
 	}
 
-	void fast_forward() {
+	timeT fast_forward() {
 		return fast_forward (next_collision_pair.collision_time());
 	}
 	void wrap() {
@@ -237,11 +235,12 @@ public:
 		return result;
 	}
 
-	void collide() {
-		fast_forward();
+	timeT collide() {
+		timeT ret { fast_forward() };
 		if(next_collision_pair)
 			collide_cp(next_collision_pair);
 		next_collision();
+		return ret;
 	}
 
 	timeT next_event() const {return next_collision_pair.collision_time() ;}
