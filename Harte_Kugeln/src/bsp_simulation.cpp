@@ -40,30 +40,35 @@ int main() {
 	cout << '\n';
 	vec_binary.print_result(cout);
 
-	unsigned warm {(unsigned) 1E5};
+	unsigned warm {(unsigned) 1E3};
 	for (unsigned i=0; i<warm; ++i) {
-		box.collide();
+		cout << box.collide() << '\n';
 	}
 /*
 	cout << "\nNach Warmlauf\n\n";
 	box.print(cout);
 	cout << '\n';
 */
-	timeT ausw_t_step{13*s}, ausw_t_next{ausw_t_step};
+	timeT ausw_t_step{1*s}, ausw_t_next{ausw_t_step};
 
+	cout << "Time: " << box.time() << '\n';
 	box(vec_unary,vec_binary);
 	vec_unary.print_result(cout);
 	cout << '\n';
 	vec_binary.print_result(cout);
 
-	unsigned max_collision{100}; //TODO: kann abhängig von Eingabe sein
+	unsigned max_collision{1000}; //TODO: kann abhängig von Eingabe sein
 	for (unsigned i = 0; i < max_collision; ++i) {
 		while ( ausw_t_next < box.next_event() ) {
 			box.fast_forward(ausw_t_next);
 			ausw_t_next = ausw_t_step;
 			box(vec_unary, vec_binary);
 		}
-		box.collide();
+		ausw_t_next -= box.collide();
 	}
+
+	cout << "Time: " << box.time() << '\n';
 	vec_unary.print_result(cout);
+	cout << '\n';
+	vec_binary.print_result(cout);
 }
