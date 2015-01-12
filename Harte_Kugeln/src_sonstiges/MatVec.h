@@ -69,6 +69,12 @@ public:
 	template<typename T2>
 	auto operator- (const T2& s) const -> MatVec<decltype( ElementType{} - T2{} ), DIM>;
 
+	// Subtraktion Zuweisung jedes Elements mit Skalar
+	MatVec<ElementType,DIM>&  operator -= (const ElementType& s) {
+		for (auto& el : m_vec) el -= s;
+		return *this;
+	}
+
 	// Skalarprodukt
 	template<typename T2>
 	auto operator* (const MatVec<T2, DIM>& vec2) const -> decltype( ElementType{} * T2{} );
