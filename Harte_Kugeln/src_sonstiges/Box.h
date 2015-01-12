@@ -95,18 +95,75 @@ class Box {
 		return true;
 	}
 
+	timeT forward(MatVec<lengthT,DIM>& v_pos, const MatVec<velocityT,DIM>& v_vel,
+			MatVec<timeT,DIM>& v_act_t,
+			const MatVec<timeT,DIM>& v_res_t, const MatVec<lengthT,DIM>& v_res_p) {
+		unsigned i_min{};
+		timeT t_min{v_act_t[i_min]};
+
+		for(unsigned i = 0; i < DIM; ++i) {
+			if (v_act_t[i] < t_min) {
+				t_min = v_act_t[i];
+				i_min = i;
+			}
+		}
+		v_act_t -= t_min;
+		v_pos += v_vel * t_min;
+
+		v_act_t[i_min] = v_res_t[i_min];
+		v_pos[i_min] = v_res_p[i_min];
+		return t_min;
+	}
+
 	CollisionPair<DIM> calc_event(Kugel<DIM>& k1, Kugel<DIM>& k2) {
-		CollisionPair<DIM> result = calc_collision_time(k1,k2) ;
-		if (result) assert( result.collision_time() >= 0 * s);
-		if (result) return result;
-		timeT wall_t1 { calc_wall_collision_time(k1) };
-		timeT wall_t2 { calc_wall_collision_time(k2) };
-//		std::cout << "Wall_t1: " << wall_t1;
-//		std::cout << "\tWall_t2: " << wall_t2 << std::endl;
-		assert( wall_t1 >= 0 * s );
-		assert( wall_t2 >= 0 * s );
-		if (wall_t1 < wall_t2)	return CollisionPair<DIM>{k1, k2, wall_t1, false};
-		return CollisionPair<DIM>{k1,k2, wall_t2, false};
+		const unsigned versuche{ 7 };
+		bool collision{false};
+		timeT t_ges{};
+
+		const MatVec<velocityT,DIM> v { k1.velocity() - k2.velocity() };
+		const auto v2 = v.norm2();
+		if (v2 == 0 *mps*mps)
+			return CollisionPair<DIM>(k1, k2, std::numeric_limits<timeT>::max(), false);
+
+		MatVec<timeT,DIM> v_res_t { vec_abmessung / v };
+		v_res_t([&](timeT& t) {if (t < 0*s) t = -t;});
+//std::cout << v_res_t << '\n';
+		MatVec<timeT,DIM> v_act_t{ };
+		const MatVec<lengthT,DIM> pos_2 { vec_abmessung / 2 };
+
+		MatVec<lengthT,DIM> pos { wrap( pos_2 + k1.position() - k2.position() ) };
+
+		MatVec<lengthT,DIM> v_res_pos{ };
+		for (unsigned i = 0; i < DIM; ++i) {
+			if (v[i] < 0) {
+				v_res_pos[i] = vec_abmessung[i];
+				v_act_t[i] = -(pos[i] / v[i]);
+			}
+			else
+				v_act_t[i] = (vec_abmessung[i] - pos[i]) / v[i];
+		}
+//std::cout << v_act_t << '\n';
+		const auto d2 = Pow(k1.radius() + k2.radius(), 2);
+		const auto d2v2 = d2 * v2;
+
+		auto rv = 0. *m *mps;
+		const auto rv0 = 0. *m *mps;
+		auto sr2 = 0. *m*m *mps*mps;
+		const auto sr20 = 0. *m*m *mps*mps;
+
+		unsigned i = 0;
+		for (; i < versuche; t_ges += forward(
+				pos, v, v_act_t, v_res_t, v_res_pos), ++i) {
+			rv = pos * v;
+			if (rv >= rv0) continue;
+			sr2 = d2v2 - pos.norm2() * v2 + Pow(rv,2);
+			if (sr2 < sr20) continue;
+			t_ges += -(rv + sqrt(sr2))/v2;
+			collision = true;
+			break;
+		}
+//std::cout << collision << " : " << i << " : " << t_ges << '\n';
+		return CollisionPair<DIM>{k1,k2, t_ges, collision};
 	}
 
 public:
