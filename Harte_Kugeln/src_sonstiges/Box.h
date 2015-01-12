@@ -10,12 +10,6 @@
 
 #include <cassert>
 
-template<typename Numeric>
-Numeric min(Numeric a, Numeric b) {
-	if (a < b) return a;
-	return b;
-}
-
 template<unsigned DIM>
 class Box {
 	timeT m_time; //System Zeit
@@ -244,46 +238,6 @@ public:
 	}
 
 	timeT next_event() const {return next_collision_pair.collision_time() ;}
-
-	MatVec<timeT,DIM> calc_wall_collision_time(
-			const MatVec<lengthT,DIM>& pos, const MatVec<velocityT,DIM>& vel) {
-		MatVec<lengthT, DIM> border{};
-		velocityT null{};
-
-		for (unsigned i = 0; i < DIM; ++i)
-			if ( vel[i] > null )
-				border[i] = vec_abmessung[i];
-		return ( border - pos ) / vel;
-	}
-
-	timeT calc_wall_collision_time(const Kugel<DIM>& kugel) {
-		MatVec<timeT, DIM> vec_time = calc_wall_collision_time(
-				kugel.position(), kugel.velocity() );
-
-		auto min_time = vec_time[0];
-		auto it_start = vec_time.begin();
-		std::for_each (++it_start, vec_time.end(), [&] (const timeT& time) {
-			if (time < min_time) min_time = time; });
-		return min_time;
-	}
-
-	CollisionPair<DIM> calc_collision_time(Kugel<DIM>& kugel_i, Kugel<DIM>& kugel_j) {
-		MatVec<lengthT, DIM> rij { kugel_j.position() - kugel_i.position() };
-		MatVec<velocityT, DIM> vij { kugel_j.velocity() - kugel_i.velocity() };
-
-		auto b = rij * vij;
-		if ( b >= 0*m*mps ) return CollisionPair<DIM>{kugel_i,kugel_j,0,false};
-		auto d2 = Pow(kugel_i.radius()+kugel_j.radius(),2);
-		auto r2 = rij.norm2();
-		auto v2 = vij.norm2();
-
-		auto sqr_sq = Pow(b,2) - v2 * ( r2 - d2 );
-		if ( sqr_sq < 0 ) return CollisionPair<DIM>{kugel_i,kugel_j,0,false};
-
-		auto q = - b + sqrt( sqr_sq );
-		timeT coll_time { min( q / v2, ( r2 - d2 ) / q ) };
-		return CollisionPair<DIM>{kugel_i, kugel_j, coll_time, true};
-	}
 
 	void init_next_collision() {
 		const auto it_begin = vec_kugel.begin(), it_end = vec_kugel.end();
