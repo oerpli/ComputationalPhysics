@@ -16,6 +16,8 @@ public:
 	CollisionPair(Kugel<DIM>& kugel1, Kugel<DIM>& kugel2);
 	CollisionPair(Kugel<DIM>& kugel1, Kugel<DIM>& kugel2, timeT dtime,
 			bool collision);
+	CollisionPair(Kugel<DIM>& k) : p_kugel1{&k}, p_kugel2{k.collision_partner()},
+			dtime{k.collision_time()}, collision{k.collision_bool()} {}
 
 	friend void swap (CollisionPair<DIM>& cp1, CollisionPair<DIM>& cp2) {
 		std::swap(cp1.p_kugel1, cp2.p_kugel1);
@@ -26,9 +28,18 @@ public:
 	}
 
 	CollisionPair<DIM>& operator =(CollisionPair<DIM> other);
+	CollisionPair<DIM>& operator =(Kugel<DIM>& k) {
+		CollisionPair<DIM> buf {k};
+		swap (*this, buf);
+		return *this;
+	}
 
 	// if other < this assign other to this
 	CollisionPair<DIM>& operator <=(const CollisionPair<DIM>& other);
+	CollisionPair<DIM>& operator <=(Kugel<DIM>& k) {
+		if ( k.collision_time() < dtime ) return operator=(k);
+		return *this;
+	}
 
 	void set_collision(Kugel<DIM>& first, Kugel<DIM>& other, const timeT& dt, bool b);
 	void set_collision(Kugel<DIM>& other, const timeT& dt, bool b);

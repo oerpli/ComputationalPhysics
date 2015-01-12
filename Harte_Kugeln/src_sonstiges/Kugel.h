@@ -32,6 +32,8 @@ public:
 	void fast_forward(const timeT& dt);
 
 	timeT collision_time() const;
+	bool collision_bool() const {return m_b_collision;}
+	Kugel<DIM>* collision_partner() const {return m_p_partner;}
 
 	void set_collision(Kugel<DIM>& other, const timeT& dt, bool b);
 };
