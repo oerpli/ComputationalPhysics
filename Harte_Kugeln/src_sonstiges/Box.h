@@ -189,15 +189,20 @@ public:
 
 	timeT next_event() const {return next_collision_pair.collision_time() ;}
 
-	timeT calc_wall_collision_time(const Kugel<DIM>& kugel) {
-		auto vel = kugel.velocity();
+	MatVec<timeT,DIM> calc_wall_collision_time(
+			const MatVec<lengthT,DIM>& pos, const MatVec<velocityT,DIM>& vel) {
 		MatVec<lengthT, DIM> border{};
 		velocityT null{};
 
 		for (unsigned i = 0; i < DIM; ++i)
 			if ( vel[i] > null )
 				border[i] = vec_abmessung[i];
-		MatVec<timeT, DIM> vec_time = ( border - kugel.position() ) / vel;
+		return ( border - pos ) / vel;
+	}
+
+	timeT calc_wall_collision_time(const Kugel<DIM>& kugel) {
+		MatVec<timeT, DIM> vec_time = calc_wall_collision_time(
+				kugel.position(), kugel.velocity() );
 
 		auto min_time = vec_time[0];
 		auto it_start = vec_time.begin();
