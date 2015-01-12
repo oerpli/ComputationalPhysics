@@ -24,10 +24,18 @@ class Box {
 	CollisionPair<DIM> next_collision_pair;
 	bool b_initiate_pos, b_initiate_vel;
 
+	//wrap for lvalue
+	MatVec<lengthT,DIM>& wrap (MatVec<lengthT,DIM>& pos) {
+		return pos -=  floor(pos/vec_abmessung) % vec_abmessung;
+	}
+
+	//wrap for rvalue
+	MatVec<lengthT,DIM> wrap (MatVec<lengthT,DIM>&& pos) {
+		return pos -=  floor(pos/vec_abmessung) % vec_abmessung;
+	}
+
 	void wrap_one(Kugel<DIM>& kugel) {
-		auto pos = kugel.position();
-		pos -=  floor(pos/vec_abmessung) % vec_abmessung;
-		kugel.position(pos);
+		kugel.position( wrap( kugel.position() ) );
 	}
 
 	MatVec<lengthT,DIM> rand_pos_vec() const {
