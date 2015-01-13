@@ -256,7 +256,7 @@ public:
 	}
 
 	void next_collision() {
-		auto k1 = next_collision_pair.kugel1(), k2 = next_collision_pair.kugel2();
+		auto &k1 = next_collision_pair.kugel1(), &k2 = next_collision_pair.kugel2();
 
 		next_collision_pair = set_collision(calc_event(k1,k2),k1,k2);
 		for_each (vec_kugel.begin(), vec_kugel.end(), [&](Kugel<DIM>& k) {
