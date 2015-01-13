@@ -159,6 +159,19 @@ class Box {
 		return CollisionPair<DIM>{k1,k2, t_ges, collision};
 	}
 
+	void collide(Kugel<DIM>& kugel1, Kugel<DIM>& kugel2) {
+		const auto v1 = kugel1.velocity(), v2 = kugel2.velocity();
+		const auto m1 = kugel1.mass(), m2 = kugel2.mass();
+
+		const auto dis =  dist( kugel1, kugel2 );
+		const auto n = dis / dis.norm();
+
+		const auto p = -( n * (n * (v2 - v1) ) ) * ( 2 * m1 * m2 / (m1 + m2) );
+
+		kugel1.velocity( v1 - ( p / m1) );
+		kugel2.velocity( v2 + ( p / m2) );
+	}
+
 	void collide(CollisionPair<DIM>& cp) {
 		return collide(cp.kugel1(), cp.kugel2());
 	}
