@@ -69,12 +69,6 @@ inline bool CollisionPair<DIM>::equal(const CollisionPair<DIM>& other) const {
 }
 
 //non class functions
-
-template<unsigned DIM>
-void collide_cp( CollisionPair<DIM>& cp) {
-	return collide(cp.kugel1(), cp.kugel2());
-}
-
 template<unsigned DIM>
 CollisionPair<DIM> set_collision(CollisionPair<DIM> cp, Kugel<DIM>& k) {
 	if ( &k == &cp.kugel1() ) k.set_collision(cp.kugel2(), cp.collision_time(), (bool)cp);

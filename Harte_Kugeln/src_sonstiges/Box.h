@@ -159,6 +159,10 @@ class Box {
 		return CollisionPair<DIM>{k1,k2, t_ges, collision};
 	}
 
+	void collide(CollisionPair<DIM>& cp) {
+		return collide(cp.kugel1(), cp.kugel2());
+	}
+
 public:
 	timeT time() const { return m_time; }
 
@@ -252,7 +256,7 @@ public:
 	timeT collide() {
 		timeT ret { fast_forward() };
 		if(next_collision_pair)
-			collide_cp(next_collision_pair);
+			collide(next_collision_pair);
 		next_collision();
 		return ret;
 	}
