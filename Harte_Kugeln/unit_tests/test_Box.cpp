@@ -100,7 +100,7 @@ void box_fastForward_time() {
 }
 
 void box_initiate_given_no_rand() {
-	MatVec<lengthT,3> pos1 { 0.5 *m }, pos2 {0.1};
+	MatVec<lengthT,3> pos1 { 0.5 *m }, pos2 {0.1 *m};
 	Box<3> box{box_dimension, 2, Kugel<3>{1 *kg, .1 *m}};
 
 	box[0].position(pos1);

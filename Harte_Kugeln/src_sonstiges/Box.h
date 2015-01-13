@@ -122,13 +122,13 @@ class Box {
 		MatVec<timeT,DIM> v_res_t { vec_abmessung / v };
 		v_res_t([&](timeT& t) {if (t < 0*s) t = -t;});
 		MatVec<timeT,DIM> v_act_t{ };
-		const MatVec<lengthT,DIM> pos_2 { vec_abmessung / 2 };
+		const MatVec<lengthT,DIM> pos_2 { vec_abmessung / dimlessT{2} };
 
 		MatVec<lengthT,DIM> pos { wrap( pos_2 + k1.position() - k2.position() ) };
 
 		MatVec<lengthT,DIM> v_res_pos{ };
 		for (unsigned i = 0; i < DIM; ++i) {
-			if (v[i] < 0) {
+			if (v[i] < 0 * mps) {
 				v_res_pos[i] = vec_abmessung[i];
 				v_act_t[i] = -(pos[i] / v[i]);
 			}
@@ -166,7 +166,7 @@ class Box {
 		const auto dis =  dist( kugel1, kugel2 );
 		const auto n = dis / dis.norm();
 
-		const auto p = -( n * (n * (v2 - v1) ) ) * ( 2 * m1 * m2 / (m1 + m2) );
+		const auto p = -( n * (n * (v2 - v1) ) ) * ( dimlessT{2} * m1 * m2 / (m1 + m2) );
 
 		kugel1.velocity( v1 - ( p / m1) );
 		kugel2.velocity( v2 + ( p / m2) );
@@ -222,7 +222,7 @@ public:
 	bool check_ekin_1() const {
 		energyT av{ };
 		for (auto &el : vec_kugel) av += el.ekin();
-		return av / vec_kugel.size() == 1 *N*m;
+		return av / (dimlessT)vec_kugel.size() == 1 *N*m;
 	}
 
 	bool initiate() {

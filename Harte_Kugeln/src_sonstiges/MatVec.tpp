@@ -169,7 +169,9 @@ template<typename ElementType, unsigned DIM>
 template<typename T2>
 inline auto MatVec<ElementType, DIM>::operator/ (const T2& s) const -> MatVec<decltype( ElementType{} / T2{} ), DIM>  {
 	  MatVec<decltype( ElementType{} / T2{} ), DIM> result{};
-	  if (s == 0) return MatVec<decltype( ElementType{} / T2{} ), DIM> { std::numeric_limits<ElementType>::max() };
+	  if (s == T2{})
+		  return MatVec<decltype( ElementType{} / T2{} ), DIM>
+	  	  	  {std::numeric_limits<decltype( ElementType{} / T2{} )>::max() };
 	  return operator*(1.0 / s);
 }
 
