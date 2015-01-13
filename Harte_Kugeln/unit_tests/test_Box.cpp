@@ -99,6 +99,41 @@ void box_fastForward_time() {
 	ASSERTM("", box.time() == dt );
 }
 
+void box_initiate_given_no_rand() {
+	MatVec<lengthT,3> pos1 { 0.5 *m }, pos2 {0.1};
+	Box<3> box{box_dimension, 2, Kugel<3>{1 *kg, .1 *m}};
+
+	box[0].position(pos1);
+	box[1].position(pos2);
+	box.initiate();
+
+	ASSERTM("", box[0].position() == pos1 && box[1].position() == pos2);
+}
+
+void box_initiate_given_rand() {
+	MatVec<lengthT,3> pos { 0.5 *m };
+	Box<3> box{box_dimension, 2, Kugel<3>{1 *kg, .1 *m}};
+
+	box[0].position(pos);
+	box[1].position(pos);
+	box.initiate();
+
+	ASSERTM("", box[0].position() != pos || box[1].position() != pos);
+}
+
+void box_collision_time_simple() {
+	MatVec<lengthT,3> pos{5 *m, 0 *m, 0 *m};
+	MatVec<velocityT,3> vel {1 *mps, 0 *mps, 0 *mps};
+	Box<3> box{MatVec<lengthT,3>{10*m}, 2, Kugel<3>{4 *kg, 1 *m}};
+
+	box[0].position(pos);
+	box[0].velocity(vel);
+	box.initiate();
+
+	auto coll_time = box.collide();
+	ASSERTM("", coll_time == 3 *s);
+}
+
 cute::suite make_suite_Box(){
 	cute::suite s;
 	s.push_back(CUTE(emptyBox));
@@ -112,5 +147,8 @@ cute::suite make_suite_Box(){
 	s.push_back(CUTE(kugel_distance));
 	s.push_back(CUTE(box_fastForward_pos));
 	s.push_back(CUTE(box_fastForward_time));
+	s.push_back(CUTE(box_initiate_given_no_rand));
+	s.push_back(CUTE(box_initiate_given_rand));
+	s.push_back(CUTE(box_collision_time_simple));
 	return s;
 }
