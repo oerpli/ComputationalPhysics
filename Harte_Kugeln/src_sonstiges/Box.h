@@ -307,6 +307,10 @@ public:
 		next_collision_pair <= k2;
 	}
 
+	const CollisionPair<DIM>& collision_pair() const {
+		return next_collision_pair;
+	}
+
 	template<class UnaryFunc, class BinaryFunc>
 	void operator() (UnaryFunc& ufunc, BinaryFunc& bfunc) const {
 		auto first = vec_kugel.cbegin(), last = vec_kugel.cend();
