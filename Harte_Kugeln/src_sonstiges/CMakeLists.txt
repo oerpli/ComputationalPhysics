@@ -1,2 +1,2 @@
-add_library(Histo Free_Histo.cpp)
-add_library(Rand Rand.cpp)
+add_library(Histo SHARED Free_Histo.cpp)
+add_library(Rand SHARED Rand.cpp)
