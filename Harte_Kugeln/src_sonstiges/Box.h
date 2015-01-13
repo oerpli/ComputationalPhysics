@@ -139,6 +139,7 @@ class Box {
 		const auto d2 = Pow(k1.radius() + k2.radius(), 2);
 		const auto d2v2 = d2 * v2;
 
+		MatVec<lengthT,DIM> r {};
 		auto rv = 0. *m *mps;
 		const auto rv0 = 0. *m *mps;
 		auto sr2 = 0. *m*m *mps*mps;
@@ -146,9 +147,10 @@ class Box {
 
 		for (unsigned i = 0; i < versuche; t_ges += forward(
 				pos, v, v_act_t, v_res_t, v_res_pos), ++i) {
-			rv = pos * v;
+			r = pos - pos_2;
+			rv = r * v;
 			if (rv >= rv0) continue;
-			sr2 = d2v2 - pos.norm2() * v2 + Pow(rv,2);
+			sr2 = d2v2 - r.norm2() * v2 + Pow(rv,2);
 			if (sr2 < sr20) continue;
 			t_ges += -(rv + sqrt(sr2))/v2;
 			collision = true;
