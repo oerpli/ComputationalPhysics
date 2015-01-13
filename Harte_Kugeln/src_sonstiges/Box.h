@@ -191,9 +191,27 @@ public:
 	Box(const MatVec<lengthT, DIM>& dim)
 			: Box{dim,0} {}
 
+	bool check_no_touching() const {
+		auto k1 = vec_kugel.cbegin(), last = vec_kugel.cend();
+		auto k2 = k1;
+
+		for(; k1 != last; ++k1)
+			for( k2 = k1 + 1; k2 != last; ++k2 )
+				if ( dist( *k1, *k2 ).norm() < k1->radius() + k2->radius() )
+					return false;
+		return true;
+	}
+
+	bool check_ekin_1() const {
+		energyT av{ };
+		for (auto &el : vec_kugel) av += el.ekin();
+		return av / vec_kugel.size() == 1 *N*m;
+	}
 
 	bool initiate() {
+		if (! b_initiate_pos) b_initiate_pos = check_no_touching();
 		if (! b_initiate_pos) b_initiate_pos = init_pos_rand();
+		if (! b_initiate_vel) b_initiate_vel = check_ekin_1();
 		if (! b_initiate_vel) b_initiate_vel = init_vel_rand();
 
 		init_next_collision();
