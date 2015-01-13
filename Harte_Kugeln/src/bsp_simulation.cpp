@@ -23,13 +23,18 @@ int main() {
 		vec_unary.push_back( new auswertung_bsp_average_energy<DIM> );
 	}
 	MatVec<lengthT,DIM> box_size{10*m, 10*m, 10*m}; //TODO: kann abhängig von Eingabe sein
-	Kugel<DIM> kugel1{.5 * kg, .5 * m}; //TODO: kann abhängig von Eingabe sein
+	Kugel<DIM> kugel1{.5 * kg, .1 * m}; //TODO: kann abhängig von Eingabe sein
 	MatVec<velocityT,DIM> vel{14*mps};
 	kugel1.velocity(vel);
 	Box<DIM> box{box_size, 10, kugel1}; //TODO: kann abhängig von Eingabe sein
 
-	if (! box.initiate()) return 1;
+	const CollisionPair<DIM> &cp = box.collision_pair();
+	unsigned count_no_coll { };
 
+	if (! box.initiate()) {
+		cout << "Zu viele Kugeln für Box.";
+		return 1;
+	}
 /*
 	cout << "\nVor Warmlauf\n\n";
 	box.print(cout);
@@ -40,9 +45,12 @@ int main() {
 	cout << '\n';
 	vec_binary.print_result(cout);
 
+	timeT coll_time { };
 	unsigned warm {(unsigned) 1E3};
 	for (unsigned i=0; i<warm; ++i) {
-		cout << box.collide() << '\n';
+		if (! cp) ++count_no_coll;
+		coll_time = box.collide();
+//		cout << coll_time << '\n';
 	}
 /*
 	cout << "\nNach Warmlauf\n\n";
@@ -64,6 +72,7 @@ int main() {
 			ausw_t_next = ausw_t_step;
 			box(vec_unary, vec_binary);
 		}
+		if (! cp) ++count_no_coll;
 		ausw_t_next -= box.collide();
 	}
 
@@ -71,4 +80,8 @@ int main() {
 	vec_unary.print_result(cout);
 	cout << '\n';
 	vec_binary.print_result(cout);
+
+	cout << "\n no collision: " << count_no_coll;
+	cout << " of " << warm + max_collision << " collisions";
+	cout << "  => " << count_no_coll * 100. / (warm + max_collision) << "%";
 }
