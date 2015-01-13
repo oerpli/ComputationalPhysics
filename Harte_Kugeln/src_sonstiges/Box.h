@@ -83,7 +83,7 @@ class Box {
 
 		energyT ekin{ };
 		for_each (it_begin, it_end, [&](const Kugel<DIM>& k){ekin+=k.ekin();});
-		dimlessT vel_scale = 1/sqrt( ekin / (N*m) );
+		dimlessT vel_scale = 1/sqrt( .1 * (ekin / (N*m)) );
 
 		for_each (it_begin, it_end, [&](Kugel<DIM>& k){k.velocity(k.velocity()*vel_scale);});
 		return true;
@@ -261,8 +261,6 @@ public:
 		next_collision_pair = set_collision(calc_event(k1,k2),k1,k2);
 		for_each (vec_kugel.begin(), vec_kugel.end(), [&](Kugel<DIM>& k) {
 			// Optimierung möglich, da wall_collision_time von k1 & k2 = const
-			if (&k != &k1) set_collision_if(calc_event(k,k1),k,k1);
-			if (&k != &k2) set_collision_if(calc_event(k,k2),k,k2);
 			next_collision_pair <= k;
 		});
 		next_collision_pair <= k1;
