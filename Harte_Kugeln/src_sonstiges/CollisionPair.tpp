@@ -1,9 +1,3 @@
-
-template<unsigned DIM>
-inline CollisionPair<DIM>::CollisionPair(Kugel<DIM>& kugel1, Kugel<DIM>& kugel2) :
-		p_kugel1 { &kugel1 }, p_kugel2 { &kugel2 }, dtime { 1E9 * s}, collision { } { //TODO dirty dtimes
-}
-
 template<unsigned DIM>
 inline CollisionPair<DIM>::CollisionPair(Kugel<DIM>& kugel1, Kugel<DIM>& kugel2,
 		timeT dtime, bool collision) :

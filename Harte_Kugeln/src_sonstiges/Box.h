@@ -199,11 +199,11 @@ public:
 
 	Box(const MatVec<lengthT, DIM>& dim, unsigned size, const Kugel<DIM>& kugel)
 		: m_time{},vec_kugel(size, kugel), vec_abmessung{dim}
-		, next_collision_pair{vec_kugel[0], vec_kugel[0]}
+		, next_collision_pair{}
 		, b_initiate_pos{false}, b_initiate_vel{false} {}
 	Box(const MatVec<lengthT, DIM>& dim, unsigned size)
 		: m_time{}, vec_kugel(size), vec_abmessung{dim}
-		, next_collision_pair{vec_kugel[0], vec_kugel[0]}
+		, next_collision_pair{}
 		, b_initiate_pos{false}, b_initiate_vel{false}  {}
 	Box(const MatVec<lengthT, DIM>& dim)
 			: Box{dim,0} {}

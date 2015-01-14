@@ -7,15 +7,13 @@
 using namespace std;
 
 void typeCastBool() {
-	Kugel<3> k{};
-	CollisionPair<3> cp{k,k};
+	CollisionPair<3> cp{};
 
 	ASSERTM("", ! cp);
 }
 
 void setBool() {
-	Kugel<3> k{};
-	CollisionPair<3> cp{k,k};
+	CollisionPair<3> cp{};
 	cp.set_collision(1*s,true);
 	ASSERTM("", cp);
 }
@@ -54,7 +52,7 @@ void equalSame() {
 
 void equalDiffButIdentKugel() {
 	Kugel<3> k1{}, k2{};
-	CollisionPair<3> cp1{k1,k1}, cp2{k2,k2};
+	CollisionPair<3> cp1{k1}, cp2{k2};
 	ASSERTM("", ! cp1.equal(cp2));
 }
 
@@ -71,8 +69,8 @@ void equalFalseCollisionSameTime() {
 }
 
 void assignment() {
-	Kugel<3> k1{},k2{};
-	CollisionPair<3> cp1{k1,k1}, cp2{k2,k2, 2*s, true};
+	Kugel<3> k{};
+	CollisionPair<3> cp1{}, cp2{k,k, 2*s, true};
 	cp1 = cp2;
 	ASSERTM("", cp1 == cp2);
 }
@@ -87,7 +85,7 @@ void assignLower() {
 void get_kugel1() {
 	Kugel<3> k1{}, k2{};
 	MatVec<velocityT,3> vel{1*mps,2*mps,3*mps};
-	CollisionPair<3> cp{k1,k2};
+	CollisionPair<3> cp{k1,k2,1*s,false};
 
 	k1.velocity(vel);
 	ASSERTM("", &cp.kugel1() == &k1);
@@ -95,7 +93,7 @@ void get_kugel1() {
 
 void get_kugel2() {
 	Kugel<3> k1{}, k2{};
-	CollisionPair<3> cp{k1,k2};
+	CollisionPair<3> cp{k1,k2,1*s,false};
 
 	ASSERTM("", &cp.kugel2() == &k2);
 }

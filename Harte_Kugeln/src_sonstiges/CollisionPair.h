@@ -14,12 +14,12 @@ private:
 	bool collision; // 0 für wall, 1 für kugel
 public:
 
-	CollisionPair() = delete;
-	CollisionPair(Kugel<DIM>& kugel1, Kugel<DIM>& kugel2);
+	CollisionPair() = default;
 	CollisionPair(Kugel<DIM>& kugel1, Kugel<DIM>& kugel2, timeT dtime,
 			bool collision);
-	CollisionPair(Kugel<DIM>& k) : p_kugel1{&k}, p_kugel2{k.collision_partner()},
+	explicit CollisionPair(Kugel<DIM>& k) : p_kugel1{&k}, p_kugel2{k.collision_partner()},
 			dtime{k.collision_time()}, collision{k.collision_bool()} {}
+	~CollisionPair() = default;
 
 	CollisionPair(const CollisionPair& other) = default;
 	CollisionPair(CollisionPair&& other) = default;
