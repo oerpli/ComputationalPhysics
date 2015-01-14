@@ -46,11 +46,12 @@ int main() {
 	vec_binary.print_result(cout);
 
 	timeT coll_time { };
-	unsigned warm {(unsigned) 1E3};
-	for (unsigned i=0; i<warm; ++i) {
+	timeT warm_time {3E3 *s};
+	while (box.time() <= warm_time) {
 		if (! cp) ++count_no_coll;
 		coll_time = box.collide();
 //		cout << coll_time << '\n';
+		++count_coll;
 	}
 /*
 	cout << "\nNach Warmlauf\n\n";
@@ -65,8 +66,9 @@ int main() {
 	cout << '\n';
 	vec_binary.print_result(cout);
 
-	unsigned max_collision{1000}; //TODO: kann abhängig von Eingabe sein
-	for (unsigned i = 0; i < max_collision; ++i) {
+	timeT simulation_time {1E5 *s}; //TODO: kann abhängig von Eingabe sein
+	timeT simulation_end{simulation_time + box.time()};
+	while (box.time() <= simulation_end){
 		while ( ausw_t_next < box.next_event() ) {
 			box.fast_forward(ausw_t_next);
 			ausw_t_next = ausw_t_step;
@@ -74,6 +76,7 @@ int main() {
 		}
 		if (! cp) ++count_no_coll;
 		ausw_t_next -= box.collide();
+		++count_coll;
 	}
 
 	cout << "Time: " << box.time() << '\n';
@@ -82,6 +85,6 @@ int main() {
 	vec_binary.print_result(cout);
 
 	cout << "\n no collision: " << count_no_coll;
-	cout << " of " << warm + max_collision << " collisions";
-	cout << "  => " << count_no_coll * 100. / (warm + max_collision) << "%";
+	cout << " of " << count_coll << " collisions";
+	cout << "  => " << count_no_coll * 100. / count_coll << "%\n";
 }
