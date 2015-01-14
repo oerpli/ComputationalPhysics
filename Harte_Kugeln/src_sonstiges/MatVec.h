@@ -12,22 +12,24 @@
 template<typename ElementType, unsigned DIM>
 class MatVec {
 private:
+	typedef MatVec<ElementType, DIM> self_t;
+
 	std::array<ElementType, DIM> m_vec;
 
   // make negative
 	void neg();
 public:
 	MatVec() = default;
-	MatVec(ElementType element);
+	explicit MatVec(ElementType element);
 	MatVec(std::initializer_list<ElementType> args);
-	MatVec(const MatVec<ElementType, DIM>& mec) = default;
-	MatVec(MatVec<ElementType, DIM>&& mec) = default;
+	MatVec(const self_t& mec) = default;
+	MatVec(self_t&& mec) = default;
 	~MatVec() = default;
 
-	MatVec<ElementType, DIM>& operator =(const MatVec<ElementType, DIM>& mec) = default;
-	MatVec<ElementType, DIM>& operator =(MatVec<ElementType, DIM> && mec) = default;
+	self_t& operator =(const self_t& mec) = default;
+	self_t& operator =(self_t && mec) = default;
 
-	friend void swap(MatVec<ElementType, DIM>& meca, MatVec<ElementType, DIM>& mecb) {
+	friend void swap(self_t& meca, self_t& mecb) {
 		std::swap(meca.m_vec, mecb.m_vec);
 	}
 
@@ -36,83 +38,62 @@ public:
 	const ElementType& operator [](int i) const;
 
 	//Erlaubt iteration durch Vektor und daher range based for
-	auto begin() -> decltype(m_vec.begin());
-	auto end() -> decltype(m_vec.end());
+	auto begin();
+	auto cbegin();
+
+	auto end();
+	auto cend();
 
 	//Für overload << von aussen
 	std::ostream& print(std::ostream& os) const;
 
-	bool operator ==(const MatVec<ElementType, DIM>& other) const;
-	bool operator !=(const MatVec<ElementType, DIM>& other) const;
+	bool operator ==(const self_t& other) const;
+	bool operator !=(const self_t& other) const;
+
 
 	// Vektoraddition
-	MatVec<ElementType,DIM>& operator +=(
-			const MatVec<ElementType, DIM>& vec2);
-
-	MatVec<ElementType,DIM> operator +(
-			const MatVec<ElementType, DIM>& vec2) const;
+	self_t operator +(const self_t& vec2) const;
+	self_t& operator +=(const self_t& vec2);
 
 	// Addition jedes Elements mit Skalar
-	template<typename T2>
-	auto operator+ (const T2& s) const -> MatVec<decltype( ElementType{} + T2{} ), DIM>;
+	self_t operator +(const ElementType& s) const;
 
 	// Vektorsubtraktion
-	template<typename T2>
-	auto operator -(
-			const MatVec<T2, DIM>& vec2) const -> MatVec<decltype(ElementType {}- T2 {}),DIM>;
-
-	// Vektorsubtraktion Zuweisung
-	MatVec<ElementType,DIM>& operator -=(const MatVec<ElementType, DIM>& vec2);
+	self_t operator -(const self_t& vec2) const;
+	self_t& operator -=(const self_t& vec2);
 
 	// Subtraktion jedes Elements mit Skalar
-	template<typename T2>
-	auto operator- (const T2& s) const -> MatVec<decltype( ElementType{} - T2{} ), DIM>;
+	self_t operator -(const ElementType& s) const;
+	self_t&  operator -=(const ElementType& s);
 
-	// Subtraktion Zuweisung jedes Elements mit Skalar
-	MatVec<ElementType,DIM>&  operator -= (const ElementType& s) {
-		for (auto& el : m_vec) el -= s;
-		return *this;
-	}
+	// return negative vector
+	self_t operator -() const;
+
 
 	// Skalarprodukt
 	template<typename T2>
-	auto operator* (const MatVec<T2, DIM>& vec2) const -> decltype( ElementType{} * T2{} );
+	auto operator *(const MatVec<T2, DIM>& vec2) const;
 
 	// Multiplikation mit Skalar
 	template<typename T2>
-	auto operator* (const T2& s) const -> MatVec<decltype( ElementType{} * T2{} ), DIM>;
+	auto operator *(const T2& s) const;
 
 	// Multiplikation zwei Vektoren elementweise
 	template<typename T2>
-	auto operator% (
-			const MatVec<T2, DIM>& other) const -> MatVec<decltype( ElementType{} * T2{} ), DIM> {
-		MatVec<decltype( ElementType{} * T2{} ), DIM> result {};
-		for (unsigned i = 0; i < DIM; ++i)
-			result[i] = m_vec[i] * other[i];
-		return result;
-	}
+	auto operator %(const MatVec<T2, DIM>& other) const;
+
+
 	// Division durch Skalar
 	template<typename T2>
-	auto operator/ (const T2& s) const -> MatVec<decltype( ElementType{} / T2{} ), DIM>;
+	auto operator /(const T2& s) const;
 
 	// Division zwei Vektoren elementweise
 	template<typename T2>
-	auto operator/ (
-			const MatVec<T2, DIM>& other) const -> MatVec<decltype( ElementType{} / T2{} ), DIM> {
-		MatVec<decltype( ElementType{} / T2{} ), DIM> result {};
-		for (unsigned i = 0; i < DIM; ++i) {
-			if (other[i] == T2{})
-				result[i] = std::numeric_limits<decltype( ElementType{} / T2{} )>::max();
-			else result[i] = m_vec[i] / other[i];
-		}
-		return result;
-	}
+	auto operator /(const MatVec<T2, DIM>& other) const;
 
-	// return negative vector
-	MatVec<ElementType, DIM> operator- () const;
 
-	auto norm2() const -> decltype(ElementType {}* ElementType {});
-	auto norm() const -> decltype(ElementType {});
+	auto norm2() const;
+	auto norm() const;
 
 	template<class UnaryFunction>
 	UnaryFunction operator()(UnaryFunction f) {
@@ -121,22 +102,16 @@ public:
 	}
 };
 
-template<typename T, unsigned DIM>
-std::ostream& operator<< (std::ostream& os, const MatVec<T,DIM>& vec) {
-	return vec.print(os);
-}
 
 template<typename T, unsigned DIM>
-MatVec<T,DIM> floor(MatVec<T,DIM> mec) {
-	mec([](decltype(mec[0])& el){el = floor(el); });
-	return mec;
-}
+std::ostream& operator<< (std::ostream& os, const MatVec<T,DIM>& vec);
 
 template<typename T, unsigned DIM>
-MatVec<T,DIM> round(MatVec<T,DIM> mec) {
-	mec([](decltype(mec[0])& el){el = round(el); });
-	return mec;
-}
+MatVec<T,DIM> floor(MatVec<T,DIM> mec);
+
+template<typename T, unsigned DIM>
+MatVec<T,DIM> round(MatVec<T,DIM> mec);
+
 
 #include "MatVec.tpp"
 
