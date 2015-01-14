@@ -12,13 +12,12 @@ private:
 	Kugel<DIM> *p_kugel1, *p_kugel2;
 	timeT dtime; //change to timeT
 	bool collision; // 0 für wall, 1 für kugel
-public:
 
+public:
 	CollisionPair() = default;
 	CollisionPair(Kugel<DIM>& kugel1, Kugel<DIM>& kugel2, timeT dtime,
 			bool collision);
-	explicit CollisionPair(Kugel<DIM>& k) : p_kugel1{&k}, p_kugel2{k.collision_partner()},
-			dtime{k.collision_time()}, collision{k.collision_bool()} {}
+	explicit CollisionPair(Kugel<DIM>& k);
 	~CollisionPair() = default;
 
 	CollisionPair(const CollisionPair& other) = default;
@@ -74,8 +73,7 @@ CollisionPair<DIM> set_collision(CollisionPair<DIM> cp, Kugel<DIM>& k1, Kugel<DI
 template<unsigned DIM>
 CollisionPair<DIM> set_collision_if(CollisionPair<DIM> cp, Kugel<DIM>& k);
 template<unsigned DIM>
-CollisionPair<DIM> set_collision_if(CollisionPair<DIM> cp, Kugel<DIM>& k1,
-		Kugel<DIM>& k2);
+CollisionPair<DIM> set_collision_if(CollisionPair<DIM> cp, Kugel<DIM>& k1, Kugel<DIM>& k2);
 
 #include "CollisionPair.tpp"
 

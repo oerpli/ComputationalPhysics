@@ -4,6 +4,10 @@ inline CollisionPair<DIM>::CollisionPair(Kugel<DIM>& kugel1, Kugel<DIM>& kugel2,
 		p_kugel1 { &kugel1 }, p_kugel2 { &kugel2 }, dtime { dtime }, collision {
 				collision } { }
 
+template<unsigned DIM>
+inline CollisionPair<DIM>::CollisionPair(Kugel<DIM>& k) :
+		p_kugel1{&k}, p_kugel2{k.collision_partner()},
+		dtime{k.collision_time()}, collision{k.collision_bool()} { }
 
 template<unsigned DIM>
 CollisionPair<DIM>& CollisionPair<DIM>::operator =(Kugel<DIM>& k) {
