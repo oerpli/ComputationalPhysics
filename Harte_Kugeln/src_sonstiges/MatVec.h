@@ -17,16 +17,15 @@ private:
   // make negative
 	void neg();
 public:
-	MatVec();
+	MatVec() = default;
 	MatVec(ElementType element);
 	MatVec(std::initializer_list<ElementType> args);
-	MatVec(const MatVec<ElementType, DIM>& mec);
-	MatVec(MatVec<ElementType, DIM> && mec);
-	virtual ~MatVec();
+	MatVec(const MatVec<ElementType, DIM>& mec) = default;
+	MatVec(MatVec<ElementType, DIM>&& mec) = default;
+	~MatVec() = default;
 
-	MatVec<ElementType, DIM>& operator =(const MatVec<ElementType, DIM>& mec);
-
-	MatVec<ElementType, DIM>& operator =(MatVec<ElementType, DIM> && mec);
+	MatVec<ElementType, DIM>& operator =(const MatVec<ElementType, DIM>& mec) = default;
+	MatVec<ElementType, DIM>& operator =(MatVec<ElementType, DIM> && mec) = default;
 
 	friend void swap(MatVec<ElementType, DIM>& meca, MatVec<ElementType, DIM>& mecb) {
 		std::swap(meca.m_vec, mecb.m_vec);

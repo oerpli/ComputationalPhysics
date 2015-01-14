@@ -6,19 +6,6 @@ inline void MatVec<ElementType, DIM>::neg() {
 }
 
 template<typename ElementType, unsigned DIM>
-inline MatVec<ElementType, DIM>::MatVec(MatVec<ElementType, DIM> && mec) :
-		MatVec { } {
-	swap(*this, mec);
-}
-
-template<typename ElementType, unsigned DIM>
-inline MatVec<ElementType, DIM>::MatVec(const MatVec<ElementType, DIM>& mec) :
-		m_vec { } {
-	for (unsigned i = 0; i < DIM; ++i)
-		m_vec[i] = mec.m_vec[i];
-}
-
-template<typename ElementType, unsigned DIM>
 inline MatVec<ElementType, DIM>::MatVec(std::initializer_list<ElementType> args) :
 		MatVec { } {
 	auto begin = args.begin(), end = args.end();
@@ -31,29 +18,6 @@ template<typename ElementType, unsigned DIM>
 inline MatVec<ElementType, DIM>::MatVec(ElementType element) :
 		m_vec{} {
 	m_vec.fill(element);
-}
-
-template<typename ElementType, unsigned DIM>
-inline MatVec<ElementType, DIM>::MatVec() :
-		m_vec{} {
-}
-
-template<typename ElementType, unsigned DIM>
-inline MatVec<ElementType, DIM>::~MatVec() {
-}
-
-template<typename ElementType, unsigned DIM>
-inline MatVec<ElementType, DIM>& MatVec<ElementType, DIM>::operator =(
-		MatVec<ElementType, DIM> && mec) {
-	swap(*this, mec);
-	return *this;
-}
-
-template<typename ElementType, unsigned DIM>
-inline MatVec<ElementType, DIM>& MatVec<ElementType, DIM>::operator =(
-		const MatVec<ElementType, DIM>& mec) {
-	m_vec = mec.m_vec;
-	return *this;
 }
 
 template<typename ElementType, unsigned DIM>
