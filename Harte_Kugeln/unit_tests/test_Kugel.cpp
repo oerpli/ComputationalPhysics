@@ -21,6 +21,13 @@ void constructorMassLength_R() {
 	ASSERTM("", k.radius() == kr);
 }
 
+void copyConstructor() {
+	massT km{3*kg}; lengthT kr{5*m};
+	Kugel<3> k1{km,kr};
+	Kugel<3> k2{k1};
+	ASSERTM("", k2.mass() == km && k2.radius() == kr);
+}
+
 void compareKugelIdentical() {
 	Kugel<3> k{};
 	ASSERTM("", k == k);
@@ -71,6 +78,7 @@ cute::suite make_suite_Kugel(){
 	s.push_back(CUTE(constructorEmpty));
 	s.push_back(CUTE(constructorMassLength_Mass));
 	s.push_back(CUTE(constructorMassLength_R));
+	s.push_back(CUTE(copyConstructor));
 	s.push_back(CUTE(compareKugelSame));
 	s.push_back(CUTE(setVelocity_Velocity));
 	s.push_back(CUTE(setVelocity_Energy));
