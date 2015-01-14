@@ -1,7 +1,7 @@
 cmake_minimum_required (VERSION 2.6)
 project (Harte_Kugeln)
 
-list( APPEND CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS} -Wall -g -ftest-coverage -fprofile-arcs -fmessage-length=0 ")
+list( APPEND CMAKE_CXX_FLAGS "-std=c++1y ${CMAKE_CXX_FLAGS} -Wall -g -ftest-coverage -fprofile-arcs -fmessage-length=0 ")
 
 
 #use boost units for Abraham
