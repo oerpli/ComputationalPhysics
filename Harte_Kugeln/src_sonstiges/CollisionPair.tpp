@@ -6,6 +6,27 @@ inline CollisionPair<DIM>::CollisionPair(Kugel<DIM>& kugel1, Kugel<DIM>& kugel2,
 
 
 template<unsigned DIM>
+CollisionPair<DIM>& CollisionPair<DIM>::operator =(Kugel<DIM>& k) {
+	return this->operator=( CollisionPair<DIM>{k} );
+}
+
+template<unsigned DIM>
+template<class OtherCollisionPair>
+CollisionPair<DIM>& CollisionPair<DIM>::operator <=(
+		OtherCollisionPair&& other) {
+	if (other < *this)
+		return this->operator =(std::forward<OtherCollisionPair>(other));
+
+	return *this;
+}
+
+template<unsigned DIM>
+CollisionPair<DIM>& CollisionPair<DIM>::operator <=(Kugel<DIM>& k) {
+	if ( k.collision_time() < dtime ) return operator=(k);
+	return *this;
+}
+
+template<unsigned DIM>
 bool CollisionPair<DIM>::operator ==(const CollisionPair<DIM> other) {
 	bool result { this->p_kugel1 == other.p_kugel1 };
 	if (!result)
@@ -24,13 +45,13 @@ bool CollisionPair<DIM>::operator ==(const CollisionPair<DIM> other) {
 }
 
 template<unsigned DIM>
-template<class OtherCollisionPair>
-inline CollisionPair<DIM>& CollisionPair<DIM>::operator <=(
-		OtherCollisionPair&& other) {
-	if (other < *this)
-		return this->operator =(std::forward<OtherCollisionPair>(other));
+inline bool CollisionPair<DIM>::operator <(const CollisionPair<DIM>& other) const {
+	return dtime < other.dtime;
+}
 
-	return *this;
+template<unsigned DIM>
+inline bool CollisionPair<DIM>::operator >(const CollisionPair<DIM>& other) const {
+	return other < *this;
 }
 
 template<unsigned DIM>
@@ -47,15 +68,22 @@ inline void CollisionPair<DIM>::fast_forward(const timeT& dt) {
 }
 
 template<unsigned DIM>
-inline bool CollisionPair<DIM>::operator <(const CollisionPair<DIM>& other) const {
-	return dtime < other.dtime;
-}
+inline Kugel<DIM>& CollisionPair<DIM>::kugel1() {return *p_kugel1;}
 
 template<unsigned DIM>
-inline bool CollisionPair<DIM>::operator >(const CollisionPair<DIM>& other) const {
-	return other < *this;
-}
+inline const Kugel<DIM>& CollisionPair<DIM>::kugel1() const {return *p_kugel1;}
 
+template<unsigned DIM>
+inline Kugel<DIM>& CollisionPair<DIM>::kugel2() {return *p_kugel2;}
+
+template<unsigned DIM>
+inline const Kugel<DIM>& CollisionPair<DIM>::kugel2() const {return *p_kugel2;}
+
+template<unsigned DIM>
+inline timeT CollisionPair<DIM>::collision_time() const {return dtime;}
+
+template<unsigned DIM>
+inline CollisionPair<DIM>::operator bool() const { return collision; }
 
 //non class functions
 template<unsigned DIM>

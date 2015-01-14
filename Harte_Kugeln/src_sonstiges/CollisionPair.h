@@ -27,18 +27,13 @@ public:
 	CollisionPair& operator =(const CollisionPair& other) = default;
 	CollisionPair& operator =(CollisionPair&& other) = default;
 
-	CollisionPair<DIM>& operator =(Kugel<DIM>& k) {
-		return this->operator=( CollisionPair<DIM>{k} );
-	}
+	CollisionPair<DIM>& operator =(Kugel<DIM>& k);
 
 	// if other.dtime < this->dtime assign other to this
 	// perfect forwarding to operator=
 	template<class OtherCollisionPair>
 	CollisionPair<DIM>& operator <=(OtherCollisionPair&& other);
-	CollisionPair<DIM>& operator <=(Kugel<DIM>& k) {
-		if ( k.collision_time() < dtime ) return operator=(k);
-		return *this;
-	}
+	CollisionPair<DIM>& operator <=(Kugel<DIM>& k);
 
 	friend void swap (CollisionPair<DIM>& cp1, CollisionPair<DIM>& cp2) {
 		std::swap(cp1.p_kugel1, cp2.p_kugel1);
@@ -50,22 +45,25 @@ public:
 
 	bool operator ==(const CollisionPair<DIM> other);
 
-	void set_collision(Kugel<DIM>& first, Kugel<DIM>& other, const timeT& dt, bool b);
-	void fast_forward(const timeT& dt);
-
-	auto collision_time() const -> decltype(dtime) {return dtime;}
-
-	Kugel<DIM>& kugel1() {return *p_kugel1;}
-	Kugel<DIM>& kugel2() {return *p_kugel2;}
-
-	const Kugel<DIM>& kugel1() const {return *p_kugel1;}
-	const Kugel<DIM>& kugel2() const {return *p_kugel2;}
 	// Compares based on dtime
 	bool operator <(const CollisionPair<DIM>& other) const;
 	bool operator >(const CollisionPair<DIM>& other) const;
 
+
+	void set_collision(Kugel<DIM>& first, Kugel<DIM>& other, const timeT& dt, bool b);
+	void fast_forward(const timeT& dt);
+
+
+	Kugel<DIM>& kugel1();
+	const Kugel<DIM>& kugel1() const;
+
+	Kugel<DIM>& kugel2();
+	const Kugel<DIM>& kugel2() const;
+
+	timeT collision_time() const;
+
 	//typecast to bool
-	explicit operator bool() const { return collision; }
+	explicit operator bool() const;
 };
 
 template<unsigned DIM>
