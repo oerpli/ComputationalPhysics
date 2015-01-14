@@ -1,6 +1,8 @@
 #ifndef UNIT_TESTS_COLLISIONPAIR_H_
 #define UNIT_TESTS_COLLISIONPAIR_H_
 
+#include <utility>
+
 #include "Kugel.h"
 #include "units_typedef.h"
 
@@ -19,6 +21,25 @@ public:
 	CollisionPair(Kugel<DIM>& k) : p_kugel1{&k}, p_kugel2{k.collision_partner()},
 			dtime{k.collision_time()}, collision{k.collision_bool()} {}
 
+	CollisionPair(const CollisionPair& other) = default;
+	CollisionPair(CollisionPair&& other) = default;
+
+	CollisionPair& operator =(const CollisionPair& other) = default;
+	CollisionPair& operator =(CollisionPair&& other) = default;
+
+	CollisionPair<DIM>& operator =(Kugel<DIM>& k) {
+		return this->operator=( CollisionPair<DIM>{k} );
+	}
+
+	// if other.dtime < this->dtime assign other to this
+	// perfect forwarding to operator=
+	template<class OtherCollisionPair>
+	CollisionPair<DIM>& operator <=(OtherCollisionPair&& other);
+	CollisionPair<DIM>& operator <=(Kugel<DIM>& k) {
+		if ( k.collision_time() < dtime ) return operator=(k);
+		return *this;
+	}
+
 	friend void swap (CollisionPair<DIM>& cp1, CollisionPair<DIM>& cp2) {
 		std::swap(cp1.p_kugel1, cp2.p_kugel1);
 		std::swap(cp1.p_kugel2, cp2.p_kugel2);
@@ -27,18 +48,18 @@ public:
 
 	}
 
-	CollisionPair<DIM>& operator =(CollisionPair<DIM> other);
-	CollisionPair<DIM>& operator =(Kugel<DIM>& k) {
-		CollisionPair<DIM> buf {k};
-		swap (*this, buf);
-		return *this;
-	}
+	bool operator ==(const CollisionPair<DIM> other) {
+		bool result {this->p_kugel1 == other.p_kugel1};
+		if (! result) return result;
 
-	// if other < this assign other to this
-	CollisionPair<DIM>& operator <=(const CollisionPair<DIM>& other);
-	CollisionPair<DIM>& operator <=(Kugel<DIM>& k) {
-		if ( k.collision_time() < dtime ) return operator=(k);
-		return *this;
+		result &= this->p_kugel2 == other.p_kugel2;
+		if (! result) return result;
+
+		result &= this->dtime == other.dtime;
+		if (! result) return result;
+
+		result &= this->collision == other.collision;
+		return result;
 	}
 
 	void set_collision(Kugel<DIM>& first, Kugel<DIM>& other, const timeT& dt, bool b);
@@ -60,7 +81,7 @@ public:
 	bool equal(const CollisionPair<DIM>& other) const;
 
 	//typecast to bool
-	operator bool() const { return collision; }
+	explicit operator bool() const { return collision; }
 };
 
 template<unsigned DIM>

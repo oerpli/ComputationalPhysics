@@ -11,17 +11,11 @@ inline CollisionPair<DIM>::CollisionPair(Kugel<DIM>& kugel1, Kugel<DIM>& kugel2,
 				collision } { }
 
 template<unsigned DIM>
-inline CollisionPair<DIM>& CollisionPair<DIM>::operator =(
-		CollisionPair<DIM> other) {
-	swap(*this, other);
-	return *this;
-}
-
-template<unsigned DIM>
+template<class OtherCollisionPair>
 inline CollisionPair<DIM>& CollisionPair<DIM>::operator <=(
-		const CollisionPair<DIM>& other) {
+		OtherCollisionPair&& other) {
 	if (other < *this)
-		return operator =(other);
+		return this->operator =(std::forward<OtherCollisionPair>(other));
 
 	return *this;
 }
