@@ -21,6 +21,7 @@ private:
 	bool m_b_collision;
 
 	void update_ekin();
+
 public:
 	Kugel() = default;
 	Kugel(const Kugel& other) = default;
@@ -42,27 +43,32 @@ public:
 			swap(kugelA.m_ekin, kugelB.m_ekin);
 	}
 
-	bool operator==(const Kugel<DIM>& other) const;
+	bool operator ==(const Kugel<DIM>& other) const;
 
-	auto radius() const -> decltype(m_radius) {return m_radius;}
 
-	auto mass() const -> decltype(m_mass) {return m_mass;}
+	auto radius() const;
+
+	auto mass() const;
 
 	void velocity(MatVec<velocityT, DIM> vec);
-	auto velocity() const -> decltype(vec_vel);
+	auto velocity() const;
 
 	void position(MatVec<lengthT, DIM> vec);
-	auto position() const -> decltype(vec_pos);
+	auto position() const;
 
-	auto ekin() const -> decltype(m_ekin);
+	auto ekin() const;
 
 	void fast_forward(const timeT& dt);
 
-	timeT collision_time() const;
-	bool collision_bool() const {return m_b_collision;}
-	Kugel<DIM>* collision_partner() const {return m_p_partner;}
 
 	void set_collision(Kugel<DIM>& other, const timeT& dt, bool b);
+
+	timeT collision_time() const;
+
+	bool collision_bool() const;
+
+	Kugel<DIM>* collision_partner() const;
+
 
 	std::ostream& print(std::ostream & os = std::cout) const;
 };
