@@ -3,7 +3,6 @@
 #include <algorithm>
 #include <typeinfo>
 
-#include "../src_sonstiges/MetaKugel.h"
 #include "MatVec.h"
 #include "Box.h"
 using namespace std;
