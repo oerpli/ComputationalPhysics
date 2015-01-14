@@ -29,7 +29,7 @@ int main() {
 	Box<DIM> box{box_size, 10, kugel1}; //TODO: kann abhängig von Eingabe sein
 
 	const CollisionPair<DIM> &cp = box.collision_pair();
-	unsigned count_no_coll { };
+	unsigned count_no_coll { }, count_coll{ };
 
 	if (! box.initiate()) {
 		cout << "Zu viele Kugeln für Box.";
