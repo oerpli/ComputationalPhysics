@@ -48,23 +48,9 @@ public:
 
 	}
 
-	bool operator ==(const CollisionPair<DIM> other) {
-		bool result {this->p_kugel1 == other.p_kugel1};
-		if (! result) return result;
-
-		result &= this->p_kugel2 == other.p_kugel2;
-		if (! result) return result;
-
-		result &= this->dtime == other.dtime;
-		if (! result) return result;
-
-		result &= this->collision == other.collision;
-		return result;
-	}
+	bool operator ==(const CollisionPair<DIM> other);
 
 	void set_collision(Kugel<DIM>& first, Kugel<DIM>& other, const timeT& dt, bool b);
-	void set_collision(Kugel<DIM>& other, const timeT& dt, bool b);
-	void set_collision(const timeT& dt, bool b);
 	void fast_forward(const timeT& dt);
 
 	auto collision_time() const -> decltype(dtime) {return dtime;}
@@ -78,8 +64,6 @@ public:
 	bool operator <(const CollisionPair<DIM>& other) const;
 	bool operator >(const CollisionPair<DIM>& other) const;
 
-	bool equal(const CollisionPair<DIM>& other) const;
-
 	//typecast to bool
 	explicit operator bool() const { return collision; }
 };
@@ -92,7 +76,8 @@ CollisionPair<DIM> set_collision(CollisionPair<DIM> cp, Kugel<DIM>& k1, Kugel<DI
 template<unsigned DIM>
 CollisionPair<DIM> set_collision_if(CollisionPair<DIM> cp, Kugel<DIM>& k);
 template<unsigned DIM>
-CollisionPair<DIM> set_collision_if(CollisionPair<DIM> cp, Kugel<DIM>& k1, Kugel<DIM>& k2);
+CollisionPair<DIM> set_collision_if(CollisionPair<DIM> cp, Kugel<DIM>& k1,
+		Kugel<DIM>& k2);
 
 #include "CollisionPair.tpp"
 

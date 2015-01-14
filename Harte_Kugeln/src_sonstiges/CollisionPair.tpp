@@ -4,6 +4,25 @@ inline CollisionPair<DIM>::CollisionPair(Kugel<DIM>& kugel1, Kugel<DIM>& kugel2,
 		p_kugel1 { &kugel1 }, p_kugel2 { &kugel2 }, dtime { dtime }, collision {
 				collision } { }
 
+
+template<unsigned DIM>
+bool CollisionPair<DIM>::operator ==(const CollisionPair<DIM> other) {
+	bool result { this->p_kugel1 == other.p_kugel1 };
+	if (!result)
+		return result;
+
+	result &= this->p_kugel2 == other.p_kugel2;
+	if (!result)
+		return result;
+
+	result &= this->dtime == other.dtime;
+	if (!result)
+		return result;
+
+	result &= this->collision == other.collision;
+	return result;
+}
+
 template<unsigned DIM>
 template<class OtherCollisionPair>
 inline CollisionPair<DIM>& CollisionPair<DIM>::operator <=(
@@ -23,19 +42,6 @@ inline void CollisionPair<DIM>::set_collision(Kugel<DIM>& first, Kugel<DIM>& oth
 }
 
 template<unsigned DIM>
-inline void CollisionPair<DIM>::set_collision(Kugel<DIM>& other, const timeT& dt, bool b) {
-	p_kugel2 = &other; 
-	dtime = dt;
-	collision = b;
-}
-
-template<unsigned DIM>
-inline void CollisionPair<DIM>::set_collision(const timeT& dt, bool b) {
-	dtime = dt;
-	collision = b;
-}
-
-template<unsigned DIM>
 inline void CollisionPair<DIM>::fast_forward(const timeT& dt) {
 	dtime -= dt;
 }
@@ -50,11 +56,6 @@ inline bool CollisionPair<DIM>::operator >(const CollisionPair<DIM>& other) cons
 	return other < *this;
 }
 
-template<unsigned DIM>
-inline bool CollisionPair<DIM>::equal(const CollisionPair<DIM>& other) const {
-	return (collision == other.collision && dtime == other.dtime
-			&& p_kugel1 == other.p_kugel1 && p_kugel2 == other.p_kugel2);
-}
 
 //non class functions
 template<unsigned DIM>

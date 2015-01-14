@@ -12,12 +12,6 @@ void typeCastBool() {
 	ASSERTM("", ! cp);
 }
 
-void setBool() {
-	CollisionPair<3> cp{};
-	cp.set_collision(1*s,true);
-	ASSERTM("", cp);
-}
-
 void compareTimeSimpleLower() {
 	Kugel<3> k{};
 	CollisionPair<3> cp1{k,k, 1.0 * s, true}, cp2{k,k, 2.0 * s, true};
@@ -47,25 +41,25 @@ void compareTimeCollisionFalseTrueLower() {
 void equalSame() {
 	Kugel<3> k{};
 	CollisionPair<3> cp{k,k, 1.0 * s, false};
-	ASSERTM("", cp.equal(cp));
+	ASSERTM("", cp == cp);
 }
 
 void equalDiffButIdentKugel() {
 	Kugel<3> k1{}, k2{};
 	CollisionPair<3> cp1{k1}, cp2{k2};
-	ASSERTM("", ! cp1.equal(cp2));
+	ASSERTM("", ! (cp1 == cp2));
 }
 
 void equalIdent() {
 	Kugel<3> k{};
 	CollisionPair<3> cp1{k,k, 1.0 * s, true}, cp2{k,k, 1.0 * s, true};
-	ASSERTM("", cp1.equal(cp2));
+	ASSERTM("", cp1 == cp2);
 }
 
 void equalFalseCollisionSameTime() {
 	Kugel<3> k{};
 	CollisionPair<3> cp1{k,k, 1.0 * s, false}, cp2{k,k, 1.0 * s, true};
-	ASSERTM("", ! cp1.equal(cp2));
+	ASSERTM("", ! (cp1 == cp2));
 }
 
 void assignment() {
@@ -102,7 +96,6 @@ cute::suite make_suite_CollisionPair(){
 	cute::suite s;
 
 	s.push_back(CUTE(typeCastBool));
-	s.push_back(CUTE(setBool));
 	s.push_back(CUTE(compareTimeSimpleLower));
 	s.push_back(CUTE(compareTimeSimpleGreater));
 	s.push_back(CUTE(compareTimeCollisionTrueFalseLower));
