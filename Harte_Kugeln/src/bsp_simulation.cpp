@@ -8,6 +8,8 @@
 
 #include "auswertung_bsp_average_vel.h"
 #include "auswertung_bsp_average_energy.h"
+#include "Free_Histo.h"
+#include "PairDistribution.h"
 #include <memory>
 #include "AuswertVec.h"
 
@@ -21,12 +23,13 @@ int main() {
 	{//TODO: kann abhängig von Eingabe sein
 		vec_unary.push_back( new auswertung_bsp_average_vel<DIM> );
 		vec_unary.push_back( new auswertung_bsp_average_energy<DIM> );
+		//vec_binary.push_back( new PairDistribution<DIM>(3*0.1) );  TODO: Free_Histo scheint nicht gelinkt zu werden(??)
 	}
 	MatVec<lengthT,DIM> box_size{10*m, 10*m, 10*m}; //TODO: kann abhängig von Eingabe sein
 	Kugel<DIM> kugel1{.5 * kg, .1 * m}; //TODO: kann abhängig von Eingabe sein
 	MatVec<velocityT,DIM> vel{14*mps};
 	kugel1.velocity(vel);
-	Box<DIM> box{box_size, 10, kugel1}; //TODO: kann abhängig von Eingabe sein
+	Box<DIM> box{box_size, 32, kugel1}; //TODO: kann abhängig von Eingabe sein
 
 	const CollisionPair<DIM> &cp = box.collision_pair();
 	unsigned count_no_coll { }, count_coll{ };
@@ -35,11 +38,11 @@ int main() {
 		cout << "Zu viele Kugeln für Box.";
 		return 1;
 	}
-/*
+
 	cout << "\nVor Warmlauf\n\n";
 	box.print(cout);
 	cout << '\n';
-*/
+
 	box(vec_unary,vec_binary);
 	vec_unary.print_result(cout);
 	cout << '\n';

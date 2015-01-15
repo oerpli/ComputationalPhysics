@@ -28,5 +28,6 @@ public:
 
 	void output_reset();
 
+	unsigned get_count() const {return count;}
 };
 #endif //FREE_HISTO_H_

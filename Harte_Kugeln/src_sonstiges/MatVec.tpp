@@ -204,5 +204,14 @@ MatVec<T,DIM> round(MatVec<T,DIM> mec) {
 	return mec;
 }
 
+template<typename T, unsigned DIM>
+T min(MatVec<T,DIM> mec) {
+	T result {mec[0]};
+	for (unsigned i = 1; i < DIM; i++) {
+		result = !(mec[i]<result)?result:mec[i];
+	}
+	return result;  
+}
+
 //non class functions
 

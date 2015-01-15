@@ -79,6 +79,29 @@ bool Box<DIM>::init_pos_rand() {
 	}
 	return ! b_contact;
 }
+template<unsigned DIM>
+bool Box<DIM>::init_pos_lattice() {
+	lengthT r = vec_kugel[0].radius();
+	for (unsigned i = 1; i < vec_kugel.size(); i++) {
+		if (r != vec_kugel[i].radius()) return(false); 
+	}
+	dimlessT magic = ceil(Pow(vec_kugel.size()/4,1./3.));
+	lengthT L = min(vec_abmessung);
+	lengthT dL = L/(2.0*magic);
+	if (dL < 2.0*r) return(false);
+	unsigned number = 0; 
+	for (dimlessT i = 0; i < 2*magic; i+=1) {
+		for (dimlessT j = 0; j < 2*magic; j+=1) {
+			for (dimlessT k = 0; k < 2*magic; k+=1) {
+				MatVec<lengthT, DIM> new_pos{i*dL, j*dL, k*dL}; 
+				vec_kugel[number].position(new_pos); 
+				number++; 
+				if (number >= vec_kugel.size()) return(true); 
+			}
+		}
+	}
+	return(true); 
+}
 
 template<unsigned DIM>
 bool Box<DIM>::check_ekin_1() const {
@@ -297,7 +320,13 @@ inline auto Box<DIM>::abmessung() const {
 template<unsigned DIM>
 bool Box<DIM>::initiate() {
 	if (! b_initiate_pos) b_initiate_pos = check_no_touching();
-	if (! b_initiate_pos) b_initiate_pos = init_pos_rand();
+	if (! b_initiate_pos) {
+		if (DIM == 3) {
+			b_initiate_pos = init_pos_lattice();
+			if (! b_initiate_pos) init_pos_rand(); 
+		}  
+		else b_initiate_pos = init_pos_rand();
+	}
 	if (! b_initiate_vel) b_initiate_vel = check_ekin_1();
 	if (! b_initiate_vel) b_initiate_vel = init_vel_rand();
 

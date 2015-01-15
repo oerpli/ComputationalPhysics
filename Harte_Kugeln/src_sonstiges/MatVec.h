@@ -112,6 +112,8 @@ MatVec<T,DIM> floor(MatVec<T,DIM> mec);
 template<typename T, unsigned DIM>
 MatVec<T,DIM> round(MatVec<T,DIM> mec);
 
+template<typename T, unsigned DIM>
+T min(MatVec<T,DIM> mec);
 
 #include "MatVec.tpp"
 

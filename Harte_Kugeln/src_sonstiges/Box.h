@@ -33,6 +33,8 @@ class Box {
 
 	bool init_pos_rand();
 
+	bool init_pos_lattice();
+
 	bool check_ekin_1() const;
 
 	bool init_vel_rand();
