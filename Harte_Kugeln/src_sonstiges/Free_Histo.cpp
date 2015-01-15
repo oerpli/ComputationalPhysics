@@ -34,6 +34,8 @@ bool Free_Histo::output(std::ostream& os) {
 	return true;
 }
 
+
+
 void Free_Histo::output_reset() {
 	histo_iter = histo.begin();
 }

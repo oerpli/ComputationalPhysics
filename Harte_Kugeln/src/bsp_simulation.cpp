@@ -22,10 +22,10 @@ int main() {
 	{//TODO: kann abhängig von Eingabe sein
 		vec_unary.push_back( new auswertung_bsp_average_vel<DIM> );
 		vec_unary.push_back( new auswertung_bsp_average_energy<DIM> );
-		vec_binary.push_back( new PairDistribution<DIM>(3*0.1) );
+		vec_binary.push_back( new PairDistribution<DIM>(0.1) );
 	}
 	MatVec<lengthT,DIM> box_size{10*m, 10*m, 10*m}; //TODO: kann abhängig von Eingabe sein
-	Kugel<DIM> kugel1{.5 * kg, .1 * m}; //TODO: kann abhängig von Eingabe sein
+	Kugel<DIM> kugel1{.5 * kg, 1.0 * m}; //TODO: kann abhängig von Eingabe sein
 	MatVec<velocityT,DIM> vel{14*mps};
 	kugel1.velocity(vel);
 	Box<DIM> box{box_size, 32, kugel1}; //TODO: kann abhängig von Eingabe sein
@@ -38,13 +38,13 @@ int main() {
 		return 1;
 	}
 
-	cout << "\nVor Warmlauf\n\n";
+/*	cout << "\nVor Warmlauf\n\n";
 	box.print(cout);
 	cout << '\n';
-
+*/
 	box(vec_unary,vec_binary);
 	vec_unary.print_result(cout);
-	cout << '\n';
+	cout << '\n' << "vec_binary: ";
 	vec_binary.print_result(cout);
 
 	timeT coll_time { };
@@ -60,14 +60,14 @@ int main() {
 	box.print(cout);
 	cout << '\n';
 */
-	timeT ausw_t_step{1*s}, ausw_t_next{ausw_t_step};
+	timeT ausw_t_step{100*s}, ausw_t_next{ausw_t_step};
 
 	cout << "Time: " << box.time() << '\n';
-	box(vec_unary,vec_binary);
+/*	box(vec_unary,vec_binary);
 	vec_unary.print_result(cout);
-	cout << '\n';
+	cout << '\n' << "vec_binary: ";
 	vec_binary.print_result(cout);
-
+*/
 	timeT simulation_time {1E5 *s}; //TODO: kann abhängig von Eingabe sein
 	timeT simulation_end{simulation_time + box.time()};
 	while (box.time() <= simulation_end){
@@ -76,6 +76,7 @@ int main() {
 			ausw_t_next = ausw_t_step;
 			box(vec_unary, vec_binary);
 		}
+		cout << box.time() << endl;
 		if (! cp) ++count_no_coll;
 		ausw_t_next -= box.collide();
 		++count_coll;
@@ -83,7 +84,7 @@ int main() {
 
 	cout << "Time: " << box.time() << '\n';
 	vec_unary.print_result(cout);
-	cout << '\n';
+	cout << '\n' << "vec_binary: ";
 	vec_binary.print_result(cout);
 
 	cout << "\n no collision: " << count_no_coll;

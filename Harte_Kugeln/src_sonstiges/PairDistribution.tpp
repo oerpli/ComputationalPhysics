@@ -11,7 +11,12 @@ inline void PairDistribution<DIM>::operator ()(const Kugel<DIM>& k1,
 
 template<unsigned DIM>
 inline std::ostream& PairDistribution<DIM>::print_result(std::ostream& os) {
-	distribution.output(os);
+	bool out {};
+  	do {
+	  	out = distribution.output(os);
+	  	os << '\n';
+  	} while(out);
+  	distribution.output_reset();
 	return os;
 }
 
