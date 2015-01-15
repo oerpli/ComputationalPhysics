@@ -8,7 +8,6 @@
 
 #include "auswertung_bsp_average_vel.h"
 #include "auswertung_bsp_average_energy.h"
-#include "Free_Histo.h"
 #include "PairDistribution.h"
 #include <memory>
 #include "AuswertVec.h"
@@ -23,7 +22,7 @@ int main() {
 	{//TODO: kann abhängig von Eingabe sein
 		vec_unary.push_back( new auswertung_bsp_average_vel<DIM> );
 		vec_unary.push_back( new auswertung_bsp_average_energy<DIM> );
-		//vec_binary.push_back( new PairDistribution<DIM>(3*0.1) );  TODO: Free_Histo scheint nicht gelinkt zu werden(??)
+		vec_binary.push_back( new PairDistribution<DIM>(3*0.1) );
 	}
 	MatVec<lengthT,DIM> box_size{10*m, 10*m, 10*m}; //TODO: kann abhängig von Eingabe sein
 	Kugel<DIM> kugel1{.5 * kg, .1 * m}; //TODO: kann abhängig von Eingabe sein

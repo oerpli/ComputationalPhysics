@@ -94,7 +94,6 @@ bool Box<DIM>::init_pos_lattice() {
 		for (dimlessT j = 0; j < 2*magic; j+=1) {
 			for (dimlessT k = 0; k < 2*magic; k+=1) {
 				if ( (int)(i + k + j)%2 == 0 ) {
-					std::cout << "lattice: " << (int)(i+k+j)%2 << std::endl;  
 					MatVec<lengthT, DIM> new_pos{i*dL, j*dL, k*dL}; 
 					vec_kugel[number].position(new_pos); 
 					number++;
