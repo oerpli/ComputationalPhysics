@@ -128,9 +128,12 @@ bool Box<DIM>::init_vel_rand() {
 
 	energyT ekin{ };
 	for_each (it_begin, it_end, [&](const Kugel<DIM>& k){ekin+=k.ekin();});
-	dimlessT vel_scale = 1/sqrt( .1 * (ekin / (N*m)) );
-
+	dimlessT vel_scale = sqrt(DIM*vec_kugel.size()/(ekin*2.0/(N*m))); 
 	for_each (it_begin, it_end, [&](Kugel<DIM>& k){k.velocity(k.velocity()*vel_scale);});
+	ekin = 0.0;
+	for_each (it_begin, it_end, [&](const Kugel<DIM>& k){ekin+=k.ekin();});
+	std::cout << "Temperature after rescaling: " << ekin*2.0/(vec_kugel.size()*DIM) << std::endl; 
+	 
 	return true;
 }
 
