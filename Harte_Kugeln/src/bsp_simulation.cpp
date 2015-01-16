@@ -2,6 +2,11 @@
 #include <vector>
 #include <functional>
 #include <fstream>
+#include <cmath>
+#include <cstring>
+#include <string>
+#include <algorithm>
+
 
 #include "MatVec.h"
 #include "Kugel.h"
@@ -15,23 +20,64 @@
 
 using namespace std;
 
-int main() {
+bool is_number(const string &str) {
+	return str.find_first_not_of(".eE-0123456789") == string::npos;
+}
 
-	const unsigned DIM {3}; //TODO: kann abhängig von Eingabe sein
+
+int main(int argc, char* argv[]) {
+
+	const unsigned DIM {3};
+
+	//default Parameter: Dichte, Kugelanzahl, Kugelradius, Masse, Zeit runs, Zeit Warmlauf, Zeit Auswertung, Histogrammbreite
+	double a_para[] {0.2, 108, 1.0, 1.0, 1E3, 1E2, 1E-1, 1E-1};
+	int a_para_size = sizeof(a_para) / sizeof(*a_para);
+	int i_para {1};
+
+	for (i_para = 1; i_para < min(a_para_size + 1, argc); i_para++) {
+		if (is_number(argv[i_para])) a_para[i_para - 1] = stod(argv[i_para]);
+		else break;
+	}
+
+ //TODO: kann abhängig von Eingabe sein
+	dimlessT density {a_para[0]};
+	unsigned N {(unsigned)a_para[1]};
+	lengthT radius {a_para[2]*m};
+	massT mass {a_para[3]*kg};
+	timeT simulation_time {a_para[4]*s};
+	timeT warm_time {a_para[5]*s};
+	timeT ausw_t_step {a_para[6]*s};
+	double histo_width {a_para[7]};
+
+	lengthT box_length {ceil(2.*radius.value()*pow(N/(density.value()), 1./3.))*m};
+	density = N*Pow(radius*2./box_length, 3);
+
+	cout << "Dimension:\t" << DIM << endl;
+	cout << "Density:\t" << density << endl;
+	cout << "Number of Spheres:\t" << N << endl;
+	cout << "Boxlänge:\t" << box_length << endl;
+	cout << "Radius:\t" << radius << endl;
+	cout << "Warmlauf:\t" << warm_time << endl;
+	cout << "Gesamte Simulationszeit:\t" << simulation_time + warm_time << endl;
+	cout << "Auswertung alle\t" << ausw_t_step << endl;
+	cout << "Histogrammgenauigkeit:\t" << histo_width << endl;
+
+
 	AuswertVec<Kugel<DIM>> vec_unary;
 	AuswertVec<Kugel<DIM>,Kugel<DIM>> vec_binary;
 
-	MatVec<lengthT,DIM> box_size{10*m, 10*m, 10*m}; //TODO: kann abhängig von Eingabe sein
-	Kugel<DIM> kugel1{.5 * kg, .1 * m}; //TODO: kann abhängig von Eingabe sein
+
+	MatVec<lengthT,DIM> box_size{box_length, box_length, box_length}; //TODO: kann abhängig von Eingabe sein
+	Kugel<DIM> kugel1{mass, radius}; //TODO: kann abhängig von Eingabe sein
 	MatVec<velocityT,DIM> vel{14*mps};
 	kugel1.velocity(vel);
-	Box<DIM> box{box_size, 324, kugel1}; //TODO: kann abhängig von Eingabe sein
+	Box<DIM> box{box_size, N, kugel1}; //TODO: kann abhängig von Eingabe sein
 
 
 	{//TODO: kann abhängig von Eingabe sein
 		vec_unary.push_back( new auswertung_bsp_average_vel<DIM> );
 		vec_unary.push_back( new auswertung_bsp_average_energy<DIM> );
-		vec_binary.push_back(new PairDistribution<DIM> { 0.1, box_size });
+		vec_binary.push_back(new PairDistribution<DIM> { histo_width, box_size });
 	}
 
 	ofstream dat_pair_dist;
@@ -53,8 +99,9 @@ int main() {
 	cout << '\n' << "vec_binary: ";
 	vec_binary.print_result(cout);
 */
-	timeT coll_time { };
-	timeT warm_time {3E3 *s};
+
+	timeT coll_time {};
+
 	while (box.time() <= warm_time) {
 		if (! cp) ++count_no_coll;
 		coll_time = box.collide();
@@ -66,7 +113,7 @@ int main() {
 	box.print(cout);
 	cout << '\n';
 */
-	timeT ausw_t_step{100*s}, ausw_t_next{ausw_t_step};
+	timeT ausw_t_next{ausw_t_step};
 
 	cout << "Time: " << box.time() << '\n';
 /*	box(vec_unary,vec_binary);
@@ -74,7 +121,7 @@ int main() {
 	cout << '\n' << "vec_binary: ";
 	vec_binary.print_result(cout);
 */
-	timeT simulation_time {1E4 *s}; //TODO: kann abhängig von Eingabe sein
+	//TODO: kann abhängig von Eingabe sein
 	timeT simulation_end{simulation_time + box.time()};
 	while (box.time() <= simulation_end){
 		while ( ausw_t_next < box.next_event() ) {

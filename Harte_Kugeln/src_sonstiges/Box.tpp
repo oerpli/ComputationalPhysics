@@ -85,7 +85,7 @@ bool Box<DIM>::init_pos_lattice() {
 	for (unsigned i = 1; i < vec_kugel.size(); i++) {
 		if (r != vec_kugel[i].radius()) return(false); 
 	}
-	dimlessT magic = ceil(Pow(vec_kugel.size()/4,1./3.));
+	double magic = ceil(pow(vec_kugel.size()/4,1./3.));
 	lengthT L = min(vec_abmessung);
 	lengthT dL = L/(2.0*magic);
 	if (dL < 2.0*r) return(false);
@@ -130,9 +130,8 @@ bool Box<DIM>::init_vel_rand() {
 	for_each (it_begin, it_end, [&](const Kugel<DIM>& k){ekin+=k.ekin();});
 	dimlessT vel_scale = sqrt(DIM*vec_kugel.size()/(ekin*2.0/(N*m))); 
 	for_each (it_begin, it_end, [&](Kugel<DIM>& k){k.velocity(k.velocity()*vel_scale);});
-	ekin = 0.0;
+	ekin = 0.0*N*m;
 	for_each (it_begin, it_end, [&](const Kugel<DIM>& k){ekin+=k.ekin();});
-	std::cout << "Temperature after rescaling: " << ekin*2.0/(vec_kugel.size()*DIM) << std::endl; 
 	 
 	return true;
 }
