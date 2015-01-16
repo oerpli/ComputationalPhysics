@@ -4,33 +4,27 @@
 #include "Config.h"
 
 #ifdef USE_BOOST_UNITS
-	#include <boost/units/cmath.hpp>
-	#include <boost/units/pow.hpp>
-	#include <boost/units/systems/si.hpp>
-	#include <boost/units/systems/si/io.hpp>
-	#include <boost/units/systems/si/base.hpp>
-	#include <boost/units/derived_dimension.hpp>
+	#include "my_units.hpp"
 
-	#include <boost/units/physical_dimensions/length.hpp>
-	#include <boost/units/physical_dimensions/mass.hpp>
-	#include <boost/units/physical_dimensions/time.hpp>
+	typedef Quantity<1,0,0> massT;
+	typedef Quantity<0,1,0> lengthT;
+	typedef Quantity<0,2,0> areaT;
+	typedef Quantity<0,3,0> volumeT;
+	typedef Quantity<0,0,1> timeT;
+	typedef Quantity<0,1,-1> velocityT;
+	typedef Quantity<0,1,-2> accelerationT;
+	typedef Quantity<1,2,-2> energyT;
+	typedef Quantity<0,0,0> dimlessT;
+	typedef Quantity<1,1,-2> forceT;
 
+	constexpr massT kg(1.0);
+	constexpr lengthT m(1.0);
+	constexpr energyT J(1.0);
+	constexpr velocityT mps(1.0);
+	constexpr timeT s(1.0);
+	constexpr forceT N(1.0);
 
-	typedef boost::units::quantity< boost::units::si::length , double > lengthT;
-	typedef boost::units::quantity< boost::units::si::time , double > timeT;
-	typedef boost::units::quantity< boost::units::si::velocity , double > velocityT;
-	typedef boost::units::quantity< boost::units::si::mass , double > massT;
-	typedef boost::units::quantity< boost::units::si::force , double > forceT;
-	typedef boost::units::quantity< boost::units::si::energy , double > energyT;
-	typedef boost::units::quantity< boost::units::si::dimensionless , double > dimlessT;
-
-	const boost::units::si::mass kg = boost::units::si::kilogram;
-	const boost::units::si::length m = boost::units::si::meter;
-	const boost::units::si::force N = boost::units::si::newton;
-	const boost::units::si::velocity mps = boost::units::si::meters_per_second;
-	const boost::units::si::time s = boost::units::si::second;
-
-	#define Pow(base,exp) ( boost::units::pow<(exp)>((base)) )
+	#define Pow(base,exp) ( unit_pow<(exp)>((base)) )
 
 #else
 	typedef double lengthT;
