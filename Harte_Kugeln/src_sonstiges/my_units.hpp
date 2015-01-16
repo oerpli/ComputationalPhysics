@@ -9,8 +9,14 @@ template<int M, int L, int T>
 class Quantity
 {
 public:
-	constexpr Quantity(double val=0.0) : m_value{val} {}
+	constexpr Quantity() = default;
+	constexpr Quantity(const double& val) : m_value{val} {}
+	constexpr Quantity(double&& val) : m_value{std::move(val)} {}
 	constexpr Quantity(const Quantity& x) : m_value{x.m_value} {}
+	constexpr Quantity(Quantity&& other) = default;
+
+	Quantity& operator =(const Quantity& other) = default;
+	Quantity& operator =(Quantity&& other) = default;
 
 	Quantity& operator+=(const Quantity& rhs)
     {
