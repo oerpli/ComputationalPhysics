@@ -84,7 +84,7 @@ template<unsigned DIM>
 bool Box<DIM>::check_ekin_1() const {
 	energyT av{ };
 	for (auto &el : vec_kugel) av += el.ekin();
-	return av / (double) vec_kugel.size() == energyT{1};
+	return av / (double) vec_kugel.size() == 1_J;
 }
 
 template<unsigned DIM>
@@ -154,7 +154,7 @@ CollisionPair<DIM> Box<DIM>::calc_event(Kugel<DIM>& k1, Kugel<DIM>& k2) {
 		return CollisionPair<DIM>(k1, k2, std::numeric_limits<timeT>::max(), false);
 
 	MatVec<timeT,DIM> v_res_t { vec_abmessung / v };
-	v_res_t([&](timeT& t) {if (t < timeT{}) t = -t;});
+	v_res_t([&](timeT& t) {if (t < 0_s) t = -t;});
 	MatVec<timeT,DIM> v_act_t{ };
 	const MatVec<lengthT,DIM> pos_2 { vec_abmessung / dimlessT{2} };
 
@@ -245,7 +245,7 @@ inline timeT Box<DIM>::time() const { return m_time; }
 
 template<unsigned DIM>
 timeT Box<DIM>::fast_forward(const timeT& dt) {
-	if (dt == timeT{}) return timeT{};
+	if (dt == 0_s) return 0_s;
 	m_time += dt;
 	next_collision_pair.fast_forward(dt);
 	for (auto& kugel : vec_kugel) {
