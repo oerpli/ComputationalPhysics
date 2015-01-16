@@ -46,4 +46,19 @@
 
 #endif //USE_BOOST_UNITS
 
+
+	constexpr massT operator"" _kg(double long x)  { return massT(x); }
+	constexpr massT operator"" _kg(unsigned long long x)  { return massT(static_cast<double>(x)); }
+	constexpr lengthT operator"" _m(double long x)  { return lengthT(x); }
+	constexpr lengthT operator"" _m(unsigned long long x)  { return lengthT(static_cast<double>(x)); }
+	constexpr velocityT operator"" _mps(double long x)  { return velocityT(x); }
+	constexpr velocityT operator"" _mps(unsigned long long x)  { return velocityT(static_cast<double>(x)); }
+	constexpr energyT operator"" _J(double long x)  { return energyT(x); }
+	constexpr energyT operator"" _J(unsigned long long x)  { return energyT(static_cast<double>(x)); }
+	constexpr forceT operator"" _N(double long x)  { return forceT(x); }
+	constexpr forceT operator"" _N(unsigned long long x)  { return forceT(static_cast<double>(x)); }
+	constexpr timeT operator"" _s(double long x)  { return timeT(x); }
+	constexpr timeT operator"" _s(unsigned long long x)  { return timeT(static_cast<double>(x)); }
+
+
 #endif // UNITS_TYPEDEF_H
