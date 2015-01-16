@@ -6,8 +6,8 @@ using namespace std;
 
 int main() {
 	const unsigned DIM {3};
-	MatVec<lengthT,DIM> abmessung{2*m,2*m,2*m};
-	Kugel<DIM> kugel1{1*kg, .1*m};
+	MatVec<lengthT,DIM> abmessung{2,2,2};
+	Kugel<DIM> kugel1{1, .1};
 
 	Box<DIM> box{abmessung, 10, kugel1};
 

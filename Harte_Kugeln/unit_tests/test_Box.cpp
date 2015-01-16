@@ -3,7 +3,7 @@
 
 #include "Box.h"
 
-const MatVec<lengthT, 3> box_dimension{10*m,20*m,30*m};
+const MatVec<lengthT, 3> box_dimension{10,20,30};
 
 void emptyBox() {
 	Box<3> box { box_dimension };
@@ -29,21 +29,21 @@ void addBoxSize() {
 }
 
 void randomAccess_read(){
-	Kugel<3> k{1 * kg, 1 * m};
+	Kugel<3> k{1, 1};
 	Box<3> box{box_dimension,10,k};
 
 	ASSERTM("", box[3] == k);
 }
 
 void randomAccess_constRead(){
-	Kugel<3> k{1 * kg, 1 * m};
+	Kugel<3> k{1, 1};
 	const Box<3> box{box_dimension,10,k};
 
 	ASSERTM("", box[3] == k);
 }
 
 void randomAccess_write(){
-	Kugel<3> k1{1 * kg, 1 * m}, k2{2 * kg, 2*m};
+	Kugel<3> k1{1, 1}, k2{2, 2};
 	Box<3> box{box_dimension,10, k1};
 
 	box[3]=k2;
@@ -53,7 +53,7 @@ void randomAccess_write(){
 // Geht wahrscheinlich wegen Rundung nicht
 void wrapPosition() {
 	Box<3> box{box_dimension,1};
-	MatVec<lengthT,3> pos{-5*m, -23*m, 67*m}, res_pos{5*m, 17*m, 7*m};
+	MatVec<lengthT,3> pos{-5, -23, 67}, res_pos{5, 17, 7};
 
 	box[0].position(pos);
 	box.wrap();
@@ -77,21 +77,21 @@ void kugel_distance() {
 
 void box_fastForward_pos() {
 	Kugel<3> k{};
-	MatVec<velocityT,3> vel{2*mps,30*mps,10*mps};
-	MatVec<lengthT,3> res_pos{6*m,10*m,0*m}; //res_pos{3*m,6*m,9*m};
+	MatVec<velocityT,3> vel{2,30,10};
+	MatVec<lengthT,3> res_pos{6,10,0}; //res_pos{3*m,6*m,9*m};
 
 	k.velocity(vel);
 	Box<3> box{box_dimension,1,k};
 
-	box.fast_forward(3*s);
+	box.fast_forward(3);
 	std::cout << box[0].position() << '\n' << res_pos << '\n';
 	ASSERTM("", box[0].position() == res_pos);
 }
 
 void box_fastForward_time() {
 	Kugel<3> k{};
-	MatVec<velocityT,3> vel{2*mps,30*mps,10*mps};
-	MatVec<lengthT,3> res_pos{6*m,10*m,0*m}; //res_pos{3*m,6*m,9*m};
+	MatVec<velocityT,3> vel{2,30,10};
+	MatVec<lengthT,3> res_pos{6,10,0}; //res_pos{3*m,6*m,9*m};
 
 	k.velocity(vel);
 	Box<3> box{box_dimension,1,k};
@@ -102,8 +102,8 @@ void box_fastForward_time() {
 }
 
 void box_initiate_given_no_rand() {
-	MatVec<lengthT,3> pos1 { 5 *m }, pos2 {1 *m};
-	Box<3> box{box_dimension, 2, Kugel<3>{1 *kg, .1 *m}};
+	MatVec<lengthT,3> pos1 {5}, pos2 {1};
+	Box<3> box{box_dimension, 2, Kugel<3>{1, .1}};
 
 	box[0].position(pos1);
 	box[1].position(pos2);
@@ -113,8 +113,8 @@ void box_initiate_given_no_rand() {
 }
 
 void box_initiate_given_rand() {
-	MatVec<lengthT,3> pos { 5 *m };
-	Box<3> box{box_dimension, 2, Kugel<3>{1 *kg, .1 *m}};
+	MatVec<lengthT,3> pos {5};
+	Box<3> box{box_dimension, 2, Kugel<3>{1, .1}};
 
 	box[0].position(pos);
 	box[1].position(pos);
@@ -124,16 +124,16 @@ void box_initiate_given_rand() {
 }
 
 void box_collision_time_simple() {
-	MatVec<lengthT,3> pos{5 *m, 0 *m, 0 *m};
-	MatVec<velocityT,3> vel {1 *mps, 0 *mps, 0 *mps};
-	Box<3> box{box_dimension, 2, Kugel<3>{4 *kg, 1 *m}};
+	MatVec<lengthT,3> pos{5, 0, 0};
+	MatVec<velocityT,3> vel {1, 0, 0};
+	Box<3> box{box_dimension, 2, Kugel<3>{4, 1}};
 
 	box[0].position(pos);
 	box[0].velocity(vel);
 	box.initiate();
 
 	auto coll_time = box.collide();
-	ASSERTM("", coll_time == 3 *s);
+	ASSERTM("", coll_time == timeT{3});
 }
 
 cute::suite make_suite_Box(){

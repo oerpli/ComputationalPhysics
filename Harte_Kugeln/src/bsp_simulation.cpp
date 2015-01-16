@@ -22,9 +22,9 @@ int main() {
 		vec_unary.push_back( new auswertung_bsp_average_vel<DIM> );
 		vec_unary.push_back( new auswertung_bsp_average_energy<DIM> );
 	}
-	MatVec<lengthT,DIM> box_size{10*m, 10*m, 10*m}; //TODO: kann abhängig von Eingabe sein
-	Kugel<DIM> kugel1{.5 * kg, .1 * m}; //TODO: kann abhängig von Eingabe sein
-	MatVec<velocityT,DIM> vel{14*mps};
+	MatVec<lengthT,DIM> box_size{10, 10, 10}; //TODO: kann abhängig von Eingabe sein
+	Kugel<DIM> kugel1{.5, .1}; //TODO: kann abhängig von Eingabe sein
+	MatVec<velocityT,DIM> vel{14};
 	kugel1.velocity(vel);
 	Box<DIM> box{box_size, 10, kugel1}; //TODO: kann abhängig von Eingabe sein
 
@@ -46,7 +46,7 @@ int main() {
 	vec_binary.print_result(cout);
 
 	timeT coll_time { };
-	timeT warm_time {3E3 *s};
+	timeT warm_time {3E3};
 	while (box.time() <= warm_time) {
 		if (! cp) ++count_no_coll;
 		coll_time = box.collide();
@@ -58,7 +58,7 @@ int main() {
 	box.print(cout);
 	cout << '\n';
 */
-	timeT ausw_t_step{1*s}, ausw_t_next{ausw_t_step};
+	timeT ausw_t_step{1}, ausw_t_next{ausw_t_step};
 
 	cout << "Time: " << box.time() << '\n';
 	box(vec_unary,vec_binary);
@@ -66,7 +66,7 @@ int main() {
 	cout << '\n';
 	vec_binary.print_result(cout);
 
-	timeT simulation_time {1E5 *s}; //TODO: kann abhängig von Eingabe sein
+	timeT simulation_time {1E5}; //TODO: kann abhängig von Eingabe sein
 	timeT simulation_end{simulation_time + box.time()};
 	while (box.time() <= simulation_end){
 		while ( ausw_t_next < box.next_event() ) {

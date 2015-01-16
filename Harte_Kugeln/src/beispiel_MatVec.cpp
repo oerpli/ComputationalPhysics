@@ -17,13 +17,13 @@ int main() {
 	// erzeugt einen Vektor der, so weit wie möglich,
 	// mit den Übergabewerten befüllt ist,
 	// der Rest wird mit 0 aufgefüllt
-	MatVec<lengthT, 3> lengthVec {2 * m, 3 * m, 1 * m};
+	MatVec<lengthT, 3> lengthVec {2, 3, 1};
 
 	// erzeugt einen Vektor befüllt mit 3*N
-	MatVec<forceT, 3> forceVec (3 * N);
+	MatVec<forceT, 3> forceVec (3);
 
 	// wird behandelt wie {1*N, 0*N, 0*N}
-	MatVec<forceT, 3> forceVec1 {1 * N};
+	MatVec<forceT, 3> forceVec1 {1};
 
 	cout << "forceVec (3 * N):\n" << forceVec << '\n';
 	cout << "forceVec1 {1 * N}:\n" << forceVec1 << '\n';
@@ -38,9 +38,9 @@ int main() {
 	const unsigned dim {3};
 	cout << '\n' << "Kugelbeispiele mit Dimension " << dim << ":" << '\n';
 
-	MatVec<velocityT, dim> velVec {2 * mps, -1 * mps, 3 * mps};
+	MatVec<velocityT, dim> velVec {2, -1, 3};
 
-	Kugel<dim> k1{}, k2{ (3 * kg),(.5 * m)};
+	Kugel<dim> k1{}, k2{ (3),(.5)};
 	k2.velocity(velVec); // setzt velocity von k2 auf die Werte von velVec
 
 	Kugel<dim> k3{k2};

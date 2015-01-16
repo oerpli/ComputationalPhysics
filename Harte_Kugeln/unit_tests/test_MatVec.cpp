@@ -138,7 +138,7 @@ void matVec_floor_double() {
 }
 
 void matVec_floor_units() {
-	MatVec<lengthT, 3> vec{1.3*m,-2.7*m,-0*m}, res{1*m,-3*m,0*m};
+	MatVec<lengthT, 3> vec{1.3,-2.7,-0}, res{1,-3,0};
 
 	ASSERTM("", floor(vec) == res);
 }

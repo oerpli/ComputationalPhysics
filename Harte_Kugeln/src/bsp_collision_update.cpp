@@ -9,9 +9,9 @@ using namespace std;
 
 int main () {
 	const unsigned dim{3};
-	MatVec<lengthT,dim> pos{8 *m, 0 *m, 0 *m};
-	MatVec<velocityT,dim> vel {1 *mps, 0 *mps, 0 *mps};
-	Box<3> box{MatVec<lengthT,dim>{10*m}, 2, Kugel<dim>{4 *kg, 1 *m}};
+	MatVec<lengthT,dim> pos{8, 0, 0};
+	MatVec<velocityT,dim> vel {1, 0, 0};
+	Box<3> box{MatVec<lengthT,dim>{10}, 2, Kugel<dim>{4, 1}};
 	timeT coll_time{};
 
 	box[0].position(pos);
