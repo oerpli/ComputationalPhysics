@@ -6,16 +6,19 @@
 #ifdef USE_BOOST_UNITS
 	#include "my_units.hpp"
 
-	typedef Quantity<1,0,0> massT;
-	typedef Quantity<0,1,0> lengthT;
-	typedef Quantity<0,2,0> areaT;
-	typedef Quantity<0,3,0> volumeT;
-	typedef Quantity<0,0,1> timeT;
-	typedef Quantity<0,1,-1> velocityT;
-	typedef Quantity<0,1,-2> accelerationT;
-	typedef Quantity<1,2,-2> energyT;
-	typedef Quantity<0,0,0> dimlessT;
-	typedef Quantity<1,1,-2> forceT;
+	template<int num, unsigned den>
+	using R = Rational<num, den>;
+
+	typedef Quantity<R<1,1>,R<0,1>,R<0,1>> massT;
+	typedef Quantity<R<0,1>,R<1,1>,R<0,1>> lengthT;
+	typedef Quantity<R<0,1>,R<2,1>,R<0,1>> areaT;
+	typedef Quantity<R<0,1>,R<3,1>,R<0,1>> volumeT;
+	typedef Quantity<R<0,1>,R<0,1>,R<1,1>> timeT;
+	typedef Quantity<R<0,1>,R<1,1>,R<-1,1>> velocityT;
+	typedef Quantity<R<0,1>,R<1,1>,R<-2,1>> accelerationT;
+	typedef Quantity<R<1,1>,R<2,1>,R<-2,1>> energyT;
+	typedef Quantity<R<0,1>,R<0,1>,R<0,1>> dimlessT;
+	typedef Quantity<R<1,1>,R<1,1>,R<-2,1>> forceT;
 
 	constexpr massT kg(1.0);
 	constexpr lengthT m(1.0);
@@ -42,7 +45,12 @@
 	const double s { 1.0 };
 
 	#include <cmath>
-	#define Pow(base,exp) ( pow( (base), (exp) ) )
+	#define Pow(base,exp) ( unit_pow( (base), (exp) ) )
+
+	template<class M, class L, class T>
+	constexpr Quantity<M,L,T> round(const Quantity<M,L,T>& q) {
+		return Quantity<M,L,T>{round( double(q) )};
+	}
 
 #endif //USE_BOOST_UNITS
 
