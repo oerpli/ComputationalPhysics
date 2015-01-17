@@ -34,6 +34,11 @@
 		return Quantity<M,L,T>{round( double(q) )};
 	}
 
+	template<class M, class L, class T>
+	constexpr Quantity<M,L,T> floor(const Quantity<M,L,T>& q) {
+		return Quantity<M,L,T>{floor( double(q) )};
+	}
+
 #else
 	typedef double lengthT;
 	typedef double timeT;
