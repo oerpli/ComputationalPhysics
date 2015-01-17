@@ -55,7 +55,7 @@
 	const double s { 1.0 };
 
 	#include <cmath>
-	#define Pow(base,exp) ( unit_pow( (base), (exp) ) )
+	#define Pow(base,exp) ( pow( (base), (exp) ) )
 
 #endif //USE_BOOST_UNITS
 
