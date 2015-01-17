@@ -3,7 +3,7 @@
 
 #include "Config.h"
 
-#ifdef USE_BOOST_UNITS
+#ifdef USE_UNITS
 	#include "my_units.hpp"
 
 	template<int num, unsigned den>
@@ -57,7 +57,7 @@
 	#include <cmath>
 	#define Pow(base,exp) ( pow( (base), (exp) ) )
 
-#endif //USE_BOOST_UNITS
+#endif //USE_UNITS
 
 
 	constexpr massT operator"" _kg(double long x)  { return massT(x); }

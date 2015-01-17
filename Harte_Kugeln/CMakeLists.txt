@@ -5,7 +5,7 @@ list( APPEND CMAKE_CXX_FLAGS "-std=c++1y ${CMAKE_CXX_FLAGS} -Wall -g -ftest-cove
 
 
 #use boost units for Abraham
-option(USE_BOOST_UNITS "Use of boost units" ON)
+option(USE_UNITS "Use of my_units" ON)
 
 configure_file (
   "${PROJECT_SOURCE_DIR}/src_sonstiges/Config.h.in"
