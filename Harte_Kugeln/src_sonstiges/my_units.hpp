@@ -56,13 +56,13 @@ private:
 template <int M, int L, int T>
 constexpr Quantity<M,L,T> operator+(const Quantity<M,L,T>& lhs, const Quantity<M,L,T>& rhs)
 {
-    return Quantity<M,L,T>(lhs)+=rhs;
+    return Quantity<M,L,T>(lhs.getValue() + rhs.getValue());
 }
 
 template <int M, int L, int T>
 constexpr Quantity<M,L,T> operator-(const Quantity<M,L,T>& lhs, const Quantity<M,L,T>& rhs)
 {
-    return Quantity<M,L,T>(lhs)-=rhs;
+    return Quantity<M,L,T>(lhs.getValue() - rhs.getValue());
 }
 
 template <int M1, int L1, int T1, int M2, int L2, int T2>
