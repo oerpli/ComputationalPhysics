@@ -29,6 +29,11 @@
 
 	#define Pow(base,exp) ( unit_pow<(exp)>((base)) )
 
+	template<class M, class L, class T>
+	constexpr Quantity<M,L,T> round(const Quantity<M,L,T>& q) {
+		return Quantity<M,L,T>{round( double(q) )};
+	}
+
 #else
 	typedef double lengthT;
 	typedef double timeT;
@@ -46,11 +51,6 @@
 
 	#include <cmath>
 	#define Pow(base,exp) ( unit_pow( (base), (exp) ) )
-
-	template<class M, class L, class T>
-	constexpr Quantity<M,L,T> round(const Quantity<M,L,T>& q) {
-		return Quantity<M,L,T>{round( double(q) )};
-	}
 
 #endif //USE_BOOST_UNITS
 
