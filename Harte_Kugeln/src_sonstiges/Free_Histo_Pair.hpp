@@ -17,7 +17,9 @@ public:
 		os.precision(8);
 		os << std::scientific;
 		os << histo_iter->first << '\t';
-		os << (histo_iter->second) * scale * m_scale_pair / pow(histo_iter->first,2) << '\t';
+		auto r_histo = (histo_iter->second) * scale;
+		os << r_histo << '\t';
+		os << r_histo * m_scale_pair / pow(histo_iter->first,2) << '\t';
 		os << std::flush;
 		auto histo_iter_buf = histo_iter;
 		if (++histo_iter_buf == histo.end())
