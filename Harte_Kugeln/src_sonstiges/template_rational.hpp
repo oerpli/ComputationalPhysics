@@ -2,27 +2,36 @@
 #define TEMPLATE_RATIONAL_HPP_
 
 #include<iostream>
-
+#include<type_traits>
 
 template<int a>
 struct is_zero{
-	static const bool value = false;
+	using value = std::false_type;
 };
 
 template<>
 struct is_zero<0>{
-	static const bool value = true;
+	using value = std::true_type;
 };
-
 
 template<int a>
 struct is_one{
-	static const bool value = false;
+	using value = std::false_type;
 };
 
 template<>
 struct is_one<1>{
-	static const bool value = true;
+	using value = std::true_type;
+};
+
+template<int i, int j>
+struct equals{
+	using value = std::false_type;
+};
+
+template<int i>
+struct equals<i,i>{
+	using value = std::true_type;
 };
 
 
@@ -71,11 +80,24 @@ template<int num, unsigned den>
 using Rational = typename Rational_min<num,den>::value;
 
 
-template<class R>
-using R_is_zero = is_zero<R::v_num>;
+template<int num1, unsigned den1, int num2, unsigned den2>
+struct R_is_equal_raw{
+	using value = std::false_type;
+};
+
+template<int num, unsigned den>
+struct R_is_equal_raw<num,den, num,den>{
+	using value = std::true_type;
+};
+
+template<class R1, class R2>
+using R_is_equal = typename R_is_equal_raw<R1::v_num, R1::v_den, R2::v_num, R2::v_den>::value;
 
 template<class R>
-using R_is_one = is_one<R::v_num>;
+using R_is_zero = R_is_equal<R, Rational<0,1>>;
+
+template<class R>
+using R_is_one = R_is_equal<R, Rational<1,1>>;
 
 
 // Raw addition of rational numbers
