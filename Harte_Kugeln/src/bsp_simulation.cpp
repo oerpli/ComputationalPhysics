@@ -54,7 +54,7 @@ int main(int argc, char* argv[]) {
 	//density = N*pow(radius*2./box_length, 3);
 
 	AuswertVec<Kugel<DIM>> vec_unary;
-	AuswertVec<Kugel<DIM>,Kugel<DIM>> vec_binary;
+	AuswertVec<Kugel<DIM>,Kugel<DIM>,lengthT> vec_binary;
 
 
 	MatVec<lengthT,DIM> box_size{box_length, box_length, box_length}; //TODO: kann abhängig von Eingabe sein
@@ -67,7 +67,7 @@ int main(int argc, char* argv[]) {
 	{//TODO: kann abhängig von Eingabe sein
 		vec_unary.push_back( new auswertung_bsp_average_vel<DIM> );
 		vec_unary.push_back( new auswertung_bsp_average_energy<DIM> );
-		vec_binary.push_back(new PairDistribution<DIM> { histo_width, box_size, density, N });
+		vec_binary.push_back(new PairDistribution<DIM> { histo_width, density, N });
 	}
 
 	stringstream ss_para;

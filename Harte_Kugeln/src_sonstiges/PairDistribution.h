@@ -14,14 +14,13 @@
 #include "Free_Histo_Pair.hpp"
 
 template<unsigned DIM>
-class PairDistribution : public Auswert<Kugel<DIM>, Kugel<DIM>> {
+class PairDistribution : public Auswert<Kugel<DIM>, Kugel<DIM>, lengthT> {
 private:
 	Free_Histo_Pair distribution;
-	MatVec<lengthT, DIM> box_length;
 
 public:
-	PairDistribution(double width, MatVec<lengthT, DIM> length, double rho, unsigned N);
-	void operator ()(const Kugel<DIM>& k1, const Kugel<DIM>& k2);
+	PairDistribution(double width, double rho, unsigned N);
+	void operator ()(const Kugel<DIM>& k1, const Kugel<DIM>& k2, const lengthT& dist);
 	std::ostream& print_result(std::ostream& os);
 	double value();
 };

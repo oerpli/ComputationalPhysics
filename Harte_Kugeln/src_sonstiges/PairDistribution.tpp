@@ -1,13 +1,10 @@
 template<unsigned DIM>
-inline PairDistribution<DIM>::PairDistribution(double width, MatVec<lengthT, DIM> length, double rho, unsigned N) : distribution(width, rho, N), box_length(length) {}
+inline PairDistribution<DIM>::PairDistribution(double width, double rho, unsigned N) : distribution(width, rho, N) {}
 
 template<unsigned DIM>
 inline void PairDistribution<DIM>::operator ()(const Kugel<DIM>& k1,
-		const Kugel<DIM>& k2) {
-	auto distance_vec = k2.position() - k1.position();
-	distance_vec -= floor(distance_vec/box_length) % box_length;
-	auto distance = distance_vec.norm();
-	distribution(double(distance));
+		const Kugel<DIM>& k2, const lengthT& dist) {
+	distribution(double(dist));
 }
 
 template<unsigned DIM>
