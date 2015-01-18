@@ -7,7 +7,7 @@ inline void PairDistribution<DIM>::operator ()(const Kugel<DIM>& k1,
 	auto distance_vec = k2.position() - k1.position();
 	distance_vec -= floor(distance_vec/box_length) % box_length;
 	auto distance = distance_vec.norm();
-	distribution(distance.value());
+	distribution(double(distance));
 }
 
 template<unsigned DIM>

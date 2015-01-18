@@ -109,7 +109,7 @@ template<unsigned DIM>
 bool Box<DIM>::check_ekin_1() const {
 	energyT av{ };
 	for (auto &el : vec_kugel) av += el.ekin();
-	return av / (dimlessT)vec_kugel.size() == 1 *N*m;
+	return av / (double) vec_kugel.size() == 1_J;
 }
 
 template<unsigned DIM>
@@ -128,9 +128,9 @@ bool Box<DIM>::init_vel_rand() {
 
 	energyT ekin{ };
 	for_each (it_begin, it_end, [&](const Kugel<DIM>& k){ekin+=k.ekin();});
-	dimlessT vel_scale = sqrt(DIM*vec_kugel.size()/(ekin*2.0/(N*m))); 
+	dimlessT vel_scale = sqrt(DIM*vec_kugel.size()/(double(ekin)*2.0));
 	for_each (it_begin, it_end, [&](Kugel<DIM>& k){k.velocity(k.velocity()*vel_scale);});
-	ekin = 0.0*N*m;
+	ekin = 0.0_J;
 	for_each (it_begin, it_end, [&](const Kugel<DIM>& k){ekin+=k.ekin();});
 	 
 	return true;
@@ -177,11 +177,11 @@ CollisionPair<DIM> Box<DIM>::calc_event(Kugel<DIM>& k1, Kugel<DIM>& k2) {
 
 	const MatVec<velocityT,DIM> v { k1.velocity() - k2.velocity() };
 	const auto v2 = v.norm2();
-	if (v2 == 0 *mps*mps)
+	if (v2 == 0. *mps*mps)
 		return CollisionPair<DIM>(k1, k2, std::numeric_limits<timeT>::max(), false);
 
 	MatVec<timeT,DIM> v_res_t { vec_abmessung / v };
-	v_res_t([&](timeT& t) {if (t < 0*s) t = -t;});
+	v_res_t([&](timeT& t) {if (t < 0_s) t = -t;});
 	MatVec<timeT,DIM> v_act_t{ };
 	const MatVec<lengthT,DIM> pos_2 { vec_abmessung / dimlessT{2} };
 
@@ -189,7 +189,7 @@ CollisionPair<DIM> Box<DIM>::calc_event(Kugel<DIM>& k1, Kugel<DIM>& k2) {
 
 	MatVec<lengthT,DIM> v_res_pos{ };
 	for (unsigned i = 0; i < DIM; ++i) {
-		if (v[i] < 0 * mps) {
+		if (v[i] < velocityT{} ) {
 			v_res_pos[i] = vec_abmessung[i];
 			v_act_t[i] = -(pos[i] / v[i]);
 		}
@@ -197,7 +197,7 @@ CollisionPair<DIM> Box<DIM>::calc_event(Kugel<DIM>& k1, Kugel<DIM>& k2) {
 			v_act_t[i] = (vec_abmessung[i] - pos[i]) / v[i];
 	}
 
-	const auto d2 = Pow(k1.radius() + k2.radius(), 2);
+	const auto d2 = Pow(k1.radius() + k2.radius(), 2, 1);
 	const auto d2v2 = d2 * v2;
 
 	MatVec<lengthT,DIM> r {};
@@ -211,7 +211,7 @@ CollisionPair<DIM> Box<DIM>::calc_event(Kugel<DIM>& k1, Kugel<DIM>& k2) {
 		r = pos - pos_2;
 		rv = r * v;
 		if (rv >= rv0) continue;
-		sr2 = d2v2 - r.norm2() * v2 + Pow(rv,2);
+		sr2 = d2v2 - r.norm2() * v2 + Pow(rv,2,1);
 		if (sr2 < sr20) continue;
 		t_ges += -(rv + sqrt(sr2))/v2;
 		collision = true;
@@ -272,7 +272,7 @@ inline timeT Box<DIM>::time() const { return m_time; }
 
 template<unsigned DIM>
 timeT Box<DIM>::fast_forward(const timeT& dt) {
-	if (dt == 0*s) return 0*s;
+	if (dt == 0_s) return 0_s;
 	m_time += dt;
 	next_collision_pair.fast_forward(dt);
 	for (auto& kugel : vec_kugel) {

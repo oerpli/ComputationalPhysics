@@ -15,7 +15,7 @@ public:
 		sum_energy += k.ekin();
 		count++;
 	}
-	double value() { return (sum_energy / (N*m)) / count; }
+	double value() { return double(sum_energy) / count; }
 	std::ostream& print_result(std::ostream& os) {
 		os << value() << " ";
 		return os;

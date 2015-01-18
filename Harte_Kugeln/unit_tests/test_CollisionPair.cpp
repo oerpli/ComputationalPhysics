@@ -14,19 +14,19 @@ void typeCastBool() {
 
 void compareTimeSimpleLower() {
 	Kugel<3> k{};
-	CollisionPair<3> cp1{k,k, 1.0 * s, true}, cp2{k,k, 2.0 * s, true};
+	CollisionPair<3> cp1{k,k, 1.0, true}, cp2{k,k, 2.0, true};
 	ASSERTM("", cp1 < cp2);
 }
 
 void compareTimeSimpleGreater() {
 	Kugel<3> k{};
-	CollisionPair<3> cp1{k,k, 1.0 * s, true}, cp2{k,k, 2.0 * s, true};
+	CollisionPair<3> cp1{k,k, 1.0, true}, cp2{k,k, 2.0, true};
 	ASSERTM("", cp2 > cp1);
 }
 
 void compareTimeCollisionTrueFalseLower() {
 	Kugel<3> k{};
-	CollisionPair<3> cp1{k,k, 1.0 * s, true}, cp2{k,k, 2.0 * s, false};
+	CollisionPair<3> cp1{k,k, 1.0, true}, cp2{k,k, 2.0, false};
 	ASSERTM("", cp1 < cp2 );
 }
 
@@ -40,7 +40,7 @@ void compareTimeCollisionFalseTrueLower() {
 
 void equalSame() {
 	Kugel<3> k{};
-	CollisionPair<3> cp{k,k, 1.0 * s, false};
+	CollisionPair<3> cp{k,k, 1.0, false};
 	ASSERTM("", cp == cp);
 }
 
@@ -52,34 +52,34 @@ void equalDiffButIdentKugel() {
 
 void equalIdent() {
 	Kugel<3> k{};
-	CollisionPair<3> cp1{k,k, 1.0 * s, true}, cp2{k,k, 1.0 * s, true};
+	CollisionPair<3> cp1{k,k, 1.0, true}, cp2{k,k, 1.0, true};
 	ASSERTM("", cp1 == cp2);
 }
 
 void equalFalseCollisionSameTime() {
 	Kugel<3> k{};
-	CollisionPair<3> cp1{k,k, 1.0 * s, false}, cp2{k,k, 1.0 * s, true};
+	CollisionPair<3> cp1{k,k, 1.0, false}, cp2{k,k, 1.0, true};
 	ASSERTM("", ! (cp1 == cp2));
 }
 
 void assignment() {
 	Kugel<3> k{};
-	CollisionPair<3> cp1{}, cp2{k,k, 2*s, true};
+	CollisionPair<3> cp1{}, cp2{k,k, 2, true};
 	cp1 = cp2;
 	ASSERTM("", cp1 == cp2);
 }
 
 void assignLower() {
 	Kugel<3> k{};
-	CollisionPair<3> cp1{k,k,2.0 * s,false}, cp2{k,k,1.0 * s,true};
+	CollisionPair<3> cp1{k,k,2.0,false}, cp2{k,k,1.0,true};
 	cp1 <= cp2;
 	ASSERTM("", cp1 == cp2);
 }
 
 void get_kugel1() {
 	Kugel<3> k1{}, k2{};
-	MatVec<velocityT,3> vel{1*mps,2*mps,3*mps};
-	CollisionPair<3> cp{k1,k2,1*s,false};
+	MatVec<velocityT,3> vel{1,2,3};
+	CollisionPair<3> cp{k1,k2,1,false};
 
 	k1.velocity(vel);
 	ASSERTM("", &cp.kugel1() == &k1);
@@ -87,7 +87,7 @@ void get_kugel1() {
 
 void get_kugel2() {
 	Kugel<3> k1{}, k2{};
-	CollisionPair<3> cp{k1,k2,1*s,false};
+	CollisionPair<3> cp{k1,k2,1,false};
 
 	ASSERTM("", &cp.kugel2() == &k2);
 }

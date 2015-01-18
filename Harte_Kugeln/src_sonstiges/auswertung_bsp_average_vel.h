@@ -15,7 +15,7 @@ public:
 		sum_vel += k.velocity().norm();
 		count++;
 	}
-	double value() { return (sum_vel/mps) / count; }
+	double value() { return double(sum_vel) / count; }
 	std::ostream& print_result(std::ostream& os) {
 		os << value() << " ";
 		return os;

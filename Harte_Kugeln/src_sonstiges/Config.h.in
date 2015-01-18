@@ -1,1 +1,1 @@
-#cmakedefine USE_BOOST_UNITS
+#cmakedefine USE_UNITS

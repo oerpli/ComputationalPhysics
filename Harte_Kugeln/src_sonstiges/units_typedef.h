@@ -1,36 +1,100 @@
 #ifndef UNITS_TYPEDEF_H
 #define UNITS_TYPEDEF_H
 
+#include <ostream>
+
 #include "Config.h"
 
-#ifdef USE_BOOST_UNITS
-	#include <boost/units/cmath.hpp>
-	#include <boost/units/pow.hpp>
-	#include <boost/units/systems/si.hpp>
-	#include <boost/units/systems/si/io.hpp>
-	#include <boost/units/systems/si/base.hpp>
-	#include <boost/units/derived_dimension.hpp>
+#ifdef USE_UNITS
+	#include "my_units.hpp"
 
-	#include <boost/units/physical_dimensions/length.hpp>
-	#include <boost/units/physical_dimensions/mass.hpp>
-	#include <boost/units/physical_dimensions/time.hpp>
+	template<int num, unsigned den>
+	using R = Rational<num, den>;
+
+	typedef Quantity<R<1,1>,R<0,1>,R<0,1>> massT;
+	typedef Quantity<R<0,1>,R<1,1>,R<0,1>> lengthT;
+	typedef Quantity<R<0,1>,R<2,1>,R<0,1>> areaT;
+	typedef Quantity<R<0,1>,R<3,1>,R<0,1>> volumeT;
+	typedef Quantity<R<0,1>,R<0,1>,R<1,1>> timeT;
+	typedef Quantity<R<0,1>,R<1,1>,R<-1,1>> velocityT;
+	typedef Quantity<R<0,1>,R<1,1>,R<-2,1>> accelerationT;
+	typedef Quantity<R<1,1>,R<2,1>,R<-2,1>> energyT;
+	typedef Quantity<R<0,1>,R<0,1>,R<0,1>> dimlessT;
+	typedef Quantity<R<1,1>,R<1,1>,R<-2,1>> forceT;
+
+	constexpr massT kg(1.0);
+	constexpr lengthT m(1.0);
+	constexpr energyT J(1.0);
+	constexpr velocityT mps(1.0);
+	constexpr timeT s(1.0);
+	constexpr forceT N(1.0);
+
+	#define Pow(base,exp_num,exp_den) ( unit_pow<(exp_num),(exp_den)>((base)) )
+
+	template<class M, class L, class T>
+	constexpr Quantity<M,L,T> round(const Quantity<M,L,T>& q) {
+		return Quantity<M,L,T>{round( double(q) )};
+	}
+
+	template<class M, class L, class T>
+	constexpr Quantity<M,L,T> floor(const Quantity<M,L,T>& q) {
+		return Quantity<M,L,T>{floor( double(q) )};
+	}
+
+	template<class M, class L, class T>
+	constexpr Quantity<M,L,T> ceil(const Quantity<M,L,T>& q) {
+		return Quantity<M,L,T>{ceil( double(q) )};
+	}
 
 
-	typedef boost::units::quantity< boost::units::si::length , double > lengthT;
-	typedef boost::units::quantity< boost::units::si::time , double > timeT;
-	typedef boost::units::quantity< boost::units::si::velocity , double > velocityT;
-	typedef boost::units::quantity< boost::units::si::mass , double > massT;
-	typedef boost::units::quantity< boost::units::si::force , double > forceT;
-	typedef boost::units::quantity< boost::units::si::energy , double > energyT;
-	typedef boost::units::quantity< boost::units::si::dimensionless , double > dimlessT;
+	template<class M, class L, class T>
+	std::ostream& operator <<(std::ostream& os, const Quantity<M,L,T>& x)
+	{
+		os << x.getValue();
+		if (same_dim(x,timeT{})) return os << "s";
+		if (same_dim(x,lengthT{})) return os << "m";
+		if (same_dim(x,velocityT{})) return os << "m/s";
+		if (same_dim(x,massT{})) return os << "kg";
+		if (same_dim(x,energyT{})) return os << "J";
 
-	const boost::units::si::mass kg = boost::units::si::kilogram;
-	const boost::units::si::length m = boost::units::si::meter;
-	const boost::units::si::force N = boost::units::si::newton;
-	const boost::units::si::velocity mps = boost::units::si::meters_per_second;
-	const boost::units::si::time s = boost::units::si::second;
+		if (same_dim(x,areaT{})) return os << "m²";
+		if (same_dim(x,volumeT{})) return os << "m³";
+		if (same_dim(x,accelerationT{})) return os << "m/s²";
+		if (same_dim(x,forceT{})) return os << "N";
+		if (same_dim(x,timeT{})) return os << "s";
 
-	#define Pow(base,exp) ( boost::units::pow<(exp)>((base)) )
+		if (! R_is_zero<M>::value) {
+			if (M::v_num<0) {
+				os << " /ME";
+				if (! R_is_one<R_neg<M>>::value) R_print<R_neg<M>>::print(os);
+			}
+			else{
+				os << " ME";
+				if (! R_is_one<M>::value) R_print<M>::print(os);
+			}
+		}
+		if (! R_is_zero<L>::value) {
+			if (L::v_num<0) {
+				os << " /LE";
+				if (! R_is_one<R_neg<L>>::value) R_print<R_neg<L>>::print(os);
+			}
+			else{
+				os << " LE";
+				if (! R_is_one<L>::value) R_print<L>::print(os);
+			}
+		}
+		if (! R_is_zero<T>::value) {
+			if (T::v_num<0) {
+				os << " /TE";
+				if (! R_is_one<R_neg<T>>::value) R_print<R_neg<T>>::print(os);
+			}
+			else{
+				os << " TE";
+				if (! R_is_one<T>::value) R_print<T>::print(os);
+			}
+		}
+		return os;
+	}
 
 #else
 	typedef double lengthT;
@@ -48,8 +112,23 @@
 	const double s { 1.0 };
 
 	#include <cmath>
-	#define Pow(base,exp) ( pow( (base), (exp) ) )
+	#define Pow(base,exp_num,exp_den) ( pow( (base), (exp_num)*1./(exp_den) ) )
 
-#endif //USE_BOOST_UNITS
+#endif //USE_UNITS
+
+
+	constexpr massT operator"" _kg(double long x)  { return massT(x); }
+	constexpr massT operator"" _kg(unsigned long long x)  { return massT(static_cast<double>(x)); }
+	constexpr lengthT operator"" _m(double long x)  { return lengthT(x); }
+	constexpr lengthT operator"" _m(unsigned long long x)  { return lengthT(static_cast<double>(x)); }
+	constexpr velocityT operator"" _mps(double long x)  { return velocityT(x); }
+	constexpr velocityT operator"" _mps(unsigned long long x)  { return velocityT(static_cast<double>(x)); }
+	constexpr energyT operator"" _J(double long x)  { return energyT(x); }
+	constexpr energyT operator"" _J(unsigned long long x)  { return energyT(static_cast<double>(x)); }
+	constexpr forceT operator"" _N(double long x)  { return forceT(x); }
+	constexpr forceT operator"" _N(unsigned long long x)  { return forceT(static_cast<double>(x)); }
+	constexpr timeT operator"" _s(double long x)  { return timeT(x); }
+	constexpr timeT operator"" _s(unsigned long long x)  { return timeT(static_cast<double>(x)); }
+
 
 #endif // UNITS_TYPEDEF_H

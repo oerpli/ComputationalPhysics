@@ -10,19 +10,19 @@ void constructorEmpty() {
 }
 
 void constructorMassLength_Mass() {
-	massT km{3*kg}; lengthT kr{5*m};
+	massT km{3}; lengthT kr{5};
 	Kugel<3> k{km,kr};
 	ASSERTM("", k.mass() == km);
 }
 
 void constructorMassLength_R() {
-	massT km{3*kg}; lengthT kr{5*m};
+	massT km{3}; lengthT kr{5};
 	Kugel<3> k{km,kr};
 	ASSERTM("", k.radius() == kr);
 }
 
 void copyConstructor() {
-	massT km{3*kg}; lengthT kr{5*m};
+	massT km{3}; lengthT kr{5};
 	Kugel<3> k1{km,kr};
 	Kugel<3> k2{k1};
 	ASSERTM("", k2.mass() == km && k2.radius() == kr);
@@ -34,30 +34,30 @@ void compareKugelIdentical() {
 }
 
 void compareKugelSame() {
-	Kugel<3> k1{1*kg,2*m}, k2{1*kg,2*m};
+	Kugel<3> k1{1,2}, k2{1,2};
 	ASSERTM("", k1 == k2);
 }
 
 void setVelocity_Velocity() {
-	Kugel<3> k{1*kg, 1*m};
-	MatVec<velocityT, 3> vel{3*mps,4*mps,5*mps};
+	Kugel<3> k{1, 1};
+	MatVec<velocityT, 3> vel{3,4,5};
 
 	k.velocity(vel);
 	ASSERTM("", k.velocity() == vel);
 }
 
 void setVelocity_Energy() {
-	Kugel<3> k{1*kg, 1*m};
-	MatVec<velocityT, 3> vel{3*mps,4*mps,5*mps};
-	energyT en{25 * mps*mps*kg};
+	Kugel<3> k{1, 1};
+	MatVec<velocityT, 3> vel{3,4,5};
+	energyT en{25};
 
 	k.velocity(vel);
 	ASSERTM("", k.ekin() == en);
 }
 
 void setPosition() {
-	Kugel<3> k{1*kg, 1*m};
-	MatVec<lengthT, 3> pos{3*m,4*m,5*m};
+	Kugel<3> k{1, 1};
+	MatVec<lengthT, 3> pos{3,4,5};
 
 	k.position(pos);
 	ASSERTM("", k.position() == pos);
@@ -65,11 +65,11 @@ void setPosition() {
 
 void kugel_fastForward() {
 	Kugel<3> k{};
-	MatVec<velocityT,3> vel{1*mps,2*mps,3*mps};
-	MatVec<lengthT,3> res_pos{3*m,6*m,9*m};
+	MatVec<velocityT,3> vel{1,2,3};
+	MatVec<lengthT,3> res_pos{3,6,9};
 
 	k.velocity(vel);
-	k.fast_forward(3*s);
+	k.fast_forward(3);
 	ASSERTM("", k.position() == res_pos);
 }
 

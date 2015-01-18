@@ -49,8 +49,8 @@ int main(int argc, char* argv[]) {
 	timeT ausw_t_step {a_para[6]*s};
 	double histo_width {a_para[7]};
 
-	lengthT box_length {ceil(2.*radius.value()*pow(N/(density.value()), 1./3.))*m};
-	density = N*Pow(radius*2./box_length, 3);
+	lengthT box_length {ceil(2.*radius*Pow(double(N)/density, 1, 3))*m};
+	density = N*pow(radius*2./box_length, 3);
 
 	cout << "Dimension:\t" << DIM << endl;
 	cout << "Density:\t" << density << endl;
@@ -69,7 +69,7 @@ int main(int argc, char* argv[]) {
 
 	MatVec<lengthT,DIM> box_size{box_length, box_length, box_length}; //TODO: kann abhängig von Eingabe sein
 	Kugel<DIM> kugel1{mass, radius}; //TODO: kann abhängig von Eingabe sein
-	MatVec<velocityT,DIM> vel{14*mps};
+	MatVec<velocityT,DIM> vel{14};
 	kugel1.velocity(vel);
 	Box<DIM> box{box_size, N, kugel1}; //TODO: kann abhängig von Eingabe sein
 
@@ -129,7 +129,6 @@ int main(int argc, char* argv[]) {
 			ausw_t_next = ausw_t_step;
 			box(vec_unary, vec_binary);
 		}
-		cout << box.time() << endl;
 		if (! cp) ++count_no_coll;
 		ausw_t_next -= box.collide();
 		++count_coll;
