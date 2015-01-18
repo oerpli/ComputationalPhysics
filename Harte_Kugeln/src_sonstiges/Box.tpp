@@ -86,15 +86,11 @@ bool Box<DIM>::init_pos_lattice() {
 		if (r != vec_kugel[i].radius()) return(false); 
 	}
 	double magic = ceil(pow(vec_kugel.size()/4,1./3.));
-	std::cout << "m: " << magic << std::endl;
 	lengthT L = min(vec_abmessung);
 	lengthT dL = L/(2.0*magic);
-	std::cout << "dL: " << dL << std::endl;
 	if (dL < sqrt(2)*r) {
 		magic -= 1; 
 		dL = L/(2.0*magic);
-		std::cout << "m: " << magic << std::endl;
-		std::cout << "dL: " << dL << std::endl;
 		if (dL < sqrt(2)*r) return(false);
 	}
 	unsigned number = 0; 

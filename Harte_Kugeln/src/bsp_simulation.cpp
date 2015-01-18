@@ -84,8 +84,6 @@ int main(int argc, char* argv[]) {
 
 
 	name_pair_dist = "Pair_distribution" + ss_para.str() + ".dat";
-	cout << name_pair_dist << endl;
-
 	dat_pair_dist.open(name_pair_dist, ios::out | ios::trunc);
 	const CollisionPair<DIM> &cp = box.collision_pair();
 	unsigned count_no_coll { }, count_coll{ };
