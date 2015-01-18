@@ -52,17 +52,6 @@ int main(int argc, char* argv[]) {
 	lengthT box_length {ceil(2.*radius*Pow(double(N)/density, 1, 3))*m};
 	density = N*pow(radius*2./box_length, 3);
 
-	cout << "Dimension:\t" << DIM << endl;
-	cout << "Density:\t" << density << endl;
-	cout << "Number of Spheres:\t" << N << endl;
-	cout << "Boxlänge:\t" << box_length << endl;
-	cout << "Radius:\t" << radius << endl;
-	cout << "Warmlauf:\t" << warm_time << endl;
-	cout << "Gesamte Simulationszeit:\t" << simulation_time + warm_time << endl;
-	cout << "Auswertung alle\t" << ausw_t_step << endl;
-	cout << "Histogrammgenauigkeit:\t" << histo_width << endl;
-
-
 	AuswertVec<Kugel<DIM>> vec_unary;
 	AuswertVec<Kugel<DIM>,Kugel<DIM>> vec_binary;
 
@@ -85,10 +74,30 @@ int main(int argc, char* argv[]) {
 	const CollisionPair<DIM> &cp = box.collision_pair();
 	unsigned count_no_coll { }, count_coll{ };
 
+
+	cout << "Dimension:\t" << DIM << '\n';
+	cout << "Density:\t" << density << '\n';
+	cout << "Number of Spheres:\t" << N << '\n';
+	cout << "Boxlänge:\t" << box_length << '\n';
+	cout << "Radius:\t" << radius << '\n';
+	cout << "Warmlauf:\t" << warm_time << '\n';
+	cout << "Gesamte Simulationszeit:\t" << simulation_time + warm_time << '\n';
+	cout << "Auswertung alle\t" << ausw_t_step << '\n';
+	cout << "Histogrammgenauigkeit:\t" << histo_width << '\n';
+
+
+	cout << "\n\nSTART SIMULATION\n" << endl;
+
 	if (! box.initiate()) {
 		cout << "Zu viele Kugeln für Box.";
 		return 1;
 	}
+
+/*
+	box.unitary(vec_unary);
+	vec_unary.print_result(cout);
+	cout << flush;
+*/
 
 /*	cout << "\nVor Warmlauf\n\n";
 	box.print(cout);
@@ -113,15 +122,15 @@ int main(int argc, char* argv[]) {
 	box.print(cout);
 	cout << '\n';
 */
-	timeT ausw_t_next{ausw_t_step};
 
-	cout << "Time: " << box.time() << '\n';
+	cout << "Time: " << box.time() << endl;
 /*	box(vec_unary,vec_binary);
 	vec_unary.print_result(cout);
 	cout << '\n' << "vec_binary: ";
 	vec_binary.print_result(cout);
 */
 	//TODO: kann abhängig von Eingabe sein
+	timeT ausw_t_next{ausw_t_step};
 	timeT simulation_end{simulation_time + box.time()};
 	while (box.time() <= simulation_end){
 		while ( ausw_t_next < box.next_event() ) {
