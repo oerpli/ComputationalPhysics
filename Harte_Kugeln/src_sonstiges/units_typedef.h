@@ -46,6 +46,18 @@
 	std::ostream& operator <<(std::ostream& os, const Quantity<M,L,T>& x)
 	{
 		os << x.getValue();
+		if (same_dim(x,timeT{})) return os << "s";
+		if (same_dim(x,lengthT{})) return os << "m";
+		if (same_dim(x,velocityT{})) return os << "m/s";
+		if (same_dim(x,massT{})) return os << "kg";
+		if (same_dim(x,energyT{})) return os << "J";
+
+		if (same_dim(x,areaT{})) return os << "m²";
+		if (same_dim(x,volumeT{})) return os << "m³";
+		if (same_dim(x,accelerationT{})) return os << "m/s²";
+		if (same_dim(x,forceT{})) return os << "N";
+		if (same_dim(x,timeT{})) return os << "s";
+
 		if (! R_is_zero<M>::value) {
 			if (M::v_num<0) {
 				os << " /ME";
