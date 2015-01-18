@@ -158,5 +158,9 @@ constexpr Quantity<R_mul<M,Rational<1,2>>, R_mul<L,Rational<1,2>>, R_mul<T,Ratio
     		( std::sqrt(x.getValue()) );
 }
 
+template<class M1, class M2, class L1, class L2, class T1, class T2>
+constexpr bool same_dim(const Quantity<M1,L1,T1>& q1, const Quantity<M2,L2,T2>& q2){
+	return R_is_equal<M1,M2>::value && R_is_equal<L1,L2>::value && R_is_equal<T1,T2>::value;
+}
 
 #endif // MY_UNITS_HPP_
