@@ -368,7 +368,7 @@ void Box<DIM>::operator() (UnaryFunc& ufunc, BinaryFunc& bfunc) const {
 	for(; first != last; ++first) {
 		ufunc( *first );
 		for( second = first + 1; second != last; ++second )
-			bfunc( *first, *second );
+			bfunc( *first, *second, (this->dist(*first, *second)).norm() );
 	}
 }
 
