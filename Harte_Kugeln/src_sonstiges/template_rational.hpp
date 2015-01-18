@@ -5,12 +5,23 @@
 
 
 template<int a>
-struct equal_zero{
+struct is_zero{
 	static const bool value = false;
 };
 
 template<>
-struct equal_zero<0>{
+struct is_zero<0>{
+	static const bool value = true;
+};
+
+
+template<int a>
+struct is_one{
+	static const bool value = false;
+};
+
+template<>
+struct is_one<1>{
 	static const bool value = true;
 };
 
@@ -58,6 +69,13 @@ struct Rational_min<0, den> {
 // defining Rational
 template<int num, unsigned den>
 using Rational = typename Rational_min<num,den>::value;
+
+
+template<class R>
+using R_is_zero = is_zero<R::v_num>;
+
+template<class R>
+using R_is_one = is_one<R::v_num>;
 
 
 // Raw addition of rational numbers
