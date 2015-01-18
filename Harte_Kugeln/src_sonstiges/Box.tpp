@@ -370,7 +370,7 @@ void Box<DIM>::operator() (UnaryFunc& ufunc, BinaryFunc& bfunc) const {
 
 template<unsigned DIM>
 template<class UnitaryFunc>
-UnitaryFunc Box<DIM>::unitary(UnitaryFunc func) const {
+UnitaryFunc Box<DIM>::unitary(UnitaryFunc&& func) const {
 	return for_each(vec_kugel.cbegin(), vec_kugel.cend(), func);
 }
 

@@ -98,7 +98,7 @@ public:
 	void operator() (UnaryFunc& ufunc, BinaryFunc& bfunc) const;
 
 	template<class UnitaryFunc>
-	UnitaryFunc unitary(UnitaryFunc func) const;
+	UnitaryFunc unitary(UnitaryFunc&& func) const;
 
 
 	std::ostream& print(std::ostream& os) const;
