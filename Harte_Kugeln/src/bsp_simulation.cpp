@@ -7,17 +7,19 @@
 #include <string>
 #include <algorithm>
 #include <sstream>
+#include <memory>
 
 
 #include "MatVec.h"
 #include "Kugel.h"
 #include "Box.h"
 
+#include "AuswertVec.h"
 #include "auswertung_bsp_average_vel.h"
 #include "auswertung_bsp_average_energy.h"
+
 #include "PairDistribution.h"
-#include <memory>
-#include "AuswertVec.h"
+#include "auswertung_collision_time.hpp"
 
 using namespace std;
 
@@ -55,7 +57,7 @@ int main(int argc, char* argv[]) {
 
 	AuswertVec<Kugel<DIM>> vec_unary;
 	AuswertVec<Kugel<DIM>,Kugel<DIM>,lengthT> vec_binary;
-
+	auswertung_collision_time<DIM> ausw_coll_time{.0005};
 
 	MatVec<lengthT,DIM> box_size{box_length, box_length, box_length}; //TODO: kann abhängig von Eingabe sein
 	Kugel<DIM> kugel1{mass, radius}; //TODO: kann abhängig von Eingabe sein
@@ -65,14 +67,14 @@ int main(int argc, char* argv[]) {
 
 
 	{//TODO: kann abhängig von Eingabe sein
-		vec_unary.push_back( new auswertung_bsp_average_vel<DIM> );
-		vec_unary.push_back( new auswertung_bsp_average_energy<DIM> );
+		vec_unary.push_back( new auswertung_bsp_average_vel<DIM>{} );
+		vec_unary.push_back( new auswertung_bsp_average_energy<DIM>{} );
 		vec_binary.push_back(new PairDistribution<DIM> { histo_width, density, N });
 	}
 
-	stringstream ss_para;
+	stringstream ss_para{};
 	string name_pair_dist{};
-	ofstream dat_pair_dist{};
+	ofstream dat_pair_dist{}, dat_coll_time{};
 
 	ss_para.precision(0);
 	ss_para << "_DIM" << DIM;
@@ -106,7 +108,7 @@ int main(int argc, char* argv[]) {
 		cout << "Zu viele Kugeln für Box.";
 		return 1;
 	}
-
+	ausw_coll_time( box.collision_pair() );
 /*
 	box.unitary(vec_unary);
 	vec_unary.print_result(cout);
@@ -128,6 +130,7 @@ int main(int argc, char* argv[]) {
 	while (box.time() <= warm_time) {
 		if (! cp) ++count_no_coll;
 		coll_time = box.collide();
+		ausw_coll_time( box.collision_pair() );
 //		cout << coll_time << '\n';
 		++count_coll;
 	}
@@ -154,6 +157,7 @@ int main(int argc, char* argv[]) {
 		}
 		if (! cp) ++count_no_coll;
 		ausw_t_next -= box.collide();
+		ausw_coll_time( box.collision_pair() );
 		++count_coll;
 	}
 
@@ -161,6 +165,9 @@ int main(int argc, char* argv[]) {
 	vec_unary.print_result(cout);
 
 	vec_binary.print_result(dat_pair_dist);
+
+	dat_coll_time.open("Coll_time" + ss_para.str() + ".dat", ios::out | ios::trunc);
+	ausw_coll_time.print_result(dat_coll_time);
 
 	cout << "\n no collision: " << count_no_coll;
 	cout << " of " << count_coll << " collisions";
