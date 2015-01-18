@@ -6,6 +6,7 @@
 #include <cstring>
 #include <string>
 #include <algorithm>
+#include <sstream>
 
 
 #include "MatVec.h"
@@ -69,8 +70,23 @@ int main(int argc, char* argv[]) {
 		vec_binary.push_back(new PairDistribution<DIM> { histo_width, box_size });
 	}
 
-	ofstream dat_pair_dist;
-	dat_pair_dist.open("pair_distribution.dat", ios::out | ios::trunc);
+	stringstream ss_para;
+	string name_pair_dist{};
+	ofstream dat_pair_dist{};
+
+	ss_para.precision(0);
+	ss_para << "_DIM" << DIM;
+	ss_para << "_N" << N;
+	ss_para << "_r" << (double)radius;
+	ss_para << "_m" << (double)mass;
+	ss_para << "_rho" << (double)density;
+	ss_para << "_run" << scientific << (double)simulation_time;
+
+
+	name_pair_dist = "Pair_distribution" + ss_para.str() + ".dat";
+	cout << name_pair_dist << endl;
+
+	dat_pair_dist.open(name_pair_dist, ios::out | ios::trunc);
 	const CollisionPair<DIM> &cp = box.collision_pair();
 	unsigned count_no_coll { }, count_coll{ };
 
@@ -145,7 +161,7 @@ int main(int argc, char* argv[]) {
 
 	cout << "Time: " << box.time() << '\n';
 	vec_unary.print_result(cout);
-	cout << '\n' << "vec_binary: ";
+
 	vec_binary.print_result(dat_pair_dist);
 
 	cout << "\n no collision: " << count_no_coll;
