@@ -2,7 +2,6 @@
 #define MY_UNITS_HPP_
 
 #include <utility>
-#include <ostream>
 #include <cmath>
 
 #include "template_rational.hpp"
@@ -157,25 +156,6 @@ constexpr Quantity<R_mul<M,Rational<1,2>>, R_mul<L,Rational<1,2>>, R_mul<T,Ratio
 {
     return Quantity<R_mul<M,Rational<1,2>>, R_mul<L,Rational<1,2>>, R_mul<T,Rational<1,2>>>
     		( std::sqrt(x.getValue()) );
-}
-
-template<class M, class L, class T>
-std::ostream& operator <<(std::ostream& os, const Quantity<M,L,T>& x)
-{
-	os << x.getValue();
-	if (! equal_zero<M::v_num>::value) {
-		os << " ME";
-		R_print<M>::print(os);
-	}
-	if (! equal_zero<L::v_num>::value) {
-		os << " LE";
-		R_print<L>::print(os);
-	}
-	if (! equal_zero<T::v_num>::value) {
-		os << " TE";
-		R_print<T>::print(os);
-	}
-	return os;
 }
 
 

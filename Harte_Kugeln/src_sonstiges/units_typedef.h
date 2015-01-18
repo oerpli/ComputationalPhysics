@@ -1,6 +1,8 @@
 #ifndef UNITS_TYPEDEF_H
 #define UNITS_TYPEDEF_H
 
+#include <ostream>
+
 #include "Config.h"
 
 #ifdef USE_UNITS
@@ -37,6 +39,44 @@
 	template<class M, class L, class T>
 	constexpr Quantity<M,L,T> floor(const Quantity<M,L,T>& q) {
 		return Quantity<M,L,T>{floor( double(q) )};
+	}
+
+
+	template<class M, class L, class T>
+	std::ostream& operator <<(std::ostream& os, const Quantity<M,L,T>& x)
+	{
+		os << x.getValue();
+		if (! R_is_zero<M>::value) {
+			if (M::v_num<0) {
+				os << " /ME";
+				if (! R_is_one<R_neg<M>>::value) R_print<R_neg<M>>::print(os);
+			}
+			else{
+				os << " ME";
+				if (! R_is_one<M>::value) R_print<M>::print(os);
+			}
+		}
+		if (! R_is_zero<L>::value) {
+			if (L::v_num<0) {
+				os << " /LE";
+				if (! R_is_one<R_neg<L>>::value) R_print<R_neg<L>>::print(os);
+			}
+			else{
+				os << " LE";
+				if (! R_is_one<L>::value) R_print<L>::print(os);
+			}
+		}
+		if (! R_is_zero<T>::value) {
+			if (T::v_num<0) {
+				os << " /TE";
+				if (! R_is_one<R_neg<T>>::value) R_print<R_neg<T>>::print(os);
+			}
+			else{
+				os << " TE";
+				if (! R_is_one<T>::value) R_print<T>::print(os);
+			}
+		}
+		return os;
 	}
 
 #else
