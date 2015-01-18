@@ -67,7 +67,7 @@ int main(int argc, char* argv[]) {
 	{//TODO: kann abhängig von Eingabe sein
 		vec_unary.push_back( new auswertung_bsp_average_vel<DIM> );
 		vec_unary.push_back( new auswertung_bsp_average_energy<DIM> );
-		vec_binary.push_back(new PairDistribution<DIM> { histo_width, box_size });
+		vec_binary.push_back(new PairDistribution<DIM> { histo_width, box_size, density, N });
 	}
 
 	stringstream ss_para;

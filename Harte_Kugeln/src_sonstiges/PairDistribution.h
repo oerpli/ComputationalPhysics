@@ -11,16 +11,16 @@
 
 #include "Auswert.h"
 #include "Kugel.h"
-#include "Free_Histo.h"
+#include "Free_Histo_Pair.hpp"
 
 template<unsigned DIM>
 class PairDistribution : public Auswert<Kugel<DIM>, Kugel<DIM>> {
 private:
-	Free_Histo distribution;
+	Free_Histo_Pair distribution;
 	MatVec<lengthT, DIM> box_length;
 
 public:
-	PairDistribution(double width, MatVec<lengthT, DIM> length);
+	PairDistribution(double width, MatVec<lengthT, DIM> length, double rho, unsigned N);
 	void operator ()(const Kugel<DIM>& k1, const Kugel<DIM>& k2);
 	std::ostream& print_result(std::ostream& os);
 	double value();

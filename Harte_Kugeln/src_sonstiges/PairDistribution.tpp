@@ -1,5 +1,5 @@
 template<unsigned DIM>
-inline PairDistribution<DIM>::PairDistribution(double width, MatVec<lengthT, DIM> length) : distribution(width), box_length(length) {}
+inline PairDistribution<DIM>::PairDistribution(double width, MatVec<lengthT, DIM> length, double rho, unsigned N) : distribution(width, rho, N), box_length(length) {}
 
 template<unsigned DIM>
 inline void PairDistribution<DIM>::operator ()(const Kugel<DIM>& k1,
