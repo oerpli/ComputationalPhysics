@@ -50,8 +50,8 @@ int main(int argc, char* argv[]) {
 	timeT ausw_t_step {a_para[6]*s};
 	double histo_width {a_para[7]};
 
-	lengthT box_length {ceil(2.*radius*Pow(double(N)/density, 1, 3))*m};
-	density = N*pow(radius*2./box_length, 3);
+	lengthT box_length {(2.*radius*Pow(double(N)/density, 1, 3))*m};
+	//density = N*pow(radius*2./box_length, 3);
 
 	AuswertVec<Kugel<DIM>> vec_unary;
 	AuswertVec<Kugel<DIM>,Kugel<DIM>> vec_binary;

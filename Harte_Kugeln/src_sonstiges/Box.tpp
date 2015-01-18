@@ -86,9 +86,17 @@ bool Box<DIM>::init_pos_lattice() {
 		if (r != vec_kugel[i].radius()) return(false); 
 	}
 	double magic = ceil(pow(vec_kugel.size()/4,1./3.));
+	std::cout << "m: " << magic << std::endl;
 	lengthT L = min(vec_abmessung);
 	lengthT dL = L/(2.0*magic);
-	if (dL < 2.0*r) return(false);
+	std::cout << "dL: " << dL << std::endl;
+	if (dL < sqrt(2)*r) {
+		magic -= 1; 
+		dL = L/(2.0*magic);
+		std::cout << "m: " << magic << std::endl;
+		std::cout << "dL: " << dL << std::endl;
+		if (dL < sqrt(2)*r) return(false);
+	}
 	unsigned number = 0; 
 	for (dimlessT i = 0; i < 2*magic; i+=1) {
 		for (dimlessT j = 0; j < 2*magic; j+=1) {
@@ -98,11 +106,11 @@ bool Box<DIM>::init_pos_lattice() {
 					vec_kugel[number].position(new_pos); 
 					number++;
 				} 
-				if (number >= vec_kugel.size()) return(true); 
+				if (number >= vec_kugel.size()) return(check_no_touching()); 
 			}
 		}
 	}
-	return(true); 
+	return(false); 
 }
 
 template<unsigned DIM>
