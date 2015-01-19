@@ -201,6 +201,13 @@ CollisionPair<DIM> Box<DIM>::calc_event(Kugel<DIM>& k1, Kugel<DIM>& k2) {
 			v_act_t[i] = (vec_abmessung[i] - pos[i]) / v[i];
 	}
 
+	timeT max_time = std::max(k1.collision_time(), k2.collision_time());
+	// needed for initialization
+	if (max_time == 0_s) {
+		v_res_t([&](const timeT& t){if(t > max_time) max_time = t;});
+		max_time = max_time * (double)versuche;
+	}
+
 	const auto d2 = Pow(k1.radius() + k2.radius(), 2, 1);
 	const auto d2v2 = d2 * v2;
 
@@ -210,7 +217,7 @@ CollisionPair<DIM> Box<DIM>::calc_event(Kugel<DIM>& k1, Kugel<DIM>& k2) {
 	auto sr2 = 0. *m*m *mps*mps;
 	const auto sr20 = 0. *m*m *mps*mps;
 
-	for (unsigned i = 0; i < versuche; t_ges += forward(
+	for (unsigned i = 0; t_ges < max_time && i < versuche; t_ges += forward(
 			pos, v, v_act_t, v_res_t, v_res_pos), ++i) {
 		r = pos - pos_2;
 		rv = r * v;
