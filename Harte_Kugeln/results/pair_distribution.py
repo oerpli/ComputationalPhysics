@@ -2,6 +2,7 @@ import Gnuplot
 import sys
 import os 
 import glob
+import linecache
 import numpy as np
 
 def string_after(s, dem): 
@@ -31,7 +32,6 @@ gnu( 'set ylabel "g(r)"' )
 search_string = "./Pair_distribution_"+str(parameter)+"*"
 print search_string
 for file in glob.glob(search_string):
-    print file
     number_of_files += 1  
     name_output = file.partition("_DIM")[0] + "_function" + file.partition("distribution")[2]
     print name_output
@@ -42,13 +42,14 @@ for file in glob.glob(search_string):
         data = line.split("\t")
         g = float(data[1])
         r = float(data[0])
-        g = g*3.0*N/(2.0*np.pi*rho*r*r)
+        g = g*(N-1)*np.power(2*radius,3)/(4.0*np.pi*rho*r*r)
         f_output.write("%f" %r + " " + "%f" %g + " \n")
     f_output.close()
     
     plot_data = "plot '" + name_output + "' u "
     plot_data += "($1/" + str(2.0*radius) + "):2 w l t 'rho = " + str(rho)
-    gnu( 'set xrange[1:' + str(int(radius*np.power(N/rho, 1./3.))-1) + ']')
+    #gnu( 'set xrange[1:' + str(int(np.sqrt(3)*np.power(N/rho, 1./3.)/(2.*radius))) + ']')
+    gnu( 'set xrange[1:' + str(5.*radius) + ']')
     gnu( 'set term x11 ' + str(number_of_files) ) 
     gnu( 'set output' )
     gnu( plot_data )
@@ -58,4 +59,34 @@ for file in glob.glob(search_string):
     gnu( 'repl' )
     print "Das Bild '" + name_image + "' wurde erstellt.\n"
 
-    
+search_string = "./Pair_distribution_function_"+str(parameter)+"*.dat"
+name_output = "eos_"+str(parameter)+".dat"
+f_output = open(name_output, 'w')
+ 
+for file in sorted(glob.glob(search_string)): 
+    print file 
+    rho = float(string_after(file, "_rho"))
+    print "rho" , rho
+    data = linecache.getline(file, 1).split(' ')
+    print data
+    g = float(data[1])
+    print "g : ", g
+    f_output.write("%f" %rho + " " + "%f" %(1.+2.*np.pi*g*rho/3.) + " \n")
+  
+f_output.close()
+  
+gnu( 'pi = 3.141593' )
+gnu( 'f(x) = 1 + (x*pi/6.0 + (x*pi/6.0)**2 - (x*pi/6.0)**3)/((1-(x*pi/6.0))**3) ' ) 
+gnu( 'set title "Equation of state"' )
+gnu( 'set xlabel "rho"' )
+gnu( 'set ylabel "p/(rho*k*T)"' )
+gnu( 'set xrange[0:1.4]' )
+gnu( 'set term x11 ' + str(number_of_files+1) ) 
+gnu( 'set output' )
+plot_data = "plot '" + name_output + "' w l, f(x) " 
+gnu( plot_data )
+gnu( 'set terminal png large size 1024,768' )
+name_image = name_output.partition(".dat")[0] + ".png"
+gnu( 'set output "' + name_image + '"' )
+gnu( 'repl' )
+print "Das Bild '" + name_image + "' wurde erstellt.\n" 

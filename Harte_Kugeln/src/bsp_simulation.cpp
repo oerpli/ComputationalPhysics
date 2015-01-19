@@ -69,7 +69,7 @@ int main(int argc, char* argv[]) {
 	{//TODO: kann abhängig von Eingabe sein
 		vec_unary.push_back( new auswertung_bsp_average_vel<DIM>{} );
 		vec_unary.push_back( new auswertung_bsp_average_energy<DIM>{} );
-		vec_binary.push_back(new PairDistribution<DIM> { histo_width, density, N });
+		vec_binary.push_back(new PairDistribution<DIM> { histo_width, (double)density/(pow((double)radius*2.0, 3)), N });
 	}
 
 	stringstream ss_para{};
@@ -79,9 +79,11 @@ int main(int argc, char* argv[]) {
 	ss_para.precision(0);
 	ss_para << "_DIM" << DIM;
 	ss_para << "_N" << N;
+	ss_para.precision(2);
 	ss_para << "_r" << (double)radius;
 	ss_para << "_m" << (double)mass;
-	ss_para << "_rho" << (double)density;
+	ss_para << "_rho" << density;
+	ss_para.precision(0);
 	ss_para << "_run" << scientific << (double)simulation_time;
 
 
