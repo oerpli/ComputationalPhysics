@@ -34,7 +34,6 @@ print search_string
 for file in glob.glob(search_string):
     number_of_files += 1  
     name_output = file.partition("_DIM")[0] + "_function" + file.partition("distribution")[2]
-    print name_output
     rho = float(string_after(name_output, "_rho"))
     f_output = open(name_output, "w") 
     f_pair_dist = open(file, "r")
@@ -63,14 +62,10 @@ search_string = "./Pair_distribution_function_"+str(parameter)+"*.dat"
 name_output = "eos_"+str(parameter)+".dat"
 f_output = open(name_output, 'w')
  
-for file in sorted(glob.glob(search_string)): 
-    print file 
+for file in sorted(glob.glob(search_string)):  
     rho = float(string_after(file, "_rho"))
-    print "rho" , rho
     data = linecache.getline(file, 1).split(' ')
-    print data
     g = float(data[1])
-    print "g : ", g
     f_output.write("%f" %rho + " " + "%f" %(1.+2.*np.pi*g*rho/3.) + " \n")
   
 f_output.close()
