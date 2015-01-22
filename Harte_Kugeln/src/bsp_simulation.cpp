@@ -20,6 +20,8 @@
 
 #include "PairDistribution.h"
 #include "auswertung_collision_time.hpp"
+#include "AverageVelocitySquared.h"
+#include "MomentumFlux.h"
 
 using namespace std;
 
@@ -57,6 +59,7 @@ int main(int argc, char* argv[]) {
 	AuswertVec<Kugel<DIM>,Kugel<DIM>,lengthT> vec_binary;
 	auswertung_collision_time<DIM> ausw_coll_time{.0005};
 
+
 	Kugel<DIM> kugel1{mass, radius}; //TODO: kann abhängig von Eingabe sein
 	MatVec<velocityT,DIM> vel{14};
 	kugel1.velocity(vel);
@@ -66,8 +69,11 @@ int main(int argc, char* argv[]) {
 	{//TODO: kann abhängig von Eingabe sein
 		vec_unary.push_back( new auswertung_bsp_average_vel<DIM>{} );
 		vec_unary.push_back( new auswertung_bsp_average_energy<DIM>{} );
+		vec_unary.push_back( new AverageVelocitySquared<DIM>{});
 		vec_binary.push_back(new PairDistribution<DIM> { histo_width, (double)density/(pow((double)radius*2.0, 3)), N });
 	}
+
+	MomentumFlux<DIM> ausw_momentum_flux {};
 
 	stringstream ss_para{};
 	string name_pair_dist{};
@@ -158,6 +164,7 @@ int main(int argc, char* argv[]) {
 		if (! cp) ++count_no_coll;
 		ausw_t_next -= box.collide();
 		ausw_coll_time( box.collision_pair() );
+		ausw_momentum_flux( box.collision_info() );
 		++count_coll;
 	}
 
@@ -168,6 +175,9 @@ int main(int argc, char* argv[]) {
 
 	dat_coll_time.open("Coll_time" + ss_para.str() + ".dat", ios::out | ios::trunc);
 	ausw_coll_time.print_result(dat_coll_time);
+	cout << "Momentum Flux: ";
+	ausw_momentum_flux.print_result(cout);
+
 
 	cout << "\n no collision: " << count_no_coll;
 	cout << " of " << count_coll << " collisions";
