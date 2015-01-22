@@ -1,12 +1,12 @@
 template<unsigned DIM>
 inline Box<DIM>::Box(const MatVec<lengthT, DIM>& dim, unsigned size, const Kugel<DIM>& kugel)
-	: m_time{},vec_kugel(size, kugel), vec_abmessung{dim}
+	: m_time{}, vec_kugel(size, kugel), vec_abmessung{dim}, density{}
 	, next_collision_pair{}
 	, b_initiate_pos{false}, b_initiate_vel{false} {}
 
 template<unsigned DIM>
 inline Box<DIM>::Box(const MatVec<lengthT, DIM>& dim, unsigned size)
-	: m_time{}, vec_kugel(size), vec_abmessung{dim}
+	: m_time{}, vec_kugel(size), vec_abmessung{dim}, density{}
 	, next_collision_pair{}
 	, b_initiate_pos{false}, b_initiate_vel{false}  {}
 
@@ -14,6 +14,21 @@ template<unsigned DIM>
 inline Box<DIM>::Box(const MatVec<lengthT, DIM>& dim)
 		: Box{dim,0} {}
 
+template<unsigned DIM>
+inline Box<DIM>::Box(dimlessT dens, unsigned size, const Kugel<DIM>& kugel)
+	: m_time{},vec_kugel(size, kugel), vec_abmessung{}, density{dens}
+	, next_collision_pair{}
+	, b_initiate_pos{false}, b_initiate_vel{false} {}
+
+template<unsigned DIM>
+inline Box<DIM>::Box(dimlessT dens, unsigned size)
+	: m_time{}, vec_kugel(size), vec_abmessung{}, density{dens}
+	, next_collision_pair{}
+	, b_initiate_pos{false}, b_initiate_vel{false}  {}
+
+template<unsigned DIM>
+inline Box<DIM>::Box(dimlessT dens)
+		: Box{dens,0} {}
 
 template<unsigned DIM>
 inline MatVec<lengthT,DIM>& Box<DIM>::wrap (MatVec<lengthT,DIM>& pos) {
@@ -334,6 +349,17 @@ inline auto Box<DIM>::abmessung() const {
 
 template<unsigned DIM>
 bool Box<DIM>::initiate() {
+	if(density) {
+		lengthT box_length {2.*vec_kugel[0].radius()*Pow((double)(vec_kugel.size())/density, 1, DIM)};
+		MatVec<lengthT, DIM> box (box_length); 
+		vec_abmessung = box;
+	}
+	else {
+		auto box_volume = Pow(1_m, DIM, 1);
+		for ( auto& length : vec_abmessung ) box_volume = box_volume*(double)length;  
+		density = (Pow(2.0*vec_kugel[0].radius(), DIM, 1)/box_volume)*(double)vec_kugel.size(); 
+	}
+	
 	if (! b_initiate_pos) b_initiate_pos = check_no_touching();
 	if (! b_initiate_pos) {
 		if (DIM == 3) {

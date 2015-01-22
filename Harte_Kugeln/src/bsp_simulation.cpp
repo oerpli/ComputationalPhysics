@@ -52,18 +52,15 @@ int main(int argc, char* argv[]) {
 	timeT ausw_t_step {a_para[6]*s};
 	double histo_width {a_para[7]};
 
-	lengthT box_length {(2.*radius*Pow(double(N)/density, 1, 3))*m};
-	//density = N*pow(radius*2./box_length, 3);
 
 	AuswertVec<Kugel<DIM>> vec_unary;
 	AuswertVec<Kugel<DIM>,Kugel<DIM>,lengthT> vec_binary;
 	auswertung_collision_time<DIM> ausw_coll_time{.0005};
 
-	MatVec<lengthT,DIM> box_size{box_length, box_length, box_length}; //TODO: kann abhängig von Eingabe sein
 	Kugel<DIM> kugel1{mass, radius}; //TODO: kann abhängig von Eingabe sein
 	MatVec<velocityT,DIM> vel{14};
 	kugel1.velocity(vel);
-	Box<DIM> box{box_size, N, kugel1}; //TODO: kann abhängig von Eingabe sein
+	Box<DIM> box{density, N, kugel1}; //TODO: kann abhängig von Eingabe sein
 
 
 	{//TODO: kann abhängig von Eingabe sein
@@ -79,7 +76,7 @@ int main(int argc, char* argv[]) {
 	ss_para.precision(0);
 	ss_para << "_DIM" << DIM;
 	ss_para << "_N" << N;
-	ss_para.precision(2);
+	ss_para.precision(3);
 	ss_para << "_r" << (double)radius;
 	ss_para << "_m" << (double)mass;
 	ss_para << "_rho" << density;
@@ -92,11 +89,15 @@ int main(int argc, char* argv[]) {
 	const CollisionPair<DIM> &cp = box.collision_pair();
 	unsigned count_no_coll { }, count_coll{ };
 
+	if (! box.initiate()) {
+		cout << "Zu viele Kugeln für Box.";
+		return 1;
+	}
 
 	cout << "Dimension:\t" << DIM << '\n';
 	cout << "Density:\t" << density << '\n';
 	cout << "Number of Spheres:\t" << N << '\n';
-	cout << "Boxlänge:\t" << box_length << '\n';
+	cout << "Boxlänge:\t" << box.abmessung() << '\n';
 	cout << "Radius:\t" << radius << '\n';
 	cout << "Warmlauf:\t" << warm_time << '\n';
 	cout << "Gesamte Simulationszeit:\t" << simulation_time + warm_time << '\n';
@@ -106,10 +107,7 @@ int main(int argc, char* argv[]) {
 
 	cout << "\n\nSTART SIMULATION\n" << endl;
 
-	if (! box.initiate()) {
-		cout << "Zu viele Kugeln für Box.";
-		return 1;
-	}
+
 	ausw_coll_time( box.collision_pair() );
 /*
 	box.unitary(vec_unary);

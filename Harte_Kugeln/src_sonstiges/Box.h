@@ -15,6 +15,7 @@ class Box {
 	timeT m_time; //System Zeit
 	std::vector<Kugel<DIM>> vec_kugel;
 	MatVec<lengthT, DIM> vec_abmessung;
+	dimlessT density;
 	CollisionPair<DIM> next_collision_pair;
 	bool b_initiate_pos, b_initiate_vel;
 
@@ -69,6 +70,10 @@ public:
 	Box(const MatVec<lengthT, DIM>& dim, unsigned size, const Kugel<DIM>& kugel);
 	Box(const MatVec<lengthT, DIM>& dim, unsigned size);
 	Box(const MatVec<lengthT, DIM>& dim);
+	Box(dimlessT dens, unsigned size, const Kugel<DIM>& kugel);
+	Box(dimlessT dens, unsigned size);
+	Box(dimlessT dens);
+
 
 
 	const Kugel<DIM>& operator [](unsigned i) const;
