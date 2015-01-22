@@ -8,7 +8,7 @@ template<unsigned DIM>
 inline Box<DIM>::Box(const MatVec<lengthT, DIM>& dim, unsigned size)
 	: m_time{}, vec_kugel(size), vec_abmessung{dim}, density{}
 	, next_collision_pair{}
-	, b_initiate_pos{false}, b_initiate_vel{false}  {}
+	, b_initiate_pos{false}, b_initiate_vel{false} {}
 
 template<unsigned DIM>
 inline Box<DIM>::Box(const MatVec<lengthT, DIM>& dim)
@@ -24,7 +24,7 @@ template<unsigned DIM>
 inline Box<DIM>::Box(dimlessT dens, unsigned size)
 	: m_time{}, vec_kugel(size), vec_abmessung{}, density{dens}
 	, next_collision_pair{}
-	, b_initiate_pos{false}, b_initiate_vel{false}  {}
+	, b_initiate_pos{false}, b_initiate_vel{false} {}
 
 template<unsigned DIM>
 inline Box<DIM>::Box(dimlessT dens)
@@ -251,6 +251,10 @@ void Box<DIM>::collide(Kugel<DIM>& kugel1, Kugel<DIM>& kugel2) {
 	const auto v1 = kugel1.velocity(), v2 = kugel2.velocity();
 	const auto m1 = kugel1.mass(), m2 = kugel2.mass();
 
+	MatVec<velocityT, DIM> dv = -v1; 
+	MatVec<lengthT, DIM> dp = kugel2.position() - kugel1.position(); 
+	dp = wrap(dp); 
+
 	const auto dis =  dist( kugel1, kugel2 );
 	const auto n = dis / dis.norm();
 
@@ -258,6 +262,11 @@ void Box<DIM>::collide(Kugel<DIM>& kugel1, Kugel<DIM>& kugel2) {
 
 	kugel1.velocity( v1 - ( p / m1) );
 	kugel2.velocity( v2 + ( p / m2) );
+
+	dv += kugel1.velocity(); 
+	coll_info.delta_v_collision = dv; 
+	coll_info.delta_p_collision = dp; 
+	
 }
 
 template<unsigned DIM>
@@ -300,6 +309,8 @@ template<unsigned DIM>
 timeT Box<DIM>::fast_forward(const timeT& dt) {
 	if (dt == 0_s) return 0_s;
 	m_time += dt;
+	coll_info.system_time = m_time; 
+	coll_info.collision = bool(next_collision_pair); 
 	next_collision_pair.fast_forward(dt);
 	for (auto& kugel : vec_kugel) {
 		kugel.fast_forward(dt);
@@ -390,6 +401,11 @@ inline timeT Box<DIM>::next_event() const {return next_collision_pair.collision_
 template<unsigned DIM>
 inline const CollisionPair<DIM>& Box<DIM>::collision_pair() const {
 	return next_collision_pair;
+}
+
+template<unsigned DIM>
+inline const struct CollisionInfo<DIM>& Box<DIM>::collision_info() const {
+	return coll_info;
 }
 
 template<unsigned DIM>

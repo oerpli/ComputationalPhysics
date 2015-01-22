@@ -7,6 +7,7 @@
 #include "MatVec.h"
 #include "Kugel.h"
 #include "Rand.h"
+#include "CollisionInfo.h"
 
 #include <cassert>
 
@@ -18,7 +19,7 @@ class Box {
 	dimlessT density;
 	CollisionPair<DIM> next_collision_pair;
 	bool b_initiate_pos, b_initiate_vel;
-
+	struct CollisionInfo<DIM> coll_info;
 
 	//wrap for lvalue
 	MatVec<lengthT,DIM>& wrap (MatVec<lengthT,DIM>& pos);
@@ -97,6 +98,7 @@ public:
 	timeT next_event() const;
 
 	const CollisionPair<DIM>& collision_pair() const;
+	const struct CollisionInfo<DIM>& collision_info() const;
 
 
 	template<class UnaryFunc, class BinaryFunc>
