@@ -17,6 +17,7 @@
 	typedef Quantity<R<0,1>,R<3,1>,R<0,1>> volumeT;
 	typedef Quantity<R<0,1>,R<0,1>,R<1,1>> timeT;
 	typedef Quantity<R<0,1>,R<1,1>,R<-1,1>> velocityT;
+	typedef Quantity<R<0,1>,R<2,1>,R<-2,1>> velocitySquaredT;
 	typedef Quantity<R<0,1>,R<1,1>,R<-2,1>> accelerationT;
 	typedef Quantity<R<1,1>,R<2,1>,R<-2,1>> energyT;
 	typedef Quantity<R<0,1>,R<0,1>,R<0,1>> dimlessT;
@@ -26,6 +27,7 @@
 	constexpr lengthT m(1.0);
 	constexpr energyT J(1.0);
 	constexpr velocityT mps(1.0);
+	constexpr velocitySquaredT mps2(1.0);
 	constexpr timeT s(1.0);
 	constexpr forceT N(1.0);
 
@@ -54,6 +56,7 @@
 		if (same_dim(x,timeT{})) return os << "s";
 		if (same_dim(x,lengthT{})) return os << "m";
 		if (same_dim(x,velocityT{})) return os << "m/s";
+		if (same_dim(x,velocitySquaredT{})) return os << "m²/s²";
 		if (same_dim(x,massT{})) return os << "kg";
 		if (same_dim(x,energyT{})) return os << "J";
 
@@ -100,6 +103,7 @@
 	typedef double lengthT;
 	typedef double timeT;
 	typedef double velocityT;
+	typedef double velocitySquaredT;
 	typedef double massT;
 	typedef double forceT;
 	typedef double energyT;
@@ -109,6 +113,7 @@
 	const double m { 1.0 };
 	const double N { 1.0 };
 	const double mps { 1.0 };
+	const double mps2 { 1.0	};
 	const double s { 1.0 };
 
 	#include <cmath>
@@ -123,6 +128,8 @@
 	constexpr lengthT operator"" _m(unsigned long long x)  { return lengthT(static_cast<double>(x)); }
 	constexpr velocityT operator"" _mps(double long x)  { return velocityT(x); }
 	constexpr velocityT operator"" _mps(unsigned long long x)  { return velocityT(static_cast<double>(x)); }
+	constexpr velocitySquaredT operator"" _mps2(double long x)  { return velocitySquaredT(x); }
+	constexpr velocitySquaredT operator"" _mps2(unsigned long long x)  { return velocitySquaredT(static_cast<double>(x)); }
 	constexpr energyT operator"" _J(double long x)  { return energyT(x); }
 	constexpr energyT operator"" _J(unsigned long long x)  { return energyT(static_cast<double>(x)); }
 	constexpr forceT operator"" _N(double long x)  { return forceT(x); }
