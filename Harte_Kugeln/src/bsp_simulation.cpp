@@ -174,13 +174,13 @@ int main(int argc, char* argv[]) {
 	vec_unary.print_result(dat_values);
 	ausw_momentum_flux.print_result(dat_values);
 
+
 	name_pair_dist = "Pair_distribution" + ss_para.str() + ".dat";
 	dat_pair_dist.open(name_pair_dist, ios::out | ios::trunc);
 	vec_binary.print_result(dat_pair_dist);
 
 	dat_coll_time.open("Coll_time" + ss_para.str() + ".dat", ios::out | ios::trunc);
 	ausw_coll_time.print_result(dat_coll_time);
-	cout << "Momentum Flux: ";
 
 
 
