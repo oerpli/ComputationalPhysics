@@ -77,7 +77,7 @@ int main(int argc, char* argv[]) {
 
 	stringstream ss_para{};
 	string name_pair_dist{};
-	ofstream dat_pair_dist{}, dat_coll_time{};
+	ofstream dat_pair_dist{}, dat_coll_time{}, dat_values{};
 
 	ss_para.precision(0);
 	ss_para << "_DIM" << DIM;
@@ -90,8 +90,7 @@ int main(int argc, char* argv[]) {
 	ss_para << "_run" << scientific << (double)simulation_time;
 
 
-	name_pair_dist = "Pair_distribution" + ss_para.str() + ".dat";
-	dat_pair_dist.open(name_pair_dist, ios::out | ios::trunc);
+
 	const CollisionPair<DIM> &cp = box.collision_pair();
 	unsigned count_no_coll { }, count_coll{ };
 
@@ -169,14 +168,21 @@ int main(int argc, char* argv[]) {
 	}
 
 	cout << "Time: " << box.time() << '\n';
-	vec_unary.print_result(cout);
 
+	dat_values.open("values" + ss_para.str() + ".dat", ios::out | ios::trunc);
+	dat_values << "# av_vel av_energy av_vel_sq momentum_flux" << '\n';
+	vec_unary.print_result(dat_values);
+	ausw_momentum_flux.print_result(dat_values);
+
+	name_pair_dist = "Pair_distribution" + ss_para.str() + ".dat";
+	dat_pair_dist.open(name_pair_dist, ios::out | ios::trunc);
 	vec_binary.print_result(dat_pair_dist);
 
 	dat_coll_time.open("Coll_time" + ss_para.str() + ".dat", ios::out | ios::trunc);
 	ausw_coll_time.print_result(dat_coll_time);
 	cout << "Momentum Flux: ";
-	ausw_momentum_flux.print_result(cout);
+
+
 
 
 	cout << "\n no collision: " << count_no_coll;
