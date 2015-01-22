@@ -203,7 +203,8 @@ CollisionPair<DIM> Box<DIM>::calc_event(Kugel<DIM>& k1, Kugel<DIM>& k2) {
 
 	timeT max_time = std::max(k1.collision_time(), k2.collision_time());
 	// needed for initialization
-	if (max_time == 0_s) {
+	if (max_time == 0_s
+			|| k1.collision_partner() == &k2 || k2.collision_partner() == &k1) {
 		v_res_t([&](const timeT& t){if(t > max_time) max_time = t;});
 		max_time = max_time * (double)versuche;
 	}
