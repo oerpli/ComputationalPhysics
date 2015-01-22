@@ -49,11 +49,6 @@ bool CollisionPair<DIM>::operator ==(const CollisionPair<DIM> other) {
 }
 
 template<unsigned DIM>
-inline bool CollisionPair<DIM>::operator ==(const Kugel<DIM>& p_k) {
-	return p_kugel1 == p_k.collision_partner() || p_kugel2 == p_k.collision_partner();
-}
-
-template<unsigned DIM>
 inline bool CollisionPair<DIM>::operator <(const CollisionPair<DIM>& other) const {
 	return dtime < other.dtime;
 }
@@ -111,7 +106,7 @@ CollisionPair<DIM> set_collision(CollisionPair<DIM> cp, Kugel<DIM>& k1, Kugel<DI
 
 template<unsigned DIM>
 CollisionPair<DIM> set_collision_if(CollisionPair<DIM> cp, Kugel<DIM>& k) {
-	if (cp.collision_time() < k.collision_time() || cp == k) set_collision(cp,k);
+	if (cp.collision_time() < k.collision_time()) set_collision(cp,k);
 	return cp;
 }
 
