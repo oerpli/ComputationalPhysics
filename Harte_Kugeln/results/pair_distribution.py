@@ -42,6 +42,7 @@ for file in glob.glob(search_string):
         g = float(data[1])
         r = float(data[0])
         g = g*(N-1)*np.power(2*radius,3)/(4.0*np.pi*rho*r*r)
+	print g 
         f_output.write("%f" %r + " " + "%f" %g + " \n")
     f_output.close()
     
@@ -56,7 +57,7 @@ for file in glob.glob(search_string):
     name_image = name_output.partition(".dat")[0] + ".png"
     gnu( 'set output "' + name_image + '"' )
     gnu( 'repl' )
-    print "Das Bild '" + name_image + "' wurde erstellt.\n"
+    #print "Das Bild '" + name_image + "' wurde erstellt.\n"
 
 search_string = "./Pair_distribution_function_"+str(parameter)+"*.dat"
 name_output = "eos_"+str(parameter)+".dat"
@@ -78,10 +79,10 @@ gnu( 'set ylabel "p/(rho*k*T)"' )
 gnu( 'set xrange[0:1.4]' )
 gnu( 'set term x11 ' + str(number_of_files+1) ) 
 gnu( 'set output' )
-plot_data = "plot '" + name_output + "' w l, f(x) " 
+plot_data = "plot '" + name_output + "' , f(x) " 
 gnu( plot_data )
 gnu( 'set terminal png large size 1024,768' )
 name_image = name_output.partition(".dat")[0] + ".png"
 gnu( 'set output "' + name_image + '"' )
 gnu( 'repl' )
-print "Das Bild '" + name_image + "' wurde erstellt.\n" 
+#print "Das Bild '" + name_image + "' wurde erstellt.\n" 

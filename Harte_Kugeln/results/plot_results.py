@@ -34,15 +34,16 @@ f_output = open(name_output, 'w')
 search_string = "./Pair_distribution_"+str(parameter)+"*"
 print search_string
 for file in sorted(glob.glob(search_string)):
-    print file
+    #print file
     number_of_files += 1
     rho = float(string_after(file, "_rho"))
     data = linecache.getline(file, 1).split('\t')
-    print data
-    g = float(data[1])
+    #print data
+    g = float(data[2])
     value_file = file.replace("Pair_distribution" , "values")
     data = linecache.getline(value_file, 2).split(' ')
-    eos_momentum = (float(data[2])+float(data[3]))/(N*3.*np.power(2.*radius, 3))
+    eos_momentum = float(data[2])/3.0 + float(data[3])
+    #eos_momentum = (float(data[2])+3*float(data[3]))/(3.*np.power(2.*radius, 3))
     f_output.write("%f" %rho + " " + "%f " %(1.+2.*np.pi*g*rho/3.) + "%f" %eos_momentum + "\n")
 
     plot_data = "plot '" + file + "' u "
@@ -67,7 +68,7 @@ gnu( 'f(x) = 1 + (x*pi/6.0 + (x*pi/6.0)**2 - (x*pi/6.0)**3)/((1-(x*pi/6.0))**3) 
 gnu( 'set title "Equation of state"' )
 gnu( 'set xlabel "rho"' )
 gnu( 'set ylabel "p/(rho*k*T)"' )
-gnu( 'set xrange[0:1.4]' )
+#gnu( 'set xrange[0:1.4]' )
 gnu( 'set term x11 ' + str(number_of_files+1) ) 
 gnu( 'set output' )
 plot_data = "plot '" + name_output + "' u 1:2 title 'via pair distribution', '" + name_output + "' u 1:3 title 'via momentum flux', f(x) " 

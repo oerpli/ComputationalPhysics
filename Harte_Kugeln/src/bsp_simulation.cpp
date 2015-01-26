@@ -35,7 +35,7 @@ int main(int argc, char* argv[]) {
 	const unsigned DIM {3};
 
 	//default Parameter: Dichte, Kugelanzahl, Kugelradius, Masse, Zeit runs, Zeit Warmlauf, Zeit Auswertung, Histogrammbreite
-	double a_para[] {0.2, 108, 1.0, 1.0, 1E3, 1E2, 1E-1, 1E-1};
+	double a_para[] {0.2, 256, 0.5, 1.0, 1E3, 1E2, 1E-1, 1E-2};
 	int a_para_size = sizeof(a_para) / sizeof(*a_para);
 	int i_para {1};
 
@@ -73,7 +73,6 @@ int main(int argc, char* argv[]) {
 		vec_binary.push_back(new PairDistribution<DIM> { histo_width, (double)density/(pow((double)radius*2.0, 3)), N });
 	}
 
-	MomentumFlux<DIM> ausw_momentum_flux {};
 
 	stringstream ss_para{};
 	string name_pair_dist{};
@@ -98,6 +97,8 @@ int main(int argc, char* argv[]) {
 		cout << "Zu viele Kugeln für Box.";
 		return 1;
 	}
+
+	MomentumFlux<DIM> ausw_momentum_flux {radius*2.0, N};
 
 	cout << "Dimension:\t" << DIM << '\n';
 	cout << "Density:\t" << density << '\n';
@@ -170,9 +171,10 @@ int main(int argc, char* argv[]) {
 	cout << "Time: " << box.time() << '\n';
 
 	dat_values.open("values" + ss_para.str() + ".dat", ios::out | ios::trunc);
-	dat_values << "# av_vel av_energy av_vel_sq momentum_flux" << '\n';
+	dat_values << "# av_vel av_energy av_vel_sq momentum_flux boxlänge" << '\n';
 	vec_unary.print_result(dat_values);
 	ausw_momentum_flux.print_result(dat_values);
+	dat_values << box.abmessung()[0] << " ";
 
 
 	name_pair_dist = "Pair_distribution" + ss_para.str() + ".dat";

@@ -20,10 +20,10 @@ protected:
 	//AverageVelocitySquared<DIM>& av_vel_sq_func;
 
 public:
-	/*MomentumFlux(lengthT diameter, unsigned N, AverageVelocitySquared<DIM>& func) : momentum_flux{},
+	MomentumFlux(lengthT diameter, unsigned N) : momentum_flux{},
 	measurement_time{},
-	scale{1./(3.*N*pow(double(diameter), 3))}, av_vel_sq_func{func} {}
-*/
+	scale{1./(3.*N*pow(double(diameter), 3))} {}
+
 
 	void operator() (const struct CollisionInfo<DIM>& ci) {
 		measurement_time = ci.system_time;
@@ -33,11 +33,11 @@ public:
 		}
 	}
 
-	/*double value() {
-		return (av_vel_sq_func.value()+double(momentum_flux*(1.*s)/measurement_time))*scale;
+	double value() {
+		return (double(momentum_flux*(1.*s)/measurement_time))*scale;
 	}
-*/
-	double value() { return double(momentum_flux*(1.*s)/measurement_time); }
+
+	//double value() { return double(momentum_flux*(1.*s)/measurement_time); }
 	std::ostream& print_result(std::ostream& os) {
 		os << value() << " ";
 		return os;
