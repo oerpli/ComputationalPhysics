@@ -251,21 +251,21 @@ void Box<DIM>::collide(Kugel<DIM>& kugel1, Kugel<DIM>& kugel2) {
 	const auto v1 = kugel1.velocity(), v2 = kugel2.velocity();
 	const auto m1 = kugel1.mass(), m2 = kugel2.mass();
 
-	MatVec<velocityT, DIM> dv = v2 - v1; 
-	MatVec<lengthT, DIM> dp = kugel2.position() - kugel1.position(); 
-	dp = wrap(dp); 
+	const MatVec<velocityT, DIM> dv = v2 - v1;
 
 	const auto dis =  dist( kugel1, kugel2 );
-	const auto n = dis / dis.norm();
+	// Kann verwendet werden, um korrekten Kollisionsabstand zu überprüfen
+	const auto dis_norm = dis.norm();
+	const auto n = dis / dis_norm;
 
-	const auto p = -( n * (n * (v2 - v1) ) ) * ( dimlessT{2} * m1 * m2 / (m1 + m2) );
+	const auto p = -( n * (n * dv ) ) * ( dimlessT{2} * m1 * m2 / (m1 + m2) );
 
 	kugel1.velocity( v1 - ( p / m1) );
 	kugel2.velocity( v2 + ( p / m2) );
 	 
 	
-	coll_info.delta_v_collision = dv; 
-	coll_info.delta_p_collision = dp; 
+	coll_info.delta_v_collision = std::move(dv);
+	coll_info.delta_p_collision = std::move(dis);
 	
 }
 
