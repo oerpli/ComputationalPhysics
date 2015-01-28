@@ -174,10 +174,8 @@ void Box<DIM>::next_collision() {
 				set_collision(cp_buf, k);
 				set_collision_if(cp_buf, k1);
 				for_each (vec_kugel.begin(), vec_kugel.end(), [&](Kugel<DIM>& ki){
-					if (&ki != &k && &ki != &k1) {
-						set_collision_if(calc_event(k,ki), k, ki);
-						next_collision_pair <= ki;
-					}
+					if (&ki != &k && &ki != &k1)
+						next_collision_pair <= set_collision_if(calc_event(k,ki), k, ki);
 				});
 			}
 			else {
