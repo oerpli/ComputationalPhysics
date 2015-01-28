@@ -169,14 +169,14 @@ void problem_3_kugeln_Abraham_2() {
 	pos1 += pos_urspr; pos2 += pos_urspr;
 	pos3 += pos_urspr; pos4 += pos_urspr;
 
-	MatVec<velocityT,DIM3> vel12{0, 1, 0};
-	MatVec<velocityT,DIM3> vel3{1, 0, 0};
+	MatVec<velocityT,DIM3> vel_x{1, 0, 0};
+	MatVec<velocityT,DIM3> vel_y{0, 1, 0};
 
 	Box<DIM3> box{MatVec<lengthT,DIM3>{20, 20, 20}, 4, Kugel<DIM3>{2_kg, .5_m}};
-	box[0].position(pos1); box[0].velocity(vel12);
-	box[1].position(pos2); box[1].velocity(-vel12);
-	box[2].position(pos3); box[2].velocity(vel3);
-	box[3].position(pos4); box[3].velocity(-vel3);
+	box[0].position(pos1); box[0].velocity(vel_y);
+	box[1].position(pos2); box[1].velocity(-vel_y);
+	box[2].position(pos3); box[2].velocity(vel_x);
+	box[3].position(pos4); box[3].velocity(-vel_x);
 
 	box.initiate();
 	box.collide(); box.collide();
