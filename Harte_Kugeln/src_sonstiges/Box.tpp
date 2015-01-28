@@ -174,15 +174,31 @@ void Box<DIM>::init_next_collision() {
 
 template<unsigned DIM>
 void Box<DIM>::next_collision() {
+	CollisionPair<DIM> cp_last{}, cp_buf{};
+	if (next_collision_pair)
+		cp_last = next_collision_pair;
+
 	auto &k1 = next_collision_pair.kugel1(), &k2 = next_collision_pair.kugel2();
 
 	next_collision_pair = set_collision(calc_event(k1,k2),k1,k2);
 	for_each (vec_kugel.begin(), vec_kugel.end(), [&](Kugel<DIM>& k) {
 		if (&k != &k1 && &k != &k2) {
-			set_collision_if(calc_event(k,k1),k,k1);
-			set_collision_if(calc_event(k,k2),k,k2);
+			// if to solve Problem3Abraham
+			if( cp_last == k) {
+				cp_buf = calc_event(k,k1);
+				set_collision(cp_buf, k);
+				set_collision_if(cp_buf, k1);
+				for_each (vec_kugel.begin(), vec_kugel.end(), [&](Kugel<DIM>& ki){
+					if (&ki != &k && &ki != &k1)
+						next_collision_pair <= set_collision_if(calc_event(k,ki), k, ki);
+				});
+			}
+			else {
+				set_collision_if(calc_event(k,k1),k,k1);
+				set_collision_if(calc_event(k,k2),k,k2);
+			}
+			next_collision_pair <= k;
 		}
-		next_collision_pair <= k;
 	});
 	next_collision_pair <= k1;
 	next_collision_pair <= k2;
@@ -218,7 +234,8 @@ CollisionPair<DIM> Box<DIM>::calc_event(Kugel<DIM>& k1, Kugel<DIM>& k2) {
 
 	timeT max_time = std::max(k1.collision_time(), k2.collision_time());
 	// needed for initialization
-	if (max_time == 0_s) {
+	if (max_time == 0_s
+			|| k1.collision_partner() == &k2 || k2.collision_partner() == &k1) {
 		v_res_t([&](const timeT& t){if(t > max_time) max_time = t;});
 		max_time = max_time * (double)versuche;
 	}
@@ -228,6 +245,8 @@ CollisionPair<DIM> Box<DIM>::calc_event(Kugel<DIM>& k1, Kugel<DIM>& k2) {
 
 	MatVec<lengthT,DIM> r {};
 	auto rv = 0. *m *mps;
+	const auto rv_sr0 = 0. *m *mps;
+	auto rv_sr = rv_sr0;
 	const auto rv0 = 0. *m *mps;
 	auto sr2 = 0. *m*m *mps*mps;
 	const auto sr20 = 0. *m*m *mps*mps;
@@ -239,7 +258,9 @@ CollisionPair<DIM> Box<DIM>::calc_event(Kugel<DIM>& k1, Kugel<DIM>& k2) {
 		if (rv >= rv0) continue;
 		sr2 = d2v2 - r.norm2() * v2 + Pow(rv,2,1);
 		if (sr2 < sr20) continue;
-		t_ges += -(rv + sqrt(sr2))/v2;
+		rv_sr = -(rv + sqrt(sr2));
+		if (rv_sr < rv_sr0) continue;
+		t_ges += rv_sr / v2;
 		collision = true;
 		break;
 	}
