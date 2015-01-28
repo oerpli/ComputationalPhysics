@@ -159,15 +159,33 @@ void Box<DIM>::init_next_collision() {
 
 template<unsigned DIM>
 void Box<DIM>::next_collision() {
+	CollisionPair<DIM> cp_last{}, cp_buf{};
+	if (next_collision_pair)
+		cp_last = next_collision_pair;
+
 	auto &k1 = next_collision_pair.kugel1(), &k2 = next_collision_pair.kugel2();
 
 	next_collision_pair = set_collision(calc_event(k1,k2),k1,k2);
 	for_each (vec_kugel.begin(), vec_kugel.end(), [&](Kugel<DIM>& k) {
 		if (&k != &k1 && &k != &k2) {
-			set_collision_if(calc_event(k,k1),k,k1);
-			set_collision_if(calc_event(k,k2),k,k2);
+			// if to solve Problem3Abraham
+			if( cp_last == k) {
+				cp_buf = calc_event(k,k1);
+				set_collision(cp_buf, k);
+				set_collision_if(cp_buf, k1);
+				for_each (vec_kugel.begin(), vec_kugel.end(), [&](Kugel<DIM>& ki){
+					if (&ki != &k && &ki != &k1) {
+						set_collision_if(calc_event(k,ki), k, ki);
+						next_collision_pair <= ki;
+					}
+				});
+			}
+			else {
+				set_collision_if(calc_event(k,k1),k,k1);
+				set_collision_if(calc_event(k,k2),k,k2);
+			}
+			next_collision_pair <= k;
 		}
-		next_collision_pair <= k;
 	});
 	next_collision_pair <= k1;
 	next_collision_pair <= k2;
