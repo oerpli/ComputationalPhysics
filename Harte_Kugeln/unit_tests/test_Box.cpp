@@ -184,6 +184,31 @@ void problem_3_kugeln_Abraham_2() {
 	ASSERTM("", box[2].position() == ( MatVec<lengthT,DIM3>{10, 12, 0} ));
 }
 
+void problem_3_kugeln_Abraham_3() {
+	MatVec<lengthT,DIM3> pos_urspr{10, 10, 0};
+	MatVec<lengthT,DIM3> pos1{0, -1, 0};
+	MatVec<lengthT,DIM3> pos2{0, 2, 0};
+	MatVec<lengthT,DIM3> pos3{-4, 2, 0};
+	MatVec<lengthT,DIM3> pos4{5, 2, 0};
+
+	pos1 += pos_urspr; pos2 += pos_urspr;
+	pos3 += pos_urspr; pos4 += pos_urspr;
+
+	MatVec<velocityT,DIM3> vel_x{1, 0, 0};
+	MatVec<velocityT,DIM3> vel_y{0, 1, 0};
+
+	Box<DIM3> box{MatVec<lengthT,DIM3>{20, 20, 20}, 4, Kugel<DIM3>{2_kg, .5_m}};
+	box[0].position(pos1); box[0].velocity(vel_y);
+	box[1].position(pos2); box[1].velocity(-vel_y);
+	box[2].position(pos3); box[2].velocity(vel_x);
+	box[3].position(pos4); box[3].velocity(-vel_x);
+
+	box.initiate();
+	box.collide(); box.collide(); box.collide();
+
+	ASSERTM("", box[3].position() == ( MatVec<lengthT,DIM3>{17, 12, 0} ));
+}
+
 cute::suite make_suite_Box(){
 	cute::suite s;
 	s.push_back(CUTE(emptyBox));
@@ -202,5 +227,6 @@ cute::suite make_suite_Box(){
 	s.push_back(CUTE(box_collision_time_simple));
 	s.push_back(CUTE(problem_3_kugeln_Abraham_1));
 	s.push_back(CUTE(problem_3_kugeln_Abraham_2));
+	s.push_back(CUTE(problem_3_kugeln_Abraham_3));
 	return s;
 }
