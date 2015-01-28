@@ -111,7 +111,7 @@ CollisionPair<DIM> set_collision(CollisionPair<DIM> cp, Kugel<DIM>& k1, Kugel<DI
 
 template<unsigned DIM>
 CollisionPair<DIM> set_collision_if(CollisionPair<DIM> cp, Kugel<DIM>& k) {
-	if (cp.collision_time() < k.collision_time() || cp == k) set_collision(cp,k);
+	if (cp.collision_time() < k.collision_time()) set_collision(cp,k);
 	return cp;
 }
 
