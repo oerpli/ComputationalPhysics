@@ -49,7 +49,7 @@ bool CollisionPair<DIM>::operator ==(const CollisionPair<DIM> other) {
 }
 
 template<unsigned DIM>
-inline bool CollisionPair<DIM>::operator ==(const Kugel<DIM>& p_k) {
+inline bool CollisionPair<DIM>::operator ==(const Kugel<DIM>& p_k) const {
 	return p_kugel1 == p_k.collision_partner() || p_kugel2 == p_k.collision_partner();
 }
 

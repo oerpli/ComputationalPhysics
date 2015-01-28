@@ -43,7 +43,7 @@ public:
 	}
 
 	bool operator ==(const CollisionPair<DIM> other);
-	bool operator ==(const Kugel<DIM>& k);
+	bool operator ==(const Kugel<DIM>& k) const;
 
 	// Compares based on dtime
 	bool operator <(const CollisionPair<DIM>& other) const;
