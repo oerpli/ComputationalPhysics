@@ -1,7 +1,7 @@
 #include "Free_Histo.h"
 
 void Free_Histo::add(double val, unsigned i) {
-	double klass { floor(val / width + 0.5) * (width) };
+	double klass { floor( (val - offset) / width + center_left) * width + offset };
 	histo[klass] += i;
 	histo_iter = histo.begin();
 	count++;
@@ -9,12 +9,16 @@ void Free_Histo::add(double val, unsigned i) {
 }
 
 Free_Histo::Free_Histo() :
-		Free_Histo { 1 } {
+		Free_Histo { 1, 0.0, true } { }
+
+Free_Histo::Free_Histo(double width, double offset, bool center) :
+		histo { }, histo_iter { },
+		width { width }, center_left{ center ? 0.5 : 0.0}, offset{offset},
+		scale { }, count { } {
 }
 
-Free_Histo::Free_Histo(double width) :
-		histo { }, histo_iter { }, width { width }, scale { }, count { } {
-}
+Free_Histo::Free_Histo(double width, bool center, double offset) :
+		Free_Histo{width, offset, center} {}
 
 void Free_Histo::operator ()(double val) {
 	add(val, 1);
