@@ -22,6 +22,7 @@
 #include "auswertung_collision_time.hpp"
 #include "AverageVelocitySquared.h"
 #include "MomentumFlux.h"
+#include "Autocorrelation.h"
 
 using namespace std;
 
@@ -70,7 +71,8 @@ int main(int argc, char* argv[]) {
 		vec_unary.push_back( new auswertung_bsp_average_vel<DIM>{} );
 		vec_unary.push_back( new auswertung_bsp_average_energy<DIM>{} );
 		vec_unary.push_back( new AverageVelocitySquared<DIM>{});
-		vec_binary.push_back(new PairDistribution<DIM> { histo_width, (double)density/(pow((double)radius*2.0, 3)), N });
+		vec_unary.push_back( new Autocorrelation<DIM>{100, N, ausw_t_step } );
+		vec_binary.push_back( new PairDistribution<DIM>{ histo_width, (double)density/(pow((double)radius*2.0, 3)), N });
 	}
 
 
@@ -171,10 +173,11 @@ int main(int argc, char* argv[]) {
 	cout << "Time: " << box.time() << '\n';
 
 	dat_values.open("values" + ss_para.str() + ".dat", ios::out | ios::trunc);
-	dat_values << "# av_vel av_energy av_vel_sq momentum_flux boxlänge" << '\n';
-	vec_unary.print_result(dat_values);
-	ausw_momentum_flux.print_result(dat_values);
+	dat_values << "# boxlänge momentum_flux av_vel av_energy av_vel_sq \n #";
 	dat_values << box.abmessung()[0] << " ";
+	ausw_momentum_flux.print_result(dat_values);
+	vec_unary.print_result(dat_values);
+
 
 
 	name_pair_dist = "Pair_distribution" + ss_para.str() + ".dat";
