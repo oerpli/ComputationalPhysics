@@ -36,7 +36,7 @@ int main(int argc, char* argv[]) {
 	const unsigned DIM {3};
 
 	//default Parameter: Dichte, Kugelanzahl, Kugelradius, Masse, Zeit runs, Zeit Warmlauf, Zeit Auswertung, Histogrammbreite
-	double a_para[] {0.2, 256, 0.5, 1.0, 1E3, 1E2, 1E-1, 1E-2};
+	double a_para[] {0.2, 256, 0.5, 1.0, 1E3, 1E2, 1E-2, 1E-2};
 	int a_para_size = sizeof(a_para) / sizeof(*a_para);
 	int i_para {1};
 
