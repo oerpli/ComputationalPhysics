@@ -11,7 +11,7 @@ private:
 
 public:
 	Free_Histo_Pair() : Free_Histo{}, m_scale_pair{} {}
-	Free_Histo_Pair(double width, double rho, unsigned N) : Free_Histo{width}, m_scale_pair{(N-1)/(4.0*M_PI*rho)} {}
+	Free_Histo_Pair(double width, double rho, unsigned N) : Free_Histo{width, 1.0, false}, m_scale_pair{(N-1)/(4.0*M_PI*rho)} {}
 
 	virtual bool output(std::ostream& os) {
 		os.precision(8);
