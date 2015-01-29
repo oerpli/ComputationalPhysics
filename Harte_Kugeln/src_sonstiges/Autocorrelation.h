@@ -27,7 +27,7 @@ protected:
 public:
 	Autocorrelation(unsigned N_c, unsigned N_k, timeT dt) : number_of_entries{N_c},
 	number_of_spheres{N_k}, time_resolution{dt}, sphere_counter{0}, counter{0},
-	autocorrelation{number_of_entries, 0.}, velocities{number_of_spheres, std::list<MatVec<velocityT,DIM>>{}} {}
+	autocorrelation(number_of_entries, 0.), velocities(number_of_spheres, std::list<MatVec<velocityT,DIM>>{}) {}
 
 	void calculate() {
 		for (auto& vel_list : velocities) {
