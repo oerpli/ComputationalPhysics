@@ -45,8 +45,10 @@ public:
 		if (velocities[sphere_counter].size() == number_of_entries) velocities[sphere_counter].pop_front();
 		velocities[sphere_counter].push_back(k.velocity());
 		sphere_counter++;
-		sphere_counter = sphere_counter % number_of_spheres;
-		if (sphere_counter == 0) calculate();
+		if (sphere_counter == number_of_spheres) {
+			sphere_counter = 0;
+			calculate();
+		}
 	}
 
 	double value() {
