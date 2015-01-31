@@ -61,7 +61,7 @@ public:
 	}
 
 	std::ostream& print_result(std::ostream& os) {
-		os << "\n #diffusion constant = " << value() << '\n';
+		os << "\n# diffusion constant = " << value() << '\n';
 		for (unsigned i = 0; i < autocorrelation.size(); i++) {
 			os << i*double(time_resolution) << '\t' << autocorrelation[i]/(number_of_spheres*counter) << '\n';
 		}

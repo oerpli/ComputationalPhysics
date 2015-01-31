@@ -35,8 +35,8 @@ int main(int argc, char* argv[]) {
 
 	const unsigned DIM {3};
 
-	//default Parameter: Dichte, Kugelanzahl, Kugelradius, Masse, Zeit runs, Zeit Warmlauf, Zeit Auswertung, Histogrammbreite
-	double a_para[] {0.2, 256, 0.5, 1.0, 1E3, 1E2, 5E-2, 1E-2};
+	//default Parameter: Dichte, Kugelanzahl, Kugelradius, Masse, Collision runs, Collision Warmlauf, Anzahl an Messwerten für Autocorr., Histogrammbreite
+	double a_para[] {0.2, 256, 0.5, 1.0, 1E5, 1E4, 200, 1E-2};
 	int a_para_size = sizeof(a_para) / sizeof(*a_para);
 	int i_para {1};
 
@@ -50,9 +50,11 @@ int main(int argc, char* argv[]) {
 	unsigned N {(unsigned)a_para[1]};
 	lengthT radius {a_para[2]*m};
 	massT mass {a_para[3]*kg};
-	timeT simulation_time {a_para[4]*s};
-	timeT warm_time {a_para[5]*s};
-	timeT ausw_t_step {a_para[6]*s};
+	unsigned simulation_collisions {(unsigned)a_para[4]};
+	unsigned warm_collisions {(unsigned)a_para[5]};
+	unsigned autocorr_measurements {(unsigned)a_para[6]};
+	timeT ausw_t_step {((12.-10.*density)/a_para[6])*s};
+	if (ausw_t_step < 0.005*s) ausw_t_step = 0.005*s;
 	double histo_width {a_para[7]};
 
 
@@ -71,7 +73,7 @@ int main(int argc, char* argv[]) {
 		vec_unary.push_back( new auswertung_bsp_average_vel<DIM>{} );
 		vec_unary.push_back( new auswertung_bsp_average_energy<DIM>{} );
 		vec_unary.push_back( new AverageVelocitySquared<DIM>{});
-		vec_unary.push_back( new Autocorrelation<DIM>{unsigned(10./ausw_t_step), N, ausw_t_step } );
+		vec_unary.push_back( new Autocorrelation<DIM>{autocorr_measurements, N, ausw_t_step } );
 		vec_binary.push_back( new PairDistribution<DIM>{ histo_width, (double)density/(pow((double)radius*2.0, 3)), N });
 	}
 
@@ -88,7 +90,7 @@ int main(int argc, char* argv[]) {
 	ss_para << "_m" << (double)mass;
 	ss_para << "_rho" << density;
 	ss_para.precision(0);
-	ss_para << "_run" << scientific << (double)simulation_time;
+	ss_para << "_runc" << scientific << (double)simulation_collisions;
 
 
 
@@ -107,8 +109,8 @@ int main(int argc, char* argv[]) {
 	cout << "Number of Spheres:\t" << N << '\n';
 	cout << "Boxlänge:\t" << box.abmessung() << '\n';
 	cout << "Radius:\t" << radius << '\n';
-	cout << "Warmlauf:\t" << warm_time << '\n';
-	cout << "Gesamte Simulationszeit:\t" << simulation_time + warm_time << '\n';
+	cout << "Warmlauf Kollisionen:\t" << warm_collisions << '\n';
+	cout << "Gesamte Kollisionen:\t" << simulation_collisions << '\n';
 	cout << "Auswertung alle\t" << ausw_t_step << '\n';
 	cout << "Histogrammgenauigkeit:\t" << histo_width << '\n';
 
@@ -135,7 +137,7 @@ int main(int argc, char* argv[]) {
 
 	timeT coll_time {};
 
-	while (box.time() <= warm_time) {
+	while (count_coll <= warm_collisions) {
 		if (! cp) ++count_no_coll;
 		coll_time = box.collide();
 		ausw_coll_time( box.collision_pair() );
@@ -149,6 +151,7 @@ int main(int argc, char* argv[]) {
 */
 
 	cout << "Time: " << box.time() << endl;
+	cout << "Kollisionen bisher: " << count_coll << endl;
 /*	box(vec_unary,vec_binary);
 	vec_unary.print_result(cout);
 	cout << '\n' << "vec_binary: ";
@@ -156,8 +159,7 @@ int main(int argc, char* argv[]) {
 */
 	//TODO: kann abhängig von Eingabe sein
 	timeT ausw_t_next{ausw_t_step};
-	timeT simulation_end{simulation_time + box.time()};
-	while (box.time() <= simulation_end){
+	while (count_coll <= simulation_collisions){
 		while ( ausw_t_next < box.next_event() ) {
 			box.fast_forward(ausw_t_next);
 			ausw_t_next = ausw_t_step;
@@ -168,9 +170,11 @@ int main(int argc, char* argv[]) {
 		ausw_coll_time( box.collision_pair() );
 		ausw_momentum_flux( box.collision_info() );
 		++count_coll;
+		//if (count_coll%1000 == 0) cout << count_coll << endl;
 	}
 
-	cout << "Time: " << box.time() << '\n';
+	cout << "Time: " << box.time() << endl;
+	cout << "Kollisionen bisher: " << count_coll << endl;
 
 	dat_values.open("values" + ss_para.str() + ".dat", ios::out | ios::trunc);
 	dat_values << "# boxlänge momentum_flux av_vel av_energy av_vel_sq \n# ";

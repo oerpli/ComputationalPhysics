@@ -12,3 +12,7 @@ target_link_libraries (bsp_Box Rand)
 add_executable(bsp_simulation bsp_simulation.cpp)
 target_link_libraries (bsp_simulation Rand)
 target_link_libraries (bsp_simulation Histo)
+
+add_executable(bsp_simulation_2 bsp_simulation_2.cpp)
+target_link_libraries (bsp_simulation_2 Rand)
+target_link_libraries (bsp_simulation_2 Histo)
