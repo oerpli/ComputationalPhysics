@@ -3,10 +3,11 @@
 
 template<class T>
 struct Average {
-	using ElementT = T;
+	using value_type = T;
 
 	Average() = default;
-	explicit Average(const ElementT& val) : m_value{val}, count{} { }
+	explicit Average(const value_type& val) : m_value { val }, count { } { }
+
 	Average(const Average& other) = default;
 	Average(Average&& other) = default;
 	~Average() { }
@@ -14,29 +15,25 @@ struct Average {
 	Average& operator =(const Average& other) = default;
 	Average& operator =(Average&& other) = default;
 
-
-	operator ElementT() const{
-		return this->result();
-	}
-
-	void operator ()(const ElementT& el) {
+	void add(const value_type& el) {
 		m_value = m_value + el;
 		++count;
 	}
 
-	ElementT value() const {
-		return this->result();
-	}
+	void operator ()(const value_type& el) { return this->add(el); }
+
+	explicit operator value_type() const{ return this->result(); }
+
+	value_type value() const { return this->result(); }
 
 private:
-	ElementT m_value;
+	value_type m_value;
 	size_t count;
 
-	ElementT result() const {
-		return m_value * (1./count);
+	value_type result() const {
+		if (! count) return value_type{};
+		return m_value * (1. / count);
 	}
 };
-
-using dAverage = Average<double>;
 
 #endif // AVERAGE_HPP_
