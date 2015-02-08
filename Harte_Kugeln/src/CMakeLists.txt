@@ -9,6 +9,9 @@ target_link_libraries (test_free-histo Histo)
 add_executable(bsp_Box bsp_Box.cpp)
 target_link_libraries (bsp_Box Rand)
 
+add_executable(bsp_Autocorrelation bsp_Autocorrelation.cpp)
+target_link_libraries (bsp_Autocorrelation Rand)
+
 add_executable(bsp_simulation bsp_simulation.cpp)
 target_link_libraries (bsp_simulation Rand)
 target_link_libraries (bsp_simulation Histo)
