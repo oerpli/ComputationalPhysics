@@ -1,5 +1,6 @@
 \documentclass[a4paper]{article}
 
+\usepackage[bindingoffset=0.2in,left=1.2in,right=1.2in,top=1.2in,bottom=1in,footskip=.25in]{geometry}
 \usepackage[english]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath}
@@ -12,6 +13,7 @@
 \usepackage{pgfplots}
 \usepackage{listings}
 \usepackage{textcomp}
+\usepackage{bbold}
 
 \lstset{basicstyle=\footnotesize\ttfamily,language={}}
 \newcommand{\textapprox}{\raisebox{0.5ex}{\texttildelow}}
@@ -33,11 +35,18 @@
 \maketitle
 \tableofcontents
 
+\newpage
+
 \section{Abstract}
 \input{./sections/abstract.tex}
 
-\section{Canonical Ensemble Molecular Dynamics	}
+\section{Canonical Ensemble Molecular Dynamics}
 
+\section{Path Integral Molecular Dynamics}
+\input{./sections/pimd.tex}
+
+
+    
 
 \section{Thermostats}
 
