@@ -23,14 +23,14 @@ We implemented the following thermostats: % vllt jeden thermostat in einem absch
 \paragraph{Gaussian:} This thermostat rescales the velocities of the particles to match the desired temperature T. This is achieved by calculating the current temperature of the system (Eq. \eqref{eq:tempdef}) and rescaling the velocities $v$ according to the following formula:
 %: temperaturberechnung in unserer simulation irgendwo definieren und hier referenzieren.
 \begin{equation*}
-v'  = \sqrt{\frac{T}{T(t)}v}
+v'  = v\cdot \sqrt{\frac{T}{T(t)}}
 \end{equation*}
 The problem of this approach is that it produces a constant temperature which is not entirely in line with the canonical ensemble because sampling from such an ensemble would lead to fluctuations in the temperature and a variance $\sigma_T^2 > 0$.
 
 As this thermostat does not yield any known ensemble we were advised to not use it for serious projects, due to the simplicity of the approach it may still be worth considering for testing purposes or similar ventures.
 
 
-\paragraph{Nose-Hoover}
-\paragraph{Nose-Hoover Chains}
+\paragraph{Nose-Hoover:}
+\paragraph{Nose-Hoover Chains:}
 
 
