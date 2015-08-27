@@ -1,10 +1,5 @@
 % !TeX root = ../main.tex
-
-% Vllt als Konvention T die gewünschte Temperatur verwenden und T(t) die aktuelle Temperatur des Systems
-
-Our basic simulation without thermostat enabled samples from a microcanonical ensemble with constant energy (isokinetic, NVE) -- this is given by the rules governing the interactions between particles.
-To achieve that temperature instead of energy is conserved (isothermal) a thermostat is used. These usually interject some kind of rescaling or additional terms in the integration steps achieving slightly modified trajectories
-
+\TODO[introtext]
 We implemented the following thermostats: % vllt jeden thermostat in einem abschnitt beschreiben und hinterher die liste löschen. 
 \begin{itemize}
 \item Andersen (parameter that controls exchange rate between random particles and heat bath)
@@ -26,12 +21,12 @@ The temperature is tied to a heat-- bath and a new parameter is introduced that 
 A sane (\TODO) choice of this rate allows sampling of a canonical ensemble.
 %expand me please
 
-\subsection{Bussi et al}
+\subsection{Bussi- Donadio- Parrinello}
 \subsection{Gaussian}
-This thermostat rescales the velocities of the particles to match the desired temperature T. This is achieved by calculating the current temperature of the system (Eq. \eqref{eq:tempdef}) and rescaling the velocities $v$ according to the following formula:
+This thermostat rescales the velocities of the particles to match the average kinetic energy of the particles to the expected value (derived from the Boltzmann distribution at the desired temperature T). This is achieved by calculating the current average $E_t$ of the system (Eq. \eqref{eq:tempdef}) and rescaling the velocities $v$ according to the following formula:
 %: temperaturberechnung in unserer simulation irgendwo definieren und hier referenzieren.
 \begin{equation*}
-v'  = v\cdot \sqrt{\frac{T}{T(t)}}
+v'  = v\cdot \sqrt{\frac{E}{E_t}}
 \end{equation*}
 The problem of this approach is that it produces a constant temperature which is not entirely in line with the canonical ensemble because sampling from such an ensemble would lead to fluctuations in the temperature and a variance $\sigma_T^2 > 0$.
 
