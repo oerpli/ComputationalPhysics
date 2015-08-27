@@ -16,17 +16,19 @@ We implemented the following thermostats: % vllt jeden thermostat in einem absch
 \item Nose-Hoover Chains
 \end{itemize}
 
-\paragraph{Andersen:}
-\paragraph{Lowe--Andersen}
-\paragraph{Berendsen:}The temperature is tied to a heat-- bath and a new parameter is introduced that describes the termpature change rate $\tau$:
+\subsection{Andersen}
+\subsection{Lowe--Andersen}
+\subsection{Berendsen}
+The temperature is tied to a heat-- bath and a new parameter is introduced that describes the termpature change rate $\tau$:
 \begin{equation*}
 \frac{dT(t)}{dt} = \frac{T-T(t)}{\tau} %die formel sieht ziemlich blöd aus finde ich grad - hat jmd eine idee für eine bessere konvention bzgl wunsch und aktueller temperatur?
 \end{equation*}
 A sane (\TODO) choice of this rate allows sampling of a canonical ensemble.
 %expand me please
 
-\paragraph{Bussi et al:}
-\paragraph{Gaussian:} This thermostat rescales the velocities of the particles to match the desired temperature T. This is achieved by calculating the current temperature of the system (Eq. \eqref{eq:tempdef}) and rescaling the velocities $v$ according to the following formula:
+\subsection{Bussi et al}
+\subsection{Gaussian}
+This thermostat rescales the velocities of the particles to match the desired temperature T. This is achieved by calculating the current temperature of the system (Eq. \eqref{eq:tempdef}) and rescaling the velocities $v$ according to the following formula:
 %: temperaturberechnung in unserer simulation irgendwo definieren und hier referenzieren.
 \begin{equation*}
 v'  = v\cdot \sqrt{\frac{T}{T(t)}}
@@ -36,7 +38,7 @@ The problem of this approach is that it produces a constant temperature which is
 As this thermostat does not yield any known ensemble we were advised to not use it for serious projects, due to the simplicity of the approach it may still be worth considering for testing purposes or similar ventures.
 
 
-\paragraph{Nose-Hoover:}
-\paragraph{Nose-Hoover Chains:}
+\subsection{Nose-Hoover}
+\subsection{Nose-Hoover Chains}
 
 
