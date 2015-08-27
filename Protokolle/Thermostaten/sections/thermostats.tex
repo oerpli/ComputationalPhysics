@@ -7,18 +7,24 @@ To achieve that temperature instead of energy is conserved (isothermal) a thermo
 
 We implemented the following thermostats: % vllt jeden thermostat in einem abschnitt beschreiben und hinterher die liste löschen. 
 \begin{itemize}
-\item Andersen
-\item Berendsen
+\item Andersen (parameter that controls exchange rate between random particles and heat bath)
+\item Lowe-Andersen
+\item Berendsen (parameter that controls temperature change rate from actual to preferred temperature)
 \item Bussi et al.
 \item Gaussian (velocity rescaling -- fixes temperature $T(t) \equiv T$)
-\item Lowe-Andersen
 \item Nose-Hoover
 \item Nose-Hoover Chains
 \end{itemize}
 
 \paragraph{Andersen:}
 \paragraph{Lowe--Andersen}
-\paragraph{Berendsen:}
+\paragraph{Berendsen:}The temperature is tied to a heat-- bath and a new parameter is introduced that describes the termpature change rate $\tau$:
+\begin{equation*}
+\frac{dT(t)}{dt} = \frac{T-T(t)}{\tau} %die formel sieht ziemlich blöd aus finde ich grad - hat jmd eine idee für eine bessere konvention bzgl wunsch und aktueller temperatur?
+\end{equation*}
+A sane (\TODO) choice of this rate allows sampling of a canonical ensemble.
+%expand me please
+
 \paragraph{Bussi et al:}
 \paragraph{Gaussian:} This thermostat rescales the velocities of the particles to match the desired temperature T. This is achieved by calculating the current temperature of the system (Eq. \eqref{eq:tempdef}) and rescaling the velocities $v$ according to the following formula:
 %: temperaturberechnung in unserer simulation irgendwo definieren und hier referenzieren.
