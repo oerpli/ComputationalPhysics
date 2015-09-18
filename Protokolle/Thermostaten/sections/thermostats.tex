@@ -1,15 +1,26 @@
-% !TeX root = ../main.tex
+% !TeX root = ../Thermostats.tex
 \TODO[introtext]
 We implemented the following thermostats: % vllt jeden thermostat in einem abschnitt beschreiben und hinterher die liste löschen. 
 \begin{itemize}
+\item Gaussian (velocity rescaling -- fixes temperature $T(t) \equiv T$)
 \item Andersen (parameter that controls exchange rate between random particles and heat bath)
 \item Lowe-Andersen
 \item Berendsen (parameter that controls temperature change rate from actual to preferred temperature)
-\item Bussi et al.
-\item Gaussian (velocity rescaling -- fixes temperature $T(t) \equiv T$)
+\item Bussi et al
 \item Nose-Hoover
 \item Nose-Hoover Chains
 \end{itemize}
+
+\subsection{Gaussian}
+This thermostat rescales the velocities of the particles to match the average kinetic energy of the particles to the expected value (derived from the Boltzmann distribution at the desired temperature T). This is achieved by calculating the current average $E_t$ of the system (Eq. \eqref{eq:tempdef}) and rescaling the velocities $v$ according to the following formula:
+%: temperaturberechnung in unserer simulation irgendwo definieren und hier referenzieren.
+\begin{equation*}
+v'  = v\cdot \sqrt{\frac{E}{E_t}}
+\end{equation*}
+The problem of this approach is that it produces a constant temperature which is not entirely in line with the canonical ensemble because sampling from such an ensemble would lead to fluctuations in the temperature and a variance $\sigma_T^2 > 0$.
+
+As this thermostat does not yield any known ensemble we were advised to not use it for serious projects, due to the simplicity of the approach it may still be worth considering for testing purposes or similar ventures.
+
 
 \subsection{Andersen}
 \subsection{Lowe--Andersen}
@@ -22,18 +33,43 @@ A sane (\TODO) choice of this rate allows sampling of a canonical ensemble.
 %expand me please
 
 \subsection{Bussi- Donadio- Parrinello}
-\subsection{Gaussian}
-This thermostat rescales the velocities of the particles to match the average kinetic energy of the particles to the expected value (derived from the Boltzmann distribution at the desired temperature T). This is achieved by calculating the current average $E_t$ of the system (Eq. \eqref{eq:tempdef}) and rescaling the velocities $v$ according to the following formula:
-%: temperaturberechnung in unserer simulation irgendwo definieren und hier referenzieren.
-\begin{equation*}
-v'  = v\cdot \sqrt{\frac{E}{E_t}}
-\end{equation*}
-The problem of this approach is that it produces a constant temperature which is not entirely in line with the canonical ensemble because sampling from such an ensemble would lead to fluctuations in the temperature and a variance $\sigma_T^2 > 0$.
-
-As this thermostat does not yield any known ensemble we were advised to not use it for serious projects, due to the simplicity of the approach it may still be worth considering for testing purposes or similar ventures.
-
 
 \subsection{Nose-Hoover}
+In contrast to the previously introduced thermostats, which rely on stochastical changes of the velocities of the particles to control temperature, Nosé revised a deterministic thermostat by altering the Hamiltonian of the system ~\cite{Nose2002}. His approach was then further improved by Hoover, who eliminated the need for time scaling ~\cite{Hoover1985}. 
+In the original method proposed by Nosé an additional degree of freedom $s$ is introduced, which serves as a scaling factor for the velocities and can be thought of as the external heat bath of the system.
+\begin{equation}
+\mathbf{v}_i = s\cdot \dot{\mathbf{r}}
+\end{equation}  
+Two additional terms associated with $s$ are added to the Hamiltonian of the system, which then reads as follows
+\begin{equation}
+\mathcal{H}_{Nose} = \sum_i \frac{\mathbf{p}_i}{2m_i s^2} + \phi (r) + \frac{p_s^2}{2Q} + (f+1)kT\ln(s) 
+\end{equation} 
+where $\phi(r)$ denotes the classical potential energy of the system, $f$ the degrees of freedom, $Q$ is a free choice of parameter corresponding to the time scale of the fluctuations in kinetic energy and $p_s = Q\dot{s}$ is the conjugate momentum to $s$. The potential energy term $(f+1)kT\ln{s}$ is chosen such that the right canonical ensemble distribution is obtained in a simulation and the kinetic energy term $\frac{p_s}{2Q}$ is added to get a dynamic equation for the propagation of $s$.   
+The equations of motion in the modified system can be obtained via the Hamiltonian equations
+\begin{align*}
+        & \dot{p} = - \frac{\partial \mathcal{H}}{\partial q} &&  \dot{q} = \frac{\partial \mathcal{H}}{\partial p}
+        && \dot{p_s} = - \frac{\partial \mathcal{H}}{\partial s} && \dot{s} = \frac{\partial \mathcal{H}}{\partial p_s}
+\end{align*}
+and thus read 
+\begin{align*}
+& \dot{p} = F && \dot{q} = \frac{p}{m s^2} \\
+& \dot{p_s} = \sum_i \frac{p_i^2}{2 m s^3} - (f+1)\frac{kT}{s} &&  \dot{s} = \frac{p_s}{Q}
+\end{align*}
+These coupled equations can be simplified by reducing the time scale by $s$ - i.e. $dt_{old} = s dt_{new} $, which results in
+\begin{align*}
+& \dot{p} = s F && \dot{q} = \frac{p}{m s} \\
+& \dot{p_s} = \sum_i \frac{p_i^2}{2 m s^2} - (f+1)\frac{kT}{s} &&  \dot{s} = \frac{s p_s}{Q}
+\end{align*}
+Hoover was able to further simplify the approach by eliminating the variable $s$ and rewriting the equations in terms of $q, \dot{q} and \ddot{q}$
+\begin{equation}
+\ddot{q} = \frac{\dot{p}}{m s} - \frac{p}{m s}\dot{s} = \frac{F}{m} - \frac{p_s}{Q}\dot{q} \equiv \frac{F}{m} - \zeta \dot{q}
+\end{equation} 
+The variable $\zeta = \frac{p_s}{Q}$ is introduced to highlight the analogy between this equation of motion and that of a Newtonian motion with a friction term. It evolves in time as
+\begin{equation}
+\dot{\zeta} = \left[\sum_i m_i \dot{q}^2_i - (f+1)kT\right]/Q
+\end{equation}
+Since the damping parameter $\zeta$ is not determined instantaneously, as is the case with e.g. a Gaussian thermostat, but via an equation of motion, the Nosé-Hoover method describes an integral thermostat and therefore leads both smooth as well as time-reversible and deterministic paths in phase space.  
+
 \subsection{Nose-Hoover Chains}
 
 
