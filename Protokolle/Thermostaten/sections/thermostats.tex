@@ -48,14 +48,14 @@ where $\phi(r)$ denotes the classical potential energy of the system, $f$ the de
 The equations of motion in the modified system can be obtained via the Hamiltonian equations
 \begin{align*}
         & \dot{p} = - \frac{\partial \mathcal{H}}{\partial q} &&  \dot{q} = \frac{\partial \mathcal{H}}{\partial p}
-        && \dot{p_s} = - \frac{\partial \mathcal{H}}{\partial s} && \dot{s} = \frac{\partial \mathcal{H}}{\partial p_s} \numberthis \label{eqn}
+        && \dot{p_s} = - \frac{\partial \mathcal{H}}{\partial s} && \dot{s} = \frac{\partial \mathcal{H}}{\partial p_s} \numberthis 
 \end{align*}
 
 and thus read 
 
 \begin{align*}
 & \dot{p} = F && \dot{q} = \frac{p}{m s^2} \\
-& \dot{p_s} = \sum_i \frac{p_i^2}{2 m s^3} - (f+1)\frac{kT}{s} &&  \dot{s} = \frac{p_s}{Q} \numberthis \label{eqn}
+& \dot{p_s} = \sum_i \frac{p_i^2}{2 m s^3} - (f+1)\frac{kT}{s} &&  \dot{s} = \frac{p_s}{Q} \numberthis 
 \end{align*}
 
 
@@ -64,7 +64,7 @@ These coupled equations can be simplified by reducing the time scale by $s$ - i.
 
 \begin{align*}
 & \dot{p} = s F && \dot{q} = \frac{p}{m s} \\
-& \dot{p_s} = \sum_i \frac{p_i^2}{2 m s^2} - (f+1)\frac{kT}{s} &&  \dot{s} = \frac{s p_s}{Q} \numberthis \label{eqn}
+& \dot{p_s} = \sum_i \frac{p_i^2}{2 m s^2} - (f+1)\frac{kT}{s} &&  \dot{s} = \frac{s p_s}{Q} \numberthis 
 \end{align*}
 
 
@@ -90,7 +90,7 @@ While the Nosé-Hoover thermostat generates the right canonical distributions fo
 & \dot{s}_j = \frac{p_{s_j}}{Q_j} \\
 & \dot{p}_{s_1} = \left[ \sum_{i=1}^N \frac{p^2_i}{m_i} - NkT\right] - p_{s_1}\frac{p_{s_2}}{Q_2} \\
 & \dot{p}_{s_j} = \left[ \frac{p^2_{s_{j-1}}}{Q_{j-1}} - kT \right] - p_{s_j}\frac{p_{s_{j+1}}}{Q_{j+1}} \\
-& \dot{p}_{s_M} = \left[ \frac{p^2_{s_{M-1}}}{Q_{M-1}} - kT\right] \numberthis \label{eqn}
+& \dot{p}_{s_M} = \left[ \frac{p^2_{s_{M-1}}}{Q_{M-1}} - kT\right] \numberthis
 \end{align*}
 
 As with the original Nosé-Hoover method, the 'masses' $Q_j$ of the thermostats determine the strength of the coupling between successive thermostats and have to be chosen carefully to get good results. However, the choice of mass gets less critical the more thermostats are used in the chain. If the system under investigation has a typical frequency $\omega$, a good choice of masses is $Q_1 = \frac{NkT}{\omega}$ and $Q_j = \frac{kT}{\omega}$, which also gives the thermostats an average 'frequency' of $\omega$ \cite{Martyna1992}. 
