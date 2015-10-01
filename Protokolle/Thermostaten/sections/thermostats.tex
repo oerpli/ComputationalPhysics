@@ -25,7 +25,7 @@ As this thermostat does not yield any known ensemble we were advised to not use 
 \subsection{Andersen}
 \subsection{Lowe--Andersen}
 \subsection{Berendsen}
-The temperature is tied to a heat-- bath and a new parameter is introduced that describes the termpature change rate $\tau$:
+The temperature is tied to a heat-- bath and a new parameter is introduced that describes the temperature change rate $\tau$:
 \begin{equation*}
 \frac{dT(t)}{dt} = \frac{T-T(t)}{\tau} %die formel sieht ziemlich blöd aus finde ich grad - hat jmd eine idee für eine bessere konvention bzgl wunsch und aktueller temperatur?
 \end{equation*}
@@ -34,7 +34,7 @@ A sane (\TODO) choice of this rate allows sampling of a canonical ensemble.
 
 \subsection{Bussi- Donadio- Parrinello}
 
-\subsection{Nose-Hoover}
+\subsection{Nosé-Hoover}
 In contrast to the previously introduced thermostats, which rely on stochastical changes of the velocities of the particles to control temperature, Nosé revised a deterministic thermostat by altering the Hamiltonian of the system ~\cite{Nose2002}. His approach was then further improved by Hoover, who eliminated the need for time scaling ~\cite{Hoover1985}. 
 In the original method proposed by Nosé an additional degree of freedom $s$ is introduced, which serves as a scaling factor for the velocities and can be thought of as the external heat bath of the system.
 \begin{equation}
