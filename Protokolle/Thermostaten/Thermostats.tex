@@ -5,6 +5,8 @@
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath}
 \usepackage{graphicx}
+\usepackage{float}
+\usepackage{epstopdf}
 \usepackage[colorinlistoftodos]{todonotes}
 \usepackage{url}
 \usepackage{tikz}
@@ -18,6 +20,7 @@
 \lstset{basicstyle=\footnotesize\ttfamily,language={}}
 \newcommand{\textapprox}{\raisebox{0.5ex}{\texttildelow}}
 \newcommand\numberthis{\addtocounter{equation}{1}\tag{\theequation}}
+\graphicspath{{./graphics/}}
 
 \title{PR Computational Physics 2014W}
 
@@ -49,9 +52,10 @@
 \input{./sections/pimd.tex}
 \section{Thermostats} \label{thermostats}
 \input{./sections/thermostats.tex}
-
+\input{./sections/results.tex}
 
 \input{./sections/abraham.tex}
+
 
 \bibliography{biblio}
 \bibliographystyle{unsrt}
