@@ -196,3 +196,5 @@ FakesAssemblies/
 *.project
 *.cproject
 /.settings/
+*.bbl
+*.blg

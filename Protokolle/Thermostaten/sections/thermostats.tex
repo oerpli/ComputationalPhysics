@@ -30,7 +30,7 @@ The velocities are then scaled to fit these kinetic energies at every time step 
 Drawbacks of this thermostat are the fact, that in general it does not sample from a well defined ensemble \cite{Morishita2000} and it also lacks a conserved quantity \cite{Bussi2007}
 therefore similar considerations as with the Gaussian thermostat (\ref{th:gaussian}) apply.
 \subsection{Bussi- Donadio- Parrinello}
-Bussi et al.\cite{Bussi2007} improved Berendsens method with their thermostat by switching the target value from equation \eqref{eq:gauss} to a changing time dependent stochastic variable and through relaxing the velocity rescaling (similar to Berendsen compared to Gaussians thermostat).
+Bussi et al.\cite{Bussi2007} improved Berendsens method with their thermostat by switching the target value from equation \eqref{eq:gauss} to a changing time dependent stochastic variable and through adjusting the temperature over several timesteps as Berendsen does (via eq. \eqref{eq:berendsen). }
 
 Therefore the auxiliary dynamics can be expressed in the following formula ($dW$ is a Wiener noise):
 \begin{equation}
