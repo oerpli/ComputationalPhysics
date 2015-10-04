@@ -1,9 +1,9 @@
 % !TeX root = ../Thermostats.tex
-The preceding discussion in section \ref{cemd} of molecular dynamics was conducted under the assumption that the particles in the given system can be treated as classical point particles. While this approximation is feasible for many applications, there are also a large number of physical problems for which this approach does not yield the correct results. Especially for systems at low temperatures quantum effects need to be taken into account. The Path Integral Molecular Dynamics method first introduced by Chandler and Wolynes ~\cite{Chandler1980} tries to solve this problem by employing Feynman's path integral formulation of quantum statistical mechanics and exploiting the isomorphism between a discretized quantum mechanical partition function and a classical one. In this way, a quantum mechanical system of $N$ particles can be mapped into a classical system of $N$ flexible ring polymers made up of $q$ particles. 
+The preceding discussion of molecular dynamics in section \ref{cemd} was conducted under the assumption that the particles in the given system can be treated as classical point particles. While this approximation is feasible for many applications, there are also a large number of physical problems for which this approach does not yield the correct results. Especially for systems at low temperatures quantum effects need to be taken into account. The Path Integral Molecular Dynamics method first introduced by Chandler and Wolynes ~\cite{Chandler1980} tries to solve this problem by employing Feynman's path integral formulation of quantum statistical mechanics and exploiting the isomorphism between a discretized quantum mechanical partition function and a classical one. In this way, a quantum mechanical system of $N$ particles can be mapped into a classical system of $N$ flexible ring polymers made up of $q$ particles. 
 
 For simplicity, we will consider this mapping for a single particle. The quantum mechanical partition function for one particle is given by 
 \begin{equation}
-Q = \text{Tr}\left((e^{-\beta H}\right)) = \int dx \underbrace{\langle x | e^{-\beta H} | x \rangle}_{=\rho(x, x; \beta)}
+Q = \text{Tr}\left(e^{-\beta H}\right) = \int dx \underbrace{\langle x | e^{-\beta H} | x \rangle}_{=\rho(x, x; \beta)}
 \end{equation}
 
 where the trace is calculated in the coordinate basis and $\rho(x, x; \beta)$ denotes the density matrix. Since the Hamiltonian operator commutes with itself, we can factorize the partition function by splitting $e^{-\beta H}$ into $q$ times $e^{-\frac{\beta}{q} H}$ and inserting a complete set of eigenstates in the form $\mathbb{1} = \int dx  | x \rangle \langle x | $ between each factor.
@@ -13,9 +13,9 @@ Q = \int dx^{(1)}dx^{(2)}\ldots dx^{(q)} \langle x^{(1)} | e^{-\frac{\beta}{q} H
 = \int dx^{(1)}dx^{(2)}\ldots dx^{(q)} \rho(x^{(1)}, x^{(2)}; \frac{\beta}{q})\cdot \ldots \cdot \rho(x^{(q)}, x^{(1)}; \frac{\beta}{q})
 \end{split}
 \end{equation}  
-The beauty of this approach comes from the fact that in the limit $q \rightarrow \infty$ we can evaluate the integrals. Given a Hamiltonian operator $H = T + U$ - where  $T$ is the kinetic energy operator and $U$ is the potential, the complete integral is (almost) impossible to carry out, since $T$ and $U$ in general do not commute. However, once we have split the integral into small factors, we can make use of the Trotter theorem to express the exponential term as 
+The beauty of this approach comes from the fact that in the limit $q \rightarrow \infty$ we can evaluate the integrals. Given a Hamiltonian operator $H = T + U$ - where  $T$ is the kinetic energy operator and $U$ is the potential, the complete integral is (almost) impossible to carry out, since $T$ and $U$ do not commute in general. However, once we have split the integral into small factors, we can make use of the Trotter theorem to express the exponential term as 
 \begin{equation}
-e^{-\beta\left(T + U\right)} = \left(e^{-\beta\left(T/q + U/q\right)}\right)^q = \lim_{q \rightarrow \infty}\left(e^{-\beta T/q}e^{-\beta U/q}\right)^q 
+e^{-\frac{\beta}{q}\left(T + U\right)} = \left(e^{-\frac{\beta}{q}\left(T + U\right)}\right)^q = \lim_{q \rightarrow \infty}\left(e^{-\beta T/q}e^{-\beta U/q}\right)^q 
 \end{equation}
 This identity holds on the common domain of $T$ and $U$ if both are self-adjoint and bounded from below.  The kinetic term can now be calculated analytically by inserting the unity operator in the form $\mathbb{1} = \int dp  | p \rangle \langle p | $ between each $e^{-\beta T/q}$ and $e^{-\beta U/q}$.
 \begin{equation}
