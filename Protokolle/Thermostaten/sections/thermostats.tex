@@ -1,4 +1,12 @@
 % !TeX root = ../Thermostats.tex
+As mentioned earlier in section \ref{cemd} we need an algorithm to artificially keep our system at a desired temperature. Such algorithms are usually called thermostats. Since the beginning of molecular dynamics simulations, various types of thermostats have been proposed. Many rely on random numbers and try to imitate the random collisions between particles of the system and particles of the heat path, while others take on a more deterministic approach. In general, thermostats can be divided into four broad categories: 
+\begin{itemize}
+\item \textbf{Stochastic methods:} A system variable (kinetic energy or velocity) is constrained to a desired probability distribution (e.g. Andersen)
+\item \textbf{Strong-coupling methods:} A system variable is scaled to give the desired value (e.g. Gaussian) 
+\item \textbf{Weak-coupling methods:} A system variable is driven towards the desired value (e.g. Berendsen) 
+\item \textbf{Extended system dynamics:} Additional degrees of freedom are added to the system to include temperature (e.g. Nosé-Hoover) 
+\end{itemize}  
+In this project we try to compare some of the most common thermostats, which will be described in detail in the following sections. 
 \TODO[introtext]
 We implemented the following thermostats: % vllt jeden thermostat in einem abschnitt beschreiben und hinterher die liste löschen. 
 \begin{itemize}
