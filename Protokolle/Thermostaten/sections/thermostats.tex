@@ -19,11 +19,11 @@ We implemented the following thermostats: % vllt jeden thermostat in einem absch
 \item Nose-Hoover Chains
 \end{itemize}
 
-\subsection{Gaussian}
-This thermostat rescales the velocities of the particles to match the average kinetic energy of the particles to the expected value (derived from the Boltzmann distribution at the desired temperature T). This is achieved by calculating the current average $E_t$ of the system (Eq. \eqref{eq:tempdef}) and rescaling the velocities $v$ according to the following formula:
+\subsection{Gaussian}\label{th:gaussian}
+This thermostat rescales the velocities of the particles to match the average kinetic energy of the particles to the expected value (derived from the Boltzmann distribution at the desired temperature T). This is achieved by calculating the current average $K_t$ of the system (Eq. \eqref{eq:tempdef}) and rescaling the velocities $v$ according to the following formula:
 %: temperaturberechnung in unserer simulation irgendwo definieren und hier referenzieren.
 \begin{equation*}
-v'  = v\cdot \sqrt{\frac{E}{E_t}}
+v'  = v\cdot \sqrt{\frac{K}{K_t}}
 \end{equation*}
 The problem of this approach is that it produces a constant temperature which is not entirely in line with the canonical ensemble because sampling from such an ensemble would lead to fluctuations in the temperature and a variance $\sigma_T^2 > 0$.
 
@@ -32,14 +32,14 @@ As this thermostat does not yield any known ensemble we were advised to not use 
 
 \input{./sections/patrick.tex}
 \subsection{Berendsen}
-The temperature is tied to a heat-- bath and a new parameter is introduced that describes the temperature change rate $\tau$:
+This thermostat proposed by Berendsen et al. \cite{Berendsen1984} supplements the Hamiltonian of the system with an additional first order equation where the difference between the kinetic energy and its target value (modulo the change rate $\tau$) drive the change in kinetic energy. 
 \begin{equation*}
-\frac{dT(t)}{dt} = \frac{T-T(t)}{\tau} %die formel sieht ziemlich blöd aus finde ich grad - hat jmd eine idee für eine bessere konvention bzgl wunsch und aktueller temperatur?
+{\dot K_t} = \frac{K-K_t}{\tau} %die formel sieht ziemlich blöd aus finde ich grad - hat jmd eine idee für eine bessere konvention bzgl wunsch und aktueller temperatur?
 \end{equation*}
-A sane (\TODO) choice of this rate allows sampling of a canonical ensemble.
-%expand me please
-
+Drawbacks of this thermostat are the fact, that in general it does not sample from a well defined ensemble \cite{Morishita2000} and it also lacks a conserved quantity \cite{Bussi2007}
+therefore similar considerations as with the Gaussian thermostat (\ref{th:gaussian}) apply.
 \subsection{Bussi- Donadio- Parrinello}
+Bussi et al improved Berendsens method with their thermostat by adding a properly constructed random force and through relaxing the velocity rescaling (similar to Berendsen compared to Gaussians thermostat).
 
 \subsection{Nosé-Hoover}
 In contrast to the previously introduced thermostats, which rely on stochastical changes of the velocities of the particles to control temperature, Nosé revised a deterministic thermostat by altering the Hamiltonian of the system ~\cite{Nose2002}. His approach was then further improved by Hoover, who eliminated the need for time scaling ~\cite{Hoover1985}. 
@@ -102,7 +102,7 @@ While the Nosé-Hoover thermostat generates the right canonical distributions fo
 
 As with the original Nosé-Hoover method, the 'masses' $Q_j$ of the thermostats determine the strength of the coupling between successive thermostats and have to be chosen carefully to get good results. However, the choice of mass gets less critical the more thermostats are used in the chain. If the system under investigation has a typical frequency $\omega$, a good choice of masses is $Q_1 = \frac{NkT}{\omega}$ and $Q_j = \frac{kT}{\omega}$, which also gives the thermostats an average 'frequency' of $\omega$ \cite{Martyna1992}. 
 
-\subsection{A short note on the implementation of the Nosé-Hoover thermostats}
+\subsubsection{A short note on the implementation of the Nosé-Hoover thermostats}
 In the equations of motion of both the Nosé-Hoover thermostat as well as the Nosé-Hoover chains second derivative of the position coordinates depend on the first derivative, which leads to a problem with the standard velocity-verlet integration scheme used with the other thermostats. One possibility to overcome this problem is the use of an iterative scheme - such as i.e. a predictor-corrector method. However, such an approach would lead to the loss of time-reversibility, which is one of the major advantages of the Nośe-Hoover thermostat. For this project we used the explicit time-reversible integrators developed by Martyna \textit{et al.} via the Liouville formalism and a clever use of the Trotter formulas \cite{Martyna1996}.  
 
 
