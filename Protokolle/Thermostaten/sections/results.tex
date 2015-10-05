@@ -3,14 +3,29 @@
 \graphicspath{{../graphics/}}
 
 
-\subsection{random initiation}
+\subsection{Random initiation}
+The following results were obtained by simulations of $10^8$ steps of size $\Delta t = 0.001$ after an equilibration period of $10^7$ steps. 
+First of all, we wanted to test whether the thermostating routines disturbed the natural equilibrium of the system. Figure \ref{im:relPos_rand} shows a histogram of the relative positions between adjacent particles on the polymer chain. According to statistical mechanics, the distance between neighbouring chain monomers should follow a normal distribution 
+
+\begin{equation}
+f(r_{i,j}) = \frac{\beta^2\hbar^2}{2\pi mq^2}e^{-\frac{\beta^2\hbar^2r^2}{2mq^2}}
+\end{equation}  
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.9\textwidth]{./graphics/Histogramm_relPos_rand_T=20_p=64.png}
-\caption{Histogramm of $r_i - r_j$ for all thermostats}
+\caption{Histogram of $r_i - r_j$ for all thermostats}
 \label{im:relPos_rand}
 \end{figure} 
+
+As can be seen in figure \ref{im:relPos_rand}, the Andersen, Lowe-Andersen and Nosé-Hoover Chain thermostats follow this probability distribution closely. The Bussi-Donadio-Parrinello thermostat, however, leads to a distribution with a much smaller variance and one must assume that the phase-space of the system is not explored correctly with this routine. The values sampled with the Gaussian thermostat follow the distribution closely at the edges, but the minimum of the energy (zero distance between neighbouring monomers) is not the most populated state.  
+
+If we look at the distribution of particle velocities (figure \ref{im:vel_rand}), we see that the kinetic energy and the potential energy are strongly coupled in this system and the errors in the neighbour distance distribution probably arise from the errors in the distribution of velocities. The expected probability distribution is
+
+\begin{equation}
+f(v) = \frac{m\beta}{2\pi}e^{-\frac{m\beta v^2}{2}}
+\end{equation} 
+which is again only achieved by the Andersen, Lowe-Andersen and Nosé-Hoover Chain thermostats. 
 
 \begin{figure}[H]
 \centering
@@ -18,6 +33,10 @@
 \caption{Histogramm of particle velocities for all thermostats}
 \label{im:vel_rand}
 \end{figure}
+
+To take a closer look at the thermostating routines, we also evaluated the distribution of the total kinetic energy. Figure \ref{im:temp_rand} shows the distribution of virtual or instantaneous 'temperature' (i.e. $T^* = 2E_{kin}/q$). The values obtained via the Nosé-Hoover algorithm deviate significantly from the theoretical probability distribution, which is especially intriguing, because the deviation was far less pronounced for the individual velocities (figure \ref{im:vel_rand}). Furthermore, note that, as expected, the Gaussian thermostat keeps the system always at the designated temperature and therefore the resulting ensemble is isokinetic rather than canonical.  
+
+\TODO{theoretical distribution}
 
 \begin{figure}[H]
 \centering
@@ -33,19 +52,28 @@
 \label{im:epot_rand}
 \end{figure}
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.9\textwidth]{./graphics/Histogramm_absPosition_rand_T=20_p=64.png}
-\caption{Histogramm of positions $r_i$ for all thermostats}
-\label{im:absPos_rand}
-\end{figure} 
+To detect other possible problems, we also looked at the distribution of monomer positions and center of mass position (figures \ref{im:absPos_rand} and \ref{im:schwerPos_rand}). Ideally, the center of mass should not move at all, since it's velocity was set to zero at the time of initialisation. However, in the Andersen method the center of mass velocity is not conserved due to the stochastic changes in the monomer velocities. The Lowe-Andersen method overcomes this problem by acting on relative velocities rather than absolute velocities, which leaves the total momentum invariant.    
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.9\textwidth]{./graphics/Histogramm_schwerPos_rand_T=20_p=64.png}
-\caption{Histogramm of center of mass positions for all thermostats}
-\label{im:schwerPos_rand}
-\end{figure} 
+  \begin{subfigure}[b]{0.5\textwidth}
+%\minipage{0.5\textwidth}
+  	\includegraphics[width=\linewidth]{./graphics/Histogramm_absPosition_rand_T=20_p=64.png}
+  	\caption{Histogramm of positions $r_i$}
+    \label{im:absPos_rand}
+%\endminipage\hfill
+  \end{subfigure}\hfill
+  \begin{subfigure}[b]{0.5\textwidth}
+%\minipage{0.5\textwidth}
+    \includegraphics[width=\linewidth]{./graphics/Histogramm_schwerPos_rand_T=20_p=64.png}
+    \caption{Histogramm of center of mass positions}
+    \label{im:schwerPos_rand}
+%\endminipage\hfill
+  \end{subfigure}
+\label{fig:pos_rand}
+\end{figure}
+
+
 
 \begin{figure}[H]
 \centering
@@ -55,7 +83,7 @@
 \end{figure} 
 
 
-\subsection{biased initialization}
+\subsection{Biased initialization}
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.9\textwidth]{./graphics/Histogramm_relPos_one_T=20_p=64.png}
