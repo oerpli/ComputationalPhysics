@@ -9,12 +9,12 @@ As mentioned earlier in section \ref{cemd} we need an algorithm to artificially 
 In this project we try to compare some of the most common thermostats, which will be described in detail in the following sections. 
 
 \subsection{Gaussian}\label{th:gaussian}
-This thermostat rescales the velocities of the particles to match the average kinetic energy of the particles to the expected value (derived from the Boltzmann distribution at the desired temperature T). This is achieved by calculating the current average $K_t$ of the system (Eq. \eqref{eq:tempdef}) and rescaling the velocities $v$ according to the following formula:
+This thermostat rescales the velocities of the particles to match the kinetic energy of the particles to the expected value (derived from the Boltzmann distribution at the desired temperature T). This is achieved by calculating the current kinetic energy $K_t$ of the system (Eq. \eqref{eq:tempdef}) and rescaling the velocities $v$ according to the following formula:
 %: temperaturberechnung in unserer simulation irgendwo definieren und hier referenzieren.
 \begin{equation}
 v'  = v\cdot \sqrt{\frac{K}{K_t}}\label{eq:gauss}
 \end{equation}
-The problem of this approach is that it produces a constant temperature which is not entirely in line with the canonical ensemble because sampling from such an ensemble would lead to fluctuations in the temperature and a variance $\sigma_T^2 > 0$.
+The problem of this approach is that it produces a constant kinetic energy which is not entirely in line with the canonical ensemble because sampling from such an ensemble would lead to fluctuations in the kinetic energy.
 
 As this thermostat does not yield any known ensemble we were advised to not use it for serious projects, due to the simplicity of the approach it may still be worth considering for testing purposes or similar ventures.
 
@@ -27,19 +27,18 @@ This thermostat proposed by Berendsen et al. \cite{Berendsen1984} supplements th
 \end{equation}
 The velocities are then scaled to fit these kinetic energies at every time step (as in \eqref{eq:gauss}).
 
-Drawbacks of this thermostat are the fact, that in general it does not sample from a well defined ensemble \cite{Morishita2000} and it also lacks a conserved quantity \cite{Bussi2007}
-therefore similar considerations as with the Gaussian thermostat (\ref{th:gaussian}) apply.
+One drawback of this thermostat is that in general it does not sample from a well defined ensemble \cite{Morishita2000}. Furthermore, it lacks a conserved quantity \cite{Bussi2007} For these reasons, similar considerations as for the Gaussian thermostat (\ref{th:gaussian}) apply.
 \subsection{Bussi- Donadio- Parrinello}
-Bussi et al.\cite{Bussi2007} improved Berendsens method with their thermostat by switching the target value from equation \eqref{eq:gauss} to a changing time dependent stochastic variable and through adjusting the temperature over several timesteps as Berendsen does (via eq. \eqref{eq:berendsen}). 
+Bussi et al.\cite{Bussi2007} improved Berendsen's method by switching the target value from equation \eqref{eq:gauss} to a changing, time dependent stochastic variable and adjusting the temperature over several time steps as Berendsen does (via eq. \eqref{eq:berendsen}). 
 
-Therefore the auxiliary dynamics can be expressed in the following formula ($dW$ is a Wiener noise):
+Therefore the auxiliary dynamics can be expressed via the following formula ($dW$ is a Wiener noise):
 \begin{equation}
 dK_t = (K- K_t) \frac{dt}{\tau} + \underbrace{2\sqrt{\frac{K\cdot K_t}{N_f}}\frac{dW}{\sqrt{\tau}}}_{\text{stochastic term}}
 \end{equation}
 
-Without the stochastic term the thermostat is equal to the Berendsen thermostat -- with very small $\tau$ it's a stochastic gaussian thermostat (sampling kinetic energies from the desired distribution and instantly rescaling velocities accordingly at every timestep). For very large $\tau$ the thermostat does not affect the system. If the system is far from equilibrium the ``Berendsen- part'' (deterministic part) dominates the behaviour and the system reaches equilibrium quickly. Upon reaching equilibrium it samples from the proper canonical ensemble with the desired fluctuations.
+Without the stochastic term the thermostat is equal to the Berendsen thermostat -- with very small $\tau$ it's a stochastic Gaussian thermostat (sampling kinetic energies from the desired distribution and instantly rescaling velocities accordingly at every time step). For very large $\tau$ the thermostat does not affect the system. If the system is far from equilibrium the `Berendsen- part' (deterministic part) dominates the behaviour and the system reaches equilibrium quickly. Upon reaching equilibrium it samples from the proper canonical ensemble with the desired fluctuations.
 
-For this thermostat the choice of the stochastic term is somewhat arbitrary as it only influences speed of equilibration. In our implementation we chose the same as FFX \cite{FFX} (linked on Giovanni Bussis website \cite{BussiWeb}).
+For this thermostat the choice of the stochastic term is somewhat arbitrary as it only influences speed of equilibration. In our implementation we chose the same as FFX \cite{FFX} (linked on Giovanni Bussi's website \cite{BussiWeb}).
 \subsection{Nosé-Hoover}
 In contrast to the previously introduced thermostats, which rely on stochastical changes of the velocities of the particles to control temperature, Nosé revised a deterministic thermostat by altering the Hamiltonian of the system ~\cite{Nose2002}. His approach was then further improved by Hoover, who eliminated the need for time scaling ~\cite{Hoover1985}. 
 In the original method proposed by Nosé an additional degree of freedom $s$ is introduced, which serves as a scaling factor for the velocities and can be thought of as the external heat bath of the system.
