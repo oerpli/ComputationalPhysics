@@ -9,7 +9,7 @@ As mentioned earlier in section \ref{cemd} we need an algorithm to artificially 
 In this project we try to compare some of the most common thermostats, which will be described in detail in the following sections. 
 
 \subsection{Gaussian}\label{th:gaussian}
-This thermostat rescales the velocities of the particles to match the kinetic energy of the particles to the expected value (derived from the Boltzmann distribution at the desired temperature T). This is achieved by calculating the current kinetic energy $K_t$ of the system (Eq. \eqref{eq:tempdef}) and rescaling the velocities $v$ according to the following formula:
+This thermostat rescales the velocities of the particles to match the kinetic energy of the particles to the expected value (derived from the Boltzmann distribution at the desired temperature T). This is achieved by calculating the current kinetic energy $K_t$ of the system and rescaling the velocities $v$ according to the following formula:
 %: temperaturberechnung in unserer simulation irgendwo definieren und hier referenzieren.
 \begin{equation}
 v'  = v\cdot \sqrt{\frac{K}{K_t}}\label{eq:gauss}
