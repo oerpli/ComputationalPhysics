@@ -10,46 +10,38 @@ const std::string Bussi::m_name = "Bussi";
 
 Bussi::Bussi(Polymer &polymere, double timestep, double coupling_time)
 	: Thermostat(polymere, timestep)
-	, couplingtime(coupling_time){
+	, couplingtime(coupling_time)
+{
+	couplingtimeNfInverse = 1.0 / (couplingtime * m_poly.monomers.size());
+	m_dtime_half = m_dtime * 0.5;
+	cout << "CouplingInv" << couplingtimeNfInverse << endl << "Size" << m_poly.monomers.size();
 }
 
-//1. propagate 1 timestep with velocity verlet
-//2. calc. scaling factor
-//3. rescale velocities
-void Bussi::propagate() {
-	//1. velocity verlet: 
-	auto dtimehalf = m_dtime*0.5;
+void Bussi::propagate()
+{
+	//1. velocity verlet:
 	for (auto& m : m_poly.monomers) {
-		m.velocity += dtimehalf * m.force / m_poly.monomer_mass;
+		m.velocity += m_dtime_half * m.force / m_poly.monomer_mass;
 		m.position += m_dtime * m.velocity;
 	}
 	m_poly.update_forces();
-	for (auto& m : m_poly.monomers) m.velocity += dtimehalf * m.force / m_poly.monomer_mass;
+	for (auto& m : m_poly.monomers) m.velocity += m_dtime_half * m.force / m_poly.monomer_mass;
 
-	//2. calculate scaling factor
-	auto currenttemp = m_poly.update_ekin() / (0.5*m_poly.monomers.size());
-	auto temperature_ratio = m_poly.target_temperature() / currenttemp;
+	//2. calculate target kinetic energy (as in the paper from bussi&donadio&parrinello)
+	double ekin = m_poly.update_ekin();
+	double wienernoise = Rand::real_normal(); // dW in the paper - N(0,1)
+	double berendsen = (m_poly.target_temperature() - ekin)*m_dtime / couplingtime;
+	double stochastic = 2.0* sqrt((ekin * m_poly.target_temperature()) * couplingtimeNfInverse) * wienernoise;
+	double stoch_ekin = ekin + berendsen + stochastic; // evolve ekin with. stochastic dgl  (K_1 = K_0 + dK)
 
-	auto expfactor = exp(-m_dtime / couplingtime);
-
-	auto rate = (1.0 - expfactor)*temperature_ratio / m_poly.monomers.size();
-	double chisquared = Rand::real_chisquared( (unsigned) m_poly.monomers.size() - 1);
-	//for (unsigned i = 1; i < m_poly.monomers.size(); i++){ // n-1 times
-	//	chisquared += pow(Rand::real_normal(), 2);
-	//}
-	auto r = Rand::real_normal();
-	auto r1 = (chisquared + pow(r, 2)) * rate;
-	auto r2 = 2.0 * r *sqrt(expfactor*rate);
-	auto  scalingfactor = sqrt(expfactor + r1 + r2);
-	if (r + sqrt(expfactor / rate) < 0.0) {
-		scalingfactor = -scalingfactor;
-	}
-	//3. rescale 
+	//3. calculate scaling factor (as with gaussian thermostat)
+	double scalingfactor = sqrt(stoch_ekin / ekin);
+	//4. rescale
 	for (auto& m : m_poly.monomers) m.velocity *= scalingfactor;
 }
 
 
-void Bussi::update_temp(){
+void Bussi::update_temp() {
 }
 
 std::string Bussi::name() const { return m_name; }
