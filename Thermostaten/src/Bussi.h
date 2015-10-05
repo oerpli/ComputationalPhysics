@@ -4,9 +4,9 @@
 
 class Bussi : public Thermostat {
 private:
-	double	target_temperature;
 	double	couplingtime;
 	double	couplingtimeNfInverse;
+	double	target_ekin;
 	double	m_dtime_half;
 	static const std::string m_name;
 public:
