@@ -35,7 +35,11 @@ void Bussi::propagate()
 	double stoch_ekin = ekin + berendsen + stochastic; // evolve ekin with. stochastic dgl  (K_1 = K_0 + dK)
 
 	//3. calculate scaling factor (as with gaussian thermostat)
-	double scalingfactor = sqrt(stoch_ekin / ekin);
+	double scalingfactor;
+	if (stoch_ekin > 0)
+		scalingfactor = sqrt(stoch_ekin / ekin);
+	else
+		scalingfactor = -sqrt(-stoch_ekin / ekin);
 	//4. rescale
 	for (auto& m : m_poly.monomers) m.velocity *= scalingfactor;
 }
