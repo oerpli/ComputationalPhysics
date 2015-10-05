@@ -1,0 +1,15 @@
+% !TeX root = ../Thermostats.tex
+To investigate the different thermostats we choose a model system of one-dimensional quantum hydrogen approximated as a quantum gas --- i.e. there are no potentials between the particles except for the harmonic spring potential $\phi$ between adjacent monomers resulting from the modelling as a ring polymer (see section \ref{pimd}). 
+\begin{align*}
+& \phi(x_i, x_j) = m\frac{mq^2}{\beta^2\hbar^2}\cdot r_{i,j} & \text{if j = i-1, i+1} \\
+& \phi(x_i, x_j) = 0 & \text{otherwise} \numberthis
+\end{align*}
+where $r_{i,j} = | x_j - x_i |$ is the distance between two monomers. We simulated our system with a polymer chain made up of $q = 64$ monomers at a temperature of $T=20K$, but we used reduced units to keep our variables around the order of 1, which helps to prevent unnecessary rounding errors. Furthermore, we compared different methods of initialization. First, we initiated all velocities with random numbers between [-0.5, 0.5] and then set the center-of-mass velocity to zero as well as scaled to velocities to the desired temperature. Secondly, we used a biased initialization method, where one monomer gets initialized with the majority of kinetic energy 
+\begin{equation}
+v_0 = \sqrt{\frac{(q-1)\cdot T}{m}}
+\end{equation} 
+while the other monomers only get initiated with a fraction of the velocity $v_i = - v_0/q$ in the other direction, to keep the center of mass fixed. 
+  
+
+
+   
