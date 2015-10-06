@@ -18,7 +18,7 @@ public:
 	void set(int in, double imin, double imax);
 	void set(int in, double imax);
 	void add(double val);
-	bool output(std::ostream& os=std::cout);
+	bool output(std::ostream& os = std::cout);
 	void output_reset();
 	void norm();
 };

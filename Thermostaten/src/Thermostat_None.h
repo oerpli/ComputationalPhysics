@@ -6,7 +6,6 @@
 #include <string>
 
 class Thermostat_None : public Thermostat {
-
 private:
 	double m_dtime_half;
 	static const std::string m_name;

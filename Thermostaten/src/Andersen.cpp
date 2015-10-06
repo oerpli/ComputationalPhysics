@@ -14,8 +14,8 @@ using namespace std;
 const string Andersen::m_name = "Andersen";
 
 Andersen::Andersen(Polymer &poly, double delta_time, double nu) :
-Thermostat(poly, delta_time),
-m_nu(nu) {
+	Thermostat(poly, delta_time),
+	m_nu(nu) {
 	update_temp();
 	dtime(delta_time);
 }
@@ -50,14 +50,14 @@ void  Andersen::propagate() {
 	}
 }
 
-string Andersen::name() const {return m_name;}
+string Andersen::name() const { return m_name; }
 
 string Andersen::info() const {
-	string str{"Thermostat "};
+	string str{ "Thermostat " };
 	str += m_name;
 	str += " dtime ";
-	str += to_string ( m_dtime );
+	str += to_string(m_dtime);
 	str += " nu ";
-	str += to_string ( m_nu );
-return str;
+	str += to_string(m_nu);
+	return str;
 }

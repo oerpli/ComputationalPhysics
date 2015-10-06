@@ -3,7 +3,7 @@
 
 const std::string Nose_Hoover_Chain::m_name = "Nose_Hoover_Chain";
 
-Nose_Hoover_Chain::Nose_Hoover_Chain(Polymer &a_polymer, double timestep, double a_q1, double a_q2 )
+Nose_Hoover_Chain::Nose_Hoover_Chain(Polymer &a_polymer, double timestep, double a_q1, double a_q2)
 	: Thermostat(a_polymer, timestep)
 	, q1(a_q1)
 	, q2(a_q2)
@@ -33,7 +33,7 @@ void Nose_Hoover_Chain::pos_vel() {
 void Nose_Hoover_Chain::chain() {
 	m_poly.update_ekin();
 	g2 = (q1*nuxi1*nuxi1 - m_poly.target_temperature()) / q2;
-	nuxi2 += g2*stepd4;				// L_G2 
+	nuxi2 += g2*stepd4;				// L_G2
 	nuxi1 *= exp(-nuxi2*stepd8);	// L_nuxi1
 	g1 = (2.0*m_poly.ekin - (m_poly.monomers.size() - 1)*m_poly.target_temperature()) / q1;
 	nuxi1 += g1*stepd4;				// L_G1
@@ -50,7 +50,7 @@ void Nose_Hoover_Chain::chain() {
 	nuxi1 += g1*stepd4;				// L_G1
 	nuxi1 *= exp(-nuxi2*stepd8);	// L_nuxi1
 	g2 = (q1*nuxi1*nuxi1 - m_poly.target_temperature()) / q2;
-	nuxi2 += g2*stepd4;				// L_G2 
+	nuxi2 += g2*stepd4;				// L_G2
 }
 
 void Nose_Hoover_Chain::propagate() {
@@ -59,19 +59,19 @@ void Nose_Hoover_Chain::propagate() {
 	chain();
 }
 
-void Nose_Hoover_Chain::update_temp(){
+void Nose_Hoover_Chain::update_temp() {
 }
 
-std::string Nose_Hoover_Chain::name() const {return m_name;}
+std::string Nose_Hoover_Chain::name() const { return m_name; }
 
 std::string Nose_Hoover_Chain::info() const {
-	std::string str{"Thermostat "};
+	std::string str{ "Thermostat " };
 	str += m_name;
 	str += " dtime ";
-	str += std::to_string ( m_dtime );
+	str += std::to_string(m_dtime);
 	str += " q1 ";
-	str += std::to_string ( q1 );
+	str += std::to_string(q1);
 	str += " q2 ";
-	str += std::to_string ( q2 );
-return str;
+	str += std::to_string(q2);
+	return str;
 }

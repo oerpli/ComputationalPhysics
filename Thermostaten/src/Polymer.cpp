@@ -91,7 +91,7 @@ void Polymer::update_forces() {
 	}
 }
 
-double Polymer::update_ekin(){
+double Polymer::update_ekin() {
 	ekin = 0.0;
 	update_velocity();
 	for (auto& m : monomers) ekin += pow(m.velocity - velocity, 2);
@@ -102,23 +102,23 @@ double Polymer::update_ekin(){
 double Polymer::update_epot() {
 	auto mi = monomers.begin(), mj = monomers.begin(), mend = monomers.end();
 	++mj;
-	epot=0;
-	for (; mj != mend; ++mi, ++mj) epot += pow(*mj - *mi , 2);
+	epot = 0;
+	for (; mj != mend; ++mi, ++mj) epot += pow(*mj - *mi, 2);
 	mj = monomers.begin();
-	epot += pow(*mj - *mi , 2);
+	epot += pow(*mj - *mi, 2);
 	return epot *= m_feder_konst *0.5;
 }
 
 double Polymer::update_position() {
 	position = 0;
-	for ( auto& m : monomers ) position += m.position;
+	for (auto& m : monomers) position += m.position;
 	position /= monomers.size();
 	return position;
 }
 
 double Polymer::update_velocity() {
 	velocity = 0;
-	for ( auto& m : monomers ) velocity += m.velocity;
+	for (auto& m : monomers) velocity += m.velocity;
 	velocity /= monomers.size();
 	return velocity;
 }
@@ -138,21 +138,21 @@ double Polymer::calculate_temp() {
 	return av_energy / (0.5*ref_k);
 }
 
-string Polymer::ini() const {return m_ini;}
+string Polymer::ini() const { return m_ini; }
 
 string Polymer::info() const {
-	string ret{"Polymer"};
+	string ret{ "Polymer" };
 	ret += " initiate ";
 	ret += m_ini;
 	ret += " trotter ";
-	ret += to_string( monomers.size() );
+	ret += to_string(monomers.size());
 	ret += " temp ";
-	ret += to_string( m_target_temp / ref_k );
+	ret += to_string(m_target_temp / ref_k);
 	ret += " beta ";
-	ret += to_string( 1. / m_target_temp );
+	ret += to_string(1. / m_target_temp);
 	ret += " monomerMass ";
-	ret += to_string( monomer_mass );
+	ret += to_string(monomer_mass);
 	ret += " feder ";
-	ret += to_string( m_feder_konst );
+	ret += to_string(m_feder_konst);
 	return ret;
 }

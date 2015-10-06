@@ -14,7 +14,6 @@ Gaussian::Gaussian(Polymer &poly, double delta_time)
 	dtime(delta_time);
 }
 
-
 void Gaussian::update_temp() {
 }
 
@@ -37,12 +36,12 @@ void Gaussian::propagate() {
 	for (auto& m : m_poly.monomers)m.velocity *= scalefactor;//velocity rescaling
 }
 
-string Gaussian::name() const {return m_name;}
+string Gaussian::name() const { return m_name; }
 
 string Gaussian::info() const {
-	string str{"Thermostat "};
+	string str{ "Thermostat " };
 	str += m_name;
 	str += " dtime ";
-	str += to_string ( m_dtime );
-return str;
+	str += to_string(m_dtime);
+	return str;
 }

@@ -43,8 +43,8 @@ void statistic_add(double val, unsigned index, vector<Histo>& v_h, vector<Stat>&
 /* ######################### */
 int main(int argc, char* argv[]) {
 	//default für  runs,warmlauf,dtime,p,Temp,hist,ausgabe   :jedes xte wird ausgegeben
-	double a_para[]{1E8, 1E7, 1E-15, 64, 20, 1000, 1};
-	
+	double a_para[]{ 1E8, 1E7, 1E-15, 64, 20, 1000, 1 };
+
 	double para_p, para_temp, para_dtime, para_runs, para_warm, para_aus, para_hist;
 	int a_para_size = sizeof(a_para) / sizeof(*a_para);
 	int			i_para{ 1 };
@@ -54,10 +54,10 @@ int main(int argc, char* argv[]) {
 	Thermostat *thermostat{};
 	vector<Histo> v_histo;
 	vector<Stat> v_stat;
-	
+
 	bool reset_pos_vel{};
-	int	index_reset_pos_vel{100};
-	
+	int	index_reset_pos_vel{ 100 };
+
 	// Bestimmen der Parameter zur Initialisierung von Poly und Thermostat
 	for (i_para = 1; i_para < min(a_para_size + 1, argc); ++i_para) {
 		if (is_number(argv[i_para])) a_para[i_para - 1] = stod(argv[i_para]);
@@ -87,10 +87,10 @@ int main(int argc, char* argv[]) {
 		poly.initiate_monomers_one();
 	else
 		poly.initiate_monomers_random();
-		
+
 	reset_pos_vel = (strcmp(argv[i_poly_init], "reset") == 0 || strcmp(argv[i_reset_pos_vel], "reset") == 0);
-	if ( reset_pos_vel ) index_reset_pos_vel=set_param(index_reset_pos_vel, argv, argc, i_reset_pos_vel + 1);
-	
+	if (reset_pos_vel) index_reset_pos_vel = set_param(index_reset_pos_vel, argv, argc, i_reset_pos_vel + 1);
+
 	// Auswählen des Thermostats
 	if (argc > 1 && i_thermos < argc) {
 		if (strcmp(argv[i_thermos], "Andersen") == 0) {
@@ -138,7 +138,7 @@ int main(int argc, char* argv[]) {
 	cout << "Zeitschritt:\t" << para_dtime << endl;
 	cout << "Sim. Laenge:\t" << para_runs << endl;
 	cout << "Warmlaufzeit:\t" << para_warm << endl;
-	
+
 	ss_para.precision(0);
 	ss_para << "_p" << (int)para_p;
 	ss_para << "_T" << (int)para_temp;
@@ -161,13 +161,13 @@ int main(int argc, char* argv[]) {
 	v_histo[5].set(para_hist, 5); // schwerPos
 	sigma2 = poly.target_temperature() / poly.monomer_mass;
 	v_histo[6].set(para_hist, 5 * sqrt(sigma2));  // schwerVel
-	
+
 	// Simulation
 	long long onepercent = para_warm / 100;
 	int percent = 0;
-	for (long long i = 0; i < para_warm; ++i){
+	for (long long i = 0; i < para_warm; ++i) {
 		if (!(i%onepercent)) cout << ++percent << "%\r" << flush;
-		if ( reset_pos_vel && !(i%index_reset_pos_vel) ) poly.set_pos_vel();
+		if (reset_pos_vel && !(i%index_reset_pos_vel)) poly.set_pos_vel();
 		thermostat->propagate();
 	}
 	cout << endl << "Warmlauf abgeschlossen" << endl;
@@ -192,7 +192,7 @@ int main(int argc, char* argv[]) {
 			statistic_add(poly.velocity, 6, v_histo, v_stat);
 		}
 
-		if ( reset_pos_vel && !(i%index_reset_pos_vel) ) poly.set_pos_vel();
+		if (reset_pos_vel && !(i%index_reset_pos_vel)) poly.set_pos_vel();
 		thermostat->propagate();
 	}
 	cout << endl;
@@ -222,4 +222,3 @@ int main(int argc, char* argv[]) {
 	delete thermostat;
 	return 0;
 }
-

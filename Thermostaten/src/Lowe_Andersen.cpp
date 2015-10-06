@@ -14,14 +14,14 @@ using namespace std;
 const string Lowe_Andersen::m_name = "Lowe_Andersen";
 
 Lowe_Andersen::Lowe_Andersen(Polymer &poly, double delta_time, double nu) :
-Thermostat(poly, delta_time),
-m_nu(nu){
+	Thermostat(poly, delta_time),
+	m_nu(nu) {
 	update_temp();
 	dtime(delta_time);
 }
 
 void Lowe_Andersen::update_temp() {
-	m_sigma = sqrt(2*m_poly.target_temperature() / m_poly.monomer_mass);
+	m_sigma = sqrt(2 * m_poly.target_temperature() / m_poly.monomer_mass);
 }
 
 void Lowe_Andersen::dtime(double dt) {
@@ -35,7 +35,7 @@ void Lowe_Andersen::propagate() {
 	auto mi = m_poly.monomers.begin();
 	auto mj = mi;
 	int direction{};
-	
+
 	// velocity verlet
 	for (auto& m : m_poly.monomers) {
 		m.velocity += m_dtime2*m.force / m_poly.monomer_mass;
@@ -50,12 +50,12 @@ void Lowe_Andersen::propagate() {
 		++mj;
 		if (mj == m_poly.monomers.end()) mj = m_poly.monomers.begin();
 		therm_v = Rand::real_normal(0, m_sigma);
-		
-		direction = copysign(1,*mi - *mj);
-		
-		therm_v += direction * ( mj->velocity - mi->velocity );
+
+		direction = copysign(1, *mi - *mj);
+
+		therm_v += direction * (mj->velocity - mi->velocity);
 		therm_v *= direction * 0.5;
-		
+
 		mi->velocity += therm_v;
 		mj->velocity -= therm_v;
 	}
@@ -67,14 +67,14 @@ void Lowe_Andersen::propagate() {
 	}
 }
 
-string Lowe_Andersen::name() const {return m_name;}
+string Lowe_Andersen::name() const { return m_name; }
 
 string Lowe_Andersen::info() const {
-	string str{"Thermostat "};
+	string str{ "Thermostat " };
 	str += m_name;
 	str += " dtime ";
-	str += to_string ( m_dtime );
+	str += to_string(m_dtime);
 	str += " nu ";
-	str += to_string ( m_nu );
-return str;
+	str += to_string(m_nu);
+	return str;
 }

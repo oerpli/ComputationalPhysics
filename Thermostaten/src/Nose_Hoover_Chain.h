@@ -1,12 +1,11 @@
 #pragma once
 
-#include<cmath> 
+#include<cmath>
 #include "Polymer.h"
 #include "Thermostat.h"
 #include <string>
 
 class Nose_Hoover_Chain :public Thermostat {
-
 private:
 	double q1, q2, xi1, xi2, nuxi1, nuxi2, g1, g2, stepd2, stepd4, stepd8;
 

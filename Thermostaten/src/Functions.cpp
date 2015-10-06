@@ -41,18 +41,18 @@ void assign(istringstream &iss, const string &str) {
 ostream& operator<<(ostream& os, const Stat& stat) {
 	os << stat.mu << " " << stat.sigma << " ";
 	os << stat.min << " " << stat.max;
-return os;
+	return os;
 }
 
 bool histoLine(vector<Histo> &v_h, ostream &os) {
-	bool ret=false;
-	for (auto& h : v_h ) ret = ret | h.output(os);
+	bool ret = false;
+	for (auto& h : v_h) ret = ret | h.output(os);
 	return ret;
 }
-bool histoLine(vector<Histo> &v_h) {return histoLine(v_h,cout);}
+bool histoLine(vector<Histo> &v_h) { return histoLine(v_h, cout); }
 
-ostream& operator << (ostream& os , vector<Histo> &v_h) {
-	while ( histoLine(v_h,os) ) os << endl; 
+ostream& operator << (ostream& os, vector<Histo> &v_h) {
+	while (histoLine(v_h, os)) os << endl;
 	for (auto& h : v_h) h.output_reset();
-return os;
+	return os;
 }

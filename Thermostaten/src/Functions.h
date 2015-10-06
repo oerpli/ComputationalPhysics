@@ -23,4 +23,4 @@ void assign(istringstream &iss, const string &str);
 ostream& operator<<(ostream& os, const Stat& stat);
 bool histoLine(vector<Histo> &v_h, ostream &os);
 bool histoLine(vector<Histo> &v_h);
-ostream& operator << (ostream& os , vector<Histo> &v_h);
+ostream& operator << (ostream& os, vector<Histo> &v_h);

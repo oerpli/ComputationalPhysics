@@ -2,11 +2,11 @@
 
 #include <random>
 #include <chrono>
-//schreibt hier schonmal rein wenn ihr irgendwelche spezielle sachen wollt. 
+//schreibt hier schonmal rein wenn ihr irgendwelche spezielle sachen wollt.
 
 using namespace std;
 
-class Rand{
+class Rand {
 private:
 	static mt19937_64 generator;
 	static normal_distribution<double> dis_normal;

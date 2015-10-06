@@ -7,7 +7,6 @@
 #include <string>
 
 class Nose_Hoover : public Thermostat {
-
 private:
 	double m_q;
 	double m_dtimesq;

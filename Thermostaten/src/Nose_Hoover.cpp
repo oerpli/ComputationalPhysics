@@ -5,9 +5,9 @@
 const std::string Nose_Hoover::m_name = "Nose_Hoover";
 
 Nose_Hoover::Nose_Hoover(Polymer &poly, double delta_time, double q) :
-Thermostat(poly, delta_time),
-m_q(q),
-m_eta(0.0)
+	Thermostat(poly, delta_time),
+	m_q(q),
+	m_eta(0.0)
 {
 	update_temp();
 	dtime(delta_time);
@@ -27,7 +27,7 @@ void Nose_Hoover::dtime(double delta_time) {
 }
 
 void Nose_Hoover::propagate() {
-	for (auto& m : m_poly.monomers){
+	for (auto& m : m_poly.monomers) {
 		m.position += m_dtime*m.velocity + m_dtimesq*.5*((m.force / m_poly.monomer_mass) - m_eta*m.velocity);
 		m.velocity += m_dtime*0.5*((m.force / m_poly.monomer_mass) - m_eta*m.velocity);
 	}
@@ -41,14 +41,14 @@ void Nose_Hoover::propagate() {
 	m_poly.update_ekin();
 }
 
-std::string Nose_Hoover::name() const {return m_name;}
+std::string Nose_Hoover::name() const { return m_name; }
 
 std::string Nose_Hoover::info() const {
-	std::string str{"Thermostat "};
+	std::string str{ "Thermostat " };
 	str += m_name;
 	str += " dtime ";
-	str += std::to_string ( m_dtime );
+	str += std::to_string(m_dtime);
 	str += " q ";
-	str += std::to_string ( m_q );
-return str;
+	str += std::to_string(m_q);
+	return str;
 }
