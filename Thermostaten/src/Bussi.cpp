@@ -5,7 +5,6 @@
 #include "Rand.h"
 #include <string>
 
-
 const std::string Bussi::m_name = "Bussi";
 
 Bussi::Bussi(Polymer &polymere, double timestep, double coupling_time)
@@ -29,11 +28,10 @@ void Bussi::propagate()
 
 	//2. calculate target kinetic energy (as in the paper from bussi&donadio&parrinello)
 	double ekin = m_poly.update_ekin();
-	double wienernoise = Rand::real_normal(); // dW in the paper - N(0,1)
+	double wienernoise = Rand::real_normal() * m_dtime; // dW in the paper - N(0,1)
 	double berendsen = (target_ekin - ekin)*m_dtime / couplingtime;
 	double stochastic = 2.0* sqrt((ekin * target_ekin) * couplingtimeNfInverse) * wienernoise;
 	double stoch_ekin = ekin + berendsen + stochastic; // evolve ekin with. stochastic dgl  (K_1 = K_0 + dK)
-
 	//3. calculate scaling factor (as with gaussian thermostat)
 	double scalingfactor;
 	if (stoch_ekin > 0)
@@ -43,7 +41,6 @@ void Bussi::propagate()
 	//4. rescale
 	for (auto& m : m_poly.monomers) m.velocity *= scalingfactor;
 }
-
 
 void Bussi::update_temp() {
 }
