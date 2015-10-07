@@ -87,7 +87,7 @@ The variable $\zeta = \frac{p_s}{Q}$ is introduced to highlight the analogy betw
 
 Since the damping parameter $\zeta$ is not determined instantaneously, as is the case with e.g. a Gaussian thermostat, but via an equation of motion, the Nosé-Hoover method describes an integral thermostat and therefore leads both smooth as well as time-reversible and deterministic paths in phase space.  
 
-\subsection{Nose-Hoover Chains}
+\subsection{Nose-Hoover Chains} \label{NHC}
 While the Nosé-Hoover thermostat generates the right canonical distributions for large, ergodic systems, it often fails if the system has more than one constant of motion - for example if the total momentum is conserved, as is the case for systems without external forces. This is due to the fact that the limiting distribution of the Nośe-Hoover thermostat has a gaussian dependence not only on the momenta $p_i$ but also on the conjugate momentum $p_s$ of the 'heat bath', but there is no driving force to ensure the correct fluctuations of $p_s$. Martyna and Klein proposed a method to solve this problem, now known as Nosé-Hoover chains \cite{Martyna1992}. The idea is to thermostat $p_s$ as well as its thermostat, etc., forming a chain of thermostats, which can be extended to arbitrary length. For a total of $M$ thermostats, the extended equations of motions take the following form:
 
 \begin{align*}
@@ -98,7 +98,7 @@ While the Nosé-Hoover thermostat generates the right canonical distributions fo
 & \dot{p}_{s_M} = \left[ \frac{p^2_{s_{M-1}}}{Q_{M-1}} - kT\right] \numberthis
 \end{align*}
 
-As with the original Nosé-Hoover method, the 'masses' $Q_j$ of the thermostats determine the strength of the coupling between successive thermostats and have to be chosen carefully to get good results. However, the choice of mass gets less critical the more thermostats are used in the chain. If the system under investigation has a typical frequency $\omega$, a good choice of masses is $Q_1 = \frac{NkT}{\omega}$ and $Q_j = \frac{kT}{\omega}$, which also gives the thermostats an average 'frequency' of $\omega$ \cite{Martyna1992}. 
+As with the original Nosé-Hoover method, the 'masses' $Q_j$ of the thermostats determine the strength of the coupling between successive thermostats and have to be chosen carefully to get good results. However, the choice of mass gets less critical the more thermostats are used in the chain. If the system under investigation has a typical frequency $\omega$, a good choice of masses is $Q_1 = \frac{qkT}{\omega}$ and $Q_j = \frac{kT}{\omega}$, which also gives the thermostats an average 'frequency' of $\omega$ \cite{Martyna1992}. 
 
 \subsubsection{A short note on the implementation of the Nosé-Hoover thermostats}
 In the equations of motion of both the Nosé-Hoover thermostat as well as the Nosé-Hoover chains second derivative of the position coordinates depend on the first derivative, which leads to a problem with the standard velocity-verlet integration scheme used with the other thermostats. One possibility to overcome this problem is the use of an iterative scheme - such as i.e. a predictor-corrector method. However, such an approach would lead to the loss of time-reversibility, which is one of the major advantages of the Nośe-Hoover thermostat. For this project we used the explicit time-reversible integrators developed by Martyna \textit{et al.} via the Liouville formalism and a clever use of the Trotter formulas \cite{Martyna1996}.  

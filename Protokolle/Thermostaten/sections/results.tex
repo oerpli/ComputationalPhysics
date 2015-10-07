@@ -154,7 +154,12 @@ Furthermore, the center of mass velocity also exhibits a drift when it is thermo
 \end{comment}
 
 
-\subsection{Parameters for Nose Hoover Chain}
+\subsection{Parameters for the Nosé-Hoover Chain}
+The Nosé-Hoover thermostat includes a freely choosable parameter $Q$ (or $Q_1$ and $Q_2$ for the Nosé-Hoover Chain), which controls the strength of coupling to the heat bath. As mentioned in section \ref{NHC}, Martyna \textit{et al.} \cite{Martyna1992} suggest using $Q_1 = \frac{qkT}{\omega}$ and $Q_j = \frac{kT}{\omega}$, where $\omega$ is a typical frequency of the system. In our project, we also used these parameters at first with $\omega$ being the frequency of harmonic oscillations resulting from the spring potential.
+\begin{equation}
+\omega = \sqrt{\frac{k}{m}} = \frac{q}{\beta \hbar}
+\end{equation} 
+where $k$ is the spring constant. However, as these parameters didn't lead to good results, we varied $Q_2$ over several orders of magnitude while keeping $Q_1 = q\cdot Q_2$. Figure \ref{im:temp_chain} shows the probability distributions of virtual temperature for different values of $Q_2$. We found that a strong coupling - i.e. small $Q_2$ - leads to the best agreement with the theoretical distribution for a canonical ensemble. For comparing the different thermostats (section \ref{results}, the results from the simulation with $Q_1 = 0.001$ and $Q_1 = 0.064$ were used. 
 
 \begin{figure}[H]
 \centering
