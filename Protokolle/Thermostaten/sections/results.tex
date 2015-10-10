@@ -30,46 +30,52 @@ which is again only achieved by the Andersen, Lowe-Andersen and Nosé-Hoover Cha
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.9\textwidth]{./graphics/Histogramm_velocity_rand_T=20_p=64.png}
-\caption{Histogramm of particle velocities for all thermostats}
+\caption{Histogram of particle velocities for all thermostats}
 \label{im:vel_rand}
 \end{figure}
 
-To take a closer look at the thermostating routines, we also evaluated the distribution of the total kinetic energy. Figure \ref{im:temp_rand} shows the distribution of virtual or instantaneous 'temperature' (i.e. $T^* = 2E_{kin}/q$). The values obtained via the Nosé-Hoover algorithm deviate significantly from the theoretical probability distribution, which is especially intriguing, because the deviation was far less pronounced for the individual velocities (figure \ref{im:vel_rand}). Furthermore, note that, as expected, the Gaussian thermostat keeps the system always at the designated temperature and therefore the resulting ensemble is isokinetic rather than canonical.  
+To take a closer look at the thermostating routines, we also evaluated the distribution of the total kinetic energy. Figure \ref{im:temp_rand} shows the distribution of virtual or instantaneous 'temperature' (i.e. $T^* = 2E_{kin}/q$). The values obtained via the Nosé-Hoover algorithm deviate significantly from the theoretical probability distribution
 
-\TODO{theoretical distribution}
+\begin{equation}
+f(T^*) = e^{-\frac{qT^{*}}{2T}}\cdot \Gamma(q/2+1)^{-1}\cdot (mqkT^{*})^{\frac{q-1}{2}} \sqrt{\frac{mqkT^{*}\pi^{\frac{p-1}{2}}}{2}} 
+\end{equation}
+
+which is especially intriguing, because the deviation was far less pronounced for the individual velocities (figure \ref{im:vel_rand}). Furthermore, note that, as expected, the Gaussian thermostat keeps the system always at the designated temperature and therefore the resulting ensemble is isokinetic rather than canonical.  
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.9\textwidth]{./graphics/Histogramm_tempCol_rand_T=20_p=64.png}
-\caption{Histogramm of virtual temperature for all thermostats}
+\caption{Histogram of virtual temperature for all thermostats}
 \label{im:temp_rand}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.9\textwidth]{./graphics/Histogramm_epot_rand_T=20_p=64.png}
-\caption{Histogramm of potential energy for all thermostats}
+\caption{Histogram of potential energy for all thermostats}
 \label{im:epot_rand}
 \end{figure}
 
-To detect other possible problems, we also looked at the distribution of monomer positions and center of mass position (figures \ref{im:absPos_rand} and \ref{im:schwerPos_rand}). Ideally, the center of mass should not move at all, since it's velocity was set to zero at the time of initialisation. However, in the Andersen method the center of mass velocity is not conserved due to the stochastic changes in the monomer velocities. The Lowe-Andersen method overcomes this problem by acting on relative velocities rather than absolute velocities, which leaves the total momentum invariant.    
+To detect other possible problems, we also looked at the distribution of monomer positions and the center of mass position (figures \ref{im:absPos_rand} and \ref{im:schwerPos_rand}). Ideally, the center of mass should not move at all, since its velocity was set to zero at the time of initialisation. However, in the Andersen method the center of mass velocity is not conserved due to the stochastic changes in the monomer velocities. The Lowe-Andersen method overcomes this problem by acting on relative velocities rather than absolute velocities, which leaves the total momentum invariant. 
+The simulation with the Gaussian thermostat, on the other hand, was apparently subject to a drift in total momentum, which could not be attenuated by the thermostat. However, we believe that the drift is not due to the thermostat, since it only rescales the velocities, which cannot lead to a change of the total momentum if it was initialised to zero. Changes in total momentum can happen due to rounding errors in the velocity Verlet integration scheme. A good thermostating routine should be able to dampen such effects, which is the case for all thermostats except the Andersen and Gaussian methods.       
 
 \begin{figure}[H]
 \centering
   \begin{subfigure}[b]{0.5\textwidth}
 %\minipage{0.5\textwidth}
   	\includegraphics[width=\linewidth]{./graphics/Histogramm_absPosition_rand_T=20_p=64.png}
-  	\caption{Histogramm of positions $r_i$}
+  	\caption{Histogram of positions $r_i$}
     \label{im:absPos_rand}
 %\endminipage\hfill
   \end{subfigure}\hfill
   \begin{subfigure}[b]{0.5\textwidth}
 %\minipage{0.5\textwidth}
     \includegraphics[width=\linewidth]{./graphics/Histogramm_schwerPos_rand_T=20_p=64.png}
-    \caption{Histogramm of center of mass positions}
+    \caption{Histogram of center of mass positions}
     \label{im:schwerPos_rand}
 %\endminipage\hfill
   \end{subfigure}
+  \caption{Histograms of positions}
 \label{fig:pos_rand}
 \end{figure}
 
@@ -78,67 +84,82 @@ To detect other possible problems, we also looked at the distribution of monomer
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.9\textwidth]{./graphics/Histogramm_schwerVel_rand_T=20_p=64.png}
-\caption{Histogramm of center of mass velocities for all thermostats}
+\caption{Histogram of center of mass velocities for all thermostats}
 \label{im:schwerVel_rand}
 \end{figure} 
 
 
 \subsection{Biased initialization}
+Simulations started with our biased initialization method, which was introduced in section \ref{implementation}, were in general more prone to errors, and helped us to uncover more difficulties with the different thermostats. 
+
+\begin{figure}[H]
+\centering
+  \begin{subfigure}[b]{0.5\textwidth}
+%\minipage{0.5\textwidth}
+  	\includegraphics[width=\linewidth]{./graphics/Histogramm_velocity_one_T=20_p=64.png}
+  	\caption{Histogram of particle velocities for all thermostats}
+    \label{im:vel_one}
+%\endminipage\hfill
+  \end{subfigure}\hfill
+  \begin{subfigure}[b]{0.5\textwidth}
+%\minipage{0.5\textwidth}
+    \includegraphics[width=\linewidth]{./graphics/Histogramm_schwerVel_one_T=20_p=64.png}
+    \caption{Histogram of center of mass velocities for all thermostats}
+    \label{im:schwerVel_one} 
+%\endminipage\hfill
+  \end{subfigure}
+  \caption{Histograms of velocities}
+\end{figure}
+
+As can be seen from figure \ref{im:vel_one} and \ref{im:schwerVel_one}, the system thermostated using the Berendsen method experienced an acceleration of center of mass velocity, which could not be counteracted by the thermostat. This also lead to an expansion of the whole system and is responsible for the discontinuous histogram in figure \ref{im:relPos_one}.
+
+Furthermore, the center of mass velocity also exhibits a drift when it is thermostated with a Gaussian thermostat. The same considerations apply here as for the random initialization. All other thermostats showed the same behaviour as in the former simulations.     
+
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.9\textwidth]{./graphics/Histogramm_relPos_one_T=20_p=64.png}
-\caption{Histogramm of $r_i - r_j$ for all thermostats}
+\caption{Histogram of $r_i - r_j$ for all thermostats}
 \label{im:relPos_one}
 \end{figure} 
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.9\textwidth]{./graphics/Histogramm_velocity_one_T=20_p=64.png}
-\caption{Histogramm of particle velocities for all thermostats}
-\label{im:vel_one}
-\end{figure}
-
+\begin{comment}
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.9\textwidth]{./graphics/Histogramm_tempCol_one_T=20_p=64.png}
-\caption{Histogramm of virtual temperature for all thermostats}
+\caption{Histogram of virtual temperature for all thermostats}
 \label{im:temp_one}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.9\textwidth]{./graphics/Histogramm_epot_one_T=20_p=64.png}
-\caption{Histogramm of potential energy for all thermostats}
+\caption{Histogram of potential energy for all thermostats}
 \label{im:epot_one}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.9\textwidth]{./graphics/Histogramm_absPosition_one_T=20_p=64.png}
-\caption{Histogramm of positions $r_i$ for all thermostats}
+\caption{Histogram of positions $r_i$ for all thermostats}
 \label{im:absPos_one}
 \end{figure} 
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.9\textwidth]{./graphics/Histogramm_schwerPos_one_T=20_p=64.png}
-\caption{Histogramm of center of mass positions for all thermostats}
+\caption{Histogram of center of mass positions for all thermostats}
 \label{im:schwerPos_one}
 \end{figure} 
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.9\textwidth]{./graphics/Histogramm_schwerVel_one_T=20_p=64.png}
-\caption{Histogramm of center of mass velocities for all thermostats}
-\label{im:schwerVel_one}
-\end{figure} 
+\end{comment}
+
 
 \subsection{Parameters for Nose Hoover Chain}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.9\textwidth]{./graphics/Histogramm_tempCol_one_Chain.png}
-\caption{Histogramm of virtual temperature of the Nose Hoover Chain for different values of $Q_2$ }
+\caption{Histogram of virtual temperature of the Nose Hoover Chain for different values of $Q_2$ }
 \label{im:temp_chain}
 \end{figure}
 
