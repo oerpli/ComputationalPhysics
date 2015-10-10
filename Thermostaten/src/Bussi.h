@@ -14,6 +14,7 @@ public:
 
 	void	update_temp();
 	void	propagate();
+	void	propagate2();
 	std::string name() const;
 	std::string info() const;
 };

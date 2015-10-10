@@ -13,12 +13,13 @@ private:
 	static uniform_real_distribution<double> dis_uniform;
 	static uniform_int_distribution<int> dis_intuniform;
 	static chi_squared_distribution<double> dis_chisquared;
+	static gamma_distribution<double> dis_gamma;
 public:
-	static void init();
 	static double real_normal(double, double);
 	static double real_normal();
 	static double real_uniform();
 	static double real_uniform(double);
 	static double real_uniform(double, double);
 	static double real_chisquared(unsigned n);
+	static double real_gamma(double k, double theta);
 };
