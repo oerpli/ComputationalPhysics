@@ -38,7 +38,7 @@ dK_t = (K- K_t) \frac{dt}{\tau} + \underbrace{2\sqrt{\frac{K\cdot K_t}{N_f}}\fra
 
 Without the stochastic term the thermostat is equal to the Berendsen thermostat -- with very small $\tau$ it's a stochastic Gaussian thermostat (sampling kinetic energies from the desired distribution and instantly rescaling velocities accordingly at every time step). For very large $\tau$ the thermostat does not affect the system. If the system is far from equilibrium the `Berendsen- part' (deterministic part) dominates the behaviour and the system reaches equilibrium quickly. Upon reaching equilibrium it samples from the proper canonical ensemble with the desired fluctuations.
 
-For this thermostat the choice of the stochastic term is somewhat arbitrary as it only influences speed of equilibration. In our implementation we chose the same as FFX \cite{FFX} (linked on Giovanni Bussi's website \cite{BussiWeb}).
+For this thermostat the choice of the stochastic term is somewhat arbitrary as it only influences speed of equilibration. In our implementation we chose the term proposed in the paper \cite{Bussi2007}.
 \subsection{Nosé-Hoover}
 In contrast to the previously introduced thermostats, which rely on stochastical changes of the velocities of the particles to control temperature, Nosé revised a deterministic thermostat by altering the Hamiltonian of the system ~\cite{Nose2002}. His approach was then further improved by Hoover, who eliminated the need for time scaling ~\cite{Hoover1985}. 
 In the original method proposed by Nosé an additional degree of freedom $s$ is introduced, which serves as a scaling factor for the velocities and can be thought of as the external heat bath of the system.
