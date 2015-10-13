@@ -5,7 +5,7 @@
 #include "Rand.h"
 #include <string>
 #include <algorithm>
-#include "Consts.h"
+#include "consts.h"
 
 const std::string Bussi::m_name = "Bussi";
 

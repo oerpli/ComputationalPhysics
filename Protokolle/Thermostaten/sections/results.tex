@@ -5,7 +5,7 @@
 
 \subsection{Random initiation}
 The following results were obtained by simulations of $10^8$ steps of size $\Delta t = 0.001$ after an equilibration period of $10^7$ steps. 
-First of all, we wanted to test whether the thermostating routines disturbed the natural equilibrium of the system. Figure \ref{im:relPos_rand} shows a histogram of the relative positions between adjacent particles on the polymer chain. According to statistical mechanics, the distance between neighbouring chain monomers should follow a normal distribution 
+First of all, we wanted to test whether the thermostating routines disturbed the natural equilibrium of the system. Figure \ref{im:relPos_rand} shows a histogram of the relative positions between adjacent particles on the polymer chain. According to statistical mechanics, the distance between neighbouring chain monomers should follow a normal distribution.
 
 \begin{equation}
 f(r_{i,j}) = \frac{\beta^2\hbar^2}{2\pi mq^2}e^{-\frac{\beta^2\hbar^2r^2}{2mq^2}}
@@ -18,7 +18,7 @@ f(r_{i,j}) = \frac{\beta^2\hbar^2}{2\pi mq^2}e^{-\frac{\beta^2\hbar^2r^2}{2mq^2}
 \label{im:relPos_rand}
 \end{figure} 
 
-As can be seen in figure \ref{im:relPos_rand}, the Andersen, Lowe-Andersen and Nosé-Hoover Chain thermostats follow this probability distribution closely. The Bussi-Donadio-Parrinello thermostat, however, leads to a distribution with a much smaller variance and one must assume that the phase-space of the system is not explored correctly with this routine. The values sampled with the Gaussian thermostat follow the distribution closely at the edges, but the minimum of the energy (zero distance between neighbouring monomers) is not the most populated state.  
+As can be seen in figure \ref{im:relPos_rand}, the Andersen, Lowe-Andersen and Nosé-Hoover Chain thermostats follow this probability distribution closely. The Nosé-Hoover thermostat exhibits a greater variance than expected, while The Berendsen and its relative, the Bussi-Donadio-Parrinello thermostat,  lead to a smaller variance. The values sampled with the Gaussian thermostat follow the distribution closely at the edges, but the minimum of the potential energy (zero distance between neighbouring monomers) is not the most populated state and one must assume that the phase-space of the system is not explored correctly with this routine. 
 
 If we look at the distribution of particle velocities (figure \ref{im:vel_rand}), we see that the kinetic energy and the potential energy are strongly coupled in this system and the errors in the neighbour distance distribution probably arise from the errors in the distribution of velocities. The expected probability distribution is
 
@@ -40,7 +40,8 @@ To take a closer look at the thermostating routines, we also evaluated the distr
 f(T^*) = e^{-\frac{qT^{*}}{2T}}\cdot \Gamma(q/2+1)^{-1}\cdot (mqkT^{*})^{\frac{q-1}{2}} \sqrt{\frac{mqkT^{*}\pi^{\frac{p-1}{2}}}{2}} 
 \end{equation}
 
-which is especially intriguing, because the deviation was far less pronounced for the individual velocities (figure \ref{im:vel_rand}). Furthermore, note that, as expected, the Gaussian thermostat keeps the system always at the designated temperature and therefore the resulting ensemble is isokinetic rather than canonical.  
+and the maximum of the distribution does not coincide with the desired temperature. This is especially intriguing, because the distribution of the individual velocities (figure \ref{im:vel_rand}) deviated from the expected distribution to a far lesser extent. 
+The Bussi-Donadio-Parinello thermostat, which should lead to a better distribution in kinetic energy than the Berendsen thermostat, because it incorporates stochastic fluctuations, exhibits the smallest variance in temperature of all thermostats - except for the Gaussian temperature of course, which, by construction, keeps the system always at the designated temperature and therefore the resulting ensemble is isokinetic rather than canonical.  
 
 \begin{figure}[H]
 \centering
@@ -57,8 +58,8 @@ which is especially intriguing, because the deviation was far less pronounced fo
 \end{figure}
 
 To detect other possible problems, we also looked at the distribution of monomer positions and the center of mass position (figures \ref{im:absPos_rand} and \ref{im:schwerPos_rand}). Ideally, the center of mass should not move at all, since its velocity was set to zero at the time of initialisation. However, in the Andersen method the center of mass velocity is not conserved due to the stochastic changes in the monomer velocities. The Lowe-Andersen method overcomes this problem by acting on relative velocities rather than absolute velocities, which leaves the total momentum invariant. 
-The simulation with the Gaussian thermostat, on the other hand, was apparently subject to a drift in total momentum, which could not be attenuated by the thermostat. However, we believe that the drift is not due to the thermostat, since it only rescales the velocities, which cannot lead to a change of the total momentum if it was initialised to zero. Changes in total momentum can happen due to rounding errors in the velocity Verlet integration scheme. A good thermostating routine should be able to dampen such effects, which is the case for all thermostats except the Andersen and Gaussian methods.       
-
+The simulation with the Gaussian thermostat, on the other hand, was apparently subject to a drift in total momentum, which could not be attenuated by the thermostat. However, we believe that the drift is not due to the thermostat, since it only rescales the velocities, which cannot lead to a change of the total momentum if it was initialised to zero. Changes in total momentum can happen due to rounding errors in the velocity Verlet integration scheme. A good thermostating routine should be able to dampen such effects, which is the case for all thermostats except the Andersen and Gaussian methods. 
+Sometimes, numerical errors can also lead to the so-called 'flying icecube' phenomenon - i.e. the whole system moves with a constant center-of-mass velocity. Such behaviour can be seen for the Berendsen and Bussi-Donadio-Parinello thermostats in fig \ref{im:schwerVel_one}. 
 \begin{figure}[H]
 \centering
   \begin{subfigure}[b]{0.5\textwidth}
@@ -88,7 +89,7 @@ The simulation with the Gaussian thermostat, on the other hand, was apparently s
 \label{im:schwerVel_rand}
 \end{figure} 
 
-
+\newpage
 \subsection{Biased initialization}
 Simulations started with our biased initialization method, which was introduced in section \ref{implementation}, were in general more prone to errors, and helped us to uncover more difficulties with the different thermostats. 
 
@@ -111,7 +112,7 @@ Simulations started with our biased initialization method, which was introduced 
   \caption{Histograms of velocities}
 \end{figure}
 
-As can be seen from figure \ref{im:vel_one} and \ref{im:schwerVel_one}, the system thermostated using the Berendsen method experienced an acceleration of center of mass velocity, which could not be counteracted by the thermostat. This also lead to an expansion of the whole system and is responsible for the discontinuous histogram in figure \ref{im:relPos_one}.
+As can be seen from figure \ref{im:vel_one} and \ref{im:schwerVel_one}, the systems thermostated using the Berendsen and Bussi-Donadio-Parinello methods experienced an acceleration of center of mass velocity, which could not be counteracted by the thermostats. This also lead to an expansion of the whole system and is responsible for the discontinuous histogram in figure \ref{im:relPos_one} (here, the distributions for both thermostats overlap).
 
 Furthermore, the center of mass velocity also exhibits a drift when it is thermostated with a Gaussian thermostat. The same considerations apply here as for the random initialization. All other thermostats showed the same behaviour as in the former simulations.     
 
@@ -122,7 +123,9 @@ Furthermore, the center of mass velocity also exhibits a drift when it is thermo
 \label{im:relPos_one}
 \end{figure} 
 
-\begin{comment}
+Finally, we noticed that the Bussi-Donadio-Parinello thermostat exhibits a better distribution in virtual temperature $T^*$ if the system is initialized with the biased initialisation method (see figure \ref{im:temp_one}. We have not yet found a satisfying explanation for this behaviour. 
+
+
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.9\textwidth]{./graphics/Histogramm_tempCol_one_T=20_p=64.png}
@@ -130,6 +133,7 @@ Furthermore, the center of mass velocity also exhibits a drift when it is thermo
 \label{im:temp_one}
 \end{figure}
 
+\begin{comment}
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.9\textwidth]{./graphics/Histogramm_epot_one_T=20_p=64.png}
