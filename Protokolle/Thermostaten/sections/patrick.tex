@@ -3,9 +3,9 @@
 
 The Andersen thermostat was first introduced by Hans Andersen in 1980 \cite{Andersen1}.
 It yields the correct velocity distribution by connecting the system to an external heat bath with the corresponding temperature T.
-At every time step each particle has a probability $P=\nu\cdot\Delta t$ -- with $\nu$ the stochastic collision frequency -- to undergo a collision with the heat bath and thus change its momentum. These collisions are instantaneous and effect only the particle involved.
+At every time step each particle has a probability $P=\nu\cdot\Delta t$ --- with $\nu$ the stochastic collision frequency --- to undergo a collision with the heat bath and thus change its momentum. These collisions are instantaneous and affect only the particle involved.
 The new momentum of the particle after a collision is drawn at random from a Boltzmann distribution of the given temperature.
-Because only a small, random number of particles are affected each time step most of the particles move freely according to the Hamiltonian. But the encounters with the heat bath are enough to relax the system to the given temperature and to let the kinetic energy fluctuate around its equilibrium according to the canonical ensemble.
+Because only a small, random number of particles are affected at each time step, most of the particles move freely according to the Hamiltonian. But the encounters with the heat bath are enough to relax the system to the given temperature and to let the kinetic energy fluctuate around its equilibrium according to the canonical ensemble.
 
 The Andersen thermostat should only be applied to time-independent properties, dynamic problems should not be thermostated by an Andersen algorithm \cite{Andersen2}.
 
@@ -15,10 +15,10 @@ The collisions with the heat bath now affect a pair of particles, and only the r
 \begin{equation}
 v_{ij}'=\zeta\sqrt{2k_BT},
 \end{equation}
-with $\zeta$ being a random number with unit variance and zero mean.
+with $\zeta$ being a random number drawn from a normal distribution with unit variance and zero mean.
 The relative velocity of the particles after the collision is then adjusted according to
 \begin{align}
-2\Delta_{ij}&=r_{ij}(v_{ij}'-v_{ij})\cdot r_{ij}\\
+2\Delta_{ij}&=r_{ij}\left[(v_{ij}'-v_{ij})\bullet r_{ij}\right]\\
 v_i'&=v_i+\Delta_{ij}\\
 v_j'&=v_j-\Delta{ij}.\\
 \end{align}

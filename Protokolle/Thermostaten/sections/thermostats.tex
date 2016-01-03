@@ -1,55 +1,52 @@
 % !TeX root = ../Thermostats.tex
-As mentioned earlier in section \ref{cemd} we need an algorithm to artificially keep our system at a desired temperature. Such algorithms are usually called thermostats. Since the beginning of molecular dynamics simulations, various types of thermostats have been proposed. Many rely on random numbers and try to imitate the random collisions between particles of the system and particles of the heat path, while others take on a more deterministic approach. In general, thermostats can be divided into four broad categories: 
+As mentioned earlier in section \ref{cemd} we need an algorithm to artificially keep our system at a desired temperature. Such algorithms are usually called thermostats. Since the beginning of molecular dynamics simulations, various types of thermostats have been proposed. Many rely on random numbers and try to imitate the random collisions between particles of the system and the heat path, while others take on a more deterministic approach. In general, thermostats can be divided into four broad categories: 
 \begin{itemize}
-\item \textbf{Stochastic methods:} A system variable (kinetic energy or velocity) is constrained to a desired probability distribution (e.g. Andersen)
-\item \textbf{Strong-coupling methods:} A system variable is scaled to give the desired value (e.g. Gaussian) 
+\item \textbf{Stochastic methods:} A system variable (temperature or velocity) is sampled from a desired probability distribution (e.g. Andersen)
+\item \textbf{Strong-coupling methods:} A system variable is constrained to the desired value (e.g. Gaussian) 
 \item \textbf{Weak-coupling methods:} A system variable is driven towards the desired value (e.g. Berendsen) 
-\item \textbf{Extended system dynamics:} Additional degrees of freedom are added to the system to include temperature (e.g. Nosé-Hoover) 
+\item \textbf{Extended system dynamics:} Additional degrees of freedom are added to the system to get the desired phase space density (e.g. Nosé-Hoover) 
 \end{itemize}  
 In this project we try to compare some of the most common thermostats, which will be described in detail in the following sections. 
 
 \subsection{Gaussian}\label{th:gaussian}
-This thermostat rescales the velocities of the particles to match the kinetic energy of the particles to the expected value (derived from the Boltzmann distribution at the desired temperature T). This is achieved by calculating the current kinetic energy $K_t$ of the system and rescaling the velocities $v$ according to the following formula:
+This thermostat rescales the velocities of the particles to match the kinetic energy of the particles to the expected value $K_0$ (derived from the Boltzmann distribution at the desired temperature T). This is achieved by calculating the current kinetic energy $K$ of the system and rescaling the velocities $v$ according to the following formula:
 %: temperaturberechnung in unserer simulation irgendwo definieren und hier referenzieren.
 \begin{equation}
-v'  = v\cdot \sqrt{\frac{K}{K_t}}\label{eq:gauss}
+v'  = v\cdot \sqrt{\frac{K_0}{K}}\label{eq:gauss}
 \end{equation}
-The problem of this approach is that it produces a constant kinetic energy which is not entirely in line with the canonical ensemble because sampling from such an ensemble would lead to fluctuations in the kinetic energy.
-
-As this thermostat does not yield any known ensemble we were advised to not use it for serious projects, due to the simplicity of the approach it may still be worth considering for testing purposes or similar ventures.
-
+One should note here that this approach produces a constant kinetic energy, and thus corresponds to an isokinetic rather than to a canonical ensemble. However, many properties of statistical systems become independent of the ensemble as $N$ goes to infinity, so the choice of ensemble becomes irrelevant.  
 
 \input{./sections/patrick.tex}
 \subsection{Berendsen}
-This thermostat proposed by Berendsen et al. \cite{Berendsen1984} supplements the Hamiltonian of the system with an additional first order equation where the difference between the kinetic energy and its target value (modulo the change rate $\tau$) drive the change in kinetic energy.
+This thermostat proposed by Berendsen et al. \cite{Berendsen1984} supplements the Hamiltonian of the system with an additional first order equation where the difference between the kinetic energy at a given time $K$ and its target value $K_0$ (modulo the change rate $\tau$) drive the change in kinetic energy.
 \begin{equation}
-{dK_t} = \frac{(K-K_t)dt}{\tau} \label{eq:berendsen}%die formel sieht ziemlich blöd aus finde ich grad - hat jmd eine idee für eine bessere konvention bzgl wunsch und aktueller temperatur?
+{dK} = \frac{(K_0-K)dt}{\tau} \label{eq:berendsen}%die formel sieht ziemlich blöd aus finde ich grad - hat jmd eine idee für eine bessere konvention bzgl wunsch und aktueller temperatur?
 \end{equation}
 The velocities are then scaled to fit these kinetic energies at every time step (as in \eqref{eq:gauss}).
 
 One drawback of this thermostat is that in general it does not sample from a well defined ensemble \cite{Morishita2000}. Furthermore, it lacks a conserved quantity \cite{Bussi2007} For these reasons, similar considerations as for the Gaussian thermostat (\ref{th:gaussian}) apply.
-\subsection{Bussi- Donadio- Parrinello}
+\subsection{Bussi--Donadio--Parrinello}
 Bussi et al.\cite{Bussi2007} improved Berendsen's method by switching the target value from equation \eqref{eq:gauss} to a changing, time dependent stochastic variable and adjusting the temperature over several time steps as Berendsen does (via eq. \eqref{eq:berendsen}). 
 
-Therefore the auxiliary dynamics can be expressed via the following formula ($dW$ is a Wiener noise):
+Therefore the auxiliary dynamics can be expressed via the following formula ():
 \begin{equation}
-dK_t = (K- K_t) \frac{dt}{\tau} + \underbrace{2\sqrt{\frac{K\cdot K_t}{N_f}}\frac{dW}{\sqrt{\tau}}}_{\text{stochastic term}}
+dK = (K_0- K) \frac{dt}{\tau} + \underbrace{2\sqrt{\frac{K_0\cdot K}{N_f}}\frac{dW}{\sqrt{\tau}}}_{\text{stochastic term}}
 \end{equation}
-
+where $dW$ corresponds to a Wiener noise --- a random number drawn from a normal distribution with variance $\sqrt{dt}$ --- and $N_f$ is the number of degrees of freedom. 
 Without the stochastic term the thermostat is equal to the Berendsen thermostat -- with very small $\tau$ it's a stochastic Gaussian thermostat (sampling kinetic energies from the desired distribution and instantly rescaling velocities accordingly at every time step). For very large $\tau$ the thermostat does not affect the system. If the system is far from equilibrium the `Berendsen- part' (deterministic part) dominates the behaviour and the system reaches equilibrium quickly. Upon reaching equilibrium it samples from the proper canonical ensemble with the desired fluctuations.
 
-For this thermostat the choice of the stochastic term is somewhat arbitrary as it only influences speed of equilibration. In our implementation we chose the term proposed in the paper \cite{Bussi2007}.
-\subsection{Nosé-Hoover}
-In contrast to the previously introduced thermostats, which rely on stochastical changes of the velocities of the particles to control temperature, Nosé revised a deterministic thermostat by altering the Hamiltonian of the system ~\cite{Nose2002}. His approach was then further improved by Hoover, who eliminated the need for time scaling ~\cite{Hoover1985}. 
+For this thermostat the choice of the stochastic term is somewhat arbitrary as it only influences the speed of equilibration. In our implementation we chose the term proposed in the paper \cite{Bussi2007}.
+\subsection{Nosé--Hoover}
+In contrast to the previously introduced thermostats, which rely on stochastic changes of the velocities of the particles to control temperature, Nosé devised a deterministic thermostat by altering the Hamiltonian of the system ~\cite{Nose2002}. His approach was then further improved by Hoover, who eliminated the need for time scaling ~\cite{Hoover1985}. 
 In the original method proposed by Nosé an additional degree of freedom $s$ is introduced, which serves as a scaling factor for the velocities and can be thought of as the external heat bath of the system.
 \begin{equation}
-v_i = s\cdot \dot{r}
+v_i = s\cdot \dot{r_i}
 \end{equation}  
 Two additional terms associated with $s$ are added to the Hamiltonian of the system, which then reads as follows
 \begin{equation}
-\mathcal{H}_{Nose} = \sum_i \frac{p_i}{2m_i s^2} + \phi (r) + \frac{p_s^2}{2Q} + (f+1)kT\ln(s) 
+\mathcal{H}_{Nose} = \sum_i \frac{p_i^2}{2m_i s^2} + \phi (r) + \frac{p_s^2}{2Q} + (N_f+1)kT\ln(s) 
 \end{equation} 
-where $\phi(r)$ denotes the classical potential energy of the system, $f$ the degrees of freedom, $Q$ is a free choice of parameter corresponding to the time scale of the fluctuations in kinetic energy and $p_s = Q\dot{s}$ is the conjugate momentum to $s$. The potential energy term $(f+1)kT\ln{s}$ is chosen such that the right canonical ensemble distribution is obtained in a simulation and the kinetic energy term $\frac{p_s}{2Q}$ is added to get a dynamic equation for the propagation of $s$.   
+where $\phi(r)$ denotes the classical potential energy of the system, $N_f$ the degrees of freedom, $Q$ is a free choice of parameter corresponding to the time scale of the fluctuations in kinetic energy and $p_s = Q\dot{s}$ is the conjugate momentum to $s$. The potential energy term $(N_f+1)kT\ln{s}$ is chosen such that the right canonical ensemble distribution is obtained in a simulation and the kinetic energy term $\frac{p_s}{2Q}$ is added to get a dynamic equation for the propagation of $s$.   
 The equations of motion in the modified system can be obtained via the Hamiltonian equations
 \begin{align*}
         & \dot{p} = - \frac{\partial \mathcal{H}}{\partial q} &&  \dot{q} = \frac{\partial \mathcal{H}}{\partial p}
@@ -60,7 +57,7 @@ and thus read
 
 \begin{align*}
 & \dot{p} = F && \dot{q} = \frac{p}{m s^2} \\
-& \dot{p_s} = \sum_i \frac{p_i^2}{2 m s^3} - (f+1)\frac{kT}{s} &&  \dot{s} = \frac{p_s}{Q} \numberthis 
+& \dot{p_s} = \sum_i \frac{p_i^2}{m s^3} - (N_f+1)\frac{kT}{s} &&  \dot{s} = \frac{p_s}{Q} \numberthis 
 \end{align*}
 
 
@@ -69,23 +66,23 @@ These coupled equations can be simplified by reducing the time scale by $s$ - i.
 
 \begin{align*}
 & \dot{p} = s F && \dot{q} = \frac{p}{m s} \\
-& \dot{p_s} = \sum_i \frac{p_i^2}{2 m s^2} - (f+1)\frac{kT}{s} &&  \dot{s} = \frac{s p_s}{Q} \numberthis 
+& \dot{p_s} = \sum_i \frac{p_i^2}{m s^2} - (N_f+1)\cdot kT &&  \dot{s} = \frac{s p_s}{Q} \numberthis 
 \end{align*}
 
 
 Hoover was able to further simplify the approach by eliminating the variable $s$ and rewriting the equations in terms of $q$, $\dot{q}$ and $\ddot{q}$
 
 \begin{equation}
-\ddot{q} = \frac{\dot{p}}{m s} - \frac{p}{m s}\dot{s} = \frac{F}{m} - \frac{p_s}{Q}\dot{q} \equiv \frac{F}{m} - \zeta \dot{q}
+\ddot{q} = \frac{\dot{p}}{m s} - \frac{p}{m s^2}\dot{s} = \frac{F}{m} - \frac{p_s}{Q}\dot{q} \equiv \frac{F}{m} - \zeta \dot{q}
 \end{equation} 
 
 The variable $\zeta = \frac{p_s}{Q}$ is introduced to highlight the analogy between this equation of motion and that of a Newtonian motion with a friction term. It evolves in time as
 
 \begin{equation}
-\dot{\zeta} = \left[\sum_i m_i \dot{q}^2_i - (f+1)kT\right]/Q
+\dot{\zeta} = \left[\sum_i m_i \dot{q}^2_i - (N_f+1)kT\right]/Q
 \end{equation}
 
-Since the damping parameter $\zeta$ is not determined instantaneously, as is the case with e.g. a Gaussian thermostat, but via an equation of motion, the Nosé-Hoover method describes an integral thermostat and therefore leads both smooth as well as time-reversible and deterministic paths in phase space.  
+Since the damping parameter $\zeta$ is not determined instantaneously, as is the case with e.g. a Gaussian thermostat, but via an equation of motion, the Nosé-Hoover method describes an integral thermostat and therefore leads to both smooth as well as time-reversible and deterministic paths in phase space.  
 
 \subsection{Nose-Hoover Chains} \label{NHC}
 While the Nosé-Hoover thermostat generates the right canonical distributions for large, ergodic systems, it often fails if the system has more than one constant of motion - for example if the total momentum is conserved, as is the case for systems without external forces. This is due to the fact that the limiting distribution of the Nośe-Hoover thermostat has a gaussian dependence not only on the momenta $p_i$ but also on the conjugate momentum $p_s$ of the 'heat bath', but there is no driving force to ensure the correct fluctuations of $p_s$. Martyna and Klein proposed a method to solve this problem, now known as Nosé-Hoover chains \cite{Martyna1992}. The idea is to thermostat $p_s$ as well as its thermostat, etc., forming a chain of thermostats, which can be extended to arbitrary length. For a total of $M$ thermostats, the extended equations of motions take the following form:
@@ -93,7 +90,7 @@ While the Nosé-Hoover thermostat generates the right canonical distributions fo
 \begin{align*}
 & \dot{q}_i = \frac{p_i}{m_i} && \dot{p}_i = F_i - p_i \frac{p_{s_1}}{Q_1} \\
 & \dot{s}_j = \frac{p_{s_j}}{Q_j} \\
-& \dot{p}_{s_1} = \left[ \sum_{i=1}^N \frac{p^2_i}{m_i} - NkT\right] - p_{s_1}\frac{p_{s_2}}{Q_2} \\
+& \dot{p}_{s_1} = \left[ \sum_{i=1}^N \frac{p^2_i}{m_i} - (N_f+1)kT\right] - p_{s_1}\frac{p_{s_2}}{Q_2} \\
 & \dot{p}_{s_j} = \left[ \frac{p^2_{s_{j-1}}}{Q_{j-1}} - kT \right] - p_{s_j}\frac{p_{s_{j+1}}}{Q_{j+1}} \\
 & \dot{p}_{s_M} = \left[ \frac{p^2_{s_{M-1}}}{Q_{M-1}} - kT\right] \numberthis
 \end{align*}
@@ -101,7 +98,7 @@ While the Nosé-Hoover thermostat generates the right canonical distributions fo
 As with the original Nosé-Hoover method, the 'masses' $Q_j$ of the thermostats determine the strength of the coupling between successive thermostats and have to be chosen carefully to get good results. However, the choice of mass gets less critical the more thermostats are used in the chain. If the system under investigation has a typical frequency $\omega$, a good choice of masses is $Q_1 = \frac{qkT}{\omega}$ and $Q_j = \frac{kT}{\omega}$, which also gives the thermostats an average 'frequency' of $\omega$ \cite{Martyna1992}. 
 
 \subsubsection{A short note on the implementation of the Nosé-Hoover thermostats}
-In the equations of motion of both the Nosé-Hoover thermostat as well as the Nosé-Hoover chains second derivative of the position coordinates depend on the first derivative, which leads to a problem with the standard velocity-verlet integration scheme used with the other thermostats. One possibility to overcome this problem is the use of an iterative scheme - such as i.e. a predictor-corrector method. However, such an approach would lead to the loss of time-reversibility, which is one of the major advantages of the Nośe-Hoover thermostat. For this project we used the explicit time-reversible integrators developed by Martyna \textit{et al.} via the Liouville formalism and a clever use of the Trotter formulas \cite{Martyna1996}.  
+In the equations of motion of both the Nosé-Hoover thermostat as well as the Nosé-Hoover chains second derivatives of the position coordinates depend on the first derivative, which leads to a problem with the standard velocity-verlet integration scheme used with the other thermostats. One possibility to overcome this problem is the use of an iterative scheme - such as a predictor-corrector method. However, such an approach would lead to the loss of time-reversibility, which is one of the major advantages of the Nośe-Hoover thermostat. For this project we used the explicit time-reversible integrators developed by Martyna \textit{et al.} via the Liouville formalism and a clever use of the Trotter formulas \cite{Martyna1996}.  
 
 
   

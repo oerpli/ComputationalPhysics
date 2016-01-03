@@ -4,11 +4,11 @@
 
 
 \subsection{Random initiation}
-The following results were obtained by simulations of $10^8$ steps of size $\Delta t = 0.001$ after an equilibration period of $10^7$ steps. 
+The following results were obtained by simulations of $10^8$ steps of size $\Delta t = 0.001$ after an equilibration period of $10^7$ steps. These parameters were used for all thermostats except for the Nosé-Hoover thermostat, for which a smaller time step ($\Delta t = 0.0001$) was used. Integration of the equations of motion was done via the velocity-verlet algorithm as mentioned in section \ref{cemd} --- except for the Nosé-Hoover-Chain thermostat (see section \ref{thermostats}.   
 First of all, we wanted to test whether the thermostating routines disturbed the natural equilibrium of the system. Figure \ref{im:relPos_rand} shows a histogram of the relative positions between adjacent particles on the polymer chain. According to statistical mechanics, the distance between neighbouring chain monomers should follow a normal distribution.
 
 \begin{equation}
-f(r_{i,j}) = \frac{\beta^2\hbar^2}{2\pi mq^2}e^{-\frac{\beta^2\hbar^2r^2}{2mq^2}}
+f(r) = \left(\frac{mq}{2\pi\beta\hbar^2}\right)^{\frac{1}{2}}e^{-\frac{mqr^2}{2\beta\hbar^2}}
 \end{equation}  
 
 \begin{figure}[H]
@@ -20,10 +20,10 @@ f(r_{i,j}) = \frac{\beta^2\hbar^2}{2\pi mq^2}e^{-\frac{\beta^2\hbar^2r^2}{2mq^2}
 
 As can be seen in figure \ref{im:relPos_rand}, the Andersen, Lowe-Andersen and Nosé-Hoover Chain thermostats follow this probability distribution closely. The Nosé-Hoover thermostat exhibits a greater variance than expected, while The Berendsen and its relative, the Bussi-Donadio-Parrinello thermostat,  lead to a smaller variance. The values sampled with the Gaussian thermostat follow the distribution closely at the edges, but the minimum of the potential energy (zero distance between neighbouring monomers) is not the most populated state and one must assume that the phase-space of the system is not explored correctly with this routine. 
 
-If we look at the distribution of particle velocities (figure \ref{im:vel_rand}), we see that the kinetic energy and the potential energy are strongly coupled in this system and the errors in the neighbour distance distribution probably arise from the errors in the distribution of velocities. The expected probability distribution is
+If we look at the distribution of particle velocities (figure \ref{im:vel_rand}), we see that the kinetic energy and the potential energy are strongly coupled in this system and the errors in the neighbour distance distribution probably arise from the errors in the distribution of velocities. The expected probability density is
 
 \begin{equation}
-f(v) = \frac{m\beta}{2\pi}e^{-\frac{m\beta v^2}{2}}
+f(v) = \left(\frac{m\beta}{2\pi}\right)^{1/2}e^{-\frac{m\beta v^2}{2}}
 \end{equation} 
 which is again only achieved by the Andersen, Lowe-Andersen and Nosé-Hoover Chain thermostats. 
 
@@ -34,10 +34,10 @@ which is again only achieved by the Andersen, Lowe-Andersen and Nosé-Hoover Cha
 \label{im:vel_rand}
 \end{figure}
 
-To take a closer look at the thermostating routines, we also evaluated the distribution of the total kinetic energy. Figure \ref{im:temp_rand} shows the distribution of virtual or instantaneous 'temperature' (i.e. $T^* = 2E_{kin}/q$). The values obtained via the Nosé-Hoover algorithm deviate significantly from the theoretical probability distribution
+To take a closer look at the thermostating routines, we also evaluated the distribution of the total kinetic energy of the polymer. Figure \ref{im:temp_rand} shows the distribution of virtual or instantaneous 'temperature' (i.e. $T' = 2E_{kin}/q$). The values obtained via the Nosé-Hoover algorithm deviate significantly from the theoretical probability distribution
 
 \begin{equation}
-f(T^*) = e^{-\frac{qT^{*}}{2T}}\cdot \Gamma(q/2+1)^{-1}\cdot (mqkT^{*})^{\frac{q-1}{2}} \sqrt{\frac{mqkT^{*}\pi^{\frac{p-1}{2}}}{2}} 
+f(T') = e^{-\frac{qT'}{2T}}\cdot \Gamma(q/2+1)^{-1}\cdot (mqkT')^{\frac{q-1}{2}} \sqrt{\frac{mqkT'\pi^{\frac{p-1}{2}}}{2}} 
 \end{equation}
 
 and the maximum of the distribution does not coincide with the desired temperature. This is especially intriguing, because the distribution of the individual velocities (figure \ref{im:vel_rand}) deviated from the expected distribution to a far lesser extent. 
@@ -158,7 +158,7 @@ Finally, we noticed that the Bussi-Donadio-Parinello thermostat exhibits a bette
 \end{comment}
 
 
-\subsection{Parameters for the Nosé-Hoover Chain}
+\subsection{Parameters for the Nosé--Hoover Chain}
 The Nosé-Hoover thermostat includes a freely choosable parameter $Q$ (or $Q_1$ and $Q_2$ for the Nosé-Hoover Chain), which controls the strength of coupling to the heat bath. As mentioned in section \ref{NHC}, Martyna \textit{et al.} \cite{Martyna1992} suggest using $Q_1 = \frac{qkT}{\omega}$ and $Q_j = \frac{kT}{\omega}$, where $\omega$ is a typical frequency of the system. In our project, we also used these parameters at first with $\omega$ being the frequency of harmonic oscillations resulting from the spring potential.
 \begin{equation}
 \omega = \sqrt{\frac{k}{m}} = \frac{q}{\beta \hbar}
