@@ -6,6 +6,7 @@ class Gaussian : public Thermostat {
 private:
 	double	m_dtime_half;
 	static const std::string m_name;
+        double zeta; 
 public:
 	Gaussian(Polymer &poly, double delta_time);
 	void	update_temp();
