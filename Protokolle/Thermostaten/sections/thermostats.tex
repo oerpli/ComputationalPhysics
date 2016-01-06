@@ -15,7 +15,23 @@ This thermostat rescales the velocities of the particles to match the kinetic en
 v'  = v\cdot \sqrt{\frac{K_0}{K}}\label{eq:gauss}
 \end{equation}
 One should note here that this approach produces a constant kinetic energy, and thus corresponds to an isokinetic rather than to a canonical ensemble. However, many properties of statistical systems become independent of the ensemble as $N$ goes to infinity, so the choice of ensemble becomes irrelevant.  
-
+Furthermore, the scaling leads to discontinuous velocities. A different formulation of this thermostat is based on the Gaussian principle of least constraint. Here, the equations of motion are altered by adding a friction term in order to keep the temperature fixed. The new equations of motion now have the following form:
+\begin{align*}
+&  \dot{q} = v && \dot{v} = - \frac{F}{m} - \zeta v /numberthis 
+\end{align*}
+The friction constant $\zeta$ is determined via Lagrangian multipliers in such a way that the total kinetic energy is constant, i.e. 
+\begin{equation}
+\sum_i \frac{m_i v_i^2}{2} = \frac{N_f k T}{2} 
+\end{equation}
+and 
+\begin{equation}
+\sum_i m_i v_i \dot{v}_i = 0 
+\end{equation}
+which leads to 
+\begin{equation}
+\zeta = \frac{\sum_i v_i F_i}{\sum_i m_i v_i^2}
+\end{equation}
+In a simulation, this version of the Gaussian thermostat is easier implemented in conjunction with a leapfrog integration algorithm. Since the only difference between velocity verlet and leapfrog integration is the time at which the velocity is evaluated, we used this implementation for the Gaussian thermostat.    
 \input{./sections/patrick.tex}
 \subsection{Berendsen}
 This thermostat proposed by Berendsen et al. \cite{Berendsen1984} supplements the Hamiltonian of the system with an additional first order equation where the difference between the kinetic energy at a given time $K$ and its target value $K_0$ (modulo the change rate $\tau$) drive the change in kinetic energy.

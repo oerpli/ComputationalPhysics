@@ -4,7 +4,22 @@ To investigate the different thermostats we chose as a model system a simple, fr
 & \phi(x_i, x_j) = \frac{mq^2}{2\beta^2\hbar^2}\cdot r_{i,j} & \text{if j = i-1, i+1} \\
 & \phi(x_i, x_j) = 0 & \text{otherwise} \numberthis
 \end{align*}
-where $r_{i,j} = | x_j - x_i |$ is the distance between two monomers. We simulated our system with a polymer chain made up of $q = 64$ monomers at a temperature of $T=20K$, but we used reduced units to keep our variables around the order of 1, which helps to prevent unnecessary rounding errors. Furthermore, we compared different methods of initialization. First, we initiated all velocities with random numbers drawn from a uniform distribution between [-0.5, 0.5] and then set the center-of-mass velocity to zero as well as scaled to velocities to the desired kinetic energy. Secondly, we used a biased initialization method, where one monomer gets initialized with the majority of the kinetic energy 
+where $r_{i,j} = | x_j - x_i |$ is the distance between two monomers. We simulated our system with a polymer chain made up of $q = 64$ monomers at a temperature of $T=20K$.
+We used reduced units to keep our variables around the order of 1, which helps to prevent unnecessary rounding errors. Furthermore, we compared different methods of initialization. We used the following reference values to scale our units: 
+\begin{align*}
+& t_{ref} = 10^{-12}\text{s} = 1 \text{ps} \\
+& m_{ref} = 1 \text{amu} = 1 \text{g/mol} \\
+& l_{ref} = 10^{-9} \text{m} = 1 \text{nm} \numberthis
+\end{align*} 
+From these reference values, we get an energy unit of 
+\begin{equation}
+E_{ref} = \frac{m_{ref} \cdot l_{ref}^2}{t_{ref}^2} = 1 \text{kJ/mol} 
+\end{equation}
+and our reduced temperature was set according to 
+\begin{equation}
+T^{*} = \frac{k \cdot T}{E_{ref}}
+\end{equation}
+First, we initiated all velocities with random numbers drawn from a uniform distribution between [-0.5, 0.5] and then set the center-of-mass velocity to zero as well as scaled to velocities to the desired kinetic energy. Secondly, we used a biased initialization method, where one monomer gets initialized with the majority of the kinetic energy 
 \begin{equation}
 v_1 = \sqrt{\frac{(q-1)\cdot T}{m}}
 \end{equation} 
