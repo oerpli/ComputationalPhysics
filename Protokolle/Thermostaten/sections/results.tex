@@ -17,7 +17,6 @@ f(r) = \left(\frac{mq}{2\pi\beta\hbar^2}\right)^{\frac{1}{2}}e^{-\frac{mqr^2}{2\
 \caption{Histogram of $r_i - r_j$ for all thermostats}
 \label{im:relPos_rand}
 \end{figure} 
-
 As can be seen in figure \ref{im:relPos_rand}, the Andersen, Lowe-Andersen and Nosé-Hoover Chain thermostats follow this probability distribution closely. The Nosé-Hoover thermostat exhibits a greater variance than expected, while the Berendsen and its relative, the Bussi-Donadio-Parrinello thermostat,  lead to a smaller variance. 
 
 If we look at the distribution of particle velocities (figure \ref{im:vel_rand}), we see that the kinetic energy and the potential energy are strongly coupled in this system and the errors in the neighbour distance distribution probably arise from the errors in the distribution of velocities. The expected probability density is
@@ -33,13 +32,11 @@ which is again only achieved by the Andersen, Lowe-Andersen and Nosé-Hoover Cha
 \caption{Histogram of particle velocities for all thermostats}
 \label{im:vel_rand}
 \end{figure}
-
 To take a closer look at the thermostating routines, we also evaluated the distribution of the total kinetic energy of the polymer. Figure \ref{im:temp_rand} shows the distribution of virtual or instantaneous 'temperature' (i.e. $T' = 2E_{kin}/q$). The values obtained via the Nosé-Hoover algorithm deviate significantly from the theoretical probability distribution
 
 \begin{equation}
 f(T') = e^{-\frac{qT'}{2T}}\cdot \Gamma(q/2)^{-1}\cdot \left(\frac{qT'}{2T}\right)^{\frac{q}{2}}\frac{1}{T'}  
 \end{equation}
-
 and the maximum of the distribution does not coincide with the desired temperature. This is especially intriguing, because the distribution of the individual velocities (figure \ref{im:vel_rand}) deviated from the expected distribution to a far lesser extent. 
 The Bussi-Donadio-Parinello thermostat, which should lead to a better distribution in kinetic energy than the Berendsen thermostat, because it incorporates stochastic fluctuations, exhibits the smallest variance in temperature of all thermostats - except for the Gaussian temperature of course, which, by construction, keeps the system always at the designated temperature and therefore the resulting ensemble is isokinetic rather than canonical.  
 
@@ -56,11 +53,11 @@ The Bussi-Donadio-Parinello thermostat, which should lead to a better distributi
 \caption{Histogram of potential energy for all thermostats}
 \label{im:epot_rand}
 \end{figure}
-In figure \ref{im:epot_rand} we can see the strong coupling between potential energy and kinetic energy in this system. Interesting to note here is, that the Andersen, Lowe--Anders, Nosé--Hoover-Chain and Gaussian thermostats share approximately the same maximum in potential energy - even though they exhibit different variances -, while the maximum is shifted to a higher value for the Bussi--Donadio--Parinello thermostat and the Nosé--Hoover thermostat leads to a highly asymmetric distribution of potential energy, for which we have not found a satisfying explanation.    
+In figure \ref{im:epot_rand} we can see the strong coupling between potential energy and kinetic energy in this system. Interesting to note here is, that the Andersen, Lowe--Anders, Nosé--Hoover--Chain and Gaussian thermostats share approximately the same maximum in potential energy - even though they exhibit different variances -, while the maximum is shifted to a higher value for the Bussi--Donadio--Parinello thermostat and the Nosé--Hoover thermostat leads to a highly asymmetric distribution of potential energy, for which we have not found a satisfying explanation.    
 
 To detect other possible problems, we also looked at the distribution of monomer positions and the center of mass position (figures \ref{im:absPos_rand} and \ref{im:schwerPos_rand}). Ideally, the center of mass should not move at all, since its velocity was set to zero at the time of initialisation. However, in the Andersen method the center of mass velocity is not conserved due to the stochastic changes in the monomer velocities. The Lowe-Andersen method overcomes this problem by acting on relative velocities rather than absolute velocities, which leaves the total momentum invariant. 
-The simulation with the Gaussian thermostat, on the other hand, was apparently subject to a drift in total momentum, which could not be attenuated by the thermostat. However, we believe that the drift is not due to the thermostat, since it only rescales the velocities, which cannot lead to a change of the total momentum if it was initialised to zero. Changes in total momentum can happen due to rounding errors in the velocity Verlet integration scheme. A good thermostating routine should be able to dampen such effects, which is the case for all thermostats except the Andersen and Gaussian methods. 
-Sometimes, numerical errors can also lead to the so-called 'flying icecube' phenomenon - i.e. the whole system moves with a constant center-of-mass velocity. Such behaviour can be seen for the Berendsen and Bussi-Donadio-Parinello thermostats in fig \ref{im:schwerVel_one}. 
+
+Sometimes, changes in total momentum can happen due to rounding errors in the integration scheme and this can lead to the so-called 'flying icecube' phenomenon - i.e. the whole system moves with a constant center-of-mass velocity. Such behaviour can be seen for the Berendsen and Bussi-Donadio-Parinello thermostats in fig \ref{im:schwerVel_one}. A good thermostating routine should be able to dampen such effects.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\textwidth]{./graphics/Histogramm_absPosition_rand_T=20_p=64.png}
@@ -100,10 +97,7 @@ Simulations started with our biased initialization method, which was introduced 
     \caption{Histogram of center of mass velocities for all thermostats}
     \label{im:schwerVel_one} 
 \end{figure} 
-
-As can be seen from figure \ref{im:vel_one} and \ref{im:schwerVel_one}, the systems thermostated using the Berendsen and Bussi-Donadio-Parinello methods experienced an acceleration of center of mass velocity, which could not be counteracted by the thermostats. This also lead to an expansion of the whole system and is responsible for the discontinuous histogram in figure \ref{im:relPos_one} (here, the distributions for both thermostats overlap).
-
-Furthermore, the center of mass velocity also exhibits a drift when it is thermostated with a Gaussian thermostat. The same considerations apply here as for the random initialization. All other thermostats showed the same behaviour as in the former simulations.     
+As can be seen from figure \ref{im:vel_one} and \ref{im:schwerVel_one}, the systems thermostated using the Berendsen and Bussi-Donadio-Parinello methods experienced an acceleration of center of mass velocity, which could not be counteracted by the thermostats. This is responsible for the discontinuous histogram in figure \ref{im:relPos_one}, since the absolute positions grew so large that the precision of double floating point numbers was not high enough to resolve the distances $r_i - r_j$ correctly (Please note that the distributions for the Berendsen and the Bussi--Donadio--Parinello  thermostats overlap).
 
 \begin{figure}[H]
 \centering
@@ -118,7 +112,7 @@ Finally, we noticed that the Bussi-Donadio-Parinello thermostat exhibits a bette
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.9\textwidth]{./graphics/Histogramm_tempCol_one_T=20_p=64.png}
-\caption{Histogram of virtual temperature for all thermostats}
+\caption{Histogram of instantaneous temperature for all thermostats}
 \label{im:temp_one}
 \end{figure}
 
@@ -152,12 +146,16 @@ The Nosé-Hoover thermostat includes a freely choosable parameter $Q$ (or $Q_1$ 
 \begin{equation}
 \omega = \sqrt{\frac{k}{m}} = \frac{q}{\beta \hbar}
 \end{equation} 
-where $k$ is the spring constant. However, as these parameters didn't lead to good results, we varied $Q_2$ over several orders of magnitude while keeping $Q_1 = q\cdot Q_2$. Figure \ref{im:temp_chain} shows the probability distributions of virtual temperature for different values of $Q_2$. We found that a strong coupling - i.e. small $Q_2$ - leads to the best agreement with the theoretical distribution for a canonical ensemble. For comparing the different thermostats (section \ref{results}, the results from the simulation with $Q_1 = 0.001$ and $Q_1 = 0.064$ were used. 
+where $k$ is the spring constant. In our reduced units, we arrived at values of 
+\begin{align*}
+& Q_1 = 0.063528 \text{kJ}/(\text{mol ps}) && Q_2 \approx 0.001
+\end{align*} 
+However, to test this suggestion and to make sure we got the best results possible, we varied $Q_2$ over several orders of magnitude while keeping $Q_1 = q\cdot Q_2$. Figure \ref{im:temp_chain} shows the probability distributions of instantaneous temperature for different values of $Q_2$. We found that a strong coupling - i.e. small $Q_2$ - leads to the best agreement with the theoretical distribution for a canonical ensemble. For comparing the different thermostats (section \ref{results}), the results from the simulation with $Q_2 = 0.001$ and $Q_1 = 0.064$ were used. 
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.9\textwidth]{./graphics/Histogramm_tempCol_one_Chain.png}
-\caption{Histogram of virtual temperature of the Nose Hoover Chain for different values of $Q_2$ }
+\caption{Histogram of instantaneous temperature of the Nose Hoover Chain for different values of $Q_2$ }
 \label{im:temp_chain}
 \end{figure}
 
