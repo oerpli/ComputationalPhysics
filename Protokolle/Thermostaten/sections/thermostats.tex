@@ -44,7 +44,7 @@ One drawback of this thermostat is that in general it does not sample from a wel
 \subsection{Bussi--Donadio--Parrinello}
 Bussi et al.\cite{Bussi2007} improved Berendsen's method by switching the target value from equation \eqref{eq:gauss} to a changing, time dependent stochastic variable and adjusting the temperature over several time steps as Berendsen does (via eq. \eqref{eq:berendsen}). 
 
-Therefore the auxiliary dynamics can be expressed via the following formula ():
+Therefore the auxiliary dynamics can be expressed via the following formula:
 \begin{equation}
 dK = (K_0- K) \frac{dt}{\tau} + \underbrace{2\sqrt{\frac{K_0\cdot K}{N_f}}\frac{dW}{\sqrt{\tau}}}_{\text{stochastic term}}
 \end{equation}

@@ -3,7 +3,7 @@
 \graphicspath{{../graphics/}}
 
 
-\subsection{Random initiation}
+\subsection{Random initaliziation}
 The following results were obtained by simulations of $10^8$ steps of size $\Delta t = 1 \text{fs}$ after an equilibration period of $10^7$ steps. These parameters were used for all thermostats except for the Nosé-Hoover thermostat, for which a smaller time step ($\Delta t = 0.1 \text{fs}$) was used. Integration of the equations of motion was done via the velocity-verlet algorithm as mentioned in section \ref{cemd} --- except for the Nosé-Hoover-Chain thermostat (see section \ref{NHC}) and the Gaussian thermostat, where a leapfrog integration scheme was used (see section \ref{th:gaussian}).   
 First of all, we wanted to test whether the thermostating routines disturbed the natural equilibrium of the system. Figure \ref{im:relPos_rand} shows a histogram of the relative positions between adjacent particles on the polymer chain. According to statistical mechanics, the distance between neighbouring chain monomers should follow a normal distribution.
 
@@ -140,8 +140,14 @@ Finally, we noticed that the Bussi-Donadio-Parinello thermostat exhibits a bette
 
 \end{comment}
 
+\subsection{Parameters for the thermostats}
+\subsubsection{Berendsen \& Bussi--Donadio--Parrinello}
+The change rate $\tau$ is the only free parameter in both thermostats---it controls by how much the kinetic energies are scaled in one time step. We used 
+\begin{equation}
+\tau = 10\cdot \Delta t = 10fs\text{.}
+\end{equation}
 
-\subsection{Parameters for the Nosé--Hoover Chain}
+\subsubsection{Nosé--Hoover Chain}
 The Nosé-Hoover thermostat includes a freely choosable parameter $Q$ (or $Q_1$ and $Q_2$ for the Nosé-Hoover Chain), which controls the strength of coupling to the heat bath. As mentioned in section \ref{NHC}, Martyna \textit{et al.} \cite{Martyna1992} suggest using $Q_1 = \frac{qkT}{\omega}$ and $Q_j = \frac{kT}{\omega}$, where $\omega$ is a typical frequency of the system. In our project, we also used these parameters at first with $\omega$ being the frequency of harmonic oscillations resulting from the spring potential.
 \begin{equation}
 \omega = \sqrt{\frac{k}{m}} = \frac{q}{\beta \hbar}
