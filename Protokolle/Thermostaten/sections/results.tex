@@ -141,6 +141,9 @@ Finally, we noticed that the Bussi-Donadio-Parinello thermostat exhibits a bette
 \end{comment}
 
 \subsection{Parameters for the thermostats}
+\subsubsection{Andersen \& Lowe--Andersen}
+The simulations were calculated with the stochastic collision frequency $\nu = 15.625$. With a time step of $dt=0.001$ the propability of any given particle to undergo a collision with the heat bath becomes $0.015625$.
+
 \subsubsection{Berendsen \& Bussi--Donadio--Parrinello}
 The change rate $\tau$ is the only free parameter in both thermostats---it controls by how much the kinetic energies are scaled in one time step. We used 
 \begin{equation}
