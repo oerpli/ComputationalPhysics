@@ -2,7 +2,50 @@
 % \input{./graphics/Histogramm_relPos_rand_T=20_p=64.tex}
 \graphicspath{{../graphics/}}
 
+\subsection{Parameters for the thermostats}
+Many of the thermostats used in our project contain some parameters which have to be choosen correctly to give good results. In the following sections, we will give a quick overview over the parameters we used for the comparison at the end and the reasons for our choices. 
+\subsubsection{Andersen \& Lowe--Andersen}
+The simulations were calculated with the stochastic collision frequency $\nu = 15.625$. With a time step of $dt=0.001$ the propability of any given particle to undergo a collision with the heat bath becomes $0.015625$.
 
+\subsubsection{Berendsen \& Bussi--Donadio--Parrinello}
+The change rate $\tau$ is the only free parameter in both thermostats---it controls by how much the kinetic energies are scaled in one time step. We used 
+\begin{equation}
+\tau = 10\cdot \Delta t = 10fs\text{.}
+\end{equation}
+
+\subsubsection{Nosé--Hoover Chain}
+The Nosé-Hoover thermostat includes a freely choosable parameter $Q$ (or $Q_1$ and $Q_2$ for the Nosé-Hoover Chain), which controls the strength of coupling to the heat bath. As mentioned in section \ref{NHC}, Martyna \textit{et al.} \cite{Martyna1992} suggest using $Q_1 = \frac{qkT}{\omega}$ and $Q_j = \frac{kT}{\omega}$, where $\omega$ is a typical frequency of the system. In our project, we also used these parameters at first with $\omega$ being the frequency of harmonic oscillations resulting from the spring potential.
+\begin{equation}
+\omega = \sqrt{\frac{k}{m}} = \frac{q}{\beta \hbar}
+\end{equation} 
+where $k$ is the spring constant. In our reduced units, we arrived at values of 
+\begin{align*}
+& Q_1 \approx 0.064 \text{kJ}/(\text{mol ps}) && Q_2 \approx 0.001 \text{kJ}/(\text{mol ps}
+\end{align*} 
+However, to test this suggestion and to make sure we got the best results possible, we varied $Q_2$ over several orders of magnitude while keeping $Q_1 = q\cdot Q_2$. Interestingly, we found that, depending on the initialization method, different values give the best results. For random initialization, the smallest value $Q_2=0.00001 \text{kJ}/(\text{mol ps}$ leads to the best agreement with the theory. Figure \ref{im:temp_chain_rand} shows the probability distributions of instantaneous temperature for different values of $Q_2$. However, such a strong coupling also alters the dynamics to such a great extent that the center of mass velocity does not stay zero, but begins to grow (see figure \ref{im:vel_chain_rand}). 
+When using the biased initialization method, however, the suggested value of $Q_2 = 0.001 \text{kJ}/(\text{mol ps}$ gives the best results (see figure \ref{im:temp_chain_one}). For comparing the different thermostats (section \ref{results}), we used the results from the simulations with $Q_2 = 0.001 \text{kJ}/(\text{mol ps}$ and $Q_1 = 0.064 \text{kJ}/(\text{mol ps}$ as suggested by Martyna \textit{et al.} \cite{Martyna1992}.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{./graphics/Histogramm_tempCol_rand_Chain.png}
+\caption{Histogram of instantaneous temperature of the Nose Hoover Chain for different values of $Q_2$ (random initialization)}
+\label{im:temp_chain_rand}
+\end{figure}
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{./graphics/Histogramm_schwerVel_one_Chain.png}
+\caption{Histogram of instantaneous temperature of the Nose Hoover Chain for different values of $Q_2$ (random initialization}
+\label{im:vel_chain_rand}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{./graphics/Histogramm_tempCol_one_Chain.png}
+\caption{Histogram of instantaneous temperature of the Nose Hoover Chain for different values of $Q_2$ (biased initialization)}
+\label{im:temp_chain_one}
+\end{figure}
 \subsection{Random initaliziation}
 The following results were obtained by simulations of $10^8$ steps of size $\Delta t = 1 \text{fs}$ after an equilibration period of $10^7$ steps. These parameters were used for all thermostats except for the Nosé-Hoover thermostat, for which a smaller time step ($\Delta t = 0.1 \text{fs}$) was used. Integration of the equations of motion was done via the velocity-verlet algorithm as mentioned in section \ref{cemd} --- except for the Nosé-Hoover-Chain thermostat (see section \ref{NHC}) and the Gaussian thermostat, where a leapfrog integration scheme was used (see section \ref{th:gaussian}).   
 First of all, we wanted to test whether the thermostating routines disturbed the natural equilibrium of the system. Figure \ref{im:relPos_rand} shows a histogram of the relative positions between adjacent particles on the polymer chain. According to statistical mechanics, the distance between neighbouring chain monomers should follow a normal distribution.
@@ -79,7 +122,6 @@ Sometimes, changes in total momentum can happen due to rounding errors in the in
 \label{im:schwerVel_rand}
 \end{figure} 
 
-\newpage
 \subsection{Biased initialization}
 Simulations started with our biased initialization method, which was introduced in section \ref{implementation}, were in general more prone to errors, and helped us to uncover more difficulties with the different thermostats. 
 
@@ -140,33 +182,8 @@ Finally, we noticed that the Bussi-Donadio-Parinello thermostat exhibits a bette
 
 \end{comment}
 
-\subsection{Parameters for the thermostats}
-\subsubsection{Andersen \& Lowe--Andersen}
-The simulations were calculated with the stochastic collision frequency $\nu = 15.625$. With a time step of $dt=0.001$ the propability of any given particle to undergo a collision with the heat bath becomes $0.015625$.
 
-\subsubsection{Berendsen \& Bussi--Donadio--Parrinello}
-The change rate $\tau$ is the only free parameter in both thermostats---it controls by how much the kinetic energies are scaled in one time step. We used 
-\begin{equation}
-\tau = 10\cdot \Delta t = 10fs\text{.}
-\end{equation}
 
-\subsubsection{Nosé--Hoover Chain}
-The Nosé-Hoover thermostat includes a freely choosable parameter $Q$ (or $Q_1$ and $Q_2$ for the Nosé-Hoover Chain), which controls the strength of coupling to the heat bath. As mentioned in section \ref{NHC}, Martyna \textit{et al.} \cite{Martyna1992} suggest using $Q_1 = \frac{qkT}{\omega}$ and $Q_j = \frac{kT}{\omega}$, where $\omega$ is a typical frequency of the system. In our project, we also used these parameters at first with $\omega$ being the frequency of harmonic oscillations resulting from the spring potential.
-\begin{equation}
-\omega = \sqrt{\frac{k}{m}} = \frac{q}{\beta \hbar}
-\end{equation} 
-where $k$ is the spring constant. In our reduced units, we arrived at values of 
-\begin{align*}
-& Q_1 = 0.063528 \text{kJ}/(\text{mol ps}) && Q_2 \approx 0.001
-\end{align*} 
-However, to test this suggestion and to make sure we got the best results possible, we varied $Q_2$ over several orders of magnitude while keeping $Q_1 = q\cdot Q_2$. Figure \ref{im:temp_chain} shows the probability distributions of instantaneous temperature for different values of $Q_2$. We found that a strong coupling - i.e. small $Q_2$ - leads to the best agreement with the theoretical distribution for a canonical ensemble. For comparing the different thermostats (section \ref{results}), the results from the simulation with $Q_2 = 0.001$ and $Q_1 = 0.064$ were used. 
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.9\textwidth]{./graphics/Histogramm_tempCol_one_Chain.png}
-\caption{Histogram of instantaneous temperature of the Nose Hoover Chain for different values of $Q_2$ }
-\label{im:temp_chain}
-\end{figure}
 
 
 
