@@ -14,14 +14,7 @@ def plot_theory(kind , sim):
 	if kind == "relPos": re = norm_func( 1./(sim.feder*sim.beta) )
 	elif kind == "velocity": re = norm_func( 1./(sim.mass*sim.beta) )
 	elif kind == "tempCol": 
-		##re = "exp(-" + "x/(" + str(2*sim.temp) + ")*" + str(sim.p) + ")"
-                re = "(exp(-x/(" + str(2*sim.temp) + ")*" + str(sim.p)+ ")/2**(" + str(sim.p/2) + "))*gamma(" +str(sim.p/2)+")*(x/" + str(sim.temp) + ")**(" + str(sim.p) + "/2 - 1)/1E11"
-		#re = re + "*2*pi**(" + str( int( sim.p/2) ) + ")/gamma(" + str(sim.p) + "/2)"
-		#re = re + "*(" + str(sim.mass) + "*x*" + str(sim.p/(sim.beta*sim.temp)) + ")**((" + str(sim.p) + "-1)/2)"
-		##re = re + "/2**(" + str( sim.p/2 ) + ")/gamma(" + str(sim.p) + "/2)"
-		##re = re + "*(x/" + str(sim.temp) + ")**(" + str(sim.p) + "/2 - 1)"
-		#re = re + "*"  + str(0.5*sim.p/(sim.beta*sim.temp))
-		##re = re + "*3E56"
+                re = "exp(-x*" + str(sim.p) + "/(2*" + str(sim.temp) + "))*(1/gamma(" + str(sim.p) + "/2))*(" + str(sim.p)+ "*x/(2*" + str(sim.temp) + "))**(" + str(sim.p) + "/2)*(1/x)"               
 		print re
 	else: return ""
 	return re + "w l lc 'black' t 'theory',"
@@ -30,13 +23,13 @@ class Simulation(object):
 	all_kinds = ["relPos","absPosition","velocity","tempCol","epot","schwerPos","schwerVel"]
 	
 	def plot_kind(self,s):
-		if s == "relPos": return "distance to neighbor"
-		if s == "velocity": return "velocity"
-		if s == "absPosition": return "absolute position"
-		if s == "tempCol": return "temperature"
-		if s == "schwerPos" : return "center of mass position"
-		if s == "schwerVel" : return "center of mass velocity"
-                if s == "epot" : return "potential energy"
+		if s == "relPos": return "distance to neighbor [nm]"
+		if s == "velocity": return "velocity [nm/ps]"
+		if s == "absPosition": return "absolute position [nm]"
+		if s == "tempCol": return "temperature [K]"
+		if s == "schwerPos" : return "center of mass position [nm]"
+		if s == "schwerVel" : return "center of mass velocity [nm/ps]"
+                if s == "epot" : return "potential energy [kJ/mol]"
 		
 		return s
 		
@@ -144,7 +137,7 @@ def set_titles(l_sim):
 	for sim in l_sim: flag = flag and (buf == sim.q2)
 	if flag: title += " q2=" + '%g' % (buf)
 	else: 
-		for sim in l_sim: sim.title += " q2=" + '%g' % ( sim.q2 )
+		for sim in l_sim: sim.title += " q2=" + '%f' % ( sim.q2 )
 	
 	return title
 	
@@ -166,7 +159,7 @@ g( 'set style line 6 lt rgb "brown"')
 g( 'set yrange [1E-5:]' )
 #g( 'set xrange [0:1E4]' )
 g( 'set logscale y' )
-g( 'set ylabel "probability"' )
+g( 'set ylabel "probability density"' )
 plot_count = -1
 all_outF = "" 
 for kind in Simulation.all_kinds:
@@ -187,17 +180,17 @@ for kind in Simulation.all_kinds:
 	if plot_data == "plot" : continue
 	plot_count += 1
 	g( 'set xlabel "' + sim_plot.histo[kind][0] + '"' )
-        if sim_plot.histo[kind][0]=="potential energy": 
+        if sim_plot.histo[kind][0]=="potential energy [kJ/mol]": 
             g('set xrange[0:15]')
-        elif sim_plot.histo[kind][0]=="center of mass velocity": 
+        elif sim_plot.histo[kind][0]=="center of mass velocity [nm/ps]": 
+            g('set xrange[-5:5]')
+        elif sim_plot.histo[kind][0]=="velocity [nm/ps]": 
             g('set xrange[-10:10]')
-        elif sim_plot.histo[kind][0]=="velocity": 
-            g('set xrange[-10:10]')
-        elif sim_plot.histo[kind][0]=="absolute position": 
+        elif sim_plot.histo[kind][0]=="absolute position [nm]": 
             g('set xrange[-3:3]')
-        elif sim_plot.histo[kind][0]=="distance to neighbor": 
+        elif sim_plot.histo[kind][0]=="distance to neighbor [nm]": 
             g('set xrange[-0.07:0.07]')
-        elif sim_plot.histo[kind][0]=="temperature": 
+        elif sim_plot.histo[kind][0]=="temperature [K]": 
             g('set xrange[0:60]')
         else: g('set autoscale x')
 	
