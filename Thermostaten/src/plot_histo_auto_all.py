@@ -16,15 +16,6 @@ def plot_theory(kind , sim):
 	elif kind == "velocity": re = norm_func( 1./(sim.mass*sim.beta) )
 	elif kind == "tempCol": 
 		re = "exp(-x*" + str(sim.p) + "/(2*" + str(sim.temp) + "))*(1/gamma(" + str(sim.p) + "/2))*(" + str(sim.p)+ "*x/(2*" + str(sim.temp) + "))**(" + str(sim.p) + "/2)*(1/x)"                
-#re = 'exp(-x*' +str(sim.p)+ '/(2*'+str(sim.temp)+'))*(1/gamma('+str(sim.p)+'/2+1))*('+str(sim.p)+'*'+str(k)+'*x)**('+str(sim.p)+'/2-1/2)*sqrt('+str(k)+'*'+str(sim.temp)+'*'+str(sim.p)+'*pi**('+str(sim.p)+'-1)/2)/3'
-		##re = "exp(-" + "x/(" + str(2*sim.temp) + ")*" + str(sim.p) + ")"
-                #re = "(exp(-x/(" + str(2*sim.temp) + ")*" + str(sim.p)+ ")/2**(" + str(sim.p/2) + "))*gamma(" +str(sim.p/2)+")*(x/" + str(sim.temp) + ")**(" + str(sim.p) + "/2 - 1)/1E11"
-		#re = re + "*2*pi**(" + str( int( sim.p/2) ) + ")/gamma(" + str(sim.p) + "/2)"
-		#re = re + "*(" + str(sim.mass) + "*x*" + str(sim.p/(sim.beta*sim.temp)) + ")**((" + str(sim.p) + "-1)/2)"
-		##re = re + "/2**(" + str( sim.p/2 ) + ")/gamma(" + str(sim.p) + "/2)"
-		##re = re + "*(x/" + str(sim.temp) + ")**(" + str(sim.p) + "/2 - 1)"
-		#re = re + "*"  + str(0.5*sim.p/(sim.beta*sim.temp))
-		##re = re + "*3E56"
 		print re
 	else: return ""
 	return re + "w l lc 'black' t 'theory',"
