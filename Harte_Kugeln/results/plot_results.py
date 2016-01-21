@@ -4,6 +4,7 @@ import os
 import glob
 import linecache
 import numpy as np
+import scipy.optimize as optimization
 
 def string_after(s, dem): 
     str_r = s.partition(dem)[2]
@@ -15,6 +16,9 @@ def string_after(s, dem):
 def set_param(): 
     ss_para = "DIM" + sys.argv[1] + "_N" + sys.argv[2] + "_r" + sys.argv[3] + "_m" + sys.argv[4]
     return ss_para 
+
+def coll_exp(x,tau,scale): 
+    return scale*np.exp(-x/tau)
 
 ### Main ###
 parameter = set_param()
@@ -34,7 +38,7 @@ f_output_diffusion = open(name_output_diffusion, 'w')
 search_string = "./Pair_distribution_"+str(parameter)+"*.dat"
 print search_string
 for file in sorted(glob.glob(search_string)):
-    number_of_files += 2
+    number_of_files += 3
     rho = float(string_after(file, "_rho"))
     data = linecache.getline(file, 1).split('\t')
     g = float(data[2])
@@ -46,26 +50,64 @@ for file in sorted(glob.glob(search_string)):
     f_output.write("%f" %rho + " " + "%f " %(1.+2.*np.pi*g*rho/3.) + "%f" %eos_momentum + "\n")
     f_output_diffusion.write("%f" %rho + " " + "%f " %diffusion_constant + "\n")
 
+# collisions auswertung noch experimentell :P 
+    coll_file = file.replace("Pair_distribution", "Coll_time")
+    collx, colly = np.loadtxt(coll_file, unpack=True)
+    tau_estimate = 1.0
+    scale_estimate = 1000
+    estimates = np.array([tau_estimate, scale_estimate])
+    coll_fit = optimization.curve_fit(coll_exp, collx, colly, estimates)
+    print coll_fit
+    tau = coll_fit[0][0]
+    scale = coll_fit[0][1]
+    print tau, scale   
+    x_values = np.arange(0.0, 0.0065, 0.0001)
+    coll_func = coll_exp(x_values, tau, scale)
+    coll_func = np.column_stack((x_values, coll_func)) 
+
+    coll_outfile = file.replace("Pair_distribution", "Coll_fit")
+    np.savetxt(coll_outfile, coll_func)
+     
+    #plot collision times
+    plot_data = "plot '" + coll_file + "' u 1:2  t 'rho = " + str(rho) + "', '"+coll_outfile+"' w l t 'exponential fit'"  
+#    gnu( 'set title "Velocity autocorrelation function"' )
+    gnu( 'set xlabel "t [s]"' )
+    gnu( 'set ylabel "probability"' ) 
+    gnu( 'set term x11 ' + str(number_of_files+2) ) 
+    gnu( 'set output' )
+    gnu( plot_data )
+    gnu( 'set terminal png large size 1024,768' )
+    name_image = value_file.replace("values", "autocorrelation") 
+    name_image = name_image.replace(".dat", ".png")
+    gnu( 'set output "' + name_image + '"' )
+    gnu( 'repl' )
+    print "Das Bild '" + name_image + "' wurde erstellt.\n"     
+# collisions auswertung ende
+
     #plot pair distribution
+#    gnu( 'set terminal epslatex')
     plot_data = "plot '" + file + "' u "
     plot_data += "($1/" + str(2.0*radius) + "):3 w l t 'rho = " + str(rho)
-    gnu( 'set title "Pair distribution function"' )
-    gnu( 'set xlabel "r"' )
+#    gnu( 'set title "Pair distribution function"' )
+#    gnu( 'set xlabel "$r [\text{m}]$"' )
+#    gnu( 'set ylabel "$g(r)$"' )   
+    gnu( 'set xlabel "r [m]"' )
     gnu( 'set ylabel "g(r)"' ) 
     gnu( 'set term x11 ' + str(number_of_files) ) 
     gnu( 'set output' )
     gnu( plot_data )
     gnu( 'set terminal png large size 1024,768' )
-    name_image = file.partition(".dat")[0] + ".png"
+    name_image = file.partition(".dat")[0] + ".png" # changed .png to .tex
     gnu( 'set output "' + name_image + '"' )
+#    gnu( plot_data )
     gnu( 'repl' )
     print "Das Bild '" + name_image + "' wurde erstellt.\n"
 
     #plot autocorrelation
     plot_data = "plot '" + value_file + "' u 1:2 w l t 'rho = " + str(rho)
-    gnu( 'set title "Velocity autocorrelation function"' )
-    gnu( 'set xlabel "t"' )
-    gnu( 'set ylabel "<v(0)v(t)>"' ) 
+#    gnu( 'set title "Velocity autocorrelation function"' )
+    gnu( 'set xlabel "t [s]"' )
+    gnu( 'set ylabel "<v(0)v(t)> [m^2/s^2]"' ) 
     gnu( 'set term x11 ' + str(number_of_files+1) ) 
     gnu( 'set output' )
     gnu( plot_data )
@@ -82,11 +124,11 @@ f_output_diffusion.close()
   
 gnu( 'pi = 3.141593' )
 gnu( 'f(x) = 1 + (x*pi/6.0 + (x*pi/6.0)**2 - (x*pi/6.0)**3)/((1-(x*pi/6.0))**3) ' ) 
-gnu( 'set title "Equation of state"' )
-gnu( 'set xlabel "rho"' )
+#gnu( 'set title "Equation of state"' )
+gnu( 'set xlabel "rho [1/m^3]"' )
 gnu( 'set ylabel "p/(rho*k*T)"' )
 #gnu( 'set xrange[0:1.4]' )
-gnu( 'set term x11 ' + str(number_of_files+2) ) 
+gnu( 'set term x11 ' + str(number_of_files+3) ) 
 gnu( 'set output' )
 plot_data = "plot '" + name_output + "' u 1:($2/2.) title 'via pair distribution', '" + name_output + "' u 1:($3/2.) title 'via momentum flux', f(x) title 'theory'" 
 gnu( plot_data )
@@ -98,9 +140,9 @@ print "Das Bild '" + name_image + "' wurde erstellt.\n"
 
 
 gnu( 'f(x) = (3./8.)*'+str(radius*2./(mass**(1./2.)))+'*(1./(pi**(1./2.)))*(1/x)*(1-x/1.09)*(1+x**2*(0.4-0.83*x**2))' )
-gnu( 'set title "Diffusion constant"' )
-gnu( 'set ylabel "D"' )
-gnu( 'set term x11 ' + str(number_of_files+3) ) 
+#gnu( 'set title "Diffusion constant"' )
+gnu( 'set ylabel "D [m^2/s]"' )
+gnu( 'set term x11 ' + str(number_of_files+4) ) 
 gnu( 'set output' )
 plot_data = "plot '" + name_output_diffusion + "' u 1:2 title 'via velocity autocorrelation', f(x) title 'theory'" 
 gnu( plot_data )
