@@ -8,11 +8,10 @@ Many of the thermostats used in our project contain some parameters which have t
 The simulations were calculated with the stochastic collision frequency $\nu = 15.625$/ps. With a time step of $dt=0.001$ps the probability of any given particle to undergo a collision with the heat bath becomes $0.015625$. This value of $\nu$ was determined through a series of simulations with different values for $\nu$ and the one with the best results in comparison to the theory while heaving the least impact on the system was picked.
 
 \subsubsection{Berendsen \& Bussi--Donadio--Parrinello}
-The change rate $\tau$ is the only free parameter in both thermostats---it controls by how much the kinetic energies are scaled in one time step. We used 
+The change rate $\tau$ is the only free parameter in both thermostats---it controls by how much the kinetic energies are scaled in one time step. We used the the following values which fared quite well in the paper \cite{Berendsen1984}. For the Bussi--Donadio--Parrinello we used the same parameter. 
 \begin{equation}
-\tau = 10\cdot \Delta t = 10fs\text{.}
+\tau = 10\cdot \Delta t = 10fs
 \end{equation}
-
 \subsubsection{Nosé--Hoover Chain}
 The Nosé-Hoover thermostat includes a freely choosable parameter $Q$ (or $Q_1$ and $Q_2$ for the Nosé-Hoover Chain), which controls the strength of coupling to the heat bath. As mentioned in section \ref{NHC}, Martyna \textit{et al.} \cite{Martyna1992} suggest using $Q_1 = \frac{qkT}{\omega}$ and $Q_j = \frac{kT}{\omega}$, where $\omega$ is a typical frequency of the system. In our project, we also used these parameters at first with $\omega$ being the frequency of harmonic oscillations resulting from the spring potential.
 \begin{equation}
