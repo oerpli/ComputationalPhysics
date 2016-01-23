@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import Gnuplot
 import sys
 import os 
@@ -170,10 +171,14 @@ gnu( 'set ylabel "p/(rho*k*T)"' )
 #gnu( 'set xrange[0:1.4]' )
 gnu( 'set term x11 ' + str(number_of_files+3) ) 
 gnu( 'set output' )
-plot_data = "plot '" + name_output + "' u 1:($2/2.) title 'via pair distribution', '" + name_output + "' u 1:($3/2.) title 'via momentum flux', f(x) title 'theory'" 
+plot_data = "plot '" + name_output + "' u 1:($2/2.) title 'aus Paarverteilungsfunktion', '" + name_output + "' u 1:($3/2.) title 'aus Impulsübertrag', f(x) title 'Theorie'" 
 gnu( plot_data )
-gnu( 'set terminal png large size 1024,768' )
-name_image = name_output.partition(".dat")[0] + ".png"
+gnu( 'set terminal epslatex size 15cm,12cm color colortext')
+gnu( 'set xlabel "$\\rho [m^{-3}]$"' )
+gnu( 'set ylabel "$p/(\\rho k T)$"' )
+#gnu( 'set terminal png large size 1024,768' )
+#name_image = name_output.partition(".dat")[0] + ".tex"
+name_image = "eos.tex"
 gnu( 'set output "' + name_image + '"' )
 gnu( 'repl' )
 print "Das Bild '" + name_image + "' wurde erstellt.\n" 
@@ -186,8 +191,11 @@ gnu( 'set term x11 ' + str(number_of_files+4) )
 gnu( 'set output' )
 plot_data = "plot '" + name_output_diffusion + "' u 1:2 title 'via velocity autocorrelation', f(x) title 'theory'" 
 gnu( plot_data )
-gnu( 'set terminal png large size 1024,768' )
-name_image = name_output_diffusion.partition(".dat")[0] + ".png"
+
+#gnu( 'set terminal png large size 1024,768' )
+gnu( 'set ylabel "$D [\\text{m}^2 s^{-1}]$"' )
+gnu( 'set xlabel "$\\rho [m^{-3}]$"' )
+name_image = name_output_diffusion.partition(".dat")[0] + ".tex"
 gnu( 'set output "' + name_image + '"' )
 gnu( 'repl' )
 print "Das Bild '" + name_image + "' wurde erstellt.\n" 
