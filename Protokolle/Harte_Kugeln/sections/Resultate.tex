@@ -1,0 +1,44 @@
+% !TeX root = ../Harte_Kugeln.tex
+\subsection{Paarverteilungsfunktion}
+Eine Flüssigkeit oder ein Gas mit rein additiven Paarwechselwirkungen kann durch die sogenannte Paarverteilungsfunktion --- manchmal auch Paarkorrelationsfunktion oder radiale Verteilungsfunktion --- $g(r)$ vollständig charakterisiert werden. Diese Funktion gibt Aufschluss über die kurzreichweitige Struktur des Fluids --- also seine Nahordnung. Sie beschreibt die Häufigkeit, mit der sich zwei Teilchen in einem gewissen Abstand $r$ voneinander entfernt befinden, bezogen auf die jeweilige Häufigkeit in einem idealen Gas. Die Paarverteilungsfunktion ist demnach gegeben durch
+\begin{equation}
+g(r) = \frac{1}{4\pi r^2 \rho} \langle \sum_{j\neq i} \delta(r-r_{ij}) \rangle
+\end{equation}   
+Da Fluide keine Fernordnung besitzen, muss die Paarverteilungsfunktion im limes $r \rightarrow \infty$ gegen 1 konvergieren. Des weiteren sei angemerkt, dass die Paarverteilungsfunktion der Randverteilung der $N$-Teilchen-Wahrscheinlichkeitsdichte entspricht und man demnach im limes $\rho \rightarrow 0$ direkt das Paarpotential $U(r)$ aus der Paarverteilungsfunktion ablesen kann.  
+\begin{equation}
+\lim_{\rho \rightarrow 0} g(r) = e^{-\beta U(r)}
+\end{equation}
+Für Festkörper lässt sich natürlich auch eine Paarverteilungsfunktion definieren, allerdings ist diese nicht mehr isotrop sondern richtungsabhängig. 
+\begin{equation}
+g(\vec{r}) = \frac{1}{\rho N} \langle \sum_{j\neq i} \delta^{(3)}(\vec{r}-\vec{r_{ij}}) \rangle
+\end{equation} 
+Häufig wird aber auch die winkelgemittelte Version verwendet, welche dann mit der Definition der Paarverteilungsfunktion für Fluide übereinstimmt. 
+
+Abbildungen \ref{fig:paarverteilung1}, \ref{fig:paarverteilung2} und \ref{fig:paarverteilung3} zeigen die Paarverteilungsfunktionen des Systems von Harte Kugeln für verschiedene Dichten $\rho$ von 0.2 bis 1.3. Die Entstehung von Nahordnung beim Übergang vom gasförmigen zum flüssigen Zustand mit zunehmender Dichte lässt sich gut anhand von Abbildung \ref{fig:paarverteilung1} erkennen. Im ungeordneten (gasförmigen) Zustand nimmt die Paarverteilungsfunktion mit der Entfernung monoton ab, während sich beim Phasenübergang zur Flüssigkeit ein zweites Maximum ausbildet. 
+\begin{figure}[H]
+ \centering
+ \input{./graphics/PairDistribution1.tex}
+ \caption{Paarverteilungsfunktion für verschiedene Dichten $\rho$ im Bereich von 0.2 bis 0.5 (fluid)}
+ \label{fig:paarverteilung1}
+\end{figure} 
+ 
+ 
+\begin{figure}[!ht]
+ \centering
+ \input{./graphics/PairDistribution5.tex}
+  \caption{Paarverteilungsfunktion für verschiedene Dichten $\rho$ im Bereich von 0.6 bis 0.9 (fluid) }
+ \label{fig:paarverteilung2}
+\end{figure} 
+ 
+ 
+\begin{figure}[!ht]
+ \centering
+ \input{./graphics/PairDistribution9.tex}
+ \caption{Paarverteilungsfunktion für verschiedene Dichten $\rho$ im Bereich von 1.0 bis 1.3 (fest) }
+ \label{fig:paarverteilung3}
+\end{figure} 
+ 
+
+\subsection{Zustandsgleichung}
+
+\subsection{Collisionszeiten}

@@ -1,8 +1,11 @@
 \documentclass[a4paper]{article}
 
 \usepackage[bindingoffset=0.2in,left=1.2in,right=1.2in,top=1.2in,bottom=1in,footskip=.25in]{geometry}
-\usepackage[english]{babel}
+% deutsche Silbentrennung
+\usepackage[ngerman]{babel}
+% wegen deutschen Umlauten
 \usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
 \usepackage{amsmath}
 \usepackage{graphicx}
 \usepackage{float}
@@ -46,10 +49,11 @@
 
 \newpage
 
-%\section{Einführung} \label{einführung}
+\section{Einführung} \label{einfuehrung}
 \section{Ereignisbasierte Molekulardynamik}
 \section{Implementation} \label{implementation}
 \section{Resultate} \label{resultate}
+\input{./sections/Resultate.tex}
 
 \section{Conclusio} \label{conclusio}
 \end{document}

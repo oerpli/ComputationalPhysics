@@ -12,6 +12,9 @@ def string_after(s, dem):
         return str_r.split("_")[0]
     else: 
         return 0
+def sort_by_rho(s): 
+    rho = string_after(s, "rho")
+    return rho
 
 def set_param(): 
     ss_para = "DIM" + sys.argv[1] + "_N" + sys.argv[2] + "_r" + sys.argv[3] + "_m" + sys.argv[4]
@@ -30,6 +33,12 @@ number_of_files = 0;
 
 gnu = Gnuplot.Gnuplot(persist = 1)
 
+#pair distribution ini
+plot_data_g = "plot "
+g_split = 4
+g_split_count = 0
+name_image_pair = " "
+
 
 name_output = "eos_"+str(parameter)+".dat"
 name_output_diffusion = "diffusion_"+str(parameter)+".dat"
@@ -37,7 +46,8 @@ f_output = open(name_output, 'w')
 f_output_diffusion = open(name_output_diffusion, 'w')
 search_string = "./Pair_distribution_"+str(parameter)+"*.dat"
 print search_string
-for file in sorted(glob.glob(search_string)):
+
+for file in sorted(glob.glob(search_string), key =sort_by_rho):
     number_of_files += 3
     rho = float(string_after(file, "_rho"))
     data = linecache.getline(file, 1).split('\t')
@@ -85,23 +95,53 @@ for file in sorted(glob.glob(search_string)):
 # collisions auswertung ende
 
     #plot pair distribution
+    g_split_count += 1
+
+    if g_split_count%4 == 1 :
+        plot_data_g = "plot "
+        name_image_pair = "PairDistribution"+str(g_split_count)+".tex"
+    plot_data_g += "'" + file + "' u "
+    plot_data_g += "($1/" + str(2.0*radius) + "):3 w l t 'rho = " + str(rho) + "'"
+    if g_split_count%4:
+        plot_data_g += " , "
+    else: 
+        gnu( 'set xrange [1:3.5]' )
+        gnu( 'set xlabel "r [m]"' )
+        gnu( 'set ylabel "g(r)"' ) 
+        gnu( 'set term x11 ' + str(number_of_files) ) 
+        gnu( 'set output' )
+        gnu( plot_data_g )
+        plot_data_g = plot_data_g.replace("t 'rho","t '$\\rho$")
+        print plot_data_g
+        gnu( 'set terminal epslatex size 15cm,12cm color colortext')
+        gnu( 'set xlabel "$r [\text{m}]$"' )
+        gnu( 'set ylabel "$g(r)$"' )          
+       # gnu( 'set terminal png large size 1024,768' )
+ #       name_image = file.partition(".dat")[0] + ".png" # changed .png to .tex
+        gnu( 'set output "' + name_image_pair + '"' )
+        gnu( plot_data_g )
+     #   gnu( 'repl' )
+        print "Das Bild '" + name_image_pair + "' wurde erstellt.\n"
+    
+    gnu( 'set autoscale x' )
+
 #    gnu( 'set terminal epslatex')
-    plot_data = "plot '" + file + "' u "
-    plot_data += "($1/" + str(2.0*radius) + "):3 w l t 'rho = " + str(rho)
+#    plot_data = "plot '" + file + "' u "
+#    plot_data += "($1/" + str(2.0*radius) + "):3 w l t 'rho = " + str(rho)
 #    gnu( 'set title "Pair distribution function"' )
 #    gnu( 'set xlabel "$r [\text{m}]$"' )
 #    gnu( 'set ylabel "$g(r)$"' )   
-    gnu( 'set xlabel "r [m]"' )
-    gnu( 'set ylabel "g(r)"' ) 
-    gnu( 'set term x11 ' + str(number_of_files) ) 
-    gnu( 'set output' )
-    gnu( plot_data )
-    gnu( 'set terminal png large size 1024,768' )
-    name_image = file.partition(".dat")[0] + ".png" # changed .png to .tex
-    gnu( 'set output "' + name_image + '"' )
+#    gnu( 'set xlabel "r [m]"' )
+#    gnu( 'set ylabel "g(r)"' ) 
+#    gnu( 'set term x11 ' + str(number_of_files) ) 
+#    gnu( 'set output' )
 #    gnu( plot_data )
-    gnu( 'repl' )
-    print "Das Bild '" + name_image + "' wurde erstellt.\n"
+#    gnu( 'set terminal png large size 1024,768' )
+#    name_image = file.partition(".dat")[0] + ".png" # changed .png to .tex
+#    gnu( 'set output "' + name_image + '"' )
+#    gnu( plot_data )
+#    gnu( 'repl' )
+#    print "Das Bild '" + name_image + "' wurde erstellt.\n"
 
     #plot autocorrelation
     plot_data = "plot '" + value_file + "' u 1:2 w l t 'rho = " + str(rho)
