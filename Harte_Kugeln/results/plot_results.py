@@ -189,13 +189,14 @@ gnu( 'f(x) = (3./8.)*'+str(radius*2./(mass**(1./2.)))+'*(1./(pi**(1./2.)))*(1/x)
 gnu( 'set ylabel "D [m^2/s]"' )
 gnu( 'set term x11 ' + str(number_of_files+4) ) 
 gnu( 'set output' )
-plot_data = "plot '" + name_output_diffusion + "' u 1:2 title 'via velocity autocorrelation', f(x) title 'theory'" 
+plot_data = "plot '" + name_output_diffusion + "' u 1:2 title 'Simulation', f(x) title 'Theorie'" 
 gnu( plot_data )
 
-#gnu( 'set terminal png large size 1024,768' )
+gnu( 'set terminal epslatex size 15cm, 12cm color colortext' )
 gnu( 'set ylabel "$D [\\text{m}^2 s^{-1}]$"' )
 gnu( 'set xlabel "$\\rho [m^{-3}]$"' )
-name_image = name_output_diffusion.partition(".dat")[0] + ".tex"
+#name_image = name_output_diffusion.partition(".dat")[0] + ".tex"
+name_image = "diffusion.tex"
 gnu( 'set output "' + name_image + '"' )
 gnu( 'repl' )
 print "Das Bild '" + name_image + "' wurde erstellt.\n" 

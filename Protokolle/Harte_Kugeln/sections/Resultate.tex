@@ -108,5 +108,20 @@ wobei $\eta = \frac{\pi \rho \sigma^3}{6}$ die Packungsdichte ist. Außer für s
 
 
 \subsection{Diffusion}
+Des weiteren wurde die Diffusionskonstante $D$ für verschiedene Werte der Dichte $\rho$ berechnet. Sie ergibt sich nach der Green-Kubo-Relation aus dem Intgral über die Geschwindigkeits-Autokorrelationsfunktion $C(t)$.
+\begin{equation}
+D = \frac{1}{3}\int_0^{\infty} \langle \vec{v}_i(0)\cdot \vec{v}_i(t)\rangle \text{dt}
+\end{equation}
+Zum Vergleich wurde die empirische Formel von Speedy \cite{Speedy1987} herangezogen.
+\begin{equation}
+D = \frac{D_0}{\rho^*}\left(1-\frac{\rho^*}{1.09}\right)\left(1+\rho^{*2}\left(0.4 - 0.83\rho^{*2}\right)\right)
+\end{equation}
+wobei $\rho^*= \rho \sigma^3$ die reduzierte Dichte ist und $D_0 = \frac{3}{8} \sigma \left(\frac{kT}{\pi m}\right)^{\frac{1}{2}}$. Abbildung \ref{fig:diffusion} zeigt die Diffusionskonstante bei harten Kugeln. Es zeigt sich eine gute Übereinstimmung mit den Ergebnissen von Speedy \cite{Speedy1987}.
+\begin{figure}[H]
+ \centering
+  \resizebox{0.9\textwidth}{!}{\input{./graphics/diffusion.tex}}
+ \caption{Diffusionskonstante bei harten Kugeln}
+ \label{fig:diffusion}
+\end{figure} 
 
 \subsection{Collisionszeiten}
