@@ -17,9 +17,11 @@
 \usepackage{subcaption}
 \usepackage{verbatim}
 \usepackage{pgfplots}
+\pgfplotsset{compat=1.9}
 \usepackage{listings}
 \usepackage{textcomp}
 \usepackage{bbold}
+\usepackage{mathtools}
 
 
 \lstset{basicstyle=\footnotesize\ttfamily,language={}}
@@ -56,4 +58,7 @@
 \input{./sections/Resultate.tex}
 
 \section{Conclusio} \label{conclusio}
+
+\bibliographystyle{IEEEtran} % kürzt automatisch vornamen ab und so zeug 
+\bibliography{../biblio}
 \end{document}

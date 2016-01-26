@@ -46,14 +46,59 @@ Die Thermische Zustandsgleichung stellt einen Zusammenhang zwischen den Variable
 \begin{equation}
 \frac{p}{\rho k T} = 1 - \frac{1}{3NkT}\underbrace{\sum_{i=1}^N \vec{r}_i \cdot \vec{F}_i}_{= - W}
 \end{equation}
-Da harte Kugeln allerdings ein nicht-differenzierbares Potential besitzen und demnach keine auf sie Kraft wirkt, solange sie nicht aneinander stoßen, muss die Berechnung der Zustandsgleichung für harte Kugeln etwas abgeändert werden.
+Alternativ kann diese Zustandsgleichung auch geschrieben werden als 
+\begin{equation}
+\frac{p}{\rho k T} = 1 - \frac{2\pi\rho}{3kT} \int_0^{\infty} \text{dr} r^2 g(r) r U'(r)  
+\label{eos2}
+\end{equation}
+Da harte Kugeln allerdings ein nicht-differenzierbares Potential besitzen und demnach keine Kraft auf sie wirkt, solange sie nicht aneinander stoßen, muss die Berechnung der Zustandsgleichung für harte Kugeln etwas abgeändert werden.
+Zu diesem Zweck sieht man ein System harter Kugeln als den Grenzfall eines Systems "`weicher Kugeln"' mit dem Potential 
+\begin{equation}
+U_{soft}(r) = \epsilon \left(\frac{\sigma}{r}\right)^n 
+\end{equation}
+an, welches sich im Limes $n \rightarrow \infty$ dem Potential harter Kugeln annähert. Der Boltzmannfaktor für dieses Potential nähert sich bei $n \rightarrow \infty$ einer Stufenfunktion an
+\begin{equation}
+e^{-\beta U_{soft}(r)} \rightarrow H(r-\sigma)
+\end{equation} 
+Um die Zustandsgleichung für weiche Kugeln --- und anschließend für harte Kugeln --- herzuleiten, benötigen wir noch die formale Definition der Paarverteilungsfunktion
+\begin{equation}
+\rho^2 g(r_1, r_2) = N(N-1) \frac{1}{Z} \int \text{dr}_3 \ldots \text{dr}_N e^{-\beta U(r^N)}
+\end{equation}
+Bei additiven Paarpotentialen lässt sich der Boltzmannfaktor der Teilchen 1 und 2 aus dem Integral ziehen, da über sie nicht integriert wird, i.e. 
+\begin{equation}
+\rho^2 g(r_1, r_2) = e^{-\beta U(r_1, r_2)} \underbrace{N(N-1) \frac{1}{Z} \int \text{dr}_3 \ldots \text{dr}_N \exp{\left(-\beta \sum\limits_{\substack{i<j \\ i,j \neq {1,2}}} U(r^N)\right)}}_{\rho^2 y(r)}
+\end{equation}
+wobei der verbleibende Term $y(r)$ die Hintergrund-Korrelationsfunktion darstellt. Als Integral über zumindest stückweise stetige Funktionen --- auch im Grenzfall harter Kugeln --- ist die Hintergrund-Korrelationsfunktion selbst stetig. Die Paarverteilungsfunktion lässt sich nun wie folgt faktorisieren:
+\begin{equation}
+g(r) = e^{-\beta U(r)} y(r)
+\label{hintergrund-korr}
+\end{equation}
+Dies kann nun in die Formel für die Zustandsgleichung \ref{eos2} eingesetzt werden und man gelangt zu
+\begin{align*}
+\frac{p}{\rho k T} &= 1 - \frac{2\pi\rho}{3kT} \int_0^{\infty} \text{dr} r^2 e^{\beta U(r)} y(r) \left[ r U'(r) \right] \\ 
+&= 1 - \frac{2\pi\rho}{3kT} \int_0^{\infty} \text{dr} r^3 y(r) \frac{\text{d}}{\text{dr}} \left[ e^{-\beta U(r)} \right]
+\end{align*}
+Im Limes $n \rightarrow \infty$ geht die Ableitung des Boltzmannfaktors in eine Deltafunktion über und somit ergibt sich für die Zustandsgleichung harter Kugeln
+\begin{equation}
+\frac{p}{\rho k T} = 1 - \frac{2\pi\rho}{3kT} \sigma^3 y(\sigma) = 1 - \frac{2\pi\rho}{3kT} \sigma^3 g(\sigma)
+\end{equation} 
+da in diesem Grenzfall nach Gleichung \ref{hintergrund-korr} für die Paarverteilungsfunktion gilt
+\begin{equation}
+g(r) = H(r-\sigma)y(r) 
+\end{equation}  
+Die Zustandsgleichung harter Kugeln kann also über den sogenannten "`Kontaktwert"' $g(\sigma)$ der Paarverteilungsfunktion bestimmt werden. 
 
-\TODO{Herleitung Zustandsgleichung über Paarverteilungsfunktion} 
-
+Eine andere Methode zur Bestimmung der Zustandsgleichung harter Kugeln ergibt sich durch Auswertung der einzelnen Kollisionen \cite{Erpenbeck1977}. Der Druck wird hierbei wie folgt berechnet: 
 \begin{equation}
 \frac{p}{\rho k T} = 1 + \frac{1}{t_m} \sum_{Kollisionen} \vec{r}_{ij} \cdot \Delta \vec{v}_i
 \end{equation}
-wobei $\vec{r}_{ij}$ die Relativposition der beiden an der Kollision beteiligten Kugeln und $\Delta \vec{v}_i$ die Änderung der Geschwindigkeit von Kugel $i$ im Verlauf der Kollision ist.   
+wobei $\vec{r}_{ij}$ die Relativposition der beiden an der Kollision beteiligten Kugeln und $\Delta \vec{v}_i$ die Änderung der Geschwindigkeit von Kugel $i$ im Verlauf der Kollision ist.
+   
+Abbildung \ref{fig:zustandsgleichung} zeigt die thermische Zustandsgleichung für das System aus harten Kugeln mit beiden Berechnungsmethoden. Zum Vergleich mit der Theorie ist auch die Zustandsgleichung nach Carnahan und Starling \cite{Carnahan1969} aufgetragen, welche für den stabilen fluiden Bereich gilt.
+\begin{equation}
+\frac{p}{\rho kT} = \frac{1 + \eta + \eta^2 -\eta^3}{(1 - \eta)^3}
+\end{equation} 
+wobei $\eta = \frac{\pi \rho \sigma^3}{6}$ die Packungsdichte ist. Außer für sehr geringe Dichten, stimmen Theorie und Simulation im fluiden Bereich unabhängig von der Berechnungsmethode sehr gut miteinander überein. Im festen Bereich gibt es jedoch signifikante Diskrepanzen zwischen der Berechnung über den Kontaktwert $g(\sigma)$ der Paarverteilungsfunktion und der Berechnung durch den Impulsübertrag bei Kollision.   
 \begin{figure}[H]
  \centering
   \resizebox{0.9\textwidth}{!}{\input{./graphics/eos.tex}}
