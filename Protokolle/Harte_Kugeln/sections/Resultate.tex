@@ -30,7 +30,7 @@ Harte Kugeln durchlaufen einen Phasenübergang vom flüssigen zum festen Zustand
   \caption{Paarverteilungsfunktion für verschiedene Dichten $\rho$ im Bereich von 0.6 bis 0.9 (fluid) }
  \label{fig:paarverteilung2}
 \end{figure} 
- 
+
 Theoretisch sollte ein System von harten Kugeln ein fcc-Kristallgitter ausbilden, dessen Gittervektoren eine relative Länge von $r_1 : r_2 : r_3 = 1 : \sqrt{2} : \sqrt{3}$ aufweisen. Bei einer Dichte von 1.3 finden sich die Maxima der Paarverteilungsfunktion auch ziemlich genau in diesen Abständen. 
  
 \begin{figure}[H]
@@ -51,8 +51,8 @@ Alternativ kann diese Zustandsgleichung auch geschrieben werden als
 \frac{p}{\rho k T} = 1 - \frac{2\pi\rho}{3kT} \int_0^{\infty} \text{dr} r^2 g(r) r U'(r)  
 \label{eos2}
 \end{equation}
-Da harte Kugeln allerdings ein nicht-differenzierbares Potential besitzen und demnach keine Kraft auf sie wirkt, solange sie nicht aneinander stoßen, muss die Berechnung der Zustandsgleichung für harte Kugeln etwas abgeändert werden.
-Zu diesem Zweck sieht man ein System harter Kugeln als den Grenzfall eines Systems "`weicher Kugeln"' mit dem Potential 
+
+Da harte Kugeln allerdings ein nicht-differenzierbares Potential besitzen und demnach keine Kraft auf sie wirkt, solange sie nicht aneinander stoßen, muss die Berechnung der Zustandsgleichung für harte Kugeln etwas abgeändert werden. Zu diesem Zweck sieht man ein System harter Kugeln als den Grenzfall eines Systems "`weicher Kugeln"' mit dem Potential 
 \begin{equation}
 U_{soft}(r) = \epsilon \left(\frac{\sigma}{r}\right)^n 
 \end{equation}
@@ -88,12 +88,14 @@ g(r) = H(r-\sigma)y(r)
 \end{equation}  
 Die Zustandsgleichung harter Kugeln kann also über den sogenannten "`Kontaktwert"' $g(\sigma)$ der Paarverteilungsfunktion bestimmt werden. 
 
+
 Eine andere Methode zur Bestimmung der Zustandsgleichung harter Kugeln ergibt sich durch Auswertung der einzelnen Kollisionen \cite{Erpenbeck1977}. Der Druck wird hierbei wie folgt berechnet: 
 \begin{equation}
 \frac{p}{\rho k T} = 1 + \frac{1}{t_m} \sum_{Kollisionen} \vec{r}_{ij} \cdot \Delta \vec{v}_i
 \end{equation}
 wobei $\vec{r}_{ij}$ die Relativposition der beiden an der Kollision beteiligten Kugeln und $\Delta \vec{v}_i$ die Änderung der Geschwindigkeit von Kugel $i$ im Verlauf der Kollision ist.
    
+
 Abbildung \ref{fig:zustandsgleichung} zeigt die thermische Zustandsgleichung für das System aus harten Kugeln mit beiden Berechnungsmethoden. Zum Vergleich mit der Theorie ist auch die Zustandsgleichung nach Carnahan und Starling \cite{Carnahan1969} aufgetragen, welche für den stabilen fluiden Bereich gilt.
 \begin{equation}
 \frac{p}{\rho kT} = \frac{1 + \eta + \eta^2 -\eta^3}{(1 - \eta)^3}
@@ -124,11 +126,16 @@ wobei $\rho^*= \rho \sigma^3$ die reduzierte Dichte ist und $D_0 = \frac{3}{8} \
  \label{fig:diffusion}
 \end{figure} 
 
+\subsection{Freie Bewegungszeiten}
+Anschließend wurden noch die freien Bewegungszeiten --- also die Zeiten zwischen zwei Stößen --- untersucht und deren Wahrscheinlichkeitsverteilung analysiert. Bei geringen Dichten kann man molekulares Chaos annehmen und kommt somit zu dem Schluss, dass die Wahrscheinlichkeitsverteilung $p(\tau)$ einem exponentiellen Abfall folgt.
+\begin{equation}
+p(\tau) = c\cdot e^{-\frac{\tau}{\tau_0}}
+\end{equation} 
+wobei $c$ nur eine Normierungskonstante ist, sodass $\int_0^{\infty} p(\tau) \text{d}\tau = 1$. Um dies zu überprüfen und den Parameter $\tau_0$ zu bestimmen, welcher von der Dichte $\rho$ abhängt, wurde der Logarithmus der Wahrscheinlichkeitsverteilung $p(\tau)$ an eine lineare Funktion $f(\tau) = a\cdot \tau + b$ angepasst. Abbildung \ref{fig:flight} zeigt den so berechneten Parameter $\tau_0$ in Abhängigkeit von der Dichte $\rho$. Statt $\tau_0$ wurde allerdings sein Inverses aufgetragen, da sich hier eine annähernd lineare Abhängigkeit von der Dichte im Bereich verdünnter (fluider) Systeme zeigt. Dies ist im Einklang mit den Resultaten von Wiegel und Michels \cite{Wiegel1979}. 
 
 \begin{figure}[H]
  \centering
-  \resizebox{0.9\textwidth}{!}{\input{./graphics/flighttime_rho02.tex}}
- \caption{flight}
+  \resizebox{0.9\textwidth}{!}{\input{./graphics/flight_fit_inverse.tex}}
+ \caption{Durch linearen Fit bestimmte Konstante $\tau_0$ in Abhängigkeit von $\rho$}
  \label{fig:flight}
 \end{figure} 
-\subsection{Collisionszeiten}
