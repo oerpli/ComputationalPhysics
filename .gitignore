@@ -198,3 +198,6 @@ FakesAssemblies/
 /.settings/
 *.bbl
 *.blg
+
+#sonstiges
+*.bak
