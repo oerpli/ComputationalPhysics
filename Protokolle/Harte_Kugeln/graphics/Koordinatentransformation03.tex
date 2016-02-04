@@ -1,0 +1,26 @@
+% !TeX root = ../Harte_Kugeln.tex
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}
+    \coordinate (Origin)   at (0,0);
+    \coordinate (OL) at (0,\BoxH);
+    \coordinate (OR) at (\BoxW,\BoxH);
+    \coordinate (UR) at (\BoxW,0);
+    
+    \draw [very thick] (Origin) -- (OL) -- (OR) -- (UR) -- (Origin);
+    
+    \coordinate [label={below:$K_2$}] (K2) at (\BoxC);
+    \drawKugel{K2};
+    
+    \coordinate [label={below:$K_1$}] (K1) at (\BoxWh+\Dx,\BoxHh+\Dy+\BoxH);
+    \drawKugel{K1};
+    
+	\draw[-latex, thick] (K2) -- (K1) node[midway,above,sloped] {$\vdis$};
+	
+	\draw[-latex, thick] (K1) -- (\BoxWh+\Dx+\vxa, \BoxHh+\Dy+\BoxH+\vya) node[midway,above,sloped] {$\vec{v}_1$};
+	\draw[-latex, thick] (K2) -- (\BoxWh+\vxb, \BoxHh+\vyb) node[midway,below,sloped] {$\vec{v}_2$};
+  \end{tikzpicture}
+  \caption{Kugel 1 wieder in die Box zurück gesetzt.}
+  \label{fig:Koortrans03}
+\end{figure}
