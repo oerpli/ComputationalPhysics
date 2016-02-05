@@ -124,4 +124,16 @@ wobei $\rho^*= \rho \sigma^3$ die reduzierte Dichte ist und $D_0 = \frac{3}{8} \
  \label{fig:diffusion}
 \end{figure} 
 
-\subsection{Kollisionszeiten}
+\subsection{Freie Bewegungszeiten}
+Anschließend wurden noch die freien Bewegungszeiten --- also die Zeiten zwischen zwei Stößen --- untersucht und deren Wahrscheinlichkeitsverteilung analysiert. Bei geringen Dichten kann man molekulares Chaos annehmen und kommt somit zu dem Schluss, dass die Wahrscheinlichkeitsverteilung $p(\tau)$ einem exponentiellen Abfall folgt.
+\begin{equation}
+p(\tau) = c\cdot e^{-\frac{\tau}{\tau_0}}
+\end{equation} 
+wobei $c$ nur eine Normierungskonstante ist, sodass $\int_0^{\infty} p(\tau) \text{d}\tau = 1$. Um dies zu überprüfen und den Parameter $\tau_0$ zu bestimmen, welcher von der Dichte $\rho$ abhängt, wurde der Logarithmus der Wahrscheinlichkeitsverteilung $p(\tau)$ an eine lineare Funktion $f(\tau) = a\cdot \tau + b$ angepasst. Abbildung \ref{fig:flight} zeigt den so berechneten Parameter $\tau_0$ in Abhängigkeit von der Dichte $\rho$. Statt $\tau_0$ wurde allerdings sein Inverses aufgetragen, da sich hier eine annähernd lineare Abhängigkeit von der Dichte im Bereich verdünnter (fluider) Systeme zeigt. Dies ist im Einklang mit den Resultaten von Wiegel und Michels \cite{Wiegel1979}. 
+
+\begin{figure}[H]
+ \centering
+  \resizebox{0.9\textwidth}{!}{\input{./graphics/flight_fit_inverse.tex}}
+ \caption{Durch linearen Fit bestimmte Konstante $\tau_0$ in Abhängigkeit von $\rho$}
+ \label{fig:flight}
+\end{figure} 
