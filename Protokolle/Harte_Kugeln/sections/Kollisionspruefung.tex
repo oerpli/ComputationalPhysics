@@ -1,5 +1,5 @@
 % !TeX root = ../Harte_Kugeln.tex
-\subsection{Kollisionsprüfung} % Probenentnahme? Messungsintervalle? 
+\subsubsection{Kollisionsprüfung} % Probenentnahme? Messungsintervalle? 
 
 %Parameter zur Darstellung der Box und Kugeln in diesem Absatz
 \newcommand{\BoxW}{10}
@@ -37,11 +37,11 @@
 
 %\subsubsection{Koordinatentransformation}
 Zur besseren Veranschaulichung wird der Algorithmus in 2 Dimensionen vorgestellt, er ist jedoch ohne Probleme auf beliebige Dimensionen erweiterbar.\\
-In \reffig{Koortrans01} ist die Ausgagnsposition zweier beliebiger Kugeln dargestellt. In dieser Darstellung ist eine Berechnung der Kollision erschwert da beide Kugeln ohne Kontakt und zu verschiedenen Zeiten die Betrachtete Box verlassen.
+In \reffig{Koortrans01} ist die Ausgangsposition zweier beliebiger Kugeln dargestellt. In dieser Darstellung ist eine Berechnung der Kollision erschwert da beide Kugeln ohne Kontakt und zu verschiedenen Zeiten die betrachtete Box verlassen.
 
 \input{graphics/Koordinatentransformation01}
 
-Um eine leichter zu handhabende Darstellung zu erhalten und Effekten mit Stoßpartnern am Rand unserer Box aus dem Weg zu gehen transformieren wir unser System so, dass eine Kugel im Zentrum der Box befindet. Da wir eine Box mit periodischen Randbedingungen gewählt haben ist dies ohne weiter Probleme möglich. In \reffig{Koortrans02} ist das Resultat einer solchen Verschiebung um Kugel 2 zu sehen.
+Um eine leichter zu handhabende Darstellung zu erhalten und Effekten mit Stoßpartnern am Rand unserer Box aus dem Weg zu gehen transformieren wir unser System so, dass sich eine der am berechneten Stoß beteiligten Kugeln im Zentrum der Box befindet. Da wir eine Box mit periodischen Randbedingungen gewählt haben ist dies ohne weitere Probleme möglich. In \reffig{Koortrans02} ist das Resultat einer solchen Verschiebung um Kugel 2 zu sehen.
 
 \input{graphics/Koordinatentransformation02}
 

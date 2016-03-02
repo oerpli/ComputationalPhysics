@@ -1,9 +1,8 @@
 % !TeX root = ../Harte_Kugeln.tex
-\section{Theorie }
+\section{Methode }
 \TODO[überschriften vllt anpassen]
-\subsection{Harte Kugeln}\label{sec:hk}
 Harte Kugeln sind ein vereinfachtes Modell für die Interaktion zwischen Molekülen bei der angenommen wird, dass Moleküle runde Objekte (Kugeln) sind.
-Zusätzlich werden deren Stöße als perfekt elastisch simuliert, das heißt, dass keine Energie durch Zustandsänderung der Kugeln zugeführt wird oder verloren geht (keine Deformation oder Erwärmung der Kugeln sowie kein Drehimpuls). Die Kugeln bewegen sich daher frei mit konstantem Impuls und konstanter Energie, bis sie auf eine andere Kugel (oder bei nicht periodischen Randbedingungen auf die Grenze der Simulation) stoßen. Das \TODO[Potential] eines derartigen Moleküls ist in Abb. \ref{fig:hkpotential} dargestellt.
+Zusätzlich werden deren Stöße als perfekt elastisch simuliert, das heißt, dass keine Energie durch Zustandsänderung der Kugeln zugeführt wird oder verloren geht (keine Deformation oder Erwärmung der Kugeln sowie kein Drehimpuls). Die Kugeln bewegen sich daher frei mit konstantem Impuls und konstanter Energie, bis sie auf eine andere Kugel (oder bei nicht periodischen Randbedingungen auf die Grenze der Simulation) stoßen. Das Potential eines derartigen Moleküls ist in Abb. \ref{fig:hkpotential} dargestellt.
 \begin{figure}[H] \centering
 \begin{tikzpicture}
 	\begin{axis}[
@@ -14,7 +13,7 @@ Zusätzlich werden deren Stöße als perfekt elastisch simuliert, das heißt, da
 		 yticklabels={$0$,$\infty$},
 		ylabel={$U(r) = \delta(r-R)$}
 	]
-\addplot+[color=blue,thick] coordinates { (0,2) (2,2)  (2,0) (9,0) }; % + wegmachen wenn punkte stören
+%\addplot+[color=blue,thick] coordinates { (0,2) (2,2)  (2,0) (9,0) }; % + wegmachen wenn punkte stören
 \addplot[color=red] coordinates { (0,0) (2,0) (2,10) (2,0) (9,0) };    % auskommentieren je nachdem welcher plot besser ist (ggfs Achse anpassen)
 \end{axis}
 \end{tikzpicture}
@@ -31,6 +30,17 @@ Die Motivation der Methode ist, dass bei herkömmlicher MD (Molekulardynamik) mi
 % erweitern?
 
 \subsection{Berechnung der Stöße}
+\newcommand{\reffig}[1]{Abbildung \ref{fig:#1}}
+
+Um die nächste Stoßzeit zu ermitteln genügt es, sich jeweils Zwei Kugeln anzusehen und sich deren Kollisionszeit zu berechnen. Weiß man die Kollisionszeiten aller Kugeln im System, so weiß man auch den Zeitpunkt der nächsten Kollision. Man muss also nicht das System als ganzes betrachten, es genügt das Verhalten von jeweils zwei Kugeln zu kennen.
+Im Zentrum der Simulation steht somit der Algorithmus zur Erkennung ob und wann zwei Kugeln einander stoßen werden. 
+Da wir eine Box mit periodischen Randbedingungen betrachten, muss der gewählte Algorithmus auch mit Kugeln am Rand der Box klarkommen. Unser Ansatz beruht auf einer Koordinatentransformation und wird in diesem Kapitel näher beschrieben.
+
+
+\input{sections/Kollisionspruefung}
+
+
+\subsubsection{Berechnung der Impulsänderung durch Stöße}
 Der Berechnung der Stöße liegt die Erhaltung von Impuls und Energie zugrunde. Wenn zwei Kugeln mit Massen $m_1,m_2$ und Geschwindigkeiten $v_1,v_2$ aufeinandertreffen verlassen verändern sich die Geschwindigkeiten zu $v_1'$ und $v_2'$.
 \begin{align*}
 m_1v_1 + m_2v_2 &= m_1v_1'+m_2v_2'\\
@@ -94,5 +104,5 @@ Aus den Erhaltungssätzen und dieser Überlegung lässt sich dann das Verhalten 
   	\fill [black] (\point) circle (1pt) ;
 \end{tikzpicture}
 \caption{Stoß von 2 Kugeln in 3 Dimensionen (ganz links) kann auf 2 dimensionalen Fall reduziert werden (mitte links) bei dem eine Kugel vor dem Stoß ruht (mitte rechts). Geschwindigkeiten vor dem Stoß jeweils in rot, Geschwindigkeiten der Kugeln nach dem Stoß jeweils in blau }
- \label{fig:hkpotential}
+ \label{fig:kugelnstoss}
 \end{figure} 
