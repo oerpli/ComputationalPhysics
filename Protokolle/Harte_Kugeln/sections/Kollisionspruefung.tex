@@ -41,15 +41,15 @@ In \reffig{Koortrans01} ist die Ausgangsposition zweier beliebiger Kugeln darges
 
 \input{graphics/Koordinatentransformation01}
 
-Um eine leichter zu handhabende Darstellung zu erhalten und Effekten mit Stoßpartnern am Rand unserer Box aus dem Weg zu gehen transformieren wir unser System so, dass sich eine der am berechneten Stoß beteiligten Kugeln im Zentrum der Box befindet. Da wir eine Box mit periodischen Randbedingungen gewählt haben ist dies ohne weitere Probleme möglich. In \reffig{Koortrans02} ist das Resultat einer solchen Verschiebung um Kugel 2 zu sehen.
+Um eine leichter zu handhabende Darstellung zu erhalten und Effekten mit Stoßpartnern am Rand unserer Box aus dem Weg zu gehen transformieren wir unser System so, dass sich eine der am berechneten Stoß beteiligten Kugeln im Zentrum der Box befindet. Da wir eine Box mit periodischen Randbedingungen gewählt haben ist dies ohne weitere Probleme möglich. In \reffig{Koortrans02} ist das Resultat einer solchen Verschiebung von Kugel 2 ins Zentrum zu sehen.
 
 \input{graphics/Koordinatentransformation02}
 
-Da es durch die Verschiebung dazu kommen kann, dass Kugel 1 die betrachtete Box verlässt, wie in \reffig{Koortrans03} zu sehen, muss sie durch Anwendung der Randbedingungen wieder in die Box gelegt werden.
+Da es durch die Verschiebung dazu kommen kann, dass Kugel 1 die betrachtete Box verlässt, wie in \reffig{Koortrans03} zu sehen, muss sie durch Anwendung der Randbedingungen wieder in die Box transferiert werden.
 
 \input{graphics/Koordinatentransformation03}
 
-Es ist nur Relativgeschwindigkeit der beiden Kugeln entscheidend und daher kann die Kugel im Zentrum als in Ruhe betrachten, solange sich die andere Kugeln mit der Relativgeschwindigkeit $\vvel=\vec{v}_1-\vec{v}_2$ bewegt.
+Es ist nur die Relativgeschwindigkeit der beiden Kugeln entscheidend und daher kann man die Kugel im Zentrum als sich in Ruhe befindend betrachten, solange sich die andere Kugeln mit der Relativgeschwindigkeit $\vvel=\vec{v}_1-\vec{v}_2$ bewegt.
  
 \input{graphics/Koordinatentransformation04}
 
@@ -74,5 +74,5 @@ und nach Auflösen nach der Kollisionszeit $t$
 	t_{1,2}=\frac{\vdis\cdot\vvel \pm \sqrt{\left(\vdis\cdot\vvel\right)^2 - \vdissq\vvelsq + \vvelsq\dia^2}}{\vvelsq}.
 \end{equation}
 
-Die Berechnung kann noch vereinfacht werden. Wie man in \reffig{Koortrans04} sieht, kann es nur zu einer Kollision kommen wenn $\vdis\cdot\vvel < 0$ ist. Daher kann nur die Addition des Wurzelterms zu einem Ergebnis mit positiver Zeit führen.\\
+Die Berechnung kann allerdings noch weiter vereinfacht werden. Wie man in \reffig{Koortrans04} sieht, kann es nur zu einer Kollision kommen wenn $\vdis\cdot\vvel < 0$ ist. Daher kann nur die Addition des Wurzelterms zu einem Ergebnis mit positiver Zeit führen.\\
 Kommt es zu keinem Stoß in dieser Box, so verlässt Kugel 1 die Box und wird, entsprechend den Randbedingungen des Systems, wieder zurückgesetzt.
