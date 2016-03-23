@@ -32,7 +32,7 @@ Die Motivation der Methode ist, dass bei herkömmlicher MD (Molekulardynamik) mi
 \subsection{Berechnung der Stöße}
 \newcommand{\reffig}[1]{Abbildung \ref{fig:#1}}
 
-Um die nächste Stoßzeit zu ermitteln genügt es, sich jeweils Zwei Kugeln anzusehen und sich deren Kollisionszeit zu berechnen. Weiß man die Kollisionszeiten aller Kugeln im System, so weiß man auch den Zeitpunkt der nächsten Kollision. Man muss also nicht das System als ganzes betrachten, es genügt das Verhalten von jeweils zwei Kugeln zu kennen.
+Um die nächste Stoßzeit zu ermitteln genügt es, sich jeweils zwei Kugeln anzusehen und deren Kollisionszeit zu berechnen. Weiß man die Kollisionszeiten aller Kugeln im System, so weiß man auch den Zeitpunkt der nächsten Kollision. Man muss also nicht das System als ganzes betrachten, es genügt das Verhalten von jeweils zwei Kugeln zu kennen.
 Im Zentrum der Simulation steht somit der Algorithmus zur Erkennung ob und wann zwei Kugeln einander stoßen werden. 
 Da wir eine Box mit periodischen Randbedingungen betrachten, muss der gewählte Algorithmus auch mit Kugeln am Rand der Box klarkommen. Unser Ansatz beruht auf einer Koordinatentransformation und wird in diesem Kapitel näher beschrieben.
 
@@ -41,13 +41,13 @@ Da wir eine Box mit periodischen Randbedingungen betrachten, muss der gewählte 
 
 
 \subsubsection{Berechnung der Impulsänderung durch Stöße}
-Der Berechnung der Stöße liegt die Erhaltung von Impuls und Energie zugrunde. Wenn zwei Kugeln mit Massen $m_1,m_2$ und Geschwindigkeiten $v_1,v_2$ aufeinandertreffen verlassen verändern sich die Geschwindigkeiten zu $v_1'$ und $v_2'$.
+Der Berechnung der Stöße liegt die Erhaltung von Impuls und Energie zugrunde. Wenn zwei Kugeln mit Massen $m_1,m_2$ und Geschwindigkeiten $v_1,v_2$ aufeinandertreffen, verändern sich die Geschwindigkeiten zu $v_1'$ und $v_2'$.
 \begin{align*}
 m_1v_1 + m_2v_2 &= m_1v_1'+m_2v_2'\\
 \frac{m_1v^2_1}{2}\frac{m_2v^2_2}{2} &= \frac{m_1v'^2_1}{2}\frac{m_2v'^2_2}{2}
 \end{align*}
 \\
-Da bei einem Stoß nur eine Kraft normal auf die Kugeln (parallel zum Vektor $\vec r_{12} = \vec r_2 - \vec r_1$  zwischen den beiden Kugelmittelpunkten $\vec r_i, i\in \{1,2\}$ wirkt ist auch nur die entsprechende Komponente der Geschwindigkeit betroffen.\\
+Da bei einem Stoß nur eine Kraft normal auf die Kugeln (parallel zum Vektor $\vec r_{12} = \vec r_2 - \vec r_1$) zwischen den beiden Kugelmittelpunkten $\vec r_i, i\in \{1,2\}$ wirkt, ist auch nur die entsprechende Komponente der Geschwindigkeit betroffen.\\
 Aus den Erhaltungssätzen und dieser Überlegung lässt sich dann das Verhalten der Kugeln bei einem Stoß herleiten:
 \begin{align*}
 \vec v_1' &= \vec v_1 + \Delta \vec v\\
