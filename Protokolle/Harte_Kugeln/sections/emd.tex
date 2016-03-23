@@ -1,8 +1,8 @@
 % !TeX root = ../Harte_Kugeln.tex
 \section{Methode }
 %\TODO[überschriften vllt anpassen]
-Harte Kugeln sind ein vereinfachtes Modell für die Interaktion zwischen Molekülen bei der angenommen wird, dass Moleküle runde Objekte (Kugeln) sind.
-Zusätzlich werden deren Stöße als perfekt elastisch simuliert, das heißt, dass keine Energie durch Zustandsänderung der Kugeln zugeführt wird oder verloren geht (keine Deformation oder Erwärmung der Kugeln sowie kein Drehimpuls). Die Kugeln bewegen sich daher frei mit konstantem Impuls und konstanter Energie, bis sie auf eine andere Kugel (oder bei nicht periodischen Randbedingungen auf die Grenze der Simulation) stoßen. Das Potential eines derartigen Moleküls ist in Abb. \ref{fig:hkpotential} dargestellt.
+Harte Kugeln sind ein vereinfachtes Modell für die Interaktion zwischen Molekülen bei der angenommen wird, dass Moleküle runde Objekte (Kugeln) sind, welche nur durch elastische Stöße miteinander wechselwirken.
+Dass die Stöße elastisch sind, bedeutet, dass keine Energie durch Zustandsänderung der Kugeln zugeführt wird oder verloren geht. Es findet also weder Deformation noch Erwärmung der Kugeln statt und auch der Drehimpuls spielt keine Rolle. Die Kugeln bewegen sich daher frei mit konstantem Impuls und konstanter Energie, bis sie auf eine andere Kugel --- oder bei nicht periodischen Randbedingungen auf die Grenze der Simulation --- stoßen. Das Potential eines derartigen Moleküls ist in Abb. \ref{fig:hkpotential} dargestellt.
 \begin{figure}[H] \centering
 \begin{tikzpicture}
 	\begin{axis}[
@@ -22,11 +22,11 @@ Zusätzlich werden deren Stöße als perfekt elastisch simuliert, das heißt, da
 \end{figure} 
 \subsection{Ereignisbasierte Molekulardynamik}
 
-Im Gegensatz zur herkömmlichen Molekulardynamik bei der die Bewegung der Moleküle aus Integration der wirkenden Kräfte mit einem konstanten Zeitschritt folgt wird bei der ereignisbasierten Molekulardynamik ein Index über alle (zumindest alle relevanten) in der Zukunft liegenden Stöße geführt. Nach jedem Stoß wird die Zeit bis zum nächsten Stoß ``vorgespult'', eine Kollision berechnet und der Index aktualisiert.
+Im Gegensatz zur herkömmlichen Molekulardynamik, bei der die Bewegung der Moleküle aus Integration der wirkenden Kräfte mit einem konstanten Zeitschritt folgt, wird bei der ereignisbasierten Molekulardynamik eine Liste über alle (zumindest alle relevanten) in der Zukunft liegenden Stöße geführt. Nach jedem Stoß wird die Zeit bis zum nächsten Stoß ``vorgespult'', eine Kollision berechnet und die Liste aktualisiert.
 
 %Das untersuchte System war eine Box mit periodischen Randbedingungen gefüllt mit harten Kugeln (\ref{sec:hk})
 
-Die Motivation der Methode ist, dass bei herkömmlicher MD (Molekulardynamik) mit konstantem Zeitschritt zwischen zwei Stößen viele unnötige Berechnungen durchgeführt werden. Wenn man den Zeitschritt größer macht würde sich diese Anzahl zwar senken, dafür hätte man bei Stößen das Problem, dass sich eine Kugel innerhalb eines Zeitschritts in eine andere hineinbewegen könnte was dann entweder zu Ungenauigkeiten oder zusätzlichem Rechenaufwand (Zeit zurück drehen und mit kleineren Zeitschritten sondieren) führt.
+Die Motivation der Methode ist, dass bei herkömmlicher MD (Molekulardynamik) mit konstantem Zeitschritt zwischen zwei Stößen viele unnötige Berechnungen durchgeführt werden. Wenn man den Zeitschritt größer macht würde sich diese Anzahl zwar senken, dafür hätte man bei Stößen das Problem, dass sich eine Kugel innerhalb eines Zeitschritts in eine andere hinein bewegen könnte, was dann entweder zu Ungenauigkeiten oder zusätzlichem Rechenaufwand (Zeit zurück drehen und mit kleineren Zeitschritten sondieren) führt.
 % erweitern?
 
 \subsection{Berechnung der Stöße}
