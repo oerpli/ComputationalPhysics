@@ -1,4 +1,5 @@
 % !TeX root = ../Harte_Kugeln.tex
+Um eine statistische Auswertung der zu untersuchenden Eigenschaften zu ermöglichen, wurden die zu erhebenden Daten in konstanten Zeitabständen berechnet und gespeichert. Da die Simulation aber in nicht-konstanten Zeitschritten voranschreitet, wurde vor jedem neuen Stoß ermittelt, ob zwischen dem neuen und dem letzten ein Daten-Sampling stattfinden sollte. Falls dem so wäre, wurde die Zeit des Systems bis zum Auswertungszeitpunkt ``vorgespult'' --- sprich: alle Kugeln ballistisch für die Zeit $\Delta t$ bewegt ---, die Ergebnisse in ein File geschrieben und erst anschließend der Stoß durchgeführt.   
 \subsection{Paarverteilungsfunktion}
 Eine Flüssigkeit oder ein Gas mit rein additiven Paarwechselwirkungen kann durch die sogenannte Paarverteilungsfunktion --- manchmal auch Paarkorrelationsfunktion oder radiale Verteilungsfunktion --- $g(r)$ vollständig charakterisiert werden. Diese Funktion gibt Aufschluss über die kurzreichweitige Struktur des Fluids --- also seine Nahordnung. Sie beschreibt die Häufigkeit, mit der sich zwei Teilchen in einem gewissen Abstand $r$ voneinander entfernt befinden, bezogen auf die jeweilige Häufigkeit in einem idealen Gas. Die Paarverteilungsfunktion ist demnach gegeben durch
 \begin{equation}
@@ -14,7 +15,7 @@ g(\vec{r}) = \frac{1}{\rho N} \langle \sum_{j\neq i} \delta^{(3)}(\vec{r}-\vec{r
 \end{equation} 
 Häufig wird aber auch die winkelgemittelte Version verwendet, welche dann mit der Definition der Paarverteilungsfunktion für Fluide übereinstimmt. 
 
-Abbildungen \ref{fig:paarverteilung1}, \ref{fig:paarverteilung2} und \ref{fig:paarverteilung3} zeigen die Paarverteilungsfunktionen des Systems von Harte Kugeln für verschiedene Dichten $\rho$ von 0.2 bis 1.3. Die Entstehung von Nahordnung beim Übergang vom gasförmigen zum flüssigen Zustand mit zunehmender Dichte lässt sich gut anhand von Abbildung \ref{fig:paarverteilung1} erkennen. Im ungeordneten (gasförmigen) Zustand nimmt die Paarverteilungsfunktion mit der Entfernung monoton ab, während sich beim Phasenübergang zur Flüssigkeit ein zweites Maximum ausbildet. 
+Abbildungen \ref{fig:paarverteilung1}, \ref{fig:paarverteilung2} und \ref{fig:paarverteilung3} zeigen die Paarverteilungsfunktionen des Systems von harten Kugeln für verschiedene Dichten $\rho$ von 0.2 bis 1.3. Die Entstehung von Nahordnung beim Übergang vom gasförmigen zum flüssigen Zustand mit zunehmender Dichte lässt sich gut anhand von Abbildung \ref{fig:paarverteilung1} erkennen. Im ungeordneten (gasförmigen) Zustand nimmt die Paarverteilungsfunktion mit der Entfernung monoton ab, während sich beim Phasenübergang zur Flüssigkeit ein zweites Maximum ausbildet. 
 \begin{figure}[H]
  \centering
  \resizebox{0.9\textwidth}{!}{\input{./graphics/PairDistribution1.tex}}
