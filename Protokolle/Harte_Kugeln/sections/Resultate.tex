@@ -1,6 +1,6 @@
 % !TeX root = ../Harte_Kugeln.tex
 Um eine statistische Auswertung der zu untersuchenden Eigenschaften zu ermöglichen, wurden die zu erhebenden Daten in konstanten Zeitabständen berechnet und gespeichert. Da die Simulation aber in nicht-konstanten Zeitschritten voranschreitet, wurde vor jedem neuen Stoß ermittelt, ob zwischen dem neuen und dem letzten ein Daten-Sampling stattfinden sollte. Falls dem so wäre, wurde die Zeit des Systems bis zum Auswertungszeitpunkt ``vorgespult'' --- sprich: alle Kugeln ballistisch für die Zeit $\Delta t$ bewegt ---, die Ergebnisse in ein File geschrieben und erst anschließend der Stoß durchgeführt.   
-\subsection{Paarverteilungsfunktion}
+\subsection{Paarverteilungsfunktion}\label{sec:paarverteilung}
 Eine Flüssigkeit oder ein Gas mit rein additiven Paarwechselwirkungen kann durch die sogenannte Paarverteilungsfunktion --- manchmal auch Paarkorrelationsfunktion oder radiale Verteilungsfunktion --- $g(r)$ vollständig charakterisiert werden. Diese Funktion gibt Aufschluss über die kurzreichweitige Struktur des Fluids --- also seine Nahordnung. Sie beschreibt die Häufigkeit, mit der sich zwei Teilchen in einem gewissen Abstand $r$ voneinander entfernt befinden, bezogen auf die jeweilige Häufigkeit in einem idealen Gas. Die Paarverteilungsfunktion ist demnach gegeben durch
 \begin{equation}
 g(r) = \frac{1}{4\pi r^2 \rho} \langle \sum_{j\neq i} \delta(r-r_{ij}) \rangle
@@ -103,10 +103,10 @@ wobei $\eta = \frac{\pi \rho \sigma^3}{6}$ die Packungsdichte ist. Außer für s
 \begin{figure}[H]
  \centering
   \resizebox{0.9\textwidth}{!}{\input{./graphics/eos.tex}}
- \caption{Thermische Zustandsgleichung des Systems aus harten Kugeln}
+ \caption{Thermische Zustandsgleichung des Systems aus harten Kugeln. Strichlierte vertikale Linien zeigen das 2-Phasengebiet an.}
  \label{fig:zustandsgleichung}
 \end{figure} 
-
+Hierbei sei angemerkt, dass Molekulardynamik sowie auch Monte Carlo Simulationen bei sehr geringen Dichten den Phasenraum des Systems nur schlecht abtasten und dass somit die Statistik in diesem Bereich noch fehlerbehaftet sein kann. Bei einer Dichte von $\rho = 1.0 $ gelten die selben Argumente für das 2-Phasengebiet, die schon in Kapitel \ref{sec:paarverteilung} angeführt wurden. 
 
 \subsection{Diffusion}
 Des weiteren wurde die Diffusionskonstante $D$ für verschiedene Werte der Dichte $\rho$ berechnet. Sie ergibt sich nach der Green-Kubo-Relation aus dem Integral über die Geschwindigkeits-Autokorrelationsfunktion $C(t)$.
@@ -124,17 +124,41 @@ wobei $\rho^*= \rho \sigma^3$ die reduzierte Dichte ist und $D_0 = \frac{3}{8} \
  \caption{Diffusionskonstante bei harten Kugeln}
  \label{fig:diffusion}
 \end{figure} 
-
-\subsection{Freie Bewegungszeiten}
-Anschließend wurden noch die freien Bewegungszeiten --- also die Zeiten zwischen zwei Stößen --- untersucht und deren Wahrscheinlichkeitsverteilung analysiert. Bei geringen Dichten kann man molekulares Chaos annehmen und kommt somit zu dem Schluss, dass die Wahrscheinlichkeitsverteilung $p(\tau)$ einem exponentiellen Abfall folgt.
-\begin{equation}
-p(\tau) = c\cdot e^{-\frac{\tau}{\tau_0}}
-\end{equation} 
-wobei $c$ nur eine Normierungskonstante ist, sodass $\int_0^{\infty} p(\tau) \text{d}\tau = 1$. Um dies zu überprüfen und den Parameter $\tau_0$ zu bestimmen, welcher von der Dichte $\rho$ abhängt, wurde der Logarithmus der Wahrscheinlichkeitsverteilung $p(\tau)$ an eine lineare Funktion $f(\tau) = a\cdot \tau + b$ angepasst. Abbildung \ref{fig:flight} zeigt den so berechneten Parameter $\tau_0$ in Abhängigkeit von der Dichte $\rho$. Statt $\tau_0$ wurde allerdings sein Inverses aufgetragen, da sich hier eine annähernd lineare Abhängigkeit von der Dichte im Bereich verdünnter (fluider) Systeme zeigt. Dies ist im Einklang mit den Resultaten von Wiegel und Michels \cite{Wiegel1979}. 
+Zur Veranschaulichung zeigen Abbildungen \ref{fig:autocorr-fluid} und \ref{fig:autocorr-solid} nun noch die Geschwindigkeits-Autokorrelationsfunktionen für jeweils eine Dichte der fluiden bzw. festen Phase. Während die Autokorrelationsfunktion in der fluiden Phase exponentiell abfällt, wird sie in der festen Phase negativ bevor sie gegen 0 konvertiert. Das rührt daher, dass die einzelnen Kugeln im Kristall nur um ihre mittlere Position schwingen und nicht durch den Kristall diffundieren. Dies sieht man auch anhand von Abbildung \ref{fig:diffusion} - die Diffusionskonstante fällt im Festkörper auf 0. 
 
 \begin{figure}[H]
  \centering
-  \resizebox{0.9\textwidth}{!}{\input{./graphics/flight_fit_inverse.tex}}
+  \resizebox{0.9\textwidth}{!}{\input{./graphics/autocorrelation-fluid.tex}}
+ \caption{Geschwindigkeits-Autokorrelationsfunktion $C(t)$ in der fluiden Phase bei $\rho = 0.4$}
+ \label{fig:autocorr-fluid}
+\end{figure} 
+
+\begin{figure}[H]
+ \centering
+  \resizebox{0.9\textwidth}{!}{\input{./graphics/autocorrelation-solid.tex}}
+ \caption{Geschwindigkeits-Autokorrelationsfunktion $C(t)$ in der festen Phase bei $\rho = 1.1$}
+ \label{fig:autocorr-solid}
+\end{figure} 
+  
+
+\subsection{Freie Bewegungszeiten}
+Anschließend wurden noch die freien Bewegungszeiten --- also die Zeiten zwischen zwei Stößen --- untersucht und deren Wahrscheinlichkeitsverteilung analysiert. Bei geringen Dichten kann man molekulares Chaos annehmen und kommt somit zu dem Schluss, dass die Wahrscheinlichkeitsverteilung $p(\tau)$ einem exponentiellen Abfall folgt \cite{Wiegel1976}.
+\begin{equation}
+p(\tau) = c\cdot e^{-\frac{\tau}{\tau_0}}
+\end{equation} 
+wobei $c$ nur eine Normierungskonstante ist, sodass $\int_0^{\infty} p(\tau) \text{d}\tau = 1$ -- demnach ist $C = \frac{1}{\tau_0}$. Um dies zu überprüfen und den Parameter $\tau_0$ zu bestimmen, welcher von der Dichte $\rho$ abhängt, wurde der Logarithmus der Wahrscheinlichkeitsverteilung $p(\tau)$ an eine lineare Funktion $f(\tau) = a\cdot \tau + b$ angepasst. Abbildung \ref{fig:collisionfit} zeigt die Wahrscheinlichkeitsverteilung bei einer Dichte von $\rho = 0.6$ und soll zur Veranschaulichung der Durchführung der Bestimmung der Konstante $\tau_0$ dienen. Es sei angemerkt, dass die Werte für $\tau > 0.008$ schon so weit auf 0 herabgefallen sind, dass sie nicht mehr für die statistische Auswertung herangezogen werden konnten. 
+
+\begin{figure}[H]
+ \centering
+  \resizebox{0.9\textwidth}{!}{\input{./graphics/collisionfitrho06.tex}}
+ \caption{Wahrscheinlichkeitsverteilung der freien Bewegungszeiten $p(\tau)$ bei $\rho = 0.6$ in logarithmischer Auftragung und linearer Fit zur Bestimmung von $\tau_0$}
+ \label{fig:collisionfit}
+\end{figure} 
+Abbildung \ref{fig:flight} zeigt den so berechneten Parameter $\tau_0$ in Abhängigkeit von der Dichte $\rho$. Statt $\tau_0$ wurde allerdings sein Inverses aufgetragen, da sich hier eine annähernd lineare Abhängigkeit von der Dichte im Bereich verdünnter (fluider) Systeme zeigt. Dies ist im Einklang mit den Resultaten von Wiegel und Michels \cite{Wiegel1979}. 
+
+\begin{figure}[H]
+ \centering
+  \resizebox{0.9\textwidth}{!}{\input{./graphics/flighttimes.tex}}
  \caption{Durch linearen Fit bestimmte Konstante $\tau_0$ in Abhängigkeit von $\rho$}
  \label{fig:flight}
 \end{figure} 
