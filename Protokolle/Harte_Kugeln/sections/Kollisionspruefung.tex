@@ -37,11 +37,11 @@
 
 %\subsubsection{Koordinatentransformation}
 Zur besseren Veranschaulichung wird der Algorithmus in 2 Dimensionen vorgestellt, er ist jedoch ohne Probleme auf beliebige Dimensionen erweiterbar.\\
-In \reffig{Koortrans01} ist die Ausgangsposition zweier beliebiger Kugeln dargestellt. In dieser Darstellung ist eine Berechnung der Kollision erschwert da beide Kugeln ohne Kontakt und zu verschiedenen Zeiten die betrachtete Box verlassen.
+In \reffig{Koortrans01} ist die Ausgangsposition zweier beliebiger Kugeln dargestellt. In dieser Darstellung ist eine Berechnung der Kollision erschwert da beide Kugeln ohne Kontakt sind und zu verschiedenen Zeiten die betrachtete Box verlassen.
 
 \input{graphics/Koordinatentransformation01}
 
-Um eine leichter zu handhabende Darstellung zu erhalten und Effekten mit Stoßpartnern am Rand unserer Box aus dem Weg zu gehen transformieren wir unser System so, dass sich eine der am berechneten Stoß beteiligten Kugeln im Zentrum der Box befindet. Da wir eine Box mit periodischen Randbedingungen gewählt haben ist dies ohne weitere Probleme möglich. In \reffig{Koortrans02} ist das Resultat einer solchen Verschiebung von Kugel 2 ins Zentrum zu sehen.
+Um eine leichter zu handhabende Darstellung zu erhalten und Effekten mit Stoßpartnern am Rand unserer Box aus dem Weg zu gehen, transformieren wir unser System so, dass sich eine der am berechneten Stoß beteiligten Kugeln im Zentrum der Box befindet. Da wir eine Box mit periodischen Randbedingungen gewählt haben, ist dies ohne weitere Probleme möglich. In \reffig{Koortrans02} ist das Resultat einer solchen Verschiebung von Kugel 2 ins Zentrum zu sehen.
 
 \input{graphics/Koordinatentransformation02}
 
@@ -49,7 +49,7 @@ Da es durch die Verschiebung dazu kommen kann, dass Kugel 1 die betrachtete Box 
 
 \input{graphics/Koordinatentransformation03}
 
-Es ist nur die Relativgeschwindigkeit der beiden Kugeln entscheidend und daher kann man die Kugel im Zentrum als sich in Ruhe befindend betrachten, solange sich die andere Kugeln mit der Relativgeschwindigkeit $\vvel=\vec{v}_1-\vec{v}_2$ bewegt.
+Es ist nur die Relativgeschwindigkeit der beiden Kugeln entscheidend und daher kann man die Kugel im Zentrum als sich in Ruhe befindend betrachten, solange sich die andere Kugel mit der Relativgeschwindigkeit $\vvel=\vec{v}_1-\vec{v}_2$ bewegt.
  
 \input{graphics/Koordinatentransformation04}
 

@@ -23,7 +23,7 @@
 \usepackage{textcomp}
 \usepackage{bbold}
 \usepackage{mathtools} 
-
+\usepackage{todonotes}%\todo 
 \lstset{basicstyle=\footnotesize\ttfamily,language={}}
 \newcommand{\textapprox}{\raisebox{0.5ex}{\texttildelow}}
 \newcommand\numberthis{\addtocounter{equation}{1}\tag{\theequation}}
@@ -42,15 +42,18 @@
     }
 \date{\today}
 
-\newcommand{\TODO}[1][\!\!]{\textcolor{red}{TODO #1}}
+\newcommand{\TODO}[1][TODO]{\textcolor{red}{TODO}\todo{{#1}}}
 
 
 \begin{document}
-\maketitle
+%\maketitle % AUSKOMMENTIERT DAMIT TODOS PLATZ HABEN
+\listoftodos
+\todo{Bemerkung über Einheiten: alles in reduzierten einheiten oder $g^*, T^*$ etc}
+\todo{Bei Plots sehr oft Dimensionen in Klammer ([m]) obwohl dimensionslos}
+\todo{Limes mal groß mal klein}
+
 \tableofcontents
-
 \newpage
-
 \section{Einführung} \label{einfuehrung}
 \input{./sections/intro}
 \input{./sections/emd}
