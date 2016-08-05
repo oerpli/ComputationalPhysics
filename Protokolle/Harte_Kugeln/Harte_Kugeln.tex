@@ -10,7 +10,7 @@
 \usepackage{graphicx}
 \usepackage{float}
 \usepackage{epstopdf}
-\usepackage[colorinlistoftodos]{todonotes}
+\usepackage[colorinlistoftodos]{todonotes} % add disable as option 
 \usepackage{url}
 \usepackage{tikz}
 \usetikzlibrary{calc}
@@ -23,11 +23,13 @@
 \usepackage{textcomp}
 \usepackage{bbold}
 \usepackage{mathtools} 
-\usepackage{todonotes}%\todo 
 \lstset{basicstyle=\footnotesize\ttfamily,language={}}
 \newcommand{\textapprox}{\raisebox{0.5ex}{\texttildelow}}
 \newcommand\numberthis{\addtocounter{equation}{1}\tag{\theequation}}
 \graphicspath{{./graphics/}}
+
+\epstopdfsetup{outdir=./} %% this line is necessary on windows i think
+
 
 \title{PR Computational Physics 2014W \\ Ereignisbasierte Molekulardynamik-Simulation von Harten Kugeln}
 
@@ -46,11 +48,10 @@
 
 
 \begin{document}
-%\maketitle % AUSKOMMENTIERT DAMIT TODOS PLATZ HABEN
+\maketitle % AUSKOMMENTIERT DAMIT TODOS PLATZ HABEN
 \listoftodos
 \todo{Bemerkung über Einheiten: alles in reduzierten einheiten oder $g^*, T^*$ etc}
-\todo{Bei Plots sehr oft Dimensionen in Klammer ([m]) obwohl dimensionslos}
-\todo{Limes mal groß mal klein}
+
 
 \tableofcontents
 \newpage
