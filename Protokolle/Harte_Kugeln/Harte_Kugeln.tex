@@ -10,7 +10,7 @@
 \usepackage{graphicx}
 \usepackage{float}
 \usepackage{epstopdf}
-\usepackage[colorinlistoftodos]{todonotes}
+\usepackage[colorinlistoftodos]{todonotes} % add disable as option 
 \usepackage{url}
 \usepackage{tikz}
 \usetikzlibrary{calc}
@@ -28,6 +28,7 @@
 \newcommand{\textapprox}{\raisebox{0.5ex}{\texttildelow}}
 \newcommand\numberthis{\addtocounter{equation}{1}\tag{\theequation}}
 \graphicspath{{./graphics/}}
+\epstopdfsetup{outdir=./} %% this line is necessary on windows i think
 
 \title{PR Computational Physics 2014W \\ Ereignisbasierte Molekulardynamik-Simulation von Harten Kugeln}
 

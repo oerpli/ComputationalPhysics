@@ -37,11 +37,11 @@
 
 %\subsubsection{Koordinatentransformation}
 Zur besseren Veranschaulichung wird der Algorithmus in 2 Dimensionen vorgestellt, er ist jedoch ohne Probleme auf beliebige Dimensionen erweiterbar.\\
-In \reffig{Koortrans01} ist die Ausgangsposition zweier beliebiger Kugeln dargestellt. In dieser Darstellung ist eine Berechnung der Kollision erschwert da beide Kugeln ohne Kontakt und zu verschiedenen Zeiten die betrachtete Box verlassen.
+In \reffig{Koortrans01} ist die Ausgangsposition zweier beliebiger Kugeln dargestellt. In dieser Darstellung ist eine Berechnung der Kollision erschwert da sich die beiden Kugeln nicht berühren und zu verschiedenen Zeiten die betrachtete Box verlassen.
 
 \input{graphics/Koordinatentransformation01}
 
-Um eine leichter zu handhabende Darstellung zu erhalten und Effekten mit Stoßpartnern am Rand unserer Box aus dem Weg zu gehen transformieren wir unser System so, dass sich eine der am berechneten Stoß beteiligten Kugeln im Zentrum der Box befindet. Da wir eine Box mit periodischen Randbedingungen gewählt haben ist dies ohne weitere Probleme möglich. In \reffig{Koortrans02} ist das Resultat einer solchen Verschiebung von Kugel 2 ins Zentrum zu sehen.
+Um eine leichter zu handhabende Darstellung zu erhalten und Effekten mit Stoßpartnern am Rand unserer Box aus dem Weg zu gehen, transformieren wir unser System so, dass sich eine der am berechneten Stoß beteiligten Kugeln im Zentrum der Box befindet. Da wir eine Box mit periodischen Randbedingungen gewählt haben, ist dies ohne weitere Probleme möglich. In \reffig{Koortrans02} ist das Resultat einer solchen Verschiebung von Kugel 2 ins Zentrum zu sehen.
 
 \input{graphics/Koordinatentransformation02}
 
@@ -49,7 +49,7 @@ Da es durch die Verschiebung dazu kommen kann, dass Kugel 1 die betrachtete Box 
 
 \input{graphics/Koordinatentransformation03}
 
-Es ist nur die Relativgeschwindigkeit der beiden Kugeln entscheidend und daher kann man die Kugel im Zentrum als sich in Ruhe befindend betrachten, solange sich die andere Kugeln mit der Relativgeschwindigkeit $\vvel=\vec{v}_1-\vec{v}_2$ bewegt.
+Es ist nur die Relativgeschwindigkeit der beiden Kugeln entscheidend und daher kann man die Kugel im Zentrum als sich in Ruhe befindend betrachten, solange sich die andere Kugel mit der Relativgeschwindigkeit $\vvel=\vec{v}_1-\vec{v}_2$ bewegt.
  
 \input{graphics/Koordinatentransformation04}
 
@@ -62,7 +62,7 @@ mit
 \begin{equation}
 	\left|\vec{x}\right| \overset{!}{=} \dia \Rightarrow \left|x\right|^2 = \dia^2
 \end{equation}
-zu lösen, wobei $\dia=\sigma_1/2 + \sigma_2/2$ gilt.
+zu lösen, wobei $\dia$ der Mittelwert der beiden Kugeldurchmesser $\sigma_1$ und $\sigma_2$, also $\dia=\sigma_1/2 + \sigma_2/2$ ist.
 
 Somit erhält man
 \begin{align}
@@ -73,6 +73,6 @@ und nach Auflösen nach der Kollisionszeit $t$
 \begin{equation}
 	t_{1,2}=\frac{\vdis\cdot\vvel \pm \sqrt{\left(\vdis\cdot\vvel\right)^2 - \vdissq\vvelsq + \vvelsq\dia^2}}{\vvelsq}.
 \end{equation}
-
+\todo{$-\vdis\cdot\vvel$? Falls ja, Subtraktion statt Addition in folgendem Absatz - Patrick}
 Die Berechnung kann allerdings noch weiter vereinfacht werden. Wie man in \reffig{Koortrans04} sieht, kann es nur zu einer Kollision kommen wenn $\vdis\cdot\vvel < 0$ ist. Daher kann nur die Addition des Wurzelterms zu einem Ergebnis mit positiver Zeit führen.\\
-Kommt es zu keinem Stoß in dieser Box, so verlässt Kugel 1 die Box und wird, entsprechend den Randbedingungen des Systems, wieder zurückgesetzt.
+Kommt es zu keinem Stoß mit der gerade betrachteten Kugel -- und im späteren Verlauf des Algorithmus auch mit keiner anderen -- in dieser Box, so verlässt Kugel 1 die Box und wird, entsprechend den Randbedingungen des Systems, wieder zurückgesetzt.

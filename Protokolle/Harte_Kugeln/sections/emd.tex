@@ -1,7 +1,7 @@
 % !TeX root = ../Harte_Kugeln.tex
 \section{Methode }
 %\TODO[überschriften vllt anpassen]
-Harte Kugeln sind ein vereinfachtes Modell für die Interaktion zwischen Molekülen bei der angenommen wird, dass Moleküle runde Objekte (Kugeln) sind, welche nur durch elastische Stöße miteinander wechselwirken.
+Harte Kugeln sind ein vereinfachtes Modell für die Interaktion zwischen Molekülen, bei der angenommen wird, dass Moleküle runde Objekte (Kugeln) sind, welche nur durch elastische Stöße miteinander wechselwirken.
 Dass die Stöße elastisch sind, bedeutet, dass keine Energie durch Zustandsänderung der Kugeln zugeführt wird oder verloren geht. Es findet also weder Deformation noch Erwärmung der Kugeln statt und auch der Drehimpuls spielt keine Rolle. Die Kugeln bewegen sich daher frei mit konstantem Impuls und konstanter Energie, bis sie auf eine andere Kugel -- oder bei nicht periodischen Randbedingungen auf die Grenze der Simulation -- stoßen. Das Potential eines derartigen Moleküls ist in Abb. \ref{fig:hkpotential} dargestellt.
 \begin{figure}[H] \centering
 \begin{tikzpicture}
@@ -20,20 +20,22 @@ Dass die Stöße elastisch sind, bedeutet, dass keine Energie durch Zustandsänd
 \caption{Potential einer harten Kugel mit Radius $R$ auf Teilchen (infinitesimal kleine) im Abstand $r$}
  \label{fig:hkpotential}
 \end{figure} 
+
+\todo{Graphik entfernen oder ändern - Abraham}
 \subsection{Ereignisbasierte Molekulardynamik}
 
-Im Gegensatz zur herkömmlichen Molekulardynamik, bei der die Bewegung der Moleküle aus Integration der wirkenden Kräfte mit einem konstanten Zeitschritt folgt, wird bei der ereignisbasierten Molekulardynamik eine Liste über alle (zumindest alle relevanten) in der Zukunft liegenden Stöße geführt. Nach jedem Stoß wird die Zeit bis zum nächsten Stoß ``vorgespult'', eine Kollision berechnet und die Liste aktualisiert.
+Im Gegensatz zur herkömmlichen Molekulardynamik, bei der die Bewegung der Moleküle aus Integration der wirkenden Kräfte mit einem konstanten Zeitschritt folgt, wird bei der ereignisbasierten Molekulardynamik eine Liste über alle (zumindest alle relevanten) in der Zukunft liegenden Stöße geführt. Nach jedem Stoß wird die Zeit bis zum nächsten Stoß ``vorgespult'', diese Kollision berechnet und die Liste aktualisiert.
 
 %Das untersuchte System war eine Box mit periodischen Randbedingungen gefüllt mit harten Kugeln (\ref{sec:hk})
 
-Die Motivation der Methode ist, dass bei herkömmlicher MD (Molekulardynamik) mit konstantem Zeitschritt zwischen zwei Stößen viele unnötige Berechnungen durchgeführt werden. Wenn man den Zeitschritt größer macht würde sich diese Anzahl zwar senken, dafür hätte man bei Stößen das Problem, dass sich eine Kugel innerhalb eines Zeitschritts in eine andere hinein bewegen könnte, was dann entweder zu Ungenauigkeiten oder zusätzlichem Rechenaufwand (Zeit zurück drehen und mit kleineren Zeitschritten sondieren) führt.
+Die Motivation der Methode ist, dass bei herkömmlicher MD (Molekulardynamik) mit konstantem Zeitschritt im Fall von harten Kugeln zwischen zwei Stößen viele unnötige Berechnungen durchgeführt werden. Wenn man den Zeitschritt größer macht, würde sich diese Anzahl zwar senken, dafür hätte man bei Stößen das Problem, dass sich eine Kugel innerhalb eines Zeitschritts in eine andere hinein bewegen könnte, was dann entweder zu Ungenauigkeiten oder zusätzlichem Rechenaufwand (Zeit zurück drehen und mit kleineren Zeitschritten sondieren) führt.
 % erweitern?
 
 \subsection{Berechnung der Stöße}
 \newcommand{\reffig}[1]{Abbildung \ref{fig:#1}}
 
-Um die nächste Stoßzeit zu ermitteln genügt es, sich jeweils zwei Kugeln anzusehen und deren Kollisionszeit zu berechnen. Weiß man die Kollisionszeiten aller Kugeln im System, so weiß man auch den Zeitpunkt der nächsten Kollision. Man muss also nicht das System als ganzes betrachten, es genügt das Verhalten von jeweils zwei Kugeln zu kennen.
-Im Zentrum der Simulation steht somit der Algorithmus zur Erkennung ob und wann zwei Kugeln einander stoßen werden. 
+Um die nächste Stoßzeit zu ermitteln, genügt es, sich jeweils zwei Kugeln anzusehen und deren Kollisionszeit zu berechnen. Weiß man die Kollisionszeiten aller Kugeln im System, so weiß man auch den Zeitpunkt der nächsten Kollision. Man muss also nicht das System als ganzes betrachten, es genügt das Verhalten von jeweils zwei Kugeln zu kennen.
+Im Zentrum der Simulation steht somit der Algorithmus zur Erkennung, ob und wann zwei Kugeln einander stoßen werden. 
 Da wir eine Box mit periodischen Randbedingungen betrachten, muss der gewählte Algorithmus auch mit Kugeln am Rand der Box klarkommen. Unser Ansatz beruht auf einer Koordinatentransformation und wird in diesem Kapitel näher beschrieben.
 
 
@@ -44,11 +46,11 @@ Da wir eine Box mit periodischen Randbedingungen betrachten, muss der gewählte 
 Der Berechnung der Stöße liegt die Erhaltung von Impuls und Energie zugrunde. Wenn zwei Kugeln mit Massen $m_1,m_2$ und Geschwindigkeiten $v_1,v_2$ aufeinandertreffen, verändern sich die Geschwindigkeiten zu $v_1'$ und $v_2'$.
 \begin{align*}
 m_1v_1 + m_2v_2 &= m_1v_1'+m_2v_2'\\
-\frac{m_1v^2_1}{2}\frac{m_2v^2_2}{2} &= \frac{m_1v'^2_1}{2}\frac{m_2v'^2_2}{2}
+\frac{m_1v^2_1}{2} + \frac{m_2v^2_2}{2} &= \frac{m_1v'^2_1}{2} + \frac{m_2v'^2_2}{2}
 \end{align*}
 \\
 Da bei einem Stoß nur eine Kraft normal auf die Kugeln (parallel zum Vektor $\vec r_{12} = \vec r_2 - \vec r_1$) zwischen den beiden Kugelmittelpunkten $\vec r_i, i\in \{1,2\}$ wirkt, ist auch nur die entsprechende Komponente der Geschwindigkeit betroffen.\\
-Aus den Erhaltungssätzen und dieser Überlegung lässt sich dann das Verhalten der Kugeln bei einem Stoß herleiten:
+Aus den Erhaltungssätzen und dieser Überlegung lässt sich dann das Verhalten der Kugeln bei einem Stoß für den vereinfachten Fall zweier Kugeln gleicher Masse herleiten:
 \begin{align*}
 \vec v_1' &= \vec v_1 + \Delta \vec v\\
 \vec v_2'& = \vec v_2 - \Delta \vec v\\

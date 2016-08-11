@@ -1,11 +1,12 @@
 % !TeX root = ../Harte_Kugeln.tex
+\todo{Parameter und Details zu Durchführung (N, Aufwärmen, Anfangsbedingungen, reduzierte Einheiten, etc.) in diesen Absatz einbauen - irgendwer}
 Um eine statistische Auswertung der zu untersuchenden Eigenschaften zu ermöglichen, wurden die zu erhebenden Daten in konstanten Zeitabständen berechnet und gespeichert. Da die Simulation aber in nicht-konstanten Zeitschritten voranschreitet, wurde vor jedem neuen Stoß ermittelt, ob zwischen dem neuen und dem letzten ein Daten-Sampling stattfinden sollte. Falls dem so wäre, wurde die Zeit des Systems bis zum Auswertungszeitpunkt ``vorgespult'' --- sprich: alle Kugeln ballistisch für die Zeit $\Delta t$ bewegt ---, die Ergebnisse in ein File geschrieben und erst anschließend der Stoß durchgeführt.   
 \subsection{Paarverteilungsfunktion}\label{sec:paarverteilung}
 Eine Flüssigkeit oder ein Gas mit rein additiven Paarwechselwirkungen kann durch die sogenannte Paarverteilungsfunktion --- manchmal auch Paarkorrelationsfunktion oder radiale Verteilungsfunktion --- $g(r)$ vollständig charakterisiert werden. Diese Funktion gibt Aufschluss über die kurzreichweitige Struktur des Fluids --- also seine Nahordnung. Sie beschreibt die Häufigkeit, mit der sich zwei Teilchen in einem gewissen Abstand $r$ voneinander entfernt befinden, bezogen auf die jeweilige Häufigkeit in einem idealen Gas. Die Paarverteilungsfunktion ist demnach gegeben durch
 \begin{equation}
-g(r) = \frac{1}{4\pi r^2 \rho} \langle \sum_{j\neq i} \delta(r-r_{ij}) \rangle
+g(r) = \frac{1}{4\pi r^2 \rho N} \langle \sum_{j\neq i} \delta(r-r_{ij}) \rangle
 \end{equation}   
-Da Fluide keine Fernordnung besitzen, muss die Paarverteilungsfunktion im limes $r \rightarrow \infty$ gegen 1 konvergieren. Des weiteren sei angemerkt, dass die Paarverteilungsfunktion der Randverteilung der $N$-Teilchen-Wahrscheinlichkeitsdichte entspricht und man demnach im limes $\rho \rightarrow 0$ direkt das Paarpotential $U(r)$ aus der Paarverteilungsfunktion ablesen kann.  
+Da Fluide keine Fernordnung besitzen, muss die Paarverteilungsfunktion im Limes $r \rightarrow \infty$ gegen 1 konvergieren. Des weiteren sei angemerkt, dass die Paarverteilungsfunktion der Randverteilung der $N$-Teilchen-Wahrscheinlichkeitsdichte entspricht und man demnach im Limes $\rho \rightarrow 0$ direkt das Paarpotential $U(r)$ aus der Paarverteilungsfunktion ablesen kann.  
 \begin{equation}
 \lim_{\rho \rightarrow 0} g(r) = e^{-\beta U(r)}
 \end{equation}
@@ -15,7 +16,7 @@ g(\vec{r}) = \frac{1}{\rho N} \langle \sum_{j\neq i} \delta^{(3)}(\vec{r}-\vec{r
 \end{equation} 
 Häufig wird aber auch die winkelgemittelte Version verwendet, welche dann mit der Definition der Paarverteilungsfunktion für Fluide übereinstimmt. 
 
-Abbildungen \ref{fig:paarverteilung1}, \ref{fig:paarverteilung2} und \ref{fig:paarverteilung3} zeigen die Paarverteilungsfunktionen des Systems von harten Kugeln für verschiedene Dichten $\rho$ von 0.2 bis 1.3. Die Entstehung von Nahordnung beim Übergang vom gasförmigen zum flüssigen Zustand mit zunehmender Dichte lässt sich gut anhand von Abbildung \ref{fig:paarverteilung1} erkennen. Im ungeordneten (gasförmigen) Zustand nimmt die Paarverteilungsfunktion mit der Entfernung monoton ab, während sich beim Phasenübergang zur Flüssigkeit ein zweites Maximum ausbildet. 
+Abbildungen \ref{fig:paarverteilung1}, \ref{fig:paarverteilung2} und \ref{fig:paarverteilung3} zeigen die Paarverteilungsfunktionen des Systems von harten Kugeln für verschiedene Dichten $\rho$ von 0.2 bis 1.3. Da bei einem System von harten Kugeln die anziehenden Kräfte fehlen, gibt es keine  Trennung zwischen gasförmiger und flüssiger Form, sondern man unterscheidet nur zwischen fluider und fester Phase. Letztere lässt sich an der Entstehung von Nebenmaxima erkennen. In Abbildungen  \ref{fig:paarverteilung1} und \ref{fig:paarverteilung2} sieht man die Paarverteilungsfunktionen des System in der fluiden Phase. Mit zunehmender Dichte lässt sich eine Ausprägung der Struktur erkennen, es bilden sich erste Minima und Maxima aus.  
 \begin{figure}[H]
  \centering
  \resizebox{0.9\textwidth}{!}{\input{./graphics/PairDistribution1.tex}}
@@ -23,8 +24,7 @@ Abbildungen \ref{fig:paarverteilung1}, \ref{fig:paarverteilung2} und \ref{fig:pa
  \label{fig:paarverteilung1}
 \end{figure} 
 
-Harte Kugeln durchlaufen einen Phasenübergang vom flüssigen zum festen Zustand zwischen Packungsdichten von $n_f \approx 0.494$ und $n_s \approx 0.545$, was den reduzierten Dichten $\rho_f \approx 0.943$ und $\rho_s \approx 1.041$ entspricht. Anhand von Abbildungen \ref{fig:paarverteilung2} und \ref{fig:paarverteilung3} kann man diesen Phasenübergang deutlich erkennen --- die Maxima werden immer prominenter, was auf eine geordnete Kristallstruktur schließen lässt. 
- 
+Harte Kugeln durchlaufen einen Phasenübergang vom fluiden zum festen Zustand zwischen Packungsdichten von $n_f \approx 0.494$ und $n_s \approx 0.545$, was den reduzierten Dichten $\rho_f \approx 0.943$ und $\rho_s \approx 1.041$ entspricht \cite{Hansen1986}. Anhand von Abbildungen \ref{fig:paarverteilung2} und \ref{fig:paarverteilung3} kann man diesen Phasenübergang deutlich erkennen --- die Maxima werden immer prominenter und es bilden sich die für die Kristallstruktur üblichen Nebenmaxima aus.   
 \begin{figure}[H]
  \centering
  \resizebox{0.9\textwidth}{!}{\input{./graphics/PairDistribution5.tex}}
@@ -32,7 +32,7 @@ Harte Kugeln durchlaufen einen Phasenübergang vom flüssigen zum festen Zustand
  \label{fig:paarverteilung2}
 \end{figure} 
  
-Theoretisch sollte ein System von harten Kugeln ein fcc-Kristallgitter ausbilden, dessen Gittervektoren eine relative Länge von $r_1 : r_2 : r_3 = 1 : \sqrt{2} : \sqrt{3}$ aufweisen. Bei einer Dichte von 1.3 finden sich die Maxima der Paarverteilungsfunktion auch ziemlich genau in diesen Abständen. 
+Theoretisch sollte ein System von harten Kugeln ein fcc-Kristallgitter ausbilden, wobei die Abstände der nächsten Nachbarn im Verhältnis von $r_1 : r_2 : r_3 = 1 : \sqrt{2} : \sqrt{3}$ zu einander stehen. Bei einer Dichte von 1.3 finden sich die Maxima der Paarverteilungsfunktion auch ziemlich genau in diesen Abständen. 
  
 \begin{figure}[H]
  \centering
@@ -41,11 +41,12 @@ Theoretisch sollte ein System von harten Kugeln ein fcc-Kristallgitter ausbilden
  \label{fig:paarverteilung3}
 \end{figure} 
  
+Abschließend sei hier noch angemerkt, dass Simulation im Zwei-Phasen-Gebiet -- wie hier zum Beispiel bei $\rho = 1.0$ -- keine physikalisch sinnvollen Ergebnisse liefert, da sich Teile des Systems in der fluiden und andere Teile in der festen Phase befinden und sich somit kein Gleichgewicht einstellen kann. Wir haben uns dennoch entschieden, die bei dieser Dichte ermittelten Werte in die Ergebnisse miteinzubeziehen, um eine derartige unphysikalische Simulation zu veranschaulichen. Diese Anmerkungen gelten auch für alle folgenden Kapitel. 
 
 \subsection{Thermische Zustandsgleichung}
 Die Thermische Zustandsgleichung stellt einen Zusammenhang zwischen den Variablen Druck $p$, Temperatur $T$ und Dichte $\rho$ her. Sie kann mittels mehrerer Methoden berechnet werden. Die wohl am häufigsten verwendete bedient sich des Virials $W$  
 \begin{equation}
-\frac{p}{\rho k T} = 1 - \frac{1}{3NkT}\underbrace{\sum_{i=1}^N \vec{r}_i \cdot \vec{F}_i}_{= - W}
+\frac{p}{\rho k T} = 1 + \frac{1}{3NkT}\underbrace{\sum_{i=1}^N \vec{r}_i \cdot \vec{F}_i}_{= - W}
 \end{equation}
 Alternativ kann diese Zustandsgleichung auch geschrieben werden als 
 \begin{equation}
@@ -53,7 +54,7 @@ Alternativ kann diese Zustandsgleichung auch geschrieben werden als
 \label{eos2}
 \end{equation}
 Da harte Kugeln allerdings ein nicht-differenzierbares Potential besitzen und demnach keine Kraft auf sie wirkt, solange sie nicht aneinander stoßen, muss die Berechnung der Zustandsgleichung für harte Kugeln etwas abgeändert werden.
-Zu diesem Zweck sieht man ein System harter Kugeln als den Grenzfall eines Systems "`weicher Kugeln"' mit dem Potential 
+Zu diesem Zweck sieht man ein System harter Kugeln als den Grenzfall eines Systems "`weicher Kugeln"' \cite{Hansen1986} mit dem Potential 
 \begin{equation}
 U_{soft}(r) = \epsilon \left(\frac{\sigma}{r}\right)^n 
 \end{equation}
@@ -76,12 +77,12 @@ g(r) = e^{-\beta U(r)} y(r)
 \end{equation}
 Dies kann nun in die Formel für die Zustandsgleichung \ref{eos2} eingesetzt werden und man gelangt zu
 \begin{align*}
-\frac{p}{\rho k T} &= 1 - \frac{2\pi\rho}{3kT} \int_0^{\infty} \text{dr} r^2 e^{\beta U(r)} y(r) \left[ r U'(r) \right] \\ 
-&= 1 - \frac{2\pi\rho}{3kT} \int_0^{\infty} \text{dr} r^3 y(r) \frac{\text{d}}{\text{dr}} \left[ e^{-\beta U(r)} \right]
+\frac{p}{\rho k T} &= 1 - \frac{2\pi\rho}{3kT} \int_0^{\infty} \text{dr} r^2 e^{-\beta U(r)} y(r) \left[ r U'(r) \right] \\ 
+&= 1 + \frac{2\pi\rho}{3kT} \int_0^{\infty} \text{dr} r^3 y(r) \frac{\text{d}}{\text{dr}} \left[ e^{-\beta U(r)} \right] \, .
 \end{align*}
 Im Limes $n \rightarrow \infty$ geht die Ableitung des Boltzmannfaktors in eine Deltafunktion über und somit ergibt sich für die Zustandsgleichung harter Kugeln
 \begin{equation}
-\frac{p}{\rho k T} = 1 - \frac{2\pi\rho}{3kT} \sigma^3 y(\sigma) = 1 - \frac{2\pi\rho}{3kT} \sigma^3 g(\sigma)
+\frac{p}{\rho k T} = 1 + \frac{2\pi\rho}{3kT} \sigma^3 y(\sigma) = 1 + \frac{2\pi\rho}{3kT} \sigma^3 g(\sigma)
 \end{equation} 
 da in diesem Grenzfall nach Gleichung \ref{hintergrund-korr} für die Paarverteilungsfunktion gilt
 \begin{equation}
@@ -95,9 +96,9 @@ Eine andere Methode zur Bestimmung der Zustandsgleichung harter Kugeln ergibt si
 \end{equation}
 wobei $\vec{r}_{ij}$ die Relativposition der beiden an der Kollision beteiligten Kugeln und $\Delta \vec{v}_i$ die Änderung der Geschwindigkeit von Kugel $i$ im Verlauf der Kollision ist.
    
-Abbildung \ref{fig:zustandsgleichung} zeigt die thermische Zustandsgleichung für das System aus harten Kugeln mit beiden Berechnungsmethoden. Zum Vergleich mit der Theorie ist auch die Zustandsgleichung nach Carnahan und Starling \cite{Carnahan1969} aufgetragen, welche für den stabilen fluiden Bereich gilt.
+Abbildung \ref{fig:zustandsgleichung} zeigt die thermische Zustandsgleichung für das System aus harten Kugeln mit beiden Berechnungsmethoden. Zum Vergleich mit der Theorie ist auch die Zustandsgleichung nach Carnahan und Starling \cite{Carnahan1969} aufgetragen, welche eine gute einfache Näherung für den stabilen fluiden Bereich darstellt,
 \begin{equation}
-\frac{p}{\rho kT} = \frac{1 + \eta + \eta^2 -\eta^3}{(1 - \eta)^3}
+\frac{p}{\rho kT} = \frac{1 + \eta + \eta^2 -\eta^3}{(1 - \eta)^3} \, ,
 \end{equation} 
 wobei $\eta = \frac{\pi \rho \sigma^3}{6}$ die Packungsdichte ist. Außer für sehr geringe Dichten, stimmen Theorie und Simulation im fluiden Bereich unabhängig von der Berechnungsmethode sehr gut miteinander überein. Im festen Bereich gibt es jedoch signifikante Diskrepanzen zwischen der Berechnung über den Kontaktwert $g(\sigma)$ der Paarverteilungsfunktion und der Berechnung durch den Impulsübertrag bei Kollision.   
 \begin{figure}[H]
@@ -151,7 +152,7 @@ wobei $c$ nur eine Normierungskonstante ist, sodass $\int_0^{\infty} p(\tau) \te
 \begin{figure}[H]
  \centering
   \resizebox{0.9\textwidth}{!}{\input{./graphics/collisionfitrho06.tex}}
- \caption{Wahrscheinlichkeitsverteilung der freien Bewegungszeiten $p(\tau)$ bei $\rho = 0.6$ in logarithmischer Auftragung und linearer Fit zur Bestimmung von $\tau_0$}
+ \caption{Wahrscheinlichkeitsverteilung der freien Bewegungszeiten $p(\tau)$ bei $\rho = 0.6$ in logarithmischer Auftragung und linearer Fit (im Intervall $[0,0.008]$) zur Bestimmung von $\tau_0$}
  \label{fig:collisionfit}
 \end{figure} 
 Abbildung \ref{fig:flight} zeigt den so berechneten Parameter $\tau_0$ in Abhängigkeit von der Dichte $\rho$. Statt $\tau_0$ wurde allerdings sein Inverses aufgetragen, da sich hier eine annähernd lineare Abhängigkeit von der Dichte im Bereich verdünnter (fluider) Systeme zeigt. Dies ist im Einklang mit den Resultaten von Wiegel und Michels \cite{Wiegel1979}. 
