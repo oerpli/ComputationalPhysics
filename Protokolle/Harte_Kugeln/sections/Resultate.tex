@@ -1,5 +1,26 @@
 % !TeX root = ../Harte_Kugeln.tex
+Die Simulation wurde mit den in Tabelle~\ref{tab:tabPar} angeführten Parametern durchgeführt. Im weiteren Verlauf des Protokolls werden jeweils reduzierte Einheiten verwendet, als Längeneinheit wurde dabei der Durchmesser der Kugeln und als Gewichtseinheit das Gewicht der Kugeln verwendet.
+
+\begin{table}[htb!]
+\centering
+\begin{tabular}{llll}\toprule
+Zeitschritt        & $\Delta  t$ & $1\times 10^{-9}$            \\
+Aufwärmzeit & --          & $10^8$& Zeitschritte \\
+Simulationszeit      & --          & $10^9$& Zeitschritte\\\midrule
+Initialisierung & -- & ??? \\\midrule
+Anzahl der Kugeln & $N$         & $256$            \\
+Dichte   & $\rho$      & $0.2$ -- $1.3$   \\
+Radius der Kugeln & $r$         & $0.5$            \\
+Masse der Kugeln   & $m$         & $1$              \\
+Dimensionen & $D$         & $3$              \\
+\bottomrule\end{tabular}
+\caption{Für die Simulation verwendete Parameter}\label{tab:tabPar}
+
+\end{table}
+
+\subsection{Sampling}
 \todo{Parameter und Details zu Durchführung (N, Aufwärmen, Anfangsbedingungen, reduzierte Einheiten, etc.) in diesen Absatz einbauen - irgendwer}
+
 Um eine statistische Auswertung der zu untersuchenden Eigenschaften zu ermöglichen, wurden die zu erhebenden Daten in konstanten Zeitabständen berechnet und gespeichert. Da die Simulation aber in nicht-konstanten Zeitschritten voranschreitet, wurde vor jedem neuen Stoß ermittelt, ob zwischen dem neuen und dem letzten ein Daten-Sampling stattfinden sollte. Falls dem so wäre, wurde die Zeit des Systems bis zum Auswertungszeitpunkt ``vorgespult'' --- sprich: alle Kugeln ballistisch für die Zeit $\Delta t$ bewegt ---, die Ergebnisse in ein File geschrieben und erst anschließend der Stoß durchgeführt.   
 \subsection{Paarverteilungsfunktion}\label{sec:paarverteilung}
 Eine Flüssigkeit oder ein Gas mit rein additiven Paarwechselwirkungen kann durch die sogenannte Paarverteilungsfunktion --- manchmal auch Paarkorrelationsfunktion oder radiale Verteilungsfunktion --- $g(r)$ vollständig charakterisiert werden. Diese Funktion gibt Aufschluss über die kurzreichweitige Struktur des Fluids --- also seine Nahordnung. Sie beschreibt die Häufigkeit, mit der sich zwei Teilchen in einem gewissen Abstand $r$ voneinander entfernt befinden, bezogen auf die jeweilige Häufigkeit in einem idealen Gas. Die Paarverteilungsfunktion ist demnach gegeben durch
