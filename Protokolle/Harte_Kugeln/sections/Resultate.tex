@@ -1,5 +1,4 @@
 % !TeX root = ../Harte_Kugeln.tex
-\todo{Tabelle einfügen mit Werten von Experiment. Anzahl Teilchen; Anfangsbedingungen, Aufwärmen; wieviele Stöße; welche Dichten untersucht; reduzierte Größen ($T^*=1$)}
 Um eine statistische Auswertung der zu untersuchenden Eigenschaften zu ermöglichen, wurden die zu erhebenden Daten in konstanten Zeitabständen berechnet und gespeichert. Da die Simulation aber in nicht-konstanten Zeitschritten voranschreitet, wurde vor jedem neuen Stoß ermittelt, ob zwischen dem neuen und dem letzten ein Daten-Sampling stattfinden sollte. Falls dem so wäre, wurde die Zeit des Systems bis zum Auswertungszeitpunkt ``vorgespult'' --- sprich: alle Kugeln ballistisch für die Zeit $\Delta t$ bewegt ---, die Ergebnisse in ein File geschrieben und erst anschließend der Stoß durchgeführt.   
 \subsection{Paarverteilungsfunktion}\label{sec:paarverteilung}
 Eine Flüssigkeit oder ein Gas mit rein additiven Paarwechselwirkungen kann durch die sogenannte Paarverteilungsfunktion --- manchmal auch Paarkorrelationsfunktion oder radiale Verteilungsfunktion --- $g(r)$ vollständig charakterisiert werden. Diese Funktion gibt Aufschluss über die kurzreichweitige Struktur des Fluids --- also seine Nahordnung. Sie beschreibt die Häufigkeit, mit der sich zwei Teilchen in einem gewissen Abstand $r$ voneinander entfernt befinden, bezogen auf die jeweilige Häufigkeit in einem idealen Gas. Die Paarverteilungsfunktion ist demnach gegeben durch
@@ -101,7 +100,7 @@ Eine andere Methode zur Bestimmung der Zustandsgleichung harter Kugeln ergibt si
 \end{equation}
 wobei $\vec{r}_{ij}$ die Relativposition der beiden an der Kollision beteiligten Kugeln und $\Delta \vec{v}_i$ die Änderung der Geschwindigkeit von Kugel $i$ im Verlauf der Kollision ist.
    
-Abbildung \ref{fig:zustandsgleichung} zeigt die thermische Zustandsgleichung für das System aus harten Kugeln mit beiden Berechnungsmethoden. Zum Vergleich mit der Theorie ist auch die Zustandsgleichung nach Carnahan und Starling \cite{Carnahan1969} aufgetragen, welche für den stabilen fluiden Bereich in guter Näherung gilt.\todo{``in guter Näherung'' eingefügt}
+Abbildung \ref{fig:zustandsgleichung} zeigt die thermische Zustandsgleichung für das System aus harten Kugeln mit beiden Berechnungsmethoden. Zum Vergleich mit der Theorie ist auch die Zustandsgleichung nach Carnahan und Starling \cite{Carnahan1969} aufgetragen, welche für den stabilen fluiden Bereich in guter Näherung gilt.
 \begin{equation}
 \frac{p}{\rho kT} = \frac{1 + \eta + \eta^2 -\eta^3}{(1 - \eta)^3}
 \end{equation} 
