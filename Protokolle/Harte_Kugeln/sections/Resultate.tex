@@ -4,9 +4,8 @@ Um eine statistische Auswertung der zu untersuchenden Eigenschaften zu ermöglic
 \subsection{Paarverteilungsfunktion}\label{sec:paarverteilung}
 Eine Flüssigkeit oder ein Gas mit rein additiven Paarwechselwirkungen kann durch die sogenannte Paarverteilungsfunktion --- manchmal auch Paarkorrelationsfunktion oder radiale Verteilungsfunktion --- $g(r)$ vollständig charakterisiert werden. Diese Funktion gibt Aufschluss über die kurzreichweitige Struktur des Fluids --- also seine Nahordnung. Sie beschreibt die Häufigkeit, mit der sich zwei Teilchen in einem gewissen Abstand $r$ voneinander entfernt befinden, bezogen auf die jeweilige Häufigkeit in einem idealen Gas. Die Paarverteilungsfunktion ist demnach gegeben durch
  
- \todo{Faktor $\frac{1}{N}$?}
  \begin{equation}
-g(r) = \frac{1}{4\pi r^2 \rho}\langle \sum_{j\neq i} \delta(r-r_{ij}) \rangle
+g(r) = \frac{1}{4\pi r^2 \rho N}\langle \sum_{j\neq i} \delta(r-r_{ij}) \rangle
 \end{equation}
 Da Fluide keine Fernordnung besitzen, muss die Paarverteilungsfunktion im Limes $r \rightarrow \infty$ gegen 1 konvergieren. Des weiteren sei angemerkt, dass die Paarverteilungsfunktion der Randverteilung der $N$-Teilchen-Wahrscheinlichkeitsdichte entspricht und man demnach im Limes $\rho \rightarrow 0$ direkt das Paarpotential $U(r)$ aus der Paarverteilungsfunktion ablesen kann.  
 \begin{equation}
