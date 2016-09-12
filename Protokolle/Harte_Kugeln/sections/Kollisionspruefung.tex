@@ -71,8 +71,7 @@ Somit erhält man
 \end{align}
 und nach Auflösen nach der Kollisionszeit $t$
 \begin{equation}
-	t_{1,2}=\frac{\vdis\cdot\vvel \pm \sqrt{\left(\vdis\cdot\vvel\right)^2 - \vdissq\vvelsq + \vvelsq\dia^2}}{\vvelsq}.
+	t_{1,2}=\frac{-\vdis\cdot\vvel \pm \sqrt{\left(\vdis\cdot\vvel\right)^2 - \vdissq\vvelsq + \vvelsq\dia^2}}{\vvelsq}.
 \end{equation}
-\todo{$-\vdis\cdot\vvel$? Falls ja, Subtraktion statt Addition in folgendem Absatz - Patrick}
-Die Berechnung kann allerdings noch weiter vereinfacht werden. Wie man in \reffig{Koortrans04} sieht, kann es nur zu einer Kollision kommen wenn $\vdis\cdot\vvel < 0$ ist. Daher kann nur die Addition des Wurzelterms zu einem Ergebnis mit positiver Zeit führen.\\
+Die Berechnung kann allerdings noch weiter vereinfacht werden. Wie man in \reffig{Koortrans04} sieht, kann es nur zu einer Kollision kommen wenn $\vdis\cdot\vvel < 0$ ist, gleichzeitig gilt $\left|\vdis\cdot\vvel\right| \geq \sqrt{(...)}$. Daraus folgt nun, dass die minimale Stoßzeit immer durch eine Subtraktion des Wurzelausdruckes beschrieben wird.\\
 Kommt es zu keinem Stoß mit der gerade betrachteten Kugel -- und im späteren Verlauf des Algorithmus auch mit keiner anderen -- in dieser Box, so verlässt Kugel 1 die Box und wird, entsprechend den Randbedingungen des Systems, wieder zurückgesetzt.
