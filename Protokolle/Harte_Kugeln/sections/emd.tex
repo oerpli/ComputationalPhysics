@@ -2,24 +2,25 @@
 \section{Methode }
 %\TODO[überschriften vllt anpassen]
 Harte Kugeln sind ein vereinfachtes Modell für die Interaktion zwischen Molekülen, bei der angenommen wird, dass Moleküle runde Objekte (Kugeln) sind, welche nur durch elastische Stöße miteinander wechselwirken.
-Dass die Stöße elastisch sind, bedeutet, dass keine Energie durch Zustandsänderung der Kugeln zugeführt wird oder verloren geht. Es findet also weder Deformation noch Erwärmung der Kugeln statt und auch der Drehimpuls spielt keine Rolle. Die Kugeln bewegen sich daher frei mit konstantem Impuls und konstanter Energie, bis sie auf eine andere Kugel -- oder bei nicht periodischen Randbedingungen auf die Grenze der Simulation -- stoßen. Das Potential eines derartigen Moleküls ist in Abb. \ref{fig:hkpotential} dargestellt.
-\begin{figure}[H] \centering
-\begin{tikzpicture}
-	\begin{axis}[
-		xlabel=$r$,
-		xtick={0,2,8},
-		 xticklabels={$0$,$R$,$\infty$},
-		 ytick={0,8},
-		 yticklabels={$0$,$\infty$},
-		ylabel={$U(r)$}
-	]
+Dass die Stöße elastisch sind, bedeutet, dass keine Energie durch Zustandsänderung der Kugeln zugeführt wird oder verloren geht. Es findet also weder Deformation noch Erwärmung der Kugeln statt und auch der Drehimpuls spielt keine Rolle. Die Kugeln bewegen sich daher frei mit konstantem Impuls und konstanter Energie, bis sie auf eine andere Kugel -- oder bei nicht periodischen Randbedingungen auf die Grenze der Simulation -- stoßen. 
+%Das Potential eines derartigen Moleküls ist in Abb. \ref{fig:hkpotential} dargestellt.
+%\begin{figure}[H] \centering
+%\begin{tikzpicture}
+%	\begin{axis}[
+%		xlabel=$r$,
+%		xtick={0,2,8},
+%		 xticklabels={$0$,$R$,$\infty$},
+%		 ytick={0,8},
+%		 yticklabels={$0$,$\infty$},
+%		ylabel={$U(r)$}
+%	]
 %\addplot+[color=blue,thick] coordinates { (0,2) (2,2)  (2,0) (9,0) }; % + wegmachen wenn punkte stören
-\addplot[color=red] coordinates { (0,8) (2,8) (2,0) (8,0) };    % auskommentieren je nachdem welcher plot besser ist (ggfs Achse anpassen)
-\end{axis}
-\end{tikzpicture}
-\caption{Potential einer harten Kugel mit Radius $R$ auf Punktladungen im Abstand $r$}
- \label{fig:hkpotential}
-\end{figure} 
+%\addplot[color=red] coordinates { (0,8) (2,8) (2,0) (8,0) };    % auskommentieren je nachdem welcher plot besser ist (ggfs Achse anpassen)
+%\end{axis}
+%\end{tikzpicture}
+%\caption{Potential einer harten Kugel mit Radius $R$ auf Punktladungen im Abstand $r$}
+% \label{fig:hkpotential}
+%\end{figure} 
 
 %\todo{Graphik entfernen oder ändern - Abraham}
 \subsection{Ereignisbasierte Molekulardynamik}

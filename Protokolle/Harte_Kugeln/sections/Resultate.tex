@@ -1,26 +1,38 @@
 % !TeX root = ../Harte_Kugeln.tex
-Die Simulation wurde mit den in Tabelle~\ref{tab:tabPar} angeführten Parametern durchgeführt. Im weiteren Verlauf des Protokolls werden jeweils reduzierte Einheiten verwendet, als Längeneinheit wurde dabei der Durchmesser der Kugeln und als Gewichtseinheit das Gewicht der Kugeln verwendet.
+Falls nicht anders angegeben, wurden die in folgendem Abschnitt angeführten Parameter für die Simulation des Systems von Harten Kugeln verwendet, wobei anzumerken ist, dass im weiteren Verlauf des Protokolls ausschließlich reduzierte Einheiten verwendet werden. Hierfür wurden alle Variablen und Parameter mithilfe der folgenden Referenzwerte skaliert: 
+\begin{align*}
+& t_{ref} = 10^{-12}\text{s} = 1 \text{ps} \\
+& m_{ref} = 1 \text{amu} = 1 \text{g/mol} \\
+& l_{ref} = 10^{-9} \text{m} = 1 \text{nm} \numberthis
+\end{align*} 
+wodurch sich eine Energieeinheit von 
+\begin{equation}
+E_{ref} = \frac{m_{ref} \cdot l_{ref}^2}{t_{ref}^2} = 1 \text{kJ/mol} 
+\end{equation}
+ergibt. Des weiteren lässt sich daraus eine reduzierte Temperatur wie folgt ableiten. 
+\begin{equation}
+T = \frac{k_B \cdot T_{real}}{E_{ref}}
+\end{equation}
+In diesen neuen reduzierten Einheiten, betrug der Kugeldurchmesser $d = 1$,  die Kugelmasse $m = 1$ und ebenso die Temperatur $T = 1$. Da harte Kugeln in der kristallinen Phase ein \textit{fcc}-Gitter bilden, wurde das System auch in einer damit kompatiblen Konfiguration initialisiert. Um dies zu ermöglichen, muss die Anzahl an Kugeln eine Potenz von 2 sein. Wir entschieden uns deshalb für ein System von $N = 2^8 = 256$ Kugeln. Die Dichte des Systems wurde in einem Intervall von $\rho \in [0.2, 1.3]$ variiert. Da in Systemen mit hoher Dichte mehr Kollosionen pro Zeiteinheit stattfinden als in solchen mit niedriger Dichte, wurde nicht die Simulationszeit fixiert, sondern dass System so lange simuliert, bis eine festgesetzte Anzahl an Kollisionen stattgefunden hatte. Wir erwarteten uns, dadurch eine bessere Statistik und vergleichbarere Daten zu erhalten. Für die Aufwärmphase wählten wir $10^4$ Kollisionen und für die Auswertungsphase $10^5$ Kollisionen.     
 
-\begin{table}[htb!]
-\centering
-\begin{tabular}{llll}\toprule
-Zeitschritt        & $\Delta  t$ & $1\times 10^{-9}$            \\
-Aufwärmzeit & --          & $10^8$& Zeitschritte \\
-Simulationszeit      & --          & $10^9$& Zeitschritte\\\midrule
-Initialisierung & -- & ??? \\\midrule
-Anzahl der Kugeln & $N$         & $256$            \\
-Dichte   & $\rho$      & $0.2$ -- $1.3$   \\
-Radius der Kugeln & $r$         & $0.5$            \\
-Masse der Kugeln   & $m$         & $1$              \\
-Dimensionen & $D$         & $3$              \\
-\bottomrule\end{tabular}
-\caption{Für die Simulation verwendete Parameter}\label{tab:tabPar}
+%\begin{table}[htb!]
+%\centering
+%\begin{tabular}{llll}\toprule
+%Zeitschritt        & $\Delta  t$ & $1\times 10^{-9}$            \\
+%Aufwärmzeit & --          & $10^8$& Zeitschritte \\
+%Simulationszeit      & --          & $10^9$& Zeitschritte\\\midrule
+%Initialisierung & -- & ??? \\\midrule
+%Anzahl der Kugeln & $N$         & $256$            \\
+%Dichte   & $\rho$      & $0.2$ -- $1.3$   \\
+%Radius der Kugeln & $r$         & $0.5$            \\
+%Masse der Kugeln   & $m$         & $1$              \\
+%Dimensionen & $D$         & $3$              \\
+%\bottomrule\end{tabular}
+%\caption{Für die Simulation verwendete Parameter}\label{tab:tabPar}
 
-\end{table}
+%\end{table}
 
 \subsection{Sampling}
-\todo{Parameter und Details zu Durchführung (N, Aufwärmen, Anfangsbedingungen, reduzierte Einheiten, etc.) in diesen Absatz einbauen - irgendwer}
-
 Um eine statistische Auswertung der zu untersuchenden Eigenschaften zu ermöglichen, wurden die zu erhebenden Daten in konstanten Zeitabständen berechnet und gespeichert. Da die Simulation aber in nicht-konstanten Zeitschritten voranschreitet, wurde vor jedem neuen Stoß ermittelt, ob zwischen dem neuen und dem letzten ein Daten-Sampling stattfinden sollte. Falls dem so wäre, wurde die Zeit des Systems bis zum Auswertungszeitpunkt ``vorgespult'' --- sprich: alle Kugeln ballistisch für die Zeit $\Delta t$ bewegt ---, die Ergebnisse in ein File geschrieben und erst anschließend der Stoß durchgeführt.   
 \subsection{Paarverteilungsfunktion}\label{sec:paarverteilung}
 Eine Flüssigkeit oder ein Gas mit rein additiven Paarwechselwirkungen kann durch die sogenannte Paarverteilungsfunktion --- manchmal auch Paarkorrelationsfunktion oder radiale Verteilungsfunktion --- $g(r)$ vollständig charakterisiert werden. Diese Funktion gibt Aufschluss über die kurzreichweitige Struktur des Fluids --- also seine Nahordnung. Sie beschreibt die Häufigkeit, mit der sich zwei Teilchen in einem gewissen Abstand $r$ voneinander entfernt befinden, bezogen auf die jeweilige Häufigkeit in einem idealen Gas. Die Paarverteilungsfunktion ist demnach gegeben durch
